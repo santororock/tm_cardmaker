@@ -16,17 +16,24 @@ var dragOffsetY;
 var keyFocusLayer;
 
 var blockList = [
-  {putUnder: "templates", text: "Green Card", src:"green_normal"},
-  {putUnder: "templates", text: "Green Small Bottom", src:"green_small_bottom"},
-  {putUnder: "templates", text: "Green Big Bottom", src:"green_big_bottom"},
-  {putUnder: "templates", text: "Blue Card", src:"blue_normal"},
-  {putUnder: "templates", text: "Blue Big Bottom", src:"blue_big_bottom"},
-  {putUnder: "templates", text: "Blue Big Top", src:"blue_big_top"},
-  {putUnder: "templates", text: "Red Card", src:"red_normal"},
-  {putUnder: "templates", text: "Red Small Bottom", src:"red_small_bottom"},
+  // Templates
+    {putUnder: "templates", text: "Green Card", src:"green_normal"},
+    {putUnder: "templates", text: "Green Small Bottom", src:"green_small_bottom"},
+    {putUnder: "templates", text: "Green Big Bottom", src:"green_big_bottom"},
+    {putUnder: "templates", text: "Blue Card", src:"blue_normal"},
+    {putUnder: "templates", text: "Blue Big Bottom", src:"blue_big_bottom"},
+    {putUnder: "templates", text: "Blue Big Top", src:"blue_big_top"},
+    {putUnder: "templates", text: "Red Card", src:"red_normal"},
+    {putUnder: "templates", text: "Red Small Bottom", src:"red_small_bottom"},
+    {putUnder: "templates", text: "Prelude", src:"prelude"},
+    {putUnder: "templates", text: "Corporation", src:"corporation"},
+
+  // Global parameters
   {putUnder: "globalparameters", text: "", src:"oxygen"},
   {putUnder: "globalparameters", text: "", src:"temperature"},
   {putUnder: "globalparameters", text: "", src:"venus"},
+
+  // Misc
   {putUnder: "misc", text: "", src:"megacredit", otherbg:"mc_otherbg"},
   {putUnder: "misc", text: "mc_otherbg", src:"other_player_background", hidden:true},
   {putUnder: "misc", text: "", src:"arrow"},
@@ -36,6 +43,14 @@ var blockList = [
   {putUnder: "misc", text: "", src:"colon"},
   {putUnder: "misc", text: "", src:"delegate"},
   {putUnder: "misc", text: "", src:"influence"},
+  {putUnder: "misc", text: "", src:"party_leader"},
+  {putUnder: "misc", text: "Tag Holder", src:"corp_tag_holder"},
+  {putUnder: "misc", text: "Effect (bg)", src:"effect"},
+  {putUnder: "misc", text: "", src:"asset"},
+  {putUnder: "misc", text: "Colony Tile", src:"colonytile"},
+  {putUnder: "misc", text: "", src:"population"},
+
+  // Parties
   {putUnder: "parties", text: "", src:"bureacrats"},
   {putUnder: "parties", text: "", src:"centrists"},
   {putUnder: "parties", text: "", src:"empower"},
@@ -48,16 +63,24 @@ var blockList = [
   {putUnder: "parties", text: "", src:"spome"},
   {putUnder: "parties", text: "", src:"transhumanists"},
   {putUnder: "parties", text: "", src:"unity"},
+
+  // Production boxes
   {putUnder: "productionboxes", text: "prod_nxn", src:"nxn", hidden: true},
   // {putUnder: "productionboxes", text: "prod_otherbg", src:"other_player_background", hidden:true},
+
+  // Requisites
   {putUnder: "requisites", text: "Max Requirement", src:"max_big"},
   {putUnder: "requisites", text: "Min Requirement (big)", src:"min_big"},
   {putUnder: "requisites", text: "Min Requirement", src:"min_medium"},
   {putUnder: "requisites", text: "Min Requirement (small)", src:"min_small"},
   {putUnder: "requisites", text: "No Requirement", src:"normal"},
+
+  // Resources
   {putUnder: "resources", text: "", src:"animal", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"biohazard", otherbg:"res_otherbg"},
   {putUnder: "resources", text: "", src:"card", otherbg:"res_otherbg"},
   {putUnder: "resources", text: "", src:"data", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"dust", otherbg:"res_otherbg"},
   {putUnder: "resources", text: "", src:"fighter", otherbg:"res_otherbg"},
   {putUnder: "resources", text: "", src:"floater", otherbg:"res_otherbg"},
   {putUnder: "resources", text: "", src:"heat", otherbg:"res_otherbg"},
@@ -71,6 +94,10 @@ var blockList = [
   {putUnder: "resources", text: "", src:"titanium", otherbg:"res_otherbg"},
   {putUnder: "resources", text: "", src:"TR", otherbg:"res_otherbg"},
   {putUnder: "resources", text: "", src:"wild", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"asteroid", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"ore", otherbg:"res_otherbg"},
+
+  // Tags
   {putUnder: "tags", text: "", src:"animal", otherbg:"tag_otherbg"},
   {putUnder: "tags", text: "", src:"building", otherbg:"tag_otherbg"},
   {putUnder: "tags", text: "", src:"city", otherbg:"tag_otherbg"},
@@ -91,6 +118,11 @@ var blockList = [
   {putUnder: "tags", text: "", src:"space", otherbg:"tag_otherbg"},
   {putUnder: "tags", text: "", src:"venus", otherbg:"tag_otherbg"},
   {putUnder: "tags", text: "", src:"wild", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"multitag", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tourism", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"mercury", otherbg:"tag_otherbg"},
+
+  // Tiles
   {putUnder: "tiles", text: "", src:"city", otherbg:"tiles_otherbg"},
   {putUnder: "tiles", text: "", src:"colony"},
   {putUnder: "tiles", text: "", src:"empty", otherbg:"tiles_otherbg"},
@@ -100,6 +132,9 @@ var blockList = [
   {putUnder: "tiles", text: "", src:"off-world_city", otherbg:"tiles_otherbg"},
   {putUnder: "tiles", text: "", src:"special", otherbg:"tiles_otherbg"},
   {putUnder: "tiles", text: "", src:"trade"},
+  {putUnder: "tiles", text: "tiles_otherbg", src:"other_player_background", hidden:true},
+
+  // VPs
   {putUnder: "VPs", text: "VP 1/", src:"1_for"},
   {putUnder: "VPs", text: "1 VP", src:"1"},
   {putUnder: "VPs", text: "VP 2/", src:"2_for"},
@@ -109,21 +144,9 @@ var blockList = [
   {putUnder: "VPs", text: "5 VP", src:"5"},
   {putUnder: "VPs", text: "VP background", src:"blank"},
   {putUnder: "VPs", text: "-VP", src:"VPnegative"},
-  {putUnder: "VPs", text: "/ VP", src:"n_for"},
-  {putUnder: "misc", text: "", src:"party_leader"},
-  {putUnder: "templates", text: "", src:"prelude"},
-  {putUnder: "templates", text: "", src:"corporation"},
-  {putUnder: "misc", text: "Tag Holder", src:"corp_tag_holder"},
-  {putUnder: "misc", text: "Effect (bg)", src:"effect"},
-  {putUnder: "tags", text: "", src:"multitag", otherbg:"tag_otherbg"},
-  {putUnder: "tiles", text: "tiles_otherbg", src:"other_player_background", hidden:true},
-  {putUnder: "tags", text: "", src:"tourism", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"mercury", otherbg:"tag_otherbg"},
-  {putUnder: "resources", text: "", src:"asteroid", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"ore", otherbg:"res_otherbg"},
-  {putUnder: "misc", text: "", src:"asset"},
-  {putUnder: "misc", text: "Colony Tile", src:"colonytile"},
-  {putUnder: "misc", text: "", src:"population"}
+  {putUnder: "VPs", text: "/ VP", src:"n_for"}
+
+  
 ];
 
 var blockDefaults = {
@@ -205,23 +228,23 @@ var blockDefaults = {
 
 var megaTemplates = {
   green_normal: {
-    layers: [
-      {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:0,x:0,y:0,width:826,height:1126,params:"allimages"},
-      {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block",iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
-      {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"text",data:"FAN MADE",x:413,y:612,width:826,height:24,color:"#24770d",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:770,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
-      {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
-    ]
+      layers: [
+        {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
+        {type:"block", src:"green_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
+        {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
+        {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+        {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
+        {type:"text",data:"FAN MADE",x:413,y:612,width:826,height:24,color:"#24770d",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
+        {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:770,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
+        {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
+      ]
   },
   green_big_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:2,x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"green_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:562,width:826,height:24,color:"#24770d",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:770,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -231,9 +254,9 @@ var megaTemplates = {
   green_small_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:1,x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"green_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:664,width:826,height:24,color:"#24770d",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:770,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -243,51 +266,51 @@ var megaTemplates = {
   blue_normal: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:3,x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"blue_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:798,width:826,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:860,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
       {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:13,x:355,y:265,width:116,height:55,params:"allimages allpreset"},
+      {type:"block", src:"arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
       {type:"text",data:"Effect or Action text!",x:413,y:360,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
     ]
   },
   blue_big_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:4,x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"blue_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:753,width:702,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:860,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
       {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:13,x:355,y:265,width:116,height:55,params:"allimages allpreset"},
+      {type:"block", src:"arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
       {type:"text",data:"Effect or Action text!",x:413,y:360,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
     ]
   },
   blue_big_top: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:5,x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"blue_big_top", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:849,width:702,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:891,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
       {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:13,x:355,y:265,width:116,height:55,params:"allimages allpreset"},
+      {type:"block", src:"arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
       {type:"text",data:"Effect or Action text!",x:413,y:360,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
     ]
   },
   red_normal: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:6,x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"red_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:685,width:826,height:24,color:"#c36a17",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:810,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -297,9 +320,9 @@ var megaTemplates = {
   red_small_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", iNum:7,x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"red_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", iNum:37,x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:718,width:826,height:24,color:"#c36a17",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:810,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -309,7 +332,7 @@ var megaTemplates = {
   prelude: {
     layers: [
       {type: "base", color: "#ffffff", height: 826, width: 1126, params: "color"},
-      {type:"block", iNum:94,x:0,y:0,width:1126,height:826,params:"allimages"},
+      {type:"block", src:"prelude", x:0,y:0,width:1126,height:826,params:"allimages"},
       {type:"text",data:"CARD NAME",x:563,y:218,width:826,height:48,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:563,y:500,width:826,height:24,color:"#ce809f",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"P R E L U D E",x:563,y:99,width:826,height:24,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -320,10 +343,11 @@ var megaTemplates = {
   corporation: {
     layers: [
       {type:"base", color: "#ffffff", height: 826, width: 1126, params: "color"},
-      {type:"block","iNum":96,x:969,y:103,width:257,height:89,params:"allimages"},
-      {type:"block","iNum":95,x:0,y:0,width:1126,height:826,params:"allimages"},
+      //{type:"block", src:"2_for", x:969,y:103,width:257,height:89,params:"allimages"},
+      {type:"block", src:"corporation", x:0,y:0,width:1126,height:826,params:"allimages"},
       {type:"effect", x: 600, y: 300, width: 400, height: 300, params: "allimages allpreset"},
-      {type:"block", name: "", iNum: 97, x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
+      //{type:"block", name: "", iNum: 97, x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
+      {type:"block", name: "", src: "effect", x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
       {type:"text", data: "E F F E C T", x: 800, y: 333, width: 1126, height: 22, color: "#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text","data":"FAN MADE",x:198,y:736,width:826,height:24,color:"#c3c3c3",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text","data":"C O R P O R A T I O N",x:563,y:109,width:826,height:24,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -372,6 +396,14 @@ function resetProject(loadautosave) {
 function fetchBlock(num) {
   let imageObj = new Image();
   imageObj.onload = onBlockLoad;
+  imageObj.onerror = function (e) {
+    try {
+      console.error("fetchBlock: image load error", this.src, this.dataindex, e);
+    } catch (err) {
+      console.error("fetchBlock: image load error (no details)", err);
+    }
+  };
+  console.log("fetchBlock: requesting", num, blockList[num].putUnder + "/" + blockList[num].src + ".png");
   imageObj.src = blockList[num].putUnder + "/" + blockList[num].src + ".png";
   imageObj.dataindex = num;
   blockList[num].obj = imageObj;
@@ -379,6 +411,19 @@ function fetchBlock(num) {
     // if this image is an 'other people background', save its name
     otherBgList[blockList[num].text] = imageObj;
   }
+}
+
+function resolveBlockIndex(idOrSrc) {
+  if (idOrSrc === undefined || idOrSrc === null) return -1;
+  if (typeof idOrSrc === 'number') return idOrSrc;
+  // numeric string?
+  if ((typeof idOrSrc === 'string') && idOrSrc.match(/^\d+$/)) return Number(idOrSrc);
+  // search by src
+  for (let i = 0; i < blockList.length; i++) {
+    if (blockList[i].src === idOrSrc) return i;
+    if (blockList[i].text && (blockList[i].text === idOrSrc)) return i;
+  }
+  return -1;
 }
 
 function addBlockMenuItem(num) {
@@ -793,7 +838,26 @@ function drawProject() {
 
 var lastAutoSave = "";
 function autoSave(layers) {
-  lastAutoSave = projectDataToJson(layers);
+  // Create a saveable copy of layers where block layers use `src` instead of numeric `iNum`.
+  let saveLayers = [];
+  for (let layer of layers) {
+    // shallow copy to avoid mutating in-memory layer objects
+    let copy = {};
+    for (let k in layer) copy[k] = layer[k];
+    if (copy.type === "block") {
+      if ((copy.iNum !== undefined) && (copy.iNum !== null) && (copy.iNum !== -1)) {
+        let idx = resolveBlockIndex(copy.iNum);
+        if ((idx !== -1) && blockList[idx] && blockList[idx].src) {
+          copy.src = blockList[idx].src;
+        }
+      }
+      // remove numeric index to make saved data index-independent
+      delete copy.iNum;
+    }
+    saveLayers.push(copy);
+  }
+
+  lastAutoSave = projectDataToJson(saveLayers);
   try {
     if (typeof(Storage) !== "undefined") {
       localStorage.setItem("autosave", lastAutoSave);
@@ -897,6 +961,7 @@ function setPresets(th){
 }
 
 function onBlockLoad() {
+  console.log("onBlockLoad: loaded", this.dataindex, blockList[this.dataindex] && blockList[this.dataindex].src, this.src);
   if (blockList[this.dataindex].hidden) {
     // hidden images don't get menu items
     hiddenImage[blockList[this.dataindex].text] = this.dataindex;
@@ -979,8 +1044,19 @@ function loadFrom(saved, autoload) {
         case "effect":
         case "line":
           if (layer.type == "block") {
-            newLayer = addBlock(layer.iNum);
+            // support saved projects using numeric iNum or src string
+            let blockRef;
+            if ((layer.src !== undefined) && (layer.src !== null)) {
+              blockRef = layer.src;
+            } else if (typeof layer.iNum === 'number') {
+              blockRef = layer.iNum;
+            } else {
+              blockRef = layer.iNum || layer.src;
+            }
+            newLayer = addBlock(blockRef);
+            // don't copy saved index or src over the runtime layer
             ignore.push("iNum");
+            ignore.push("src");
           } else if (layer.type == "text") {
             if (layer.filename  && !fontList[layer.font]) {
               // this font has not been reloaded
@@ -1069,10 +1145,14 @@ type2FuncList.block = addBlock;
 function addBlock(th) {
   let layer = {type:"block", name:"", iNum:0, x:0, y:0, width:0, height:0, params:"allimages"};
   let myIndex = 0;
-  if ((typeof th == "string") || (typeof th == "number")) {
+  if ((typeof th == "number")) {
     myIndex = th;
+  } else if (typeof th == "string") {
+    // if string is numeric, convert, otherwise resolve by src/text
+    myIndex = resolveBlockIndex(th);
+    if (myIndex == -1) myIndex = this.id ? this.id.slice(5) : 0;
   } else {
-    myIndex = this.id.slice(5);
+    myIndex = this.id ? this.id.slice(5) : 0;
   }
   layer.iNum = Number(myIndex);
   let thisBlock = blockList[layer.iNum];
