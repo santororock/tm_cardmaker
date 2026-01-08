@@ -1010,8 +1010,37 @@ function onBlockLoad() {
   // }
   for (let l in aLayers) {
     if ((aLayers[l].type == "block") && (aLayers[l].iNum == this.dataindex)) {
-      if (!aLayers[l].width) aLayers[l].width = blockList[this.dataindex].obj.width;
-      if (!aLayers[l].height) aLayers[l].height = blockList[this.dataindex].obj.height;
+      let imgW = blockList[this.dataindex].obj.width;
+      let imgH = blockList[this.dataindex].obj.height;
+      // scale so the largest side is at most 100px (preserve aspect ratio)
+      let scale = Math.min(1, 100 / Math.max(imgW, imgH));
+      let scaledW = Math.max(1, Math.round(imgW * scale));
+      let scaledH = Math.max(1, Math.round(imgH * scale));
+
+      // Apply scaled size for layers that are using the placeholder/default
+      // dimensions (we use height==100 as our placeholder indicator), or
+      // when neither dimension was set.
+      if ((!aLayers[l].width && !aLayers[l].height) || (aLayers[l].height === 100 && !aLayers[l].width)) {
+        aLayers[l].width = scaledW;
+        aLayers[l].height = scaledH;
+      } else if (!aLayers[l].width && aLayers[l].height) {
+        // compute width to preserve aspect ratio for given height
+        aLayers[l].width = Math.round(imgW * aLayers[l].height / imgH);
+        // if computed width exceeds 100, scale down to max 100
+        if (aLayers[l].width > 100 && aLayers[l].height <= 100) {
+          let s = 100 / aLayers[l].width;
+          aLayers[l].width = Math.round(aLayers[l].width * s);
+          aLayers[l].height = Math.round(aLayers[l].height * s);
+        }
+      } else if (aLayers[l].width && !aLayers[l].height) {
+        // compute height to preserve aspect ratio for given width
+        aLayers[l].height = Math.round(imgH * aLayers[l].width / imgW);
+        if (aLayers[l].height > 100 && aLayers[l].width <= 100) {
+          let s = 100 / aLayers[l].height;
+          aLayers[l].width = Math.round(aLayers[l].width * s);
+          aLayers[l].height = Math.round(aLayers[l].height * s);
+        }
+      }
     }
   }
   drawProject();
@@ -1182,8 +1211,11 @@ function addBlock(th) {
   } else {
     // Trigger loading (this will replace blockList[i].obj when loaded).
     fetchBlock(layer.iNum);
-    if (!newLayer.width) newLayer.width = 100;
+    // Set only a default height so we can maintain the image's aspect
+    // ratio when the real image finishes loading. onBlockLoad() will
+    // compute the missing dimension.
     if (!newLayer.height) newLayer.height = 100;
+    // leave width undefined so onBlockLoad can compute it proportionally
   }
   drawProject();
 
