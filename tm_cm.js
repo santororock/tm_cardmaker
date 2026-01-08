@@ -1,6 +1,4 @@
-git add .nojekyll
-git commit -m "Add .nojekyll for GitHub Pages"
-git push origin mainvar aLayers = {};
+var aLayers = {};
 
 var userImageList = [];
 var otherBgList = {};
@@ -1174,14 +1172,20 @@ function addBlock(th) {
   // layer.width = thisBlock.obj.width;
   // layer.height = thisBlock.obj.height;
   let newLayer = addLayer(thisBlock.text, layer);
-  if (thisBlock.obj) {
-
+  // If the image is already loaded and complete, use its real size.
+  // Otherwise, start loading it and give the layer a sensible default size
+  // so it can be clicked/dragged immediately. onBlockLoad() will update
+  // the real dimensions once the image finishes loading.
+  if (thisBlock.obj && thisBlock.obj.complete) {
     if (!newLayer.width) newLayer.width = thisBlock.obj.width;
     if (!newLayer.height) newLayer.height = thisBlock.obj.height;
-    drawProject();
   } else {
+    // Trigger loading (this will replace blockList[i].obj when loaded).
     fetchBlock(layer.iNum);
+    if (!newLayer.width) newLayer.width = 100;
+    if (!newLayer.height) newLayer.height = 100;
   }
+  drawProject();
 
   return newLayer;
 }
