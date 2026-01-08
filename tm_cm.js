@@ -1,4 +1,6 @@
-var aLayers = {};
+git add .nojekyll
+git commit -m "Add .nojekyll for GitHub Pages"
+git push origin mainvar aLayers = {};
 
 var userImageList = [];
 var otherBgList = {};

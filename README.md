@@ -1,3 +1,28 @@
+You can later load one of these project images using 'File' -> 'Clear & Load Project'
+
+## Run locally (recommended)
+
+For full functionality (and to avoid browser CORS/tainted-canvas issues when exporting), run the app from a local HTTP server rather than opening `tm_cardmaker.html` via `file://`.
+
+From the project root (where `tm_cardmaker.html` lives) you can run a simple server:
+
+- Using Python 3 (if installed):
+
+```powershell
+python -m http.server 8000
+# then open: http://localhost:8000/tm_cardmaker.html
+```
+
+- Using Node (no install if you have `npx`):
+
+```powershell
+npx http-server -p 8000
+# then open: http://localhost:8000/tm_cardmaker.html
+```
+
+- From VS Code, the *Live Server* extension also works well.
+
+Serving over HTTP(S) ensures images are loaded with proper origins so the export/save (`File -> Save as Project`) works without SecurityError.
 # tm_cardmaker
 
 Web App for people to make fan cards for the game Terraforming Mars.
