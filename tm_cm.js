@@ -395,6 +395,17 @@ function resetProject(loadautosave) {
 
 function fetchBlock(num) {
   let imageObj = new Image();
+  // Allow cross-origin requests so canvas stays exportable when server
+  // provides appropriate CORS headers. Must be set before assigning `src`.
+  // Do NOT set `crossOrigin` when running from the local filesystem
+  // (file://), as browsers will block those requests when CORS is used.
+  try {
+    if (window && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+      imageObj.crossOrigin = "Anonymous";
+    }
+  } catch (err) {
+    // ignore and proceed without crossOrigin
+  }
   imageObj.onload = onBlockLoad;
   imageObj.onerror = function (e) {
     try {
@@ -566,11 +577,6 @@ function selectLayer() {
         buttons[0].style.display = "block";
       }
     } else if (allLayerNodes[ch] == this.parentNode) {
-      // hide delete button
-      let buttons = allLayerNodes[ch].getElementsByTagName("button");
-      if (buttons.length) {
-        buttons[0].style.display = "none";
-      }
       allLayerNodes[ch].classList.add("selected");
       // hide/unhide correct params for this layer
       let thisLayer = aLayers[allLayerNodes[ch].id];
