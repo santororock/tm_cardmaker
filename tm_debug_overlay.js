@@ -1,5 +1,7 @@
-/* Debug bounds overlay for tm_cardmaker (clean single copy)
-   - Draws per-layer bounding rects and optional alpha masks
+// Deprecated helper file left during debugging. The app now loads `tm_debug_overlay.js`.
+// Keeping this lightweight stub for backwards compatibility; it intentionally does nothing.
+/* tm_debug_overlay_fixed.js — restored working debug overlay (single IIFE)
+   This is a snapshot of the cleaned overlay implementation used during debugging.
 */
 (function () {
   const dbg = {
@@ -153,57 +155,6 @@
       const active = document.activeElement; const tag = active && active.tagName ? active.tagName.toLowerCase() : null;
       if (tag === 'input' || tag === 'textarea' || tag === 'select' || (active && active.isContentEditable)) return;
       e.preventDefault(); const newOn = !(dbg.enabled); const checkbox = document.getElementById('debugBounds'); if (checkbox) checkbox.checked = newOn; dbg.toggle(newOn);
-    }
-  });
-})();
-      dbg.toggle(newOn);
-    }
-  });
-})();
-      for (let y = 0; y < dstH; y++) {
-        const rowSpans = [];
-        let inSpan = false;
-        let spanStart = 0;
-        for (let x = 0; x < dstW; x++) {
-          const a = id[(y * dstW + x) * 4 + 3];
-          const opaque = a > 0;
-          if (opaque && !inSpan) {
-            inSpan = true;
-            spanStart = x;
-          } else if (!opaque && inSpan) {
-            inSpan = false;
-            rowSpans.push([spanStart, x]);
-          }
-        }
-        if (inSpan) rowSpans.push([spanStart, dstW]);
-        rows[y] = rowSpans.length ? rowSpans : null;
-      }
-      return { w: dstW, h: dstH, rows: rows };
-    } catch (err) {
-      // getImageData failed (likely tainted canvas) — propagate null
-      return null;
-    }
-  }
-
-  // Expose
-  window.debugOverlay = dbg;
-  window.addEventListener('load', function () { dbg.init(); });
-  // Add hotkey Ctrl+Shift+D to toggle debug overlay (ignores input/textarea/select)
-  window.addEventListener('keydown', function (e) {
-    // Ctrl+Shift+D (cover keyCode 68 for older browsers)
-    const isCtrlShiftD = (e.ctrlKey && e.shiftKey && (e.key === 'D' || e.key === 'd' || e.keyCode === 68));
-    if (isCtrlShiftD) {
-      const active = document.activeElement;
-      const tag = active && active.tagName ? active.tagName.toLowerCase() : null;
-      if (tag === 'input' || tag === 'textarea' || tag === 'select' || (active && active.isContentEditable)) {
-        return; // avoid interfering when typing
-      }
-      // toggle
-      e.preventDefault();
-      const newOn = !(dbg.enabled);
-      const checkbox = document.getElementById('debugBounds');
-      if (checkbox) checkbox.checked = newOn;
-      dbg.toggle(newOn);
     }
   });
 })();
