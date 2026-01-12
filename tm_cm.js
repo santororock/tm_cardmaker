@@ -17,134 +17,133 @@ var keyFocusLayer;
 
 var blockList = [
   // Templates
-    {putUnder: "templates", text: "Green Card", src:"green_normal"},
-    {putUnder: "templates", text: "Green Small Bottom", src:"green_small_bottom"},
-    {putUnder: "templates", text: "Green Big Bottom", src:"green_big_bottom"},
-    {putUnder: "templates", text: "Blue Card", src:"blue_normal"},
-    {putUnder: "templates", text: "Blue Big Bottom", src:"blue_big_bottom"},
-    {putUnder: "templates", text: "Blue Big Top", src:"blue_big_top"},
-    {putUnder: "templates", text: "Red Card", src:"red_normal"},
-    {putUnder: "templates", text: "Red Small Bottom", src:"red_small_bottom"},
-    {putUnder: "templates", text: "Prelude", src:"prelude"},
-    {putUnder: "templates", text: "Corporation", src:"corporation"},
+    {putUnder: "templates", text: "Green Card", src:"templates__green_normal"},
+    {putUnder: "templates", text: "Green Small Bottom", src:"templates__green_small_bottom"},
+    {putUnder: "templates", text: "Green Big Bottom", src:"templates__green_big_bottom"},
+    {putUnder: "templates", text: "Blue Card", src:"templates__blue_normal"},
+    {putUnder: "templates", text: "Blue Big Bottom", src:"template__blue_big_bottom"},
+    {putUnder: "templates", text: "Blue Big Top", src:"templates__blue_big_top"},
+    {putUnder: "templates", text: "Red Card", src:"templates__red_normal"},
+    {putUnder: "templates", text: "Red Small Bottom", src:"templates__red_small_bottom"},
+    {putUnder: "templates", text: "Prelude", src:"templates__prelude"},
+    {putUnder: "templates", text: "Corporation", src:"templates__corporation"},
 
   // Global parameters
-  {putUnder: "globalparameters", text: "", src:"oxygen"},
-  {putUnder: "globalparameters", text: "", src:"temperature"},
-  {putUnder: "globalparameters", text: "", src:"venus"},
+  {putUnder: "globalparameters", text: "", src:"globalparameters__oxygen"},
+  {putUnder: "globalparameters", text: "", src:"globalparameters__temperature"},
+  {putUnder: "globalparameters", text: "", src:"globalparameters__venus"},
 
   // Misc
-  {putUnder: "misc", text: "", src:"megacredit", otherbg:"mc_otherbg"},
-  {putUnder: "misc", text: "mc_otherbg", src:"other_player_background", hidden:true},
-  {putUnder: "misc", text: "", src:"arrow"},
-  {putUnder: "misc", text: "Asterisk", src:"asterisc"},
-  {putUnder: "misc", text: "Slash", src:"bar"},
-  {putUnder: "misc", text: "", src:"chairman"},
-  {putUnder: "misc", text: "", src:"colon"},
-  {putUnder: "misc", text: "", src:"delegate"},
-  {putUnder: "misc", text: "", src:"influence"},
-  {putUnder: "misc", text: "", src:"party_leader"},
-  {putUnder: "misc", text: "Tag Holder", src:"corp_tag_holder"},
-  {putUnder: "misc", text: "Effect (bg)", src:"effect"},
-  {putUnder: "misc", text: "", src:"asset"},
-  {putUnder: "misc", text: "Colony Tile", src:"colonytile"},
-  {putUnder: "misc", text: "", src:"population"},
+  {putUnder: "misc", text: "", src:"misc__megacredit", otherbg:"mc_otherbg"},
+  {putUnder: "misc", text: "mc_otherbg", src:"misc__other_player_background", hidden:true},
+  {putUnder: "misc", text: "", src:"misc__arrow"},
+  {putUnder: "misc", text: "Asterisk", src:"misc__asterisc"},
+  {putUnder: "misc", text: "Slash", src:"misc__bar"},
+  {putUnder: "misc", text: "", src:"misc__chairman"},
+  {putUnder: "misc", text: "", src:"misc__colon"},
+  {putUnder: "misc", text: "", src:"misc__delegate"},
+  {putUnder: "misc", text: "", src:"misc__influence"},
+  {putUnder: "misc", text: "", src:"misc__party_leader"},
+  {putUnder: "misc", text: "Tag Holder", src:"misc__corp_tag_holder"},
+  {putUnder: "misc", text: "Effect (bg)", src:"misc__effect"},
+  {putUnder: "misc", text: "", src:"misc__asset"},
+  {putUnder: "misc", text: "Colony Tile", src:"misc__colonytile"},
+  {putUnder: "misc", text: "", src:"misc__population"},
 
   // Parties
-  {putUnder: "parties", text: "", src:"bureacrats"},
-  {putUnder: "parties", text: "", src:"centrists"},
-  {putUnder: "parties", text: "", src:"empower"},
-  {putUnder: "parties", text: "", src:"greens"},
-  {putUnder: "parties", text: "", src:"kelvinists"},
-  {putUnder: "parties", text: "", src:"mars_first"},
-  {putUnder: "parties", text: "", src:"populists"},
-  {putUnder: "parties", text: "", src:"reds"},
-  {putUnder: "parties", text: "", src:"scientists"},
-  {putUnder: "parties", text: "", src:"spome"},
-  {putUnder: "parties", text: "", src:"transhumanists"},
-  {putUnder: "parties", text: "", src:"unity"},
+  {putUnder: "parties", text: "", src:"parties__bureacrats"},
+  {putUnder: "parties", text: "", src:"parties__centrists"},
+  {putUnder: "parties", text: "", src:"parties__empower"},
+  {putUnder: "parties", text: "", src:"parties__greens"},
+  {putUnder: "parties", text: "", src:"parties__kelvinists"},
+  {putUnder: "parties", text: "", src:"parties__mars_first"},
+  {putUnder: "parties", text: "", src:"parties__populists"},
+  {putUnder: "parties", text: "", src:"parties__reds"},
+  {putUnder: "parties", text: "", src:"parties__scientists"},
+  {putUnder: "parties", text: "", src:"parties__spome"},
+  {putUnder: "parties", text: "", src:"parties__transhumanists"},
+  {putUnder: "parties", text: "", src:"parties__unity"},
 
   // Production boxes
-  {putUnder: "productionboxes", text: "prod_nxn", src:"nxn", hidden: true},
+  {putUnder: "productionboxes", text: "prod_nxn", src:"productionboxes__nxn", hidden: true},
   // {putUnder: "productionboxes", text: "prod_otherbg", src:"other_player_background", hidden:true},
 
   // Requisites
-  {putUnder: "requisites", text: "Max Requirement", src:"max_big"},
-  {putUnder: "requisites", text: "Min Requirement (big)", src:"min_big"},
-  {putUnder: "requisites", text: "Min Requirement", src:"min_medium"},
-  {putUnder: "requisites", text: "Min Requirement (small)", src:"min_small"},
-  {putUnder: "requisites", text: "No Requirement", src:"normal"},
-
+  {putUnder: "requisites", text: "Max Requirement", src:"requisites__max_big"},
+  {putUnder: "requisites", text: "Min Requirement (big)", src:"requisites__min_big"},
+  {putUnder: "requisites", text: "Min Requirement", src:"requisites__min_medium"},
+  {putUnder: "requisites", text: "Min Requirement (small)", src:"requisites__min_small"},
+  {putUnder: "requisites", text: "No Requirement", src:"requisites__normal"},
   // Resources
-  {putUnder: "resources", text: "", src:"animal", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"biohazard", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"card", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"data", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"dust", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"fighter", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"floater", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"heat", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"microbe", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "res_otherbg", src:"other_player_background", hidden:true},
-  {putUnder: "resources", text: "", src:"plant", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"power", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"radiation", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"science", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"steel", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"titanium", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"TR", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"wild", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"asteroid", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "", src:"ore", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__animal", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__biohazard", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__card", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__data", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__dust", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__fighter", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__floater", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__heat", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__microbe", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "res_otherbg", src:"resources__other_player_background", hidden:true},
+  {putUnder: "resources", text: "", src:"resources__plant", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__power", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__radiation", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__science", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__steel", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__titanium", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__TR", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__wild", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__asteroid", otherbg:"res_otherbg"},
+  {putUnder: "resources", text: "", src:"resources__ore", otherbg:"res_otherbg"},
 
   // Tags
-  {putUnder: "tags", text: "", src:"animal", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"building", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"city", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"earth", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"event", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"galactic", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"infrastructure", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"jovian", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"mars", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"microbe", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"moon", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "tag_otherbg", src:"other_player_background", hidden:true},
-  {putUnder: "tags", text: "", src:"planetary", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"plant", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"power", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"radioactive", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"science", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"space", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"venus", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"wild", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"multitag", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"tourism", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "", src:"mercury", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__animal", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__building", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__city", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__earth", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__event", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__galactic", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__infrastructure", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__jovian", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__mars", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__microbe", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__moon", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "tag_otherbg", src:"tags__other_player_background", hidden:true},
+  {putUnder: "tags", text: "", src:"tags__planetary", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__plant", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__power", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__radioactive", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__science", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__space", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__venus", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__wild", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__multitag", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__tourism", otherbg:"tag_otherbg"},
+  {putUnder: "tags", text: "", src:"tags__mercury", otherbg:"tag_otherbg"},
 
   // Tiles
-  {putUnder: "tiles", text: "", src:"city", otherbg:"tiles_otherbg"},
-  {putUnder: "tiles", text: "", src:"colony"},
-  {putUnder: "tiles", text: "", src:"empty", otherbg:"tiles_otherbg"},
-  {putUnder: "tiles", text: "", src:"greenery_no_O2", otherbg:"tiles_otherbg"},
-  {putUnder: "tiles", text: "", src:"greenery", otherbg:"tiles_otherbg"},
-  {putUnder: "tiles", text: "", src:"ocean", otherbg:"tiles_otherbg"},
-  {putUnder: "tiles", text: "", src:"off-world_city", otherbg:"tiles_otherbg"},
-  {putUnder: "tiles", text: "", src:"special", otherbg:"tiles_otherbg"},
-  {putUnder: "tiles", text: "", src:"trade"},
-  {putUnder: "tiles", text: "tiles_otherbg", src:"other_player_background", hidden:true},
+  {putUnder: "tiles", text: "City", src:"tiles__city", otherbg:"otherbg"},
+  {putUnder: "tiles", text: "Colony", src:"tiles__colony"},
+  {putUnder: "tiles", text: "Empty", src:"tiles__empty", otherbg:"otherbg"},
+  {putUnder: "tiles", text: "Greenery no O2", src:"tiles__greenery_no_O2", otherbg:"otherbg"},
+  {putUnder: "tiles", text: "Greenery", src:"tiles__greenery", otherbg:"otherbg"},
+  {putUnder: "tiles", text: "Ocean", src:"tiles__ocean", otherbg:"otherbg"},
+  {putUnder: "tiles", text: "Off-World City", src:"tiles__off-world_city", otherbg:"otherbg"},
+  {putUnder: "tiles", text: "Special", src:"tiles__special", otherbg:"otherbg"},
+  {putUnder: "tiles", text: "Trade", src:"tiles__trade"},
+  {putUnder: "tiles", text: "Otherbg", src:"tiles__other_player_background", hidden:true},
 
   // VPs
-  {putUnder: "VPs", text: "VP 1/", src:"1_for"},
-  {putUnder: "VPs", text: "1 VP", src:"1"},
-  {putUnder: "VPs", text: "VP 2/", src:"2_for"},
-  {putUnder: "VPs", text: "2 VP", src:"2"},
-  {putUnder: "VPs", text: "3 VP", src:"3"},
-  {putUnder: "VPs", text: "4 VP", src:"4"},
-  {putUnder: "VPs", text: "5 VP", src:"5"},
-  {putUnder: "VPs", text: "VP background", src:"blank"},
-  {putUnder: "VPs", text: "-VP", src:"VPnegative"},
-  {putUnder: "VPs", text: "/ VP", src:"n_for"}
+  {putUnder: "VPs", text: "VP 1/", src:"VPs__1_for"},
+  {putUnder: "VPs", text: "1 VP", src:"VPs__1"},
+  {putUnder: "VPs", text: "VP 2/", src:"VPs__2_for"},
+  {putUnder: "VPs", text: "2 VP", src:"VPs__2"},
+  {putUnder: "VPs", text: "3 VP", src:"VPs__3"},
+  {putUnder: "VPs", text: "4 VP", src:"VPs__4"},
+  {putUnder: "VPs", text: "5 VP", src:"VPs__5"},
+  {putUnder: "VPs", text: "VP background", src:"VPs__blank"},
+  {putUnder: "VPs", text: "-VP", src:"VPs__negative"},
+  {putUnder: "VPs", text: "/ VP", src:"VPs__n_for"}
 
   
 ];
@@ -230,9 +229,9 @@ var megaTemplates = {
   green_normal: {
       layers: [
         {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-        {type:"block", src:"green_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
+        {type:"block", src:"templates__green_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
         {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-        {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+        {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
         {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
         {type:"text",data:"FAN MADE",x:413,y:612,width:826,height:24,color:"#24770d",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
         {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:770,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -242,9 +241,9 @@ var megaTemplates = {
   green_big_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"green_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__green_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:562,width:826,height:24,color:"#24770d",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:770,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -256,7 +255,7 @@ var megaTemplates = {
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
       {type:"block", src:"green_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:664,width:826,height:24,color:"#24770d",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:770,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -266,9 +265,9 @@ var megaTemplates = {
   blue_normal: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"blue_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__blue_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:798,width:826,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:860,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -280,9 +279,9 @@ var megaTemplates = {
   blue_big_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"blue_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__blue_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:753,width:702,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:860,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -294,9 +293,9 @@ var megaTemplates = {
   blue_big_top: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"blue_big_top", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__blue_big_top", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:849,width:702,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:891,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -308,9 +307,9 @@ var megaTemplates = {
   red_normal: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"red_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__red_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:685,width:826,height:24,color:"#c36a17",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:810,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -320,9 +319,9 @@ var megaTemplates = {
   red_small_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"red_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__red_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
+      {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:718,width:826,height:24,color:"#c36a17",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:810,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
@@ -332,7 +331,7 @@ var megaTemplates = {
   prelude: {
     layers: [
       {type: "base", color: "#ffffff", height: 826, width: 1126, params: "color"},
-      {type:"block", src:"prelude", x:0,y:0,width:1126,height:826,params:"allimages"},
+      {type:"block", src:"templates__prelude", x:0,y:0,width:1126,height:826,params:"allimages"},
       {type:"text",data:"CARD NAME",x:563,y:218,width:826,height:48,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:563,y:500,width:826,height:24,color:"#ce809f",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"P R E L U D E",x:563,y:99,width:826,height:24,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -344,7 +343,7 @@ var megaTemplates = {
     layers: [
       {type:"base", color: "#ffffff", height: 826, width: 1126, params: "color"},
       //{type:"block", src:"2_for", x:969,y:103,width:257,height:89,params:"allimages"},
-      {type:"block", src:"corporation", x:0,y:0,width:1126,height:826,params:"allimages"},
+      {type:"block", src:"templates__corporation", x:0,y:0,width:1126,height:826,params:"allimages"},
       {type:"effect", x: 600, y: 300, width: 400, height: 300, params: "allimages allpreset"},
       //{type:"block", name: "", iNum: 97, x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
       {type:"block", name: "", src: "effect", x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
@@ -407,15 +406,31 @@ function fetchBlock(num) {
     // ignore and proceed without crossOrigin
   }
   imageObj.onload = onBlockLoad;
-  imageObj.onerror = function (e) {
-    try {
-      console.error("fetchBlock: image load error", this.src, this.dataindex, e);
-    } catch (err) {
-      console.error("fetchBlock: image load error (no details)", err);
-    }
-  };
-  console.log("fetchBlock: requesting", num, blockList[num].putUnder + "/" + blockList[num].src + ".png");
-  imageObj.src = blockList[num].putUnder + "/" + blockList[num].src + ".png";
+  // Try the new prefixed filename first (e.g. "resources__animal"),
+  // then fall back to the original unprefixed name if the first fails.
+  (function(img, idx) {
+    const entry = blockList[idx] || {};
+    const base = entry.src || "";
+    const prefixed = (base.indexOf('__') === -1) ? (entry.putUnder + '__' + base) : base;
+    const prefixedPath = entry.putUnder + '/' + prefixed + '.png';
+    const fallbackPath = entry.putUnder + '/' + base + '.png';
+    img._fetchAttempts = 0;
+    img.onerror = function (e) {
+      if (this._fetchAttempts === 0 && prefixedPath !== fallbackPath) {
+        this._fetchAttempts++;
+        console.warn('fetchBlock: primary image failed, trying fallback', fallbackPath);
+        this.src = fallbackPath;
+        return;
+      }
+      try {
+        console.error("fetchBlock: image load error", this.src, this.dataindex, e);
+      } catch (err) {
+        console.error("fetchBlock: image load error (no details)", err);
+      }
+    };
+    console.log("fetchBlock: requesting", idx, prefixedPath);
+    img.src = prefixedPath;
+  })(imageObj, num);
   imageObj.dataindex = num;
   blockList[num].obj = imageObj;
   if (blockList[num].text.indexOf("otherbg") != -1) {
@@ -431,7 +446,14 @@ function resolveBlockIndex(idOrSrc) {
   if ((typeof idOrSrc === 'string') && idOrSrc.match(/^\d+$/)) return Number(idOrSrc);
   // search by src
   for (let i = 0; i < blockList.length; i++) {
+    // exact match
     if (blockList[i].src === idOrSrc) return i;
+    // support matching when filenames were prefixed with "putUnder__basename"
+    if (typeof blockList[i].src === 'string' && blockList[i].src.indexOf('__') !== -1) {
+      const parts = blockList[i].src.split('__');
+      const suffix = parts[parts.length - 1];
+      if (suffix === idOrSrc) return i;
+    }
     if (blockList[i].text && (blockList[i].text === idOrSrc)) return i;
   }
   return -1;
