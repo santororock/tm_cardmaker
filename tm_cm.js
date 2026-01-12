@@ -21,7 +21,7 @@ var blockList = [
     {putUnder: "templates", text: "Green Small Bottom", src:"templates__green_small_bottom"},
     {putUnder: "templates", text: "Green Big Bottom", src:"templates__green_big_bottom"},
     {putUnder: "templates", text: "Blue Card", src:"templates__blue_normal"},
-    {putUnder: "templates", text: "Blue Big Bottom", src:"template__blue_big_bottom"},
+    {putUnder: "templates", text: "Blue Big Bottom", src:"templates__blue_big_bottom"},
     {putUnder: "templates", text: "Blue Big Top", src:"templates__blue_big_top"},
     {putUnder: "templates", text: "Red Card", src:"templates__red_normal"},
     {putUnder: "templates", text: "Red Small Bottom", src:"templates__red_small_bottom"},
@@ -484,14 +484,18 @@ function addBlockMenuItem(num) {
       toAdd.id = "image" + num;
       document.getElementById(blockList[num].putUnder).appendChild(toAdd);
       if (blockList[num].putUnder == "templates") {
-        // add Super Templates
+        // add Super Templates (use src suffix as megaTemplates key)
         toAdd = document.createElement("a");
         toAdd.onclick = addMegaTemplate;
         toAdd.innerText = tmpText;
         toAdd.classList.add("w3-bar-item");
         toAdd.classList.add("w3-button");
         toAdd.href = "#";
-        toAdd.id = "mega" + blockList[num].src;
+        // normalize id to "mega" + template key (remove putUnder__ prefix if present)
+        let megaKey = blockList[num].src || "";
+        const prefix = blockList[num].putUnder + "__";
+        if (megaKey.indexOf(prefix) === 0) megaKey = megaKey.slice(prefix.length);
+        toAdd.id = "mega" + megaKey;
         document.getElementById("fromTemplate").appendChild(toAdd);
       }
     }
@@ -1048,7 +1052,11 @@ function onBlockLoad() {
         toAdd.classList.add("w3-bar-item");
         toAdd.classList.add("w3-button");
         toAdd.href = "#";
-        toAdd.id = "mega" + blockList[this.dataindex].src;
+        // normalize id to "mega" + template key (remove putUnder__ prefix if present)
+        let megaKey = blockList[this.dataindex].src || "";
+        const prefix = blockList[this.dataindex].putUnder + "__";
+        if (megaKey.indexOf(prefix) === 0) megaKey = megaKey.slice(prefix.length);
+        toAdd.id = "mega" + megaKey;
         document.getElementById("fromTemplate").appendChild(toAdd);
       }
     }
