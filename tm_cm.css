@@ -348,3 +348,31 @@ section { */
     margin: 0px 8px;
   } 
 
+/* Debug overlay canvas positioned on top of main canvas; does not block pointer events */
+.debug-overlay-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 10;
+  /* visible only when enabled by JS */
+  display: none;
+}
+
+/* Debug legend */
+.debug-legend {
+  font-size: 12px;
+  margin-top: 6px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.legend-item { white-space: nowrap; display: inline-flex; align-items: center; gap:6px; }
+.legend-swatch { display:inline-block; width:14px; height:12px; border:1px solid #000; vertical-align:middle }
+.swatch-mask { background: rgba(0,200,0,0.25); }
+.swatch-tainted { background: transparent; border: 2px dashed orange; width:14px; height:12px }
+.swatch-rect { background: transparent; border: 2px solid red; width:14px; height:12px }
+.swatch-cross { width:14px; height:12px; position:relative; }
+.swatch-cross:before { content: ''; position:absolute; left:50%; top:0; width:1px; height:100%; background:#000; transform:translateX(-0.5px); }
+.swatch-cross:after { content: ''; position:absolute; left:0; top:50%; width:100%; height:1px; background:#000; transform:translateY(-0.5px); }
+

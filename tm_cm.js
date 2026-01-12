@@ -562,87 +562,108 @@ function deleteListItem(e,th) {
   drawProject();
 }
 
-function selectLayer() {
-  removeKeyInputFocus()
-  let allLayerNodes = document.getElementById("layerlist").children;
-  for (let ch=0; ch < allLayerNodes.length; ch++) {
-    if (allLayerNodes[ch].classList.contains("selected")) {
-      if (domParams.parentNode == allLayerNodes[ch]) {
-        allLayerNodes[ch].removeChild(domParams);
-      }
-      allLayerNodes[ch].classList.remove("selected");
-      // show delete button
-      let buttons = allLayerNodes[ch].getElementsByTagName("button");
-      if (buttons.length) {
-        buttons[0].style.display = "block";
-      }
-    } else if (allLayerNodes[ch] == this.parentNode) {
-      allLayerNodes[ch].classList.add("selected");
-      // hide/unhide correct params for this layer
-      let thisLayer = aLayers[allLayerNodes[ch].id];
-      let thisLayerParams = thisLayer.params;
-      if (this.parentNode.id != "dragdropdiv0") {
-        thisLayerParams += " allall";
-      }
+// Return the id of the currently selected layer DOM node, or null
+function getSelectedLayerNodeId() {
+  let nodes = document.getElementsByClassName('divRec');
+  for (let i=0; i < nodes.length; i++) {
+    if (nodes[i].classList.contains('selected')) return nodes[i].id;
+  }
+  return null;
+}
 
-      for (let pch=0; pch < domParams.children.length; pch++) {
-        let thispch = domParams.children[pch];
-        if (thisLayerParams.indexOf(thispch.id) == -1) {
-          // not in params, hide it
-          thispch.classList.add("w3-hide");
-        } else {
-          // in params list, show it
-          // thispch is DOM elements such as allpreset allimages etc
-          thispch.classList.remove("w3-hide");
-          for (let intype of ["input", "textarea", "select"]) {
-            let chInputs = thispch.getElementsByTagName(intype);
-            for (let subch of chInputs) {
-              if (subch.id.indexOf("input") == 0) {
-                if (subch.type == "checkbox") {
-                  subch.checked = thisLayer[subch.id.slice(5)];
+// Update the params panel inputs to reflect `layer`'s current values.
+function refreshParamsForLayer(layer, nodeId) {
+  if (!layer) return;
+  let thisLayer = layer;
+  let thisLayerParams = thisLayer.params || "";
+  if (!nodeId) nodeId = getSelectedLayerNodeId();
+  if (nodeId != "dragdropdiv0") {
+    thisLayerParams += " allall";
+  }
+
+  for (let pch = 0; pch < domParams.children.length; pch++) {
+    let thispch = domParams.children[pch];
+    if (thisLayerParams.indexOf(thispch.id) == -1) {
+      thispch.classList.add("w3-hide");
+    } else {
+      thispch.classList.remove("w3-hide");
+      for (let intype of ["input", "textarea", "select"]) {
+        let chInputs = thispch.getElementsByTagName(intype);
+        for (let subch of chInputs) {
+          if (subch.id.indexOf("input") == 0) {
+            if (subch.type == "checkbox") {
+              subch.checked = thisLayer[subch.id.slice(5)];
+            } else {
+              // guard against undefined properties
+              try { subch.value = thisLayer[subch.id.slice(5)]; } catch (e) {}
+            }
+          } else if ((subch.id == "lar") || (subch.id == "slar")) {
+            subch.checked = true;
+          } else if (subch.id == "presets") {
+            let opts = subch.getElementsByTagName("option");
+            let defType = "";
+            if (thisLayer.type == "block") {
+              defType = blockList[thisLayer.iNum].putUnder;
+            } else if (thisLayer.type == "text") {
+              defType = "text";
+            } else if (thisLayer.type == "production") {
+              defType = "production";
+            }
+            if (defType) {
+              subch.value = "";
+              while (opts.length < blockDefaults[defType].length + 1) {
+                let cNode = opts[1].cloneNode(false);
+                cNode.value = "defselect" + (opts.length - 1);
+                subch.appendChild(cNode);
+              }
+              for (let i = 1; i < opts.length; i++) {
+                if (i <= blockDefaults[defType].length) {
+                  opts[i].innerText = blockDefaults[defType][i-1].label;
+                  opts[i].classList.remove("w3-hide");
                 } else {
-                  subch.value = thisLayer[subch.id.slice(5)];
-                }
-              } else if ((subch.id == "lar") || (subch.id == "slar")) {
-                subch.checked = true;
-              } else if (subch.id == "presets") {
-                // set default selections for this layer
-                // Note: we already checked above that we should do this
-                let opts = subch.getElementsByTagName("option");
-                let defType = "";
-                if (thisLayer.type == "block") {
-                  defType = blockList[thisLayer.iNum].putUnder;
-                } else if (thisLayer.type == "text") {
-                  defType = "text";
-                } else if (thisLayer.type == "production") {
-                  defType = "production";
-                }
-                if (defType) {
-                  subch.value = "";
-                  while (opts.length < blockDefaults[defType].length + 1) {
-                    let cNode = opts[1].cloneNode(false);
-                    cNode.value = "defselect" + (opts.length - 1);
-                    subch.appendChild(cNode);
-                  }
-                  for (let i=1; i < opts.length; i++) {
-                    // for each usable <option> under presets
-                    if (i <= blockDefaults[defType].length) {
-                      opts[i].innerText = blockDefaults[defType][i-1].label;
-                      opts[i].classList.remove("w3-hide");
-                    } else {
-                      opts[i].classList.add("w3-hide");
-                    }
-                  }
+                  opts[i].classList.add("w3-hide");
                 }
               }
             }
-
           }
         }
       }
-      allLayerNodes[ch].appendChild(domParams);
     }
   }
+}
+
+function selectLayer() {
+  removeKeyInputFocus();
+  let allLayerNodes = document.getElementById("layerlist").children;
+  let clickedNode = this.parentNode;
+
+  // Deselect any other node but keep the clicked node selected
+  for (let ch = 0; ch < allLayerNodes.length; ch++) {
+    let node = allLayerNodes[ch];
+    if (node !== clickedNode && node.classList.contains("selected")) {
+      if (domParams.parentNode == node) {
+        node.removeChild(domParams);
+      }
+      node.classList.remove("selected");
+      let buttons = node.getElementsByTagName("button");
+      if (buttons.length) {
+        buttons[0].style.display = "block";
+      }
+    }
+  }
+
+  // Ensure clicked node is selected (keep it selected if it already was)
+  if (!clickedNode.classList.contains("selected")) {
+    clickedNode.classList.add("selected");
+  }
+
+  // Show appropriate params for the clicked layer (populate inputs)
+  let thisLayer = aLayers[clickedNode.id];
+  refreshParamsForLayer(thisLayer, clickedNode.id);
+
+  clickedNode.appendChild(domParams);
+
+  try { drawProject(); } catch (e) {}
 }
 
 function drawProject() {
@@ -840,6 +861,13 @@ function drawProject() {
     }
   }
   autoSave(imagesForSaving);
+  if (window.debugOverlay && typeof window.debugOverlay.drawOverlay === 'function') {
+    try {
+      window.debugOverlay.drawOverlay(document.getElementById('cmcanvas'), imagesForSaving, aLayers);
+    } catch (err) {
+      console.error('debugOverlay draw error', err);
+    }
+  }
 }
 
 var lastAutoSave = "";
@@ -2003,7 +2031,14 @@ function dragStart(event) {
     for (let i=layerDivs.length - 1; i >= 0; i--) {
       let layer = aLayers[layerDivs[i].id];
       if (clickIsWithinLayer(layer, mouse.x, mouse.y)) {
-        selectLayer();
+        // Select the corresponding layer in the properties panel.
+        // `selectLayer` expects to be called with the `.inside` element as `this`.
+        let inside = document.getElementById(layerDivs[i].id).getElementsByClassName('inside')[0];
+        if (inside) {
+          selectLayer.call(inside);
+        } else {
+          selectLayer();
+        }
         layerToDrag = layer;
         focusKeyInput(layer);
         dragOffsetX = layer.x - mouse.x;
@@ -2154,6 +2189,13 @@ function drag(event) {
       layerToDrag.x = x;
       layerToDrag.y = y;
       drawProject();
+      // Update params panel live if the dragged layer is the currently selected one
+      try {
+        let selId = getSelectedLayerNodeId();
+        if (selId && aLayers[selId] === layerToDrag) {
+          refreshParamsForLayer(layerToDrag, selId);
+        }
+      } catch (e) {}
   }
 }
 
@@ -2197,6 +2239,12 @@ function moveLayerWithKey(event) {
         keyFocusLayer.width = newWidth;
         keyFocusLayer.height = newHeight;
         drawProject();
+        try {
+          let selId = getSelectedLayerNodeId();
+          if (selId && aLayers[selId] === keyFocusLayer) {
+            refreshParamsForLayer(keyFocusLayer, selId);
+          }
+        } catch (e) {}
       }
       event.preventDefault();
     }
