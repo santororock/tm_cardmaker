@@ -15,6 +15,12 @@ var dragOffsetX;
 var dragOffsetY;
 var keyFocusLayer;
 
+// Undo system
+var undoStack = [];
+var undoIndex = -1;
+var maxUndoSteps = 50;
+var isRestoringState = false;
+
 var blockList = [
   // Templates
     {putUnder: "templates", text: "Green Card", src:"templates__green_normal"},
@@ -366,6 +372,7 @@ var domParams = document.getElementById("params").parentNode.removeChild(documen
 domParams.classList.remove("w3-hide");
 
 function resetProject(loadautosave) {
+  clearUndoHistory();
   document.getElementById("layerlist").innerHTML = "";
   ddcount = 0;
   aLayers = {};
@@ -503,6 +510,20 @@ function addBlockMenuItem(num) {
 
 function addLayer(title, layer) {
   // <div id='div1' class='divRec'><div class='inside'>item 1</div></div>
+  
+  // Initialize layer.name if not already set
+  if (!layer.name) {
+    layer.name = title;
+  }
+  
+  // Only capture state if not currently loading/reloading
+  if (!reloading) {
+    console.log(`[UNDO] addLayer called: "${title}" (reloading=${reloading})`);
+    captureState("Add layer: " + title);
+  } else {
+    console.log(`[UNDO] addLayer called but skipping capture (reloading=${reloading})`);
+  }
+  
   let toAdd = document.createElement("div");
   // toAdd.appendChild(downButton());
   if (!ddcount && (ddcount != 0)) ddcount = 0;
@@ -571,6 +592,8 @@ function deleteListItem(e,th) {
   e.stopPropagation();
   // delete item from aLayers and from layerlist (DOM)
   let toDelete = th.parentNode.parentNode;
+  console.log(`[UNDO] deleteListItem called: "${aLayers[toDelete.id].name}"`);
+  captureState("Delete layer: " + aLayers[toDelete.id].name);
   // let deleteNum = Number(toDelete.id.slice(11));
   // // for every list numbered > than the one being deleted, subtract 1
   // let allLayerNodes = toDelete.parentNode.children;
@@ -657,6 +680,18 @@ function refreshParamsForLayer(layer, nodeId) {
   }
 }
 
+// Helper function to select a layer by its DOM ID (used by undo/redo)
+function selectLayerById(layerId) {
+  const layerEl = document.getElementById(layerId);
+  if (!layerEl) return;
+  
+  const insideDiv = layerEl.querySelector('.inside');
+  if (!insideDiv) return;
+  
+  // Call selectLayer with the proper 'this' context
+  selectLayer.call(insideDiv);
+}
+
 function selectLayer() {
   removeKeyInputFocus();
   let allLayerNodes = document.getElementById("layerlist").children;
@@ -690,6 +725,236 @@ function selectLayer() {
 
   try { drawProject(); } catch (e) {}
 }
+
+// ========== UNDO SYSTEM ==========
+// Clear undo history and prepare for a fresh start
+function clearUndoHistory() {
+  undoStack = [];
+  undoIndex = -1;
+}
+
+// Capture an initial state (called after loading a template or project)
+function captureInitialState(label) {
+  if (isRestoringState) return;
+  clearUndoHistory();
+  captureState(label || "Initial state");
+}
+
+// Check if current state differs from the previous undo state
+function hasStateChanged() {
+  if (undoIndex < 0 || undoIndex >= undoStack.length) {
+    return true; // No previous state, so it's a change
+  }
+  
+  const previousState = undoStack[undoIndex].layers;
+  const currentState = aLayers;
+  
+  // Deep comparison by converting to JSON strings
+  try {
+    const prevJson = JSON.stringify(previousState);
+    const currJson = JSON.stringify(currentState);
+    return prevJson !== currJson;
+  } catch (e) {
+    // If comparison fails, assume it changed
+    console.warn("[UNDO] State comparison failed:", e);
+    return true;
+  }
+}
+
+// Capture the current state of all layers for undo
+function captureState(label) {
+  if (isRestoringState) return; // Don't capture while restoring
+  
+  // Check if state has actually changed from the previous one
+  if (!hasStateChanged()) {
+    console.log(`[UNDO] State unchanged - skipping capture for "${label}"`);
+    return;
+  }
+  
+  // Remove any states after the current index (when user performs action after undo)
+  if (undoIndex < undoStack.length - 1) {
+    undoStack = undoStack.slice(0, undoIndex + 1);
+  }
+  
+  // Save the layer order from the current DOM
+  const layerOrder = [];
+  for (let div of document.querySelectorAll(".divRec")) {
+    layerOrder.push(div.id);
+  }
+  
+  // Deep clone the current aLayers state
+  const stateCopy = JSON.parse(JSON.stringify(aLayers));
+  undoStack.push({
+    layers: stateCopy,
+    layerOrder: layerOrder,
+    label: label || 'Action'
+  });
+  
+  // Enforce max undo steps
+  if (undoStack.length > maxUndoSteps) {
+    undoStack.shift();
+  } else {
+    undoIndex++;
+  }
+  
+  console.log(`[UNDO] State captured: "${label || 'Action'}" (Total states: ${undoStack.length}, Current index: ${undoIndex})`);
+}
+
+// Restore a previous state from the undo stack
+function undo() {
+  if (undoIndex <= 0) {
+    console.log("[UNDO] No undo history available");
+    return;
+  }
+  
+  console.log(`[UNDO] Undoing to state ${undoIndex - 1}: "${undoStack[undoIndex - 1].label}"`);
+  undoIndex--;
+  restoreStateFromIndex(undoIndex);
+}
+
+// Go forward in undo history
+function redo() {
+  if (undoIndex >= undoStack.length - 1) {
+    console.log("[UNDO] No redo history available");
+    return;
+  }
+  
+  console.log(`[UNDO] Redoing to state ${undoIndex + 1}: "${undoStack[undoIndex + 1].label}"`);
+  undoIndex++;
+  restoreStateFromIndex(undoIndex);
+}
+
+// Internal function to restore state at a specific index
+function restoreStateFromIndex(index) {
+  if (index < 0 || index >= undoStack.length) return;
+  
+  isRestoringState = true;
+  
+  // Save the currently selected layer ID before restoring
+  const selDiv = document.querySelector('.divRec.selected');
+  const selectedLayerId = selDiv ? selDiv.id : null;
+  
+  // Deep clone the state to restore
+  const stateToRestore = JSON.parse(JSON.stringify(undoStack[index].layers));
+  aLayers = stateToRestore;
+  
+  // Rebuild the layer list UI to match restored state
+  rebuildLayerListUI();
+  
+  // Restore the selection if that layer still exists
+  if (selectedLayerId && aLayers[selectedLayerId]) {
+    const layerEl = document.getElementById(selectedLayerId);
+    if (layerEl) {
+      selectLayerById(selectedLayerId);
+    }
+  } else {
+    // If the previously selected layer no longer exists, select the first layer
+    const firstLayer = document.querySelector('.divRec');
+    if (firstLayer) {
+      selectLayerById(firstLayer.id);
+    }
+  }
+  
+  drawProject();
+  isRestoringState = false;
+}
+
+// Update the max undo steps setting
+function updateMaxUndoSteps(input) {
+  const newMax = Number(input.value);
+  if (newMax < 5 || newMax > 500) {
+    input.value = maxUndoSteps;
+    return;
+  }
+  maxUndoSteps = newMax;
+  
+  // If we now have too many states, trim the oldest ones
+  if (undoStack.length > maxUndoSteps) {
+    const excess = undoStack.length - maxUndoSteps;
+    undoStack = undoStack.slice(excess);
+    undoIndex = Math.max(-1, undoIndex - excess);
+  }
+  
+  console.log("Max undo steps set to: " + maxUndoSteps);
+}
+
+// Rebuild the layer list UI from current aLayers state
+function rebuildLayerListUI() {
+  const layerList = document.getElementById("layerlist");
+  if (!layerList) return;
+  
+  // Get the layer order from the undo state, or from current DOM if not available
+  let layerOrder = [];
+  if (undoIndex >= 0 && undoIndex < undoStack.length) {
+    layerOrder = undoStack[undoIndex].layerOrder || [];
+  }
+  
+  // If we don't have a saved order, use the current DOM order
+  if (layerOrder.length === 0) {
+    for (let div of document.querySelectorAll(".divRec")) {
+      if (aLayers[div.id]) {
+        layerOrder.push(div.id);
+      }
+    }
+  }
+  
+  // Clear the list
+  layerList.innerHTML = "";
+  
+  // Rebuild in the saved order, only for layers that exist in aLayers
+  for (let layerId of layerOrder) {
+    if (aLayers[layerId]) {
+      const layer = aLayers[layerId];
+      const li = document.createElement("div");
+      li.id = layerId;
+      li.className = "divRec";
+      
+      // Recreate the structure similar to addLayer
+      const childDiv = document.createElement("div");
+      childDiv.className = "inside";
+      
+      // Add checkbox for non-base layers (check layer type, not position)
+      if (layer.type !== "base") {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "groupcheck w3-hide";
+        checkbox.checked = false;
+        li.appendChild(checkbox);
+      }
+      
+      // Add layer name input using the createTextbox helper
+      const nameInput = document.createElement("input");
+      nameInput.type = "text";
+      const layerIdx = parseInt(layerId.slice(10));
+      nameInput.id = "layername" + layerIdx;
+      nameInput.maxLength = 20;
+      nameInput.size = 15;
+      nameInput.value = layer.name || '';
+      nameInput.onchange = function() { updateLayerName(event, this); };
+      childDiv.appendChild(nameInput);
+      
+      // Set up click handler for layer selection
+      childDiv.onclick = selectLayer;
+      
+      // Add delete button for non-base layers using deleteButton helper (check layer type, not position)
+      if (layer.type !== "base") {
+        childDiv.appendChild(deleteButton());
+      }
+      
+      li.appendChild(childDiv);
+      layerList.appendChild(li);
+    }
+  }
+  
+  // Re-initialize sortable if available
+  if (typeof sortable === 'function') {
+    sortable(layerList, function (item) {
+      /* sorting handler */
+    });
+  }
+}
+
+// ========== END UNDO SYSTEM ==========
 
 function drawProject() {
   if (reloading) return;
@@ -940,6 +1205,15 @@ function updateValue(th) {
   let layer = th.parentNode.parentNode.parentNode.parentNode;
   let layerName = layer.id;
   let fieldName = th.id.slice(5);
+  
+  // Capture state for undo before modifying (skip during reload)
+  if (!reloading) {
+    console.log(`[UNDO] updateValue called: field="${fieldName}" (reloading=${reloading})`);
+    captureState("Update: " + fieldName);
+  } else {
+    console.log(`[UNDO] updateValue called but skipping capture: field="${fieldName}" (reloading=${reloading})`);
+  }
+  
   if (th.type == "number") {
     let newValue =  Number(th.value);
     // deal with group moves
@@ -1229,6 +1503,11 @@ function loadFrom(saved, autoload) {
   if (unreloadable) window.alert("User local files not reloaded. You must do this manually.");
   reloading = false;
   drawProject();
+  
+  // Capture initial state after loading (but not for autoload)
+  if (!autoload) {
+    captureInitialState("Load project");
+  }
 
 }
 
@@ -1284,11 +1563,13 @@ function addMegaTemplate() {
   if (this.id.slice(0,4) != "mega") return;
   let mega = this.id.slice(4);
   if (!megaTemplates[mega]) return;
+  clearUndoHistory();
   document.getElementById("layerlist").innerHTML = "";
   ddcount = 0;
   aLayers = {};
   addLayer("Base",{type:"base", color:"#ffffff", height:1126, width:826, params:"color"});
   loadFrom(megaTemplates[mega].layers);
+  captureInitialState("Load template: " + mega);
 }
 
 type2FuncList.text = addTextBox;
@@ -2306,6 +2587,10 @@ function clickIsWithinText(layer, x, y) {
 }
 
 function dragEnd(event) {
+  if (layerToDrag) {
+    console.log("[UNDO] dragEnd triggered - capturing drag state");
+    captureState("Drag layer");
+  }
   layerToDrag = null;
 }
 
@@ -2457,3 +2742,17 @@ elem.addEventListener("mousedown", dragStart, false);
 elem.addEventListener("mouseup", dragEnd, false);
 elem.addEventListener("mousemove", drag, false);
 
+// Add event listener for undo/redo keyboard shortcuts
+document.addEventListener("keydown", function(event) {
+  // Ctrl+Z (or Cmd+Z on Mac) for undo
+  if ((event.ctrlKey || event.metaKey) && event.key === 'z' && !event.shiftKey) {
+    event.preventDefault();
+    undo();
+  }
+  // Ctrl+Shift+Z (or Cmd+Shift+Z) or Ctrl+Y for redo
+  else if (((event.ctrlKey || event.metaKey) && event.key === 'z' && event.shiftKey) ||
+           ((event.ctrlKey || event.metaKey) && event.key === 'y')) {
+    event.preventDefault();
+    redo();
+  }
+}, false);

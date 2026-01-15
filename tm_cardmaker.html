@@ -240,6 +240,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <span style="float: right;">Green</label><input type="range" id="inputgreen" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Blue</label><input type="range" id="inputblue" min="0" max="255" value="255" onchange="updateValue(this)"></span> -->
     </div>
+    <hr>
+    <div id="settings">
+      <b>Settings</b><br>
+      <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
+    </div>
   </div>
 </div>
 
