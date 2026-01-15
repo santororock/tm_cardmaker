@@ -65,12 +65,21 @@
         if (!layerId) continue;
         if (layer.x === undefined || layer.y === undefined || layer.width === undefined || layer.height === undefined) continue;
 
+        // For text layers, use the calculated bounds that encompass all wrapped lines
+        let bounds = layer;
+        if (layer.type === 'text' && window.calculateTextBounds) {
+          bounds = window.calculateTextBounds(layer);
+        }
+
         this.octx.strokeStyle = 'red';
-        this.octx.strokeRect(layer.x, layer.y, layer.width, layer.height);
+        this.octx.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
 
         let drewMask = false;
         try {
-          if (layer.type === 'block' && window.blockList && typeof layer.iNum === 'number') {
+          // Text layers don't have image masks, so skip mask drawing for them
+          if (layer.type === 'text') {
+            drewMask = true;  // Mark as drawn so we don't show the "mask unavailable" overlay
+          } else if (layer.type === 'block' && window.blockList && typeof layer.iNum === 'number') {
             const b = window.blockList[layer.iNum];
             if (b && b.obj && b.obj.complete) {
               const mask = getAlphaMask(b.obj, 0, 0, b.obj.width, b.obj.height, Math.max(1, Math.round(layer.width)), Math.max(1, Math.round(layer.height)));
@@ -94,14 +103,14 @@
         }
 
         this.octx.beginPath();
-        this.octx.moveTo(layer.x - 6, layer.y); this.octx.lineTo(layer.x + 6, layer.y);
-        this.octx.moveTo(layer.x, layer.y - 6); this.octx.lineTo(layer.x, layer.y + 6);
+        this.octx.moveTo(bounds.x - 6, bounds.y); this.octx.lineTo(bounds.x + 6, bounds.y);
+        this.octx.moveTo(bounds.x, bounds.y - 6); this.octx.lineTo(bounds.x, bounds.y + 6);
         this.octx.stroke();
 
-        const label = `${layerId}${layer.name ? ' '+layer.name : ''} x:${layer.x} y:${layer.y} w:${layer.width} h:${layer.height}`;
+        const label = `${layerId}${layer.name ? ' '+layer.name : ''} x:${Math.round(bounds.x)} y:${Math.round(bounds.y)} w:${Math.round(bounds.width)} h:${Math.round(bounds.height)}`;
         const textW = this.octx.measureText(label).width;
         this.octx.fillStyle = 'rgba(0,0,0,0.6)';
-        const tx = layer.x; const ty = Math.max(12, layer.y - 6);
+        const tx = bounds.x; const ty = Math.max(12, bounds.y - 6);
         this.octx.fillRect(tx - 2, ty - 12, textW + 6, 14);
         this.octx.fillStyle = 'white'; this.octx.fillText(label, tx + 1, ty - 1);
       }

@@ -2171,7 +2171,107 @@ function clickIsWithinTransparentArea(layer, x, y) {
   }
 }
 
+// Calculate the actual visual bounds of text including all wrapped lines
+// Returns {x, y, width, height} representing the total bounding box
+function calculateTextBounds(layer) {
+  let c = document.getElementById("cmcanvas");
+  let ctx = c.getContext("2d");
+  
+  // Set font to match the text rendering
+  if (!layer.style) layer.style = "normal";
+  ctx.font = layer.style + " " + layer.weight + " " + layer.height + "px " + layer.font;
+  
+  let lines = layer.data.split("\n");
+  let cnt = 0;
+  let maxLineWidth = 0;
+  
+  // Count total lines and find the widest line
+  for (var ln = 0; ln < lines.length; ln++) {
+    let spl = lines[ln].split(" ");
+    let o = "";
+    while (spl.length) {
+      o = spl.shift();
+      while (spl.length && (ctx.measureText(o + " " + spl[0]).width < layer.width)) {
+        o += " " + spl.shift();
+      }
+      maxLineWidth = Math.max(maxLineWidth, ctx.measureText(o).width);
+      cnt++;
+    }
+  }
+  
+  // Total height includes all wrapped lines plus spacing between them
+  let totalHeight = (layer.height + layer.lineSpace) * cnt - layer.lineSpace;
+  
+  // Calculate starting y position (text goes up from baseline)
+  // Text baseline is at layer.y, text extends upward by approximately one line height
+  let textStartY = layer.y - layer.height;
+  
+  // For centered/right text, we need to account for alignment
+  let boundsX = layer.x;
+  let boundsWidth = layer.width; // Use full width as text can wrap within it
+  
+  return {
+    x: boundsX,
+    y: textStartY,
+    width: boundsWidth,
+    height: totalHeight
+  };
+}
+
 // This function is a copy of the text-wrapping algorithm in drawProject()
+// Calculate the bounding box that encompasses all wrapped text lines, accounting for justification
+function calculateTextBounds(layer) {
+  const c = document.getElementById("cmcanvas");
+  const ctx = c.getContext("2d");
+  
+  // Set up the font exactly as it's done in drawProject
+  if (!layer.style) layer.style = "normal";
+  ctx.font = layer.style + " " + layer.weight + " " + layer.height + "px " + layer.font;
+  ctx.textAlign = layer.justify;
+  
+  let lines = layer.data.split("\n");
+  let cnt = 0;
+  let maxLineWidth = 0;
+  
+  // First pass: calculate total lines and max line width
+  for (let ln = 0; ln < lines.length; ln++) {
+    let spl = lines[ln].split(" ");
+    let o = "";
+    while (spl.length) {
+      o = spl.shift();
+      while (spl.length && (ctx.measureText(o + " " + spl[0]).width < layer.width)) {
+        o += " " + spl.shift();
+      }
+      maxLineWidth = Math.max(maxLineWidth, ctx.measureText(o).width);
+      cnt++;
+    }
+  }
+  
+  // Calculate total height
+  const totalHeight = (layer.height + layer.lineSpace) * cnt - layer.lineSpace;
+  
+  // Calculate x offset based on justification
+  let x = layer.x;
+  let width = maxLineWidth;
+  
+  if (layer.justify === "center") {
+    x = layer.x - (maxLineWidth / 2);
+  } else if (layer.justify === "right") {
+    x = layer.x - maxLineWidth;
+  }
+  // For "left", x stays as is
+  
+  return {
+    x: x,
+    y: layer.y - layer.height,  // Text is drawn from baseline, extends upward
+    width: width,
+    height: totalHeight + layer.height  // Include the top of the first line
+  };
+}
+
+// Make it available globally
+window.calculateTextBounds = calculateTextBounds;
+
 function clickIsWithinText(layer, x, y) {
   if (y < 0) {
     return false;
