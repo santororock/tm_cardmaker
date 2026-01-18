@@ -139,6 +139,7 @@ var blockList = [
   {putUnder: "tiles", text: "Otherbg", src:"tiles__other_player_background", hidden:true},
 
   // VPs
+  {putUnder: "VPs", text: "0 VP", src:"VPs__0"},
   {putUnder: "VPs", text: "VP 1/", src:"VPs__1_for"},
   {putUnder: "VPs", text: "1 VP", src:"VPs__1"},
   {putUnder: "VPs", text: "VP 2/", src:"VPs__2_for"},
@@ -146,8 +147,13 @@ var blockList = [
   {putUnder: "VPs", text: "3 VP", src:"VPs__3"},
   {putUnder: "VPs", text: "4 VP", src:"VPs__4"},
   {putUnder: "VPs", text: "5 VP", src:"VPs__5"},
+  {putUnder: "VPs", text: "6 VP", src:"VPs__6"},
+  {putUnder: "VPs", text: "7 VP", src:"VPs__7"},
+  {putUnder: "VPs", text: "8 VP", src:"VPs__8"},
+  {putUnder: "VPs", text: "9 VP", src:"VPs__9"},
   {putUnder: "VPs", text: "VP background", src:"VPs__blank"},
   {putUnder: "VPs", text: "-VP", src:"VPs__negative"},
+  {putUnder: "VPs", text: "+VP", src:"VPs__positive"},
   {putUnder: "VPs", text: "/ VP", src:"VPs__n_for"}
 
   
