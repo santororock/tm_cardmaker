@@ -36,7 +36,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
     </div>
   </div>
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:180px" id="mySidebar">
   <div class="w3-large w3-text-grey" style="font-weight:bold">
     <a class="w3-button w3-block w3-light-grey" href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer"><div style="font-size: 0.75em;">TM Cardmaker GitHub Project</div></a>
     <a onclick="myAccFunc('file')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
@@ -123,6 +123,9 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
 </nav>
 
+<!-- Sidebar Resize Handle -->
+<div id="sidebarResizeHandle"></div>
+
 <!-- Top menu on small screens -->
 <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
   <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()">
@@ -133,7 +136,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:250px">
+<div class="w3-main">
 
   <!-- Push down content on small screens -->
   <div class="w3-hide-large" style="margin-top:83px"></div>
@@ -178,7 +181,10 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   </div>
 
   <!-- End page content -->
-  <div id="params" class="w3-hide">
+</div>
+
+<!-- Properties Panel (Sticky Right) -->
+<div id="params" class="w3-hide">
     <div id="allpreset" class="w3-hide">
       <span style="float: right;">Presets:<select id="presets" type="select" onchange="setPresets(this)">
         <option value="" default>Select...</option>
@@ -249,6 +255,72 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </div>
 
 <script src="imageFit.js"></script>
+
+<!-- Sidebar Resize Script -->
+<script>
+  (function() {
+    const handle = document.getElementById('sidebarResizeHandle');
+    const sidebar = document.getElementById('mySidebar');
+    const main = document.querySelector('.w3-main');
+    const minWidth = 180;
+    const maxWidth = 500;
+    const storageKey = 'tm_cardmaker_sidebar_width';
+
+    // Load saved width from localStorage
+    const savedWidth = localStorage.getItem(storageKey);
+    if (savedWidth) {
+      setSidebarWidth(parseInt(savedWidth));
+    }
+
+    function setSidebarWidth(width) {
+      const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+      sidebar.style.width = constrainedWidth + 'px';
+      handle.style.left = constrainedWidth + 'px';
+      document.documentElement.style.setProperty('--sidebar-width', constrainedWidth + 'px');
+      localStorage.setItem(storageKey, constrainedWidth);
+    }
+
+    let isResizing = false;
+    let startX = 0;
+    let startWidth = 0;
+
+    handle.addEventListener('mousedown', (e) => {
+      if (window.innerWidth <= 992) return; // Only on desktop
+      isResizing = true;
+      startX = e.clientX;
+      startWidth = parseInt(window.getComputedStyle(sidebar).width);
+      handle.classList.add('dragging');
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'col-resize';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const delta = e.clientX - startX;
+      const newWidth = startWidth + delta;
+      setSidebarWidth(newWidth);
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        handle.classList.remove('dragging');
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+      }
+    });
+
+    // Handle window resize on mobile
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 992) {
+        handle.style.display = 'none';
+      } else {
+        handle.style.display = 'block';
+      }
+    });
+  })();
+</script>
 
 <script src="tm_cm.js"></script>
 <script src="tm_debug_overlay.js"></script>

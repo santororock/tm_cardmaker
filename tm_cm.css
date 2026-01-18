@@ -1,4 +1,102 @@
-﻿@font-face {
+﻿/* Phase 1: Sticky Layout for Desktop Mode */
+body {
+  overflow-x: hidden;
+}
+
+/* Sidebar fixed to left on desktop */
+@media (min-width: 993px) {
+  .w3-sidebar {
+    position: fixed !important;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 100;
+    min-width: 180px;
+    max-width: 500px;
+    width: 180px;
+    resize: horizontal;
+  }
+
+  /* Resize handle */
+  #sidebarResizeHandle {
+    position: fixed;
+    left: 180px;
+    top: 0;
+    width: 6px;
+    height: 100vh;
+    background: transparent;
+    cursor: col-resize;
+    z-index: 101;
+    transition: background 0.2s ease;
+  }
+
+  #sidebarResizeHandle:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  #sidebarResizeHandle.dragging {
+    background: #4CAF50;
+  }
+
+  .w3-main {
+    margin-left: var(--sidebar-width, 180px);
+    margin-right: 350px;
+    overflow-y: auto;
+  }
+
+  /* Properties panel fixed to right */
+  #params {
+    position: fixed !important;
+    right: 0;
+    top: 0;
+    width: 340px;
+    height: 100vh;
+    overflow-y: auto;
+    background: white;
+    border-left: 1px solid #ddd;
+    padding: 16px;
+    z-index: 99;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Ensure params display when shown */
+  #params:not(.w3-hide) {
+    display: block !important;
+  }
+}
+
+/* Mobile: revert to responsive behavior */
+@media (max-width: 992px) {
+  .w3-sidebar {
+    position: fixed;
+    width: 180px;
+    left: -180px;
+    transition: left 0.3s ease;
+  }
+
+  .w3-sidebar.show {
+    left: 0;
+  }
+
+  .w3-main {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #params {
+    position: static !important;
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-left: none;
+    border-top: 1px solid #ddd;
+    box-shadow: none;
+  }
+}
+
+@font-face {
   font-family: Prototype;
   src: url(./fonts/Prototype.ttf);
 }
