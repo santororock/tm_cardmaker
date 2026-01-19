@@ -374,6 +374,7 @@ var numLoaded;
 var hiddenImage = {};
 
 var domInputfont = document.getElementById("inputfont");
+// Remove params from fixed position and make it movable within layer list
 var domParams = document.getElementById("params").parentNode.removeChild(document.getElementById("params"));
 domParams.classList.remove("w3-hide");
 
@@ -707,6 +708,7 @@ function selectLayer() {
   for (let ch = 0; ch < allLayerNodes.length; ch++) {
     let node = allLayerNodes[ch];
     if (node !== clickedNode && node.classList.contains("selected")) {
+      // Remove params from previously selected node
       if (domParams.parentNode == node) {
         node.removeChild(domParams);
       }
@@ -727,7 +729,15 @@ function selectLayer() {
   let thisLayer = aLayers[clickedNode.id];
   refreshParamsForLayer(thisLayer, clickedNode.id);
 
-  clickedNode.appendChild(domParams);
+  // Insert params after the .inside div (accordion-style between layers)
+  let insideDiv = clickedNode.querySelector('.inside');
+  if (insideDiv && insideDiv.nextSibling) {
+    clickedNode.insertBefore(domParams, insideDiv.nextSibling);
+  } else if (insideDiv) {
+    clickedNode.insertBefore(domParams, insideDiv.nextSibling);
+  } else {
+    clickedNode.appendChild(domParams);
+  }
 
   try { drawProject(); } catch (e) {}
 }
@@ -2270,6 +2280,7 @@ function sortable(section, onUpdate){
 
       let selectedDoms = document.getElementsByClassName("selected");
       for (let i=selectedDoms.length-1; i >= 0; i--) {
+        // Remove params when dragging
         selectedDoms[i].removeChild(domParams);
         selectedDoms[i].classList.remove("selected");
       }

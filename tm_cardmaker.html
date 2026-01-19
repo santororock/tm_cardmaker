@@ -140,23 +140,43 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
   <!-- Push down content on small screens -->
   <div class="w3-hide-large" style="margin-top:83px"></div>
-  
-  <div id="loadprogress">
-    <label for="files">Loading images:</label>
-    <progress id="files" value="0" max="100"></progress>
-    <div id="fontload">
-      <div style="font-family: Prototype;">Prototype</div>
-      <div style="font-family: Pagella;">Palatino-like</div>
-      <div style="font-family: 'Times New Roman';">Times New Roman</div>
+
+  <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+    <div id="loadprogress">
+      <label for="files">Loading images:</label>
+      <progress id="files" value="0" max="100"></progress>
+      <div id="fontload">
+        <div style="font-family: Prototype;">Prototype</div>
+        <div style="font-family: Pagella;">Palatino-like</div>
+        <div style="font-family: 'Times New Roman';">Times New Roman</div>
+      </div>
     </div>
-  </div>
-  <div class="w3-padding w3-container">
-    <div id="canvaswrap" style="position:relative; display:inline-block; float:left;">
-      <canvas id="cmcanvas" height="1050px" width="750px" style="border:1px solid #101010;"></canvas>
-      <canvas id="cmcanvas_overlay" class="debug-overlay-canvas"></canvas>
+
+    <!-- Canvas Container with Zoom Controls -->
+    <div id="canvasContainer">
+      <div id="zoomControls">
+        <button onclick="zoomCanvasOut()">−</button>
+        <button onclick="zoomCanvasReset()">Reset</button>
+        <button onclick="zoomCanvasIn()">+</button>
+        <span id="zoomLevel">100%</span>
+      </div>
+      <div id="canvasScrollarea">
+        <div id="canvaswrap" style="position:relative;">
+          <canvas id="cmcanvas" height="1050px" width="750px" style="border:1px solid #101010; display:block;"></canvas>
+          <canvas id="cmcanvas_overlay" class="debug-overlay-canvas"></canvas>
+        </div>
+      </div>
     </div>
+
     <a id="projectlink"></a>
-    <div style="display:block; float:left; margin: 10px; min-width: 260px;">
+    <div id="xcanvases" width="100%" style="display: none;"></div>
+
+    <!-- Properties Panel Resize Handle -->
+    <div id="paramsResizeHandle"></div>
+
+    <!-- Right Sidebar Panel - Contains debug controls and layer list -->
+    <div id="rightPanel" style="position: fixed; right: 0; top: 0; width: 340px; height: 100vh; overflow-y: auto; background: white; border-left: 1px solid #ddd; padding: 16px; z-index: 200; box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);">
+      <!-- Debug Controls -->
       <div id="debugcontrols" style="margin-bottom:8px;">
         <label style="white-space:nowrap;"><input id="debugBounds" type="checkbox" onchange="window.debugOverlay && window.debugOverlay.toggle(this.checked)"> Debug bounds</label>
         <select id="debugMode" onchange="window.debugOverlay && window.debugOverlay.setMode(this.value)">
@@ -170,44 +190,47 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
           <span class="legend-item"><span class="legend-swatch swatch-cross"></span> origin</span>
         </div>
       </div>
-      <section id="layerlist">
-      </section>
+      
+      <!-- Layer List - params will be appended inside selected layer -->
+      <section id="layerlist"></section>
+      
       <span class="w3-padding-16"><input id="groupmode" type="checkbox" onchange="groupModeToggle()" class="w3-show-inline-block" >Group Mode</span>
-      <!-- <button onclick="clickMakeGroup()" class="groupcheck w3-hide">Make Group</button>
-      <button onclick="clickUngroup()" class="groupcheck w3-hide">Ungroup</button> -->
       <button onclick="copyToClipboard()" style="display: none;" >Copy</button>
+      
+      <hr>
+      
+      <!-- Settings -->
+      <div id="settings">
+        <b>Settings</b><br>
+        <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
+      </div>
     </div>
-    <div id="xcanvases" width="100%"></div>
-  </div>
 
-  <!-- End page content -->
-</div>
-
-<!-- Properties Panel (Sticky Right) -->
-<div id="params" class="w3-hide">
-    <div id="allpreset" class="w3-hide">
+    <!-- Properties sections - will be moved into selected layer by JavaScript -->
+    <div id="params">
+    <div id="allpreset">
       <span style="float: right;">Presets:<select id="presets" type="select" onchange="setPresets(this)">
         <option value="" default>Select...</option>
         <option value="defselect0"></option>
         <option value="defselect1"></option>
       </select></span><br>
     </div>
-    <div id="allall" class="w3-hide">
+    <div id="allall">
       <span style="float: right;">X:<input id="inputx" type="number" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Y:<input id="inputy" type="number" onchange="updateValue(this)"></span><br>
       <span style="float: right;">width:<input id="inputwidth" type="number" min="1" onchange="updateValue(this)"></span><br>
     </div>
-    <div id="allimages" class="w3-hide">
+    <div id="allimages">
       <span style="float: right;">Lock aspect ratio:<input id="lar" type="checkbox" onchange="updateValue(this)" checked></span><br>
       <span style="float: right;">height:<input id="inputheight" type="number" min="1" onchange="updateValue(this)"></span><br>
     </div>
-    <div id="allangle" class="w3-hide">
+    <div id="allangle">
       <span style="float: right;">Angle:<input id="inputangle" type="number" min="0" max="359" onchange="updateValue(this)"></span><br>
     </div>
-    <div id="alllen" class="w3-hide">
+    <div id="alllen">
       <span style="float: right;">Length:<input id="inputlen" type="number" min="1" onchange="updateValue(this)"></span><br>
     </div>
-    <div id="clipimages" class="w3-hide">
+    <div id="clipimages">
       <span style="float: right;">Opacity:<input id="inputalpha" type="number" min="0" max="100" onchange="updateValue(this)">%</span><br>
       <span style="float: right;">sX:<input id="inputsx" type="number" min="0" onchange="updateValue(this)"></span><br>
       <span style="float: right;">sY:<input id="inputsy" type="number" min="0" onchange="updateValue(this)"></span><br>
@@ -215,10 +238,10 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <span style="float: right;">Lock aspect ratio:<input id="slar" type="checkbox" onchange="updateValue(this)" checked></span><br>
       <span style="float: right;">sheight:<input id="inputsheight" type="number" min="1" onchange="updateValue(this)"></span><br>
     </div>
-    <div id="otherbg" class="w3-hide">
+    <div id="otherbg">
       <span>'Others' background:<input id="inputobg" type="checkbox" onchange="updateValue(this)"></span><br>
     </div>
-    <div id="alltext" class="w3-hide">
+    <div id="alltext">
       <span style="float: right;"><textarea id="inputdata" cols="17" onchange="updateValue(this)"></textarea></span><br>
       <span style="float: right;">V space:<input id="inputlineSpace" type="number" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Font:<select id="inputfont" type="select" onchange="updateValue(this)">
@@ -240,7 +263,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
         <option value="right">Right</option>
       </select></span><br>
     </div>
-    <div id="color" class="w3-hide">
+    <div id="color">
       <span style="float: right;">Color:<input id="inputcolor" type="color" onchange="updateValue(this)"></span>
       <!-- <span style="float: right;">Red</label><input type="range" id="inputred" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Green</label><input type="range" id="inputgreen" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
@@ -252,16 +275,105 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
     </div>
   </div>
+
+  <!-- End page content -->
 </div>
 
 <script src="imageFit.js"></script>
 
+<!-- Canvas Zoom & Scroll Script -->
+<script>
+  // Canvas zoom and scroll functionality
+  let canvasZoom = 1;
+  const zoomStep = 0.1;
+  const minZoom = 0.25;
+  const maxZoom = 3;
+  const storageKeyZoom = 'tm_cardmaker_canvas_zoom';
+  const canvaswrap = document.getElementById('canvaswrap');
+  const canvasScrollarea = document.getElementById('canvasScrollarea');
+  const zoomLevelDisplay = document.getElementById('zoomLevel');
+
+  // Load saved zoom from localStorage
+  const savedZoom = localStorage.getItem(storageKeyZoom);
+  if (savedZoom) {
+    canvasZoom = parseFloat(savedZoom);
+    updateCanvasZoom();
+  }
+
+  function updateCanvasZoom() {
+    canvaswrap.style.transform = `scale(${canvasZoom})`;
+    zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
+    localStorage.setItem(storageKeyZoom, canvasZoom);
+  }
+
+  function zoomCanvasIn() {
+    canvasZoom = Math.min(maxZoom, canvasZoom + zoomStep);
+    updateCanvasZoom();
+  }
+
+  function zoomCanvasOut() {
+    canvasZoom = Math.max(minZoom, canvasZoom - zoomStep);
+    updateCanvasZoom();
+  }
+
+  function zoomCanvasReset() {
+    canvasZoom = 1;
+    updateCanvasZoom();
+  }
+
+  // Mousewheel zoom
+  canvasScrollarea.addEventListener('wheel', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      if (e.deltaY < 0) {
+        zoomCanvasIn();
+      } else {
+        zoomCanvasOut();
+      }
+    }
+  }, { passive: false });
+
+  // Pan/drag canvas (grab cursor)
+  let isPanning = false;
+  let startX = 0;
+  let startY = 0;
+  let scrollLeft = 0;
+  let scrollTop = 0;
+
+  canvaswrap.addEventListener('mousedown', (e) => {
+    isPanning = true;
+    startX = e.pageX - canvasScrollarea.offsetLeft;
+    startY = e.pageY - canvasScrollarea.offsetTop;
+    scrollLeft = canvasScrollarea.scrollLeft;
+    scrollTop = canvasScrollarea.scrollTop;
+    canvaswrap.classList.add('grabbing');
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    e.preventDefault();
+    const x = e.pageX - canvasScrollarea.offsetLeft;
+    const y = e.pageY - canvasScrollarea.offsetTop;
+    const walkX = (x - startX);
+    const walkY = (y - startY);
+    canvasScrollarea.scrollLeft = scrollLeft - walkX;
+    canvasScrollarea.scrollTop = scrollTop - walkY;
+  });
+
+  document.addEventListener('mouseup', () => {
+    if (isPanning) {
+      isPanning = false;
+      canvaswrap.classList.remove('grabbing');
+    }
+  });
+</script>
+
 <!-- Sidebar Resize Script -->
 <script>
   (function() {
+    // LEFT SIDEBAR RESIZE
     const handle = document.getElementById('sidebarResizeHandle');
     const sidebar = document.getElementById('mySidebar');
-    const main = document.querySelector('.w3-main');
     const minWidth = 180;
     const maxWidth = 500;
     const storageKey = 'tm_cardmaker_sidebar_width';
@@ -300,6 +412,70 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       const delta = e.clientX - startX;
       const newWidth = startWidth + delta;
       setSidebarWidth(newWidth);
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        handle.classList.remove('dragging');
+        document.body.style.userSelect = '';
+        document.body.style.cursor = '';
+      }
+    });
+
+    // Handle window resize on mobile
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 992) {
+        handle.style.display = 'none';
+      } else {
+        handle.style.display = 'block';
+      }
+    });
+  })();
+
+  // RIGHT PROPERTIES PANEL RESIZE
+  (function() {
+    const handle = document.getElementById('paramsResizeHandle');
+    const rightPanel = document.getElementById('rightPanel');
+    const minWidth = 180;
+    const maxWidth = 600;
+    const storageKey = 'tm_cardmaker_params_width';
+
+    // Load saved width from localStorage
+    const savedWidth = localStorage.getItem(storageKey);
+    if (savedWidth) {
+      setRightPanelWidth(parseInt(savedWidth));
+    } else {
+      setRightPanelWidth(340);
+    }
+
+    function setRightPanelWidth(width) {
+      const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+      rightPanel.style.width = constrainedWidth + 'px';
+      handle.style.right = constrainedWidth + 'px';
+      localStorage.setItem(storageKey, constrainedWidth);
+    }
+
+    let isResizing = false;
+    let startX = 0;
+    let startWidth = 0;
+
+    handle.addEventListener('mousedown', (e) => {
+      if (window.innerWidth <= 992) return; // Only on desktop
+      isResizing = true;
+      startX = e.clientX;
+      startWidth = parseInt(window.getComputedStyle(rightPanel).width);
+      handle.classList.add('dragging');
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'col-resize';
+      e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      const delta = startX - e.clientX; // Note: reversed because we're dragging from the right
+      const newWidth = startWidth + delta;
+      setRightPanelWidth(newWidth);
     });
 
     document.addEventListener('mouseup', () => {

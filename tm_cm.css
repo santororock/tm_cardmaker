@@ -42,12 +42,51 @@ body {
 
   .w3-main {
     margin-left: var(--sidebar-width, 180px);
-    margin-right: 350px;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
   }
 
-  /* Properties panel fixed to right */
+  /* Properties panel fixed to right - layer 200 */
   #params {
+    /*position: fixed !important;*/
+    right: 0;
+    top: 0;
+    width: 340px;
+    /*height: 100vh;*/
+    overflow-y: auto;
+    background: white;
+    border-left: 1px solid #ddd;
+    padding: 16px;
+    z-index: 200;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
+    pointer-events: auto;
+  }
+
+  /* Properties panel resize handle */
+  #paramsResizeHandle {
+    position: fixed;
+    right: 340px;
+    top: 0;
+    width: 6px;
+    height: 100vh;
+    background: transparent;
+    cursor: col-resize;
+    z-index: 201;
+    transition: background 0.2s ease;
+  }
+
+  #paramsResizeHandle:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  #paramsResizeHandle.dragging {
+    background: #2196F3;
+  }
+
+  /* Right panel for debug controls and layer list */
+  #rightPanel {
     position: fixed !important;
     right: 0;
     top: 0;
@@ -57,13 +96,117 @@ body {
     background: white;
     border-left: 1px solid #ddd;
     padding: 16px;
-    z-index: 99;
+    z-index: 200;
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
   }
 
-  /* Ensure params display when shown */
+  /* Params div when inserted into layer - accordion style */
+  #params {
+    display: block;
+    position: relative;
+    z-index: auto;
+    background: #f9f9f9;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+  }
+
+  /* Ensure params display when shown - override the w3-hide removal */
   #params:not(.w3-hide) {
     display: block !important;
+    visibility: visible !important;
+  }
+
+  /* Individual property sections are shown/hidden as needed */
+  #params > div:not(.w3-hide) {
+    display: block !important;
+  }
+
+  /* Canvas container - layer 1 (fills available space) */
+  #canvasContainer {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+    border: none;
+    background: #f5f5f5;
+    z-index: 1;
+  }
+
+  /* Canvas scroll viewport */
+  #canvasScrollarea {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  /* Debug and layer controls area below canvas - scrollable and resizable */
+  #debugcontrols {
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+
+  #layerlist {
+    flex: 1;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+
+  /* Canvas wrapper - will be scaled by zoom */
+  #canvaswrap {
+    position: relative;
+    display: inline-block;
+    transform-origin: center;
+    transition: transform 0.1s ease;
+    cursor: grab;
+    padding: 10px;
+    background: white;
+    border: 1px solid #999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  #canvaswrap.grabbing {
+    cursor: grabbing;
+  }
+
+  /* Zoom controls */
+  #zoomControls {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+  }
+
+  #zoomControls button {
+    padding: 4px 12px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  #zoomControls button:hover {
+    background: #e0e0e0;
+  }
+
+  #zoomControls button:active {
+    background: #d0d0d0;
+  }
+
+  #zoomLevel {
+    min-width: 50px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
   }
 }
 
@@ -213,7 +356,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-cell-row{display:table;width:100%}.w3-cell{display:table-cell}
 .w3-cell-top{vertical-align:top}.w3-cell-middle{vertical-align:middle}.w3-cell-bottom{vertical-align:bottom}
 /* .w3-hide{display:none!important}.w3-show-block,.w3-show{display:block!important}.w3-show-inline-block{display:inline-block!important} */
-.w3-hide{visibility: hidden; position: absolute;} .w3-show{visibility: initial; position: initial;}
+.w3-hide{display:none!important} .w3-show{display:block!important}
 .w3-display{display:block!important}.w3-nodisplay{display:none!important}
 @media (max-width:1205px){.w3-auto{max-width:95%}}
 @media (max-width:600px){.w3-modal-content{margin:0 10px;width:auto!important}.w3-modal{padding-top:30px}
