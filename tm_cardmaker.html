@@ -14,7 +14,7 @@ or more specifically https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
-<body class="w3-content" style="max-width:1800px">
+<body>
   <div class="overlay w3-nodisplay" id="overlay">
     <div class="centerme">
       <div class="w3-white" style="padding: 50px;">
@@ -161,9 +161,11 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
         <span id="zoomLevel">100%</span>
       </div>
       <div id="canvasScrollarea">
-        <div id="canvaswrap" style="position:relative;">
-          <canvas id="cmcanvas" height="1050px" width="750px" style="border:1px solid #101010; display:block;"></canvas>
-          <canvas id="cmcanvas_overlay" class="debug-overlay-canvas"></canvas>
+        <div id="canvasScrollinner">
+          <div id="canvaswrap" style="position:relative;">
+            <canvas id="cmcanvas" height="1050px" width="750px" style="border:1px solid #101010; display:block;"></canvas>
+            <canvas id="cmcanvas_overlay" class="debug-overlay-canvas"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -288,65 +290,134 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   const zoomStep = 0.1;
   const minZoom = 0.25;
   const maxZoom = 3;
-  const storageKeyZoom = 'tm_cardmaker_canvas_zoom';
   const canvaswrap = document.getElementById('canvaswrap');
   const canvasScrollarea = document.getElementById('canvasScrollarea');
+  const canvasScrollinner = document.getElementById('canvasScrollinner');
   const zoomLevelDisplay = document.getElementById('zoomLevel');
 
-  // Load saved zoom from localStorage
-  const savedZoom = localStorage.getItem(storageKeyZoom);
-  if (savedZoom) {
-    canvasZoom = parseFloat(savedZoom);
-    updateCanvasZoom();
+  // Center the canvas in the visible viewport
+  function centerCanvas() {
+    if (canvasScrollinner && canvasScrollarea) {
+      // Use setTimeout to ensure DOM has fully rendered
+      setTimeout(() => {
+        // Since the canvas is centered in #canvasScrollinner via flexbox,
+        // we just need to scroll to the center of the scrollable area
+        const scrollWidth = canvasScrollarea.scrollWidth;
+        const scrollHeight = canvasScrollarea.scrollHeight;
+        const viewportWidth = canvasScrollarea.clientWidth;
+        const viewportHeight = canvasScrollarea.clientHeight;
+        
+        // Center the scrollable content in the viewport
+        const scrollX = (scrollWidth - viewportWidth) / 2;
+        const scrollY = (scrollHeight - viewportHeight) / 2;
+        
+        canvasScrollarea.scrollLeft = scrollX;
+        canvasScrollarea.scrollTop = scrollY;
+      }, 100);
+    }
   }
 
-  function updateCanvasZoom() {
-    canvaswrap.style.transform = `scale(${canvasZoom})`;
+  // Always start at default zoom on page load
+  canvasScrollinner.style.transform = 'scale(1)';
+  zoomLevelDisplay.textContent = '100%';
+  
+  // Make centerCanvas globally accessible so it can be called after autosave loads
+  window.centerCanvas = centerCanvas;
+  
+  // Center canvas in visible viewport on initial load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', centerCanvas);
+  } else {
+    centerCanvas();
+  }
+
+  function updateCanvasZoom(mouseX, mouseY) {
+    const oldZoom = canvasZoom;
+    
+    // If mouse position is provided, zoom to that point
+    if (mouseX !== undefined && mouseY !== undefined) {
+      const scrollArea = canvasScrollarea;
+      const rect = scrollArea.getBoundingClientRect();
+      
+      // Get mouse position relative to scroll area viewport
+      const viewportX = mouseX - rect.left;
+      const viewportY = mouseY - rect.top;
+      
+      // Calculate the point in the content before zoom (using the OLD zoom value)
+      const contentX = scrollArea.scrollLeft + viewportX;
+      const contentY = scrollArea.scrollTop + viewportY;
+      
+      // Calculate position in the unscaled canvas
+      const canvasX = contentX / oldZoom;
+      const canvasY = contentY / oldZoom;
+      
+      // Apply new zoom
+      canvasScrollinner.style.transform = `scale(${canvasZoom})`;
+      
+      // Calculate where that point should be now with the new zoom
+      const newContentX = canvasX * canvasZoom;
+      const newContentY = canvasY * canvasZoom;
+      
+      // Adjust scroll to keep the point under the cursor
+      scrollArea.scrollLeft = newContentX - viewportX;
+      scrollArea.scrollTop = newContentY - viewportY;
+    } else {
+      // No mouse position, just zoom normally
+      canvasScrollinner.style.transform = `scale(${canvasZoom})`;
+    }
+    
     zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
-    localStorage.setItem(storageKeyZoom, canvasZoom);
   }
 
-  function zoomCanvasIn() {
+  function zoomCanvasIn(mouseX, mouseY) {
+    const oldZoom = canvasZoom;
     canvasZoom = Math.min(maxZoom, canvasZoom + zoomStep);
-    updateCanvasZoom();
+    updateCanvasZoom(mouseX, mouseY);
   }
 
-  function zoomCanvasOut() {
+  function zoomCanvasOut(mouseX, mouseY) {
+    const oldZoom = canvasZoom;
     canvasZoom = Math.max(minZoom, canvasZoom - zoomStep);
-    updateCanvasZoom();
+    updateCanvasZoom(mouseX, mouseY);
   }
 
   function zoomCanvasReset() {
     canvasZoom = 1;
     updateCanvasZoom();
+    // Reset scroll position to center the canvas
+    centerCanvas();
   }
 
-  // Mousewheel zoom
+  // Mousewheel zoom (zoom to cursor position)
   canvasScrollarea.addEventListener('wheel', (e) => {
     if (e.ctrlKey || e.metaKey) {
       e.preventDefault();
       if (e.deltaY < 0) {
-        zoomCanvasIn();
+        zoomCanvasIn(e.clientX, e.clientY);
       } else {
-        zoomCanvasOut();
+        zoomCanvasOut(e.clientX, e.clientY);
       }
     }
   }, { passive: false });
 
-  // Pan/drag canvas (grab cursor)
+  // Pan/drag canvas (ctrl + left-click)
   let isPanning = false;
   let startX = 0;
   let startY = 0;
   let scrollLeft = 0;
   let scrollTop = 0;
 
-  canvaswrap.addEventListener('mousedown', (e) => {
-    isPanning = true;
-    startX = e.pageX - canvasScrollarea.offsetLeft;
-    startY = e.pageY - canvasScrollarea.offsetTop;
-    scrollLeft = canvasScrollarea.scrollLeft;
-    scrollTop = canvasScrollarea.scrollTop;
-    canvaswrap.classList.add('grabbing');
+  canvasScrollarea.addEventListener('mousedown', (e) => {
+    // Only pan if ctrl is held and left mouse button
+    if (e.ctrlKey && e.button === 0) {
+      isPanning = true;
+      startX = e.pageX - canvasScrollarea.offsetLeft;
+      startY = e.pageY - canvasScrollarea.offsetTop;
+      scrollLeft = canvasScrollarea.scrollLeft;
+      scrollTop = canvasScrollarea.scrollTop;
+      canvasScrollarea.classList.add('grabbing');
+      e.preventDefault();
+    }
   });
 
   document.addEventListener('mousemove', (e) => {
@@ -363,7 +434,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   document.addEventListener('mouseup', () => {
     if (isPanning) {
       isPanning = false;
-      canvaswrap.classList.remove('grabbing');
+      canvasScrollarea.classList.remove('grabbing');
     }
   });
 </script>

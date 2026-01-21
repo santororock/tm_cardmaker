@@ -1407,6 +1407,10 @@ function allLoadingDone(loadautosave) {
   } catch (error) {
     // no autosave file
   }
+  // Re-center canvas after loading autosave or drawing project
+  if (window.centerCanvas) {
+    window.centerCanvas();
+  }
 }
 
 function loadFrom(saved, autoload) {
@@ -2351,6 +2355,11 @@ function getMousePos(event) {
 }
 
 function dragStart(event) {
+    // Don't drag layers if Ctrl is held (used for canvas panning)
+    if (event.ctrlKey) {
+        return;
+    }
+    
     var mouse = getMousePos(event);
 
     // Collision detection between clicked offset and element.
@@ -2758,6 +2767,82 @@ var elem = document.getElementById('cmcanvas'),
 elem.addEventListener("mousedown", dragStart, false);
 elem.addEventListener("mouseup", dragEnd, false);
 elem.addEventListener("mousemove", drag, false);
+
+// Center the canvas in the scrollable area on load
+function centerCanvas() {
+  console.log("[CENTER] centerCanvas called, timestamp:", Date.now());
+  var scrollArea = document.getElementById('canvasScrollarea');
+  var scrollInner = document.getElementById('canvasScrollinner');
+  var canvasWrap = document.getElementById('canvaswrap');
+  var sidebar = document.getElementById('mySidebar'); // left sidebar
+  var rightPanel = document.getElementById('rightPanel'); // right sidebar 
+  
+  if (scrollArea && scrollInner && canvasWrap) {
+    // On desktop, adjust to center between the visible space
+    if (window.innerWidth > 992) {
+      var leftSidebarWidth = sidebar ? sidebar.offsetWidth : 0;
+      var rightPanelWidth = rightPanel ? rightPanel.offsetWidth : 0;
+      
+      console.log("=== Canvas Centering Debug ===");
+      console.log("Window inner width:", window.innerWidth);
+      console.log("Left sidebar width:", leftSidebarWidth);
+      console.log("Right panel width:", rightPanelWidth);
+      console.log("ScrollArea clientWidth:", scrollArea.clientWidth);
+      
+      // Get the actual position and size of the canvas wrapper
+      var canvasRect = canvasWrap.getBoundingClientRect();
+      var scrollAreaRect = scrollArea.getBoundingClientRect();
+      
+      // Calculate center position - but DON'T reset it first, work with current position
+      var scrollWidth = scrollInner.scrollWidth;
+      var scrollHeight = scrollInner.scrollHeight;
+      var areaWidth = scrollArea.clientWidth;
+      var areaHeight = scrollArea.clientHeight;
+      
+      // Only set basic centering if not already centered (first time)
+      if (scrollArea.scrollLeft === 0 && scrollArea.scrollTop === 0) {
+        console.log("Initial centering - setting basic scroll position");
+        scrollArea.scrollLeft = (scrollWidth - areaWidth) / 2;
+        scrollArea.scrollTop = (scrollHeight - areaHeight) / 2;
+        
+        // Recalculate canvas position after setting scroll
+        canvasRect = canvasWrap.getBoundingClientRect();
+      } else {
+        console.log("Already scrolled - adjusting from current position");
+      }
+      
+      // Calculate where the canvas center currently is relative to scrollArea's viewport
+      var canvasCenterInViewport = canvasRect.left - scrollAreaRect.left + (canvasRect.width / 2);
+      
+      // Calculate where we want the canvas center to be (in the middle of visible area)
+      var visibleWidth = scrollArea.clientWidth - rightPanelWidth;
+      var targetCenterInViewport = visibleWidth / 2;
+      
+      // Adjust scroll to move canvas center to target position
+      var scrollAdjustment = canvasCenterInViewport - targetCenterInViewport;
+      scrollArea.scrollLeft += scrollAdjustment;
+      
+      console.log("Canvas center in viewport:", canvasCenterInViewport);
+      console.log("Target center in viewport:", targetCenterInViewport);
+      console.log("Scroll adjustment:", scrollAdjustment);
+      console.log("Final scrollLeft:", scrollArea.scrollLeft);
+      console.log("==============================");
+    
+    } else {
+      // Mobile - just do basic centering
+      var scrollWidth = scrollInner.scrollWidth;
+      var scrollHeight = scrollInner.scrollHeight;
+      var areaWidth = scrollArea.clientWidth;
+      var areaHeight = scrollArea.clientHeight;
+      scrollArea.scrollLeft = (scrollWidth - areaWidth) / 2;
+      scrollArea.scrollTop = (scrollHeight - areaHeight) / 2;
+    }
+  }
+}
+
+// Center on load and after a short delay to ensure layout is complete
+centerCanvas();
+setTimeout(centerCanvas, 100);
 
 // Add event listener for undo/redo keyboard shortcuts
 document.addEventListener("keydown", function(event) {

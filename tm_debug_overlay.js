@@ -35,13 +35,27 @@
     },
     syncSize() {
       if (!this.main || !this.overlay) return;
-      const pixelW = this.main.width || this.main.clientWidth;
-      const pixelH = this.main.height || this.main.clientHeight;
+      // Match the overlay canvas dimensions to the main canvas internal dimensions
+      const pixelW = this.main.width;
+      const pixelH = this.main.height;
       this.overlay.width = pixelW;
       this.overlay.height = pixelH;
-      const rect = this.main.getBoundingClientRect();
-      this.overlay.style.width = rect.width + 'px';
-      this.overlay.style.height = rect.height + 'px';
+      // Don't set CSS width/height - let the canvas use its natural size
+      // Both canvases will scale together via the parent's transform
+      this.overlay.style.width = '';
+      this.overlay.style.height = '';
+      // Account for parent wrapper padding and main canvas border
+      const wrapper = this.main.parentElement;
+      const wrapperStyle = wrapper ? window.getComputedStyle(wrapper) : null;
+      const mainStyle = window.getComputedStyle(this.main);
+      
+      const wrapperPaddingLeft = wrapperStyle ? (parseInt(wrapperStyle.paddingLeft) || 0) : 0;
+      const wrapperPaddingTop = wrapperStyle ? (parseInt(wrapperStyle.paddingTop) || 0) : 0;
+      const borderLeft = parseInt(mainStyle.borderLeftWidth) || 0;
+      const borderTop = parseInt(mainStyle.borderTopWidth) || 0;
+      
+      this.overlay.style.left = (wrapperPaddingLeft + borderLeft) + 'px';
+      this.overlay.style.top = (wrapperPaddingTop + borderTop) + 'px';
       if (this.octx) this.octx.setTransform(1, 0, 0, 1, 0, 0);
     },
     drawOverlay(mainCanvas, layersArray, allLayersObj) {
