@@ -333,12 +333,24 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   window.centerCanvas = centerCanvas;
   console.log("[HTML] window.centerCanvas set to HTML version");
   
-  // Center canvas in visible viewport on initial load
-  // Use arrow function to ensure we call window.centerCanvas (which may be overridden by JS)
+  // Make zoomCanvasReset accessible for initial zoom-to-fit
+  window.zoomToFitAndCenter = function() {
+    console.log("[HTML] zoomToFitAndCenter called - will be overridden by zoomCanvasReset");
+  };
+  
+  // On page load, we'll call zoomCanvasReset from JS after it's defined
+  // For now, just center at default zoom
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => window.centerCanvas());
+    document.addEventListener('DOMContentLoaded', () => {
+      // The JS file will override this and call zoomCanvasReset instead
+      if (window.zoomToFitAndCenter) {
+        window.zoomToFitAndCenter();
+      }
+    });
   } else {
-    window.centerCanvas();
+    if (window.zoomToFitAndCenter) {
+      window.zoomToFitAndCenter();
+    }
   }
 
   function updateCanvasZoom(mouseX, mouseY) {
@@ -392,9 +404,45 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   }
 
   function zoomCanvasReset() {
-    canvasZoom = 1;
+    // Calculate optimal zoom to fit canvas between sidebars
+    const sidebar = document.getElementById('mySidebar');
+    const rightPanel = document.getElementById('rightPanel');
+    const leftSidebarWidth = sidebar ? sidebar.offsetWidth : 0;
+    const rightPanelWidth = rightPanel ? rightPanel.offsetWidth : 0;
+    
+    // Available space for the canvas
+    const availableWidth = canvasScrollarea.clientWidth - rightPanelWidth;
+    const availableHeight = canvasScrollarea.clientHeight;
+    
+    // Get the actual canvas dimensions
+    const canvas = document.getElementById('cmcanvas');
+    const canvasWidth = canvas ? canvas.width : 826;
+    const canvasHeight = canvas ? canvas.height : 1126;
+    
+    // Add some padding (e.g., 5% on each side)
+    const paddingFactor = 0.90;
+    
+    // Calculate zoom ratios for width and height
+    const zoomToFitWidth = (availableWidth * paddingFactor) / canvasWidth;
+    const zoomToFitHeight = (availableHeight * paddingFactor) / canvasHeight;
+    
+    // Use the smaller zoom to ensure it fits in both dimensions
+    const optimalZoom = Math.min(zoomToFitWidth, zoomToFitHeight);
+    
+    // Clamp to min/max zoom limits
+    canvasZoom = Math.max(minZoom, Math.min(maxZoom, optimalZoom));
+    
+    console.log("=== Zoom to Fit Debug ===");
+    console.log("Available space:", availableWidth, "x", availableHeight);
+    console.log("Canvas size:", canvasWidth, "x", canvasHeight);
+    console.log("Zoom to fit width:", zoomToFitWidth);
+    console.log("Zoom to fit height:", zoomToFitHeight);
+    console.log("Optimal zoom:", optimalZoom);
+    console.log("Applied zoom:", canvasZoom);
+    console.log("========================");
+    
     updateCanvasZoom();
-    // Reset scroll position to center the canvas
+    // Center the canvas after zooming
     centerCanvas();
   }
 

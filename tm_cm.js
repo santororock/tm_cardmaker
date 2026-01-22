@@ -2345,9 +2345,14 @@ function sortable(section, onUpdate){
 function getMousePos(event) {
     let c = document.getElementById("cmcanvas");
     var rect = c.getBoundingClientRect();
+    
+    // Get the current zoom level from the HTML's canvasZoom variable
+    // The canvas coordinates need to be divided by the zoom to get the actual canvas position
+    var currentZoom = (typeof canvasZoom !== 'undefined') ? canvasZoom : 1;
+    
     return {
-      x: event.clientX - rect.left,
-      y: event.clientY - rect.top
+      x: (event.clientX - rect.left) / currentZoom,
+      y: (event.clientY - rect.top) / currentZoom
     };
 }
 
@@ -2851,6 +2856,19 @@ function centerCanvas() {
 // Override the simple centerCanvas from HTML with this sidebar-aware version
 window.centerCanvas = centerCanvas;
 console.log("[JS] window.centerCanvas overridden with JS sidebar-aware version");
+
+// Set zoomToFitAndCenter to call the HTML's zoomCanvasReset function
+// This will be called on page load to automatically fit the canvas
+window.zoomToFitAndCenter = function() {
+  console.log("[JS] zoomToFitAndCenter called, delegating to zoomCanvasReset");
+  if (typeof zoomCanvasReset === 'function') {
+    zoomCanvasReset();
+  } else {
+    console.error("[JS] zoomCanvasReset function not found!");
+    // Fallback to just centering
+    window.centerCanvas();
+  }
+};
 
 // Add event listener for undo/redo keyboard shortcuts
 document.addEventListener("keydown", function(event) {
