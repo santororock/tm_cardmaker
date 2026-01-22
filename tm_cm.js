@@ -1407,10 +1407,7 @@ function allLoadingDone(loadautosave) {
   } catch (error) {
     // no autosave file
   }
-  // Re-center canvas after loading autosave or drawing project
-  if (window.centerCanvas) {
-    window.centerCanvas();
-  }
+  // Canvas will be centered by DOMContentLoaded event handler
 }
 
 function loadFrom(saved, autoload) {
@@ -2784,10 +2781,17 @@ function centerCanvas() {
       var rightPanelWidth = rightPanel ? rightPanel.offsetWidth : 0;
       
       console.log("=== Canvas Centering Debug ===");
+      console.log("Called from:", new Error().stack.split('\n')[2].trim());
+      console.log("canvasZoom:", typeof canvasZoom !== 'undefined' ? canvasZoom : 'undefined');
       console.log("Window inner width:", window.innerWidth);
       console.log("Left sidebar width:", leftSidebarWidth);
       console.log("Right panel width:", rightPanelWidth);
       console.log("ScrollArea clientWidth:", scrollArea.clientWidth);
+      console.log("ScrollInner scrollWidth:", scrollInner.scrollWidth);
+      console.log("ScrollInner scrollHeight:", scrollInner.scrollHeight);
+      console.log("CanvasWrap dimensions:", canvasWrap.offsetWidth, "x", canvasWrap.offsetHeight);
+      console.log("Initial scrollLeft:", scrollArea.scrollLeft);
+      console.log("Initial scrollTop:", scrollArea.scrollTop);
       
       // Get the actual position and size of the canvas wrapper
       var canvasRect = canvasWrap.getBoundingClientRect();
@@ -2812,20 +2816,24 @@ function centerCanvas() {
       }
       
       // Calculate where the canvas center currently is relative to scrollArea's viewport
-      var canvasCenterInViewport = canvasRect.left - scrollAreaRect.left + (canvasRect.width / 2);
+      var canvasCenterXInViewport = canvasRect.left - scrollAreaRect.left + (canvasRect.width / 2);
+      var canvasCenterYInViewport = canvasRect.top - scrollAreaRect.top + (canvasRect.height / 2);
       
       // Calculate where we want the canvas center to be (in the middle of visible area)
       var visibleWidth = scrollArea.clientWidth - rightPanelWidth;
-      var targetCenterInViewport = visibleWidth / 2;
+      var targetCenterXInViewport = visibleWidth / 2;
+      var targetCenterYInViewport = scrollArea.clientHeight / 2;
       
-      // Adjust scroll to move canvas center to target position
-      var scrollAdjustment = canvasCenterInViewport - targetCenterInViewport;
-      scrollArea.scrollLeft += scrollAdjustment;
+      // Adjust scroll to move canvas center to target position (both horizontal and vertical)
+      var scrollAdjustmentX = canvasCenterXInViewport - targetCenterXInViewport;
+      var scrollAdjustmentY = canvasCenterYInViewport - targetCenterYInViewport;
+      scrollArea.scrollLeft += scrollAdjustmentX;
+      scrollArea.scrollTop += scrollAdjustmentY;
       
-      console.log("Canvas center in viewport:", canvasCenterInViewport);
-      console.log("Target center in viewport:", targetCenterInViewport);
-      console.log("Scroll adjustment:", scrollAdjustment);
-      console.log("Final scrollLeft:", scrollArea.scrollLeft);
+      console.log("Canvas center in viewport (X, Y):", canvasCenterXInViewport, canvasCenterYInViewport);
+      console.log("Target center in viewport (X, Y):", targetCenterXInViewport, targetCenterYInViewport);
+      console.log("Scroll adjustment (X, Y):", scrollAdjustmentX, scrollAdjustmentY);
+      console.log("Final scrollLeft:", scrollArea.scrollLeft, "scrollTop:", scrollArea.scrollTop);
       console.log("==============================");
     
     } else {
@@ -2840,9 +2848,9 @@ function centerCanvas() {
   }
 }
 
-// Center on load and after a short delay to ensure layout is complete
-centerCanvas();
-setTimeout(centerCanvas, 100);
+// Override the simple centerCanvas from HTML with this sidebar-aware version
+window.centerCanvas = centerCanvas;
+console.log("[JS] window.centerCanvas overridden with JS sidebar-aware version");
 
 // Add event listener for undo/redo keyboard shortcuts
 document.addEventListener("keydown", function(event) {

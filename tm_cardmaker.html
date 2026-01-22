@@ -297,9 +297,12 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
   // Center the canvas in the visible viewport
   function centerCanvas() {
+    console.log("[HTML] centerCanvas called at", Date.now());
+    console.log("[HTML] Call stack:", new Error().stack);
     if (canvasScrollinner && canvasScrollarea) {
       // Use setTimeout to ensure DOM has fully rendered
       setTimeout(() => {
+        console.log("[HTML] centerCanvas setTimeout executing at", Date.now());
         // Since the canvas is centered in #canvasScrollinner via flexbox,
         // we just need to scroll to the center of the scrollable area
         const scrollWidth = canvasScrollarea.scrollWidth;
@@ -307,12 +310,17 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
         const viewportWidth = canvasScrollarea.clientWidth;
         const viewportHeight = canvasScrollarea.clientHeight;
         
+        console.log("[HTML] scrollWidth:", scrollWidth, "viewportWidth:", viewportWidth);
+        console.log("[HTML] Before - scrollLeft:", canvasScrollarea.scrollLeft, "scrollTop:", canvasScrollarea.scrollTop);
+        
         // Center the scrollable content in the viewport
         const scrollX = (scrollWidth - viewportWidth) / 2;
         const scrollY = (scrollHeight - viewportHeight) / 2;
         
         canvasScrollarea.scrollLeft = scrollX;
         canvasScrollarea.scrollTop = scrollY;
+        
+        console.log("[HTML] After - scrollLeft:", canvasScrollarea.scrollLeft, "scrollTop:", canvasScrollarea.scrollTop);
       }, 100);
     }
   }
@@ -323,12 +331,14 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   // Make centerCanvas globally accessible so it can be called after autosave loads
   window.centerCanvas = centerCanvas;
+  console.log("[HTML] window.centerCanvas set to HTML version");
   
   // Center canvas in visible viewport on initial load
+  // Use arrow function to ensure we call window.centerCanvas (which may be overridden by JS)
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', centerCanvas);
+    document.addEventListener('DOMContentLoaded', () => window.centerCanvas());
   } else {
-    centerCanvas();
+    window.centerCanvas();
   }
 
   function updateCanvasZoom(mouseX, mouseY) {
