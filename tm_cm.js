@@ -21,221 +21,51 @@ var undoIndex = -1;
 var maxUndoSteps = 50;
 var isRestoringState = false;
 
-var blockList = [
-  // Templates
-    {putUnder: "templates", text: "Green Card", src:"templates__green_normal"},
-    {putUnder: "templates", text: "Green Small Bottom", src:"templates__green_small_bottom"},
-    {putUnder: "templates", text: "Green Big Bottom", src:"templates__green_big_bottom"},
-    {putUnder: "templates", text: "Blue Card", src:"templates__blue_normal"},
-    {putUnder: "templates", text: "Blue Big Bottom", src:"templates__blue_big_bottom"},
-    {putUnder: "templates", text: "Blue Big Top", src:"templates__blue_big_top"},
-    {putUnder: "templates", text: "Red Card", src:"templates__red_normal"},
-    {putUnder: "templates", text: "Red Small Bottom", src:"templates__red_small_bottom"},
-    {putUnder: "templates", text: "Prelude", src:"templates__prelude"},
-    {putUnder: "templates", text: "Corporation", src:"templates__corporation"},
-    {putUnder: "templates", text: "Debug Sprite Sheet", src:"debug_sprite_sheet"},
+// blockList and blockDefaults will be loaded from assets.json
+var blockList = [];
+var blockDefaults = {};
 
-  // Global parameters
-  {putUnder: "globalparameters", text: "Oxygen", src:"globalparameters__oxygen"},
-  {putUnder: "globalparameters", text: "Temperature", src:"globalparameters__temperature"},
-  {putUnder: "globalparameters", text: "Venus", src:"globalparameters__venus"},
+// blockList and blockDefaults will be loaded from assets.json
+var blockList = [];
+var blockDefaults = {};
 
-  // Misc
-  {putUnder: "misc", text: "Megacredit", src:"misc__megacredit", otherbg:"mc_otherbg"},
-  {putUnder: "misc", text: "mc_otherbg", src:"misc__other_player_background", hidden:true},
-  {putUnder: "misc", text: "Arrow", src:"misc__arrow"},
-  {putUnder: "misc", text: "Asterisk", src:"misc__asterisc"},
-  {putUnder: "misc", text: "Slash", src:"misc__bar"},
-  {putUnder: "misc", text: "Chairman", src:"misc__chairman"},
-  {putUnder: "misc", text: "Colon", src:"misc__colon"},
-  {putUnder: "misc", text: "Delegate", src:"misc__delegate"},
-  {putUnder: "misc", text: "Influence", src:"misc__influence"},
-  {putUnder: "misc", text: "Party Leader", src:"misc__party_leader"},
-  {putUnder: "misc", text: "Tag Holder", src:"misc__corp_tag_holder"},
-  {putUnder: "misc", text: "Effect (bg)", src:"misc__effect"},
-  {putUnder: "misc", text: "Asset", src:"misc__asset"},
-  {putUnder: "misc", text: "Colony Tile", src:"misc__colonytile"},
-  {putUnder: "misc", text: "Population", src:"misc__population"},
-
-  // Parties
-  {putUnder: "parties", text: "Bureaucrats", src:"parties__bureacrats"},
-  {putUnder: "parties", text: "Centrists", src:"parties__centrists"},
-  {putUnder: "parties", text: "Empower", src:"parties__empower"},
-  {putUnder: "parties", text: "Greens", src:"parties__greens"},
-  {putUnder: "parties", text: "Kelvinists", src:"parties__kelvinists"},
-  {putUnder: "parties", text: "Mars First", src:"parties__mars_first"},
-  {putUnder: "parties", text: "Populists", src:"parties__populists"},
-  {putUnder: "parties", text: "Reds", src:"parties__reds"},
-  {putUnder: "parties", text: "Scientists", src:"parties__scientists"},
-  {putUnder: "parties", text: "Spome", src:"parties__spome"},
-  {putUnder: "parties", text: "Transhumanists", src:"parties__transhumanists"},
-  {putUnder: "parties", text: "Unity", src:"parties__unity"},
-
-  // Production boxes
-  {putUnder: "productionboxes", text: "prod_nxn", src:"productionboxes__nxn", hidden: true},
-  // {putUnder: "productionboxes", text: "prod_otherbg", src:"other_player_background", hidden:true},
-
-  // Requisites
-  {putUnder: "requisites", text: "Max Requirement", src:"requisites__max_big"},
-  {putUnder: "requisites", text: "Min Requirement (big)", src:"requisites__min_big"},
-  {putUnder: "requisites", text: "Min Requirement", src:"requisites__min_medium"},
-  {putUnder: "requisites", text: "Min Requirement (small)", src:"requisites__min_small"},
-  {putUnder: "requisites", text: "No Requirement", src:"requisites__normal"},
-  // Resources
-  {putUnder: "resources", text: "Animal", src:"resources__animal", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Biohazard", src:"resources__biohazard", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Card", src:"resources__card", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Data", src:"resources__data", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Dust", src:"resources__dust", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Fighter", src:"resources__fighter", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Floater", src:"resources__floater", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Heat", src:"resources__heat", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Microbe", src:"resources__microbe", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Other Player Background", src:"resources__other_player_background", hidden:true},
-  {putUnder: "resources", text: "Plant", src:"resources__plant", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Power", src:"resources__power", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Radiation", src:"resources__radiation", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Science", src:"resources__science", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Steel", src:"resources__steel", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Titanium", src:"resources__titanium", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "TR", src:"resources__TR", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Wild", src:"resources__wild", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Asteroid", src:"resources__asteroid", otherbg:"res_otherbg"},
-  {putUnder: "resources", text: "Ore", src:"resources__ore", otherbg:"res_otherbg"},
-  // Tags
-  {putUnder: "tags", text: "Animal", src:"tags__animal", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Building", src:"tags__building", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "City", src:"tags__city", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Earth", src:"tags__earth", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Event", src:"tags__event", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Galactic", src:"tags__galactic", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Infrastructure", src:"tags__infrastructure", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Jovian", src:"tags__jovian", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Mars", src:"tags__mars", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Microbe", src:"tags__microbe", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Moon", src:"tags__moon", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Other", src:"tags__other_player_background", hidden:true},
-  {putUnder: "tags", text: "Planetary", src:"tags__planetary", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Plant", src:"tags__plant", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Power", src:"tags__power", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Radioactive", src:"tags__radioactive", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Science", src:"tags__science", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Space", src:"tags__space", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Venus", src:"tags__venus", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Wild", src:"tags__wild", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Multitag", src:"tags__multitag", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Tourism", src:"tags__tourism", otherbg:"tag_otherbg"},
-  {putUnder: "tags", text: "Mercury", src:"tags__mercury", otherbg:"tag_otherbg"},
-
-  // Tiles
-  {putUnder: "tiles", text: "City", src:"tiles__city", otherbg:"otherbg"},
-  {putUnder: "tiles", text: "Colony", src:"tiles__colony"},
-  {putUnder: "tiles", text: "Empty", src:"tiles__empty", otherbg:"otherbg"},
-  {putUnder: "tiles", text: "Greenery no O2", src:"tiles__greenery_no_O2", otherbg:"otherbg"},
-  {putUnder: "tiles", text: "Greenery", src:"tiles__greenery", otherbg:"otherbg"},
-  {putUnder: "tiles", text: "Ocean", src:"tiles__ocean", otherbg:"otherbg"},
-  {putUnder: "tiles", text: "Off-World City", src:"tiles__off-world_city", otherbg:"otherbg"},
-  {putUnder: "tiles", text: "Special", src:"tiles__special", otherbg:"otherbg"},
-  {putUnder: "tiles", text: "Trade", src:"tiles__trade"},
-  {putUnder: "tiles", text: "Otherbg", src:"tiles__other_player_background", hidden:true},
-
-  // VPs
-  {putUnder: "VPs", text: "0 VP", src:"VPs__0"},
-  {putUnder: "VPs", text: "VP 1/", src:"VPs__1_for"},
-  {putUnder: "VPs", text: "1 VP", src:"VPs__1"},
-  {putUnder: "VPs", text: "VP 2/", src:"VPs__2_for"},
-  {putUnder: "VPs", text: "2 VP", src:"VPs__2"},
-  {putUnder: "VPs", text: "3 VP", src:"VPs__3"},
-  {putUnder: "VPs", text: "4 VP", src:"VPs__4"},
-  {putUnder: "VPs", text: "5 VP", src:"VPs__5"},
-  {putUnder: "VPs", text: "6 VP", src:"VPs__6"},
-  {putUnder: "VPs", text: "7 VP", src:"VPs__7"},
-  {putUnder: "VPs", text: "8 VP", src:"VPs__8"},
-  {putUnder: "VPs", text: "9 VP", src:"VPs__9"},
-  {putUnder: "VPs", text: "VP background", src:"VPs__blank"},
-  {putUnder: "VPs", text: "-VP", src:"VPs__negative"},
-  {putUnder: "VPs", text: "+VP", src:"VPs__positive"},
-  {putUnder: "VPs", text: "/ VP", src:"VPs__n_for"}
-
-  
-];
-
-var blockDefaults = {
-  tags: [
-    {label:"First Tag", x:639, y:67, width:110, height:110},
-    {label:"Second Tag", x:524, y:67, width:110, height:110},
-    {label:"Third Tag", x:410, y:67, width:110, height:110},
-    {label:"Small Tag", x:330, y:536, width:82, height:82},
-    {label:"First (Prel)", x:937, y:67, width:110, height:110},
-    {label:"Second (Prel)", x:822, y:67, width:110, height:110},
-    {label:"Third (Prel)", x:708, y:67, width:110, height:110},
-    {label:"First (Corp)", x:937, y:90, width:110, height:110},
-    {label:"Second (Corp)", x:822, y:90, width:110, height:110}
-  ],
-  templates: [
-    {label:"Vertical Card", x:0, y:0, width:826, height:1126},
-    {label:"Horizontal Card", x:0, y:0, width:1126, height:826}
-  ],
-  text: [
-    {label:"Card Cost", x:118, y:147, height:66, color:"#000000", font:"Prototype", style:"normal", weight:"normal", justify:"center"},
-    {label:"Card Name", x:413, y:214, height:46, color:"#000000", font:"Prototype", style:"normal", weight:"normal", justify:"center"},
-    {label:"Description", x:413, y:643, height:22, lineSpace:4, color:"#000000", font:"Pagella", style:"normal", weight:"normal", justify:"center"},
-    {label:"Flavor Text", x:413, y:1005, height:22, lineSpace:4, color:"#000000", font:"Pagella", style:"italic", weight:"bold", justify:"center"},
-    {label:"FAN MADE", x:413, y:611, height:24, color:"#24770d", font:"Prototype", style:"normal", weight:"normal", justify:"center"},
-    {label:"PRELUDE", data:"P R E L U D E", x:563, y:99, height:22, color:"#000000", font:"Prototype", style:"normal", weight:"normal", justify:"center"},
-    {label:"CORPORATION", data:"C O R P O R A T I O N", x:563, y:109, height:24, color:"#000000", font:"Prototype", style:"normal", weight:"normal", justify:"center"},
-    {label:"EFFECT", data:"E F F E C T", x:800, y:333, height:22, color:"#000000", font:"Prototype", style:"normal", weight:"normal", justify:"center"}
-  ],
-  resources: [
-    {label:"Standard", x:413, y:643, width:92, height:92},
-    {label:"Card", x:413, y:643, width:88, height:122},
-    {label:"TR", x:413, y:643, width:151, height:112}
-  ],
-  VPs: [
-    {label:"Standard", x:542, y:836, width:223, height:223},
-    {label:"Negative", x:652, y:836, width:223, height:223}
-  ],
-  tiles: [
-    {label:"Standard tile", height:142}
-  ],
-  requisites: [
-    {label:"Max", x:180, y:92, width:200, height:60},
-    {label:"Min Large", x:180, y:92, width:176, height:60},
-    {label:"Min Medium", x:180, y:92, width:147, height:60},
-    {label:"Min Small", x:180, y:92, width:130, height:60},
-    {label:"No Req", x:180, y:92, width:21, height:60}
-  ],
-  globalparameters: [
-    {label:"Oxygen", x:413, y:643, width:118, height:118},
-    {label:"Temp", x:413, y:643, width:35, height:118},
-    {label:"Venus", x:413, y:643, width:125, height:71}
-  ],
-  misc: [
-    {label:"MC", x:413, y:643, width:92, height:92},
-    {label:"Arrow", x:413, y:429, width:116, height:55},
-    {label:"Asterisk", x:413, y:643, width:55, height:55},
-    {label:"Slash", x:413, y:643, width:55, height:146},
-    {label:"Colon", x:413, y:643, width:11, height:55},
-    {label:"Delegate", x:413, y:643, width:77, height:99},
-    {label:"Effect (bg)", x:631, y:307, width:346, height:36},
-    {label:"Influence", x:413, y:643, width:117, height:122},
-    {label:"Tag Holder 0", x:969, y:103, width:257, height:89},
-    {label:"Tag Holder 1", x:898, y:103, width:257, height:89},
-    {label:"Tag Holder 2", x:794, y:103, width:257, height:89}
-  ],
-  parties: [
-    {label:"Party", x:413, y:643, width:169, height:122}
-  ],
-  production: [
-    {label:"1x height", height:143},
-    {label:"2x height", height:235},
-    {label:"1x width", width:143},
-    {label:"1.5x width", width:188},
-    {label:"2x width", width:235},
-    {label:"2.5x width", width:279},
-    {label:"3x width", width:325}
-  ]
-};
+/**
+ * Load assets from external JSON file
+ * 
+ * This async function fetches the assets.json file and populates the global
+ * blockList and blockDefaults variables. Using an external JSON file makes it
+ * easier to manage assets without editing JavaScript code.
+ * 
+ * @returns {Promise<boolean>} True if loading succeeded, false otherwise
+ */
+async function loadAssets() {
+  try {
+    // fetch() is a modern browser API for making HTTP requests
+    // It returns a Promise that resolves to the Response object
+    const response = await fetch('assets.json');
+    
+    // Check if the HTTP request was successful (status 200-299)
+    if (!response.ok) {
+      throw new Error(`Failed to load assets.json: ${response.status} ${response.statusText}`);
+    }
+    
+    // Parse the JSON response body into a JavaScript object
+    const data = await response.json();
+    
+    // Extract blockList and blockDefaults from the loaded data
+    // The || [] and || {} provide fallback empty values if properties don't exist
+    blockList = data.blockList || [];
+    blockDefaults = data.blockDefaults || {};
+    
+    console.log(`Loaded ${blockList.length} assets from assets.json`);
+    return true;
+  } catch (error) {
+    // Catch any errors during fetch, parsing, or processing
+    console.error('Error loading assets:', error);
+    alert('Failed to load assets.json. Please make sure the file exists and is valid JSON.');
+    return false;
+  }
+}
 
 var megaTemplates = {
   green_normal: {
@@ -367,30 +197,47 @@ var megaTemplates = {
     ]
   },
   debug_sprite_sheet: {
-    layers: (function() {
+    /**
+     * Dynamic layer generation function for debug sprite sheet
+     * 
+     * This function (not IIFE) generates a comprehensive sprite sheet showing
+     * all block assets. It runs when the template is loaded, ensuring blockList
+     * is populated with data from assets.json.
+     * 
+     * Key concepts demonstrated:
+     * - Dynamic content generation based on runtime data
+     * - Aspect ratio preservation through scale calculations
+     * - Grid layout with automatic positioning
+     * 
+     * @returns {Array} Array of layer objects to be rendered
+     */
+    layers: function() {
       // Generate a debug sprite sheet with ALL block assets
+      // This runs when the template is loaded, so blockList is populated
       const layers = [];
       const canvasWidth = 3200;
-      const canvasHeight = 4000;
+      const labelHeight = 30; // Reserve space for text labels
       
-      // Add base layer
-      layers.push({type: "base", color: "#e8e8e8", height: canvasHeight, width: canvasWidth, params: "color"});
+      // Placeholder for base layer - will be added after we calculate final height
       
-      // Category configurations: columns, cellWidth, cellHeight, targetWidth, targetHeight
+      // Category configurations: columns, cellWidth, cellHeight, maxWidth, maxHeight
+      // Images will be scaled to fit within maxW x maxH while maintaining aspect ratio
+      // Note: maxH is reduced to leave room for text labels at the bottom
       const categoryConfig = {
-        templates: { cols: 8, cellW: 400, cellH: 400, targetW: 300, targetH: 360 },
-        globalparameters: { cols: 6, cellW: 180, cellH: 180, targetW: 140, targetH: 140 },
-        tags: { cols: 6, cellW: 150, cellH: 150, targetW: 120, targetH: 120 },
-        resources: { cols: 6, cellW: 150, cellH: 150, targetW: 120, targetH: 120 },
-        misc: { cols: 8, cellW: 130, cellH: 130, targetW: 110, targetH: 110 },
-        parties: { cols: 6, cellW: 200, cellH: 180, targetW: 180, targetH: 140 },
-        requisites: { cols: 6, cellW: 220, cellH: 100, targetW: 200, targetH: 80 },
-        tiles: { cols: 6, cellW: 180, cellH: 180, targetW: 150, targetH: 150 },
-        VPs: { cols: 4, cellW: 260, cellH: 260, targetW: 230, targetH: 230 },
-        productionboxes: { cols: 6, cellW: 180, cellH: 180, targetW: 150, targetH: 150 }
+        templates: { cols: 8, cellW: 400, cellH: 400, maxW: 360, maxH: 340 },
+        globalparameters: { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 130 },
+        tags: { cols: 6, cellW: 150, cellH: 150, maxW: 120, maxH: 105 },
+        resources: { cols: 6, cellW: 150, cellH: 150, maxW: 120, maxH: 105 },
+        misc: { cols: 8, cellW: 130, cellH: 130, maxW: 110, maxH: 95 },
+        parties: { cols: 6, cellW: 200, cellH: 180, maxW: 180, maxH: 130 },
+        requisites: { cols: 6, cellW: 220, cellH: 100, maxW: 210, maxH: 70 },
+        tiles: { cols: 6, cellW: 180, cellH: 180, maxW: 160, maxH: 135 },
+        VPs: { cols: 4, cellW: 260, cellH: 260, maxW: 240, maxH: 215 },
+        productionboxes: { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 135 }
       };
       
-      // Group assets by category
+      // Group assets by category (putUnder field)
+      // This creates an object like: { templates: [...], tags: [...], etc. }
       const grouped = {};
       for (let i = 0; i < blockList.length; i++) {
         const asset = blockList[i];
@@ -401,17 +248,19 @@ var megaTemplates = {
         grouped[category].push(asset);
       }
       
-      // Layout each category
-      let currentY = 50; // Start position
+      // Layout each category section on the sprite sheet
+      let currentY = 50; // Start position from top
+      // Process categories in a specific order for consistent layout
       const categoryOrder = ['templates', 'globalparameters', 'tags', 'resources', 'misc', 'parties', 'requisites', 'tiles', 'VPs', 'productionboxes'];
       
       for (const category of categoryOrder) {
+        // Skip if this category has no assets
         if (!grouped[category] || grouped[category].length === 0) continue;
         
         const config = categoryConfig[category];
         const assets = grouped[category];
         
-        // Add category header
+        // Add category header text layer
         const headerText = category.toUpperCase().replace(/_/g, ' ');
         layers.push({
           type: "text",
@@ -432,36 +281,64 @@ var megaTemplates = {
         currentY += 50; // Space after header
         
         // Layout assets in grid
-        let col = 0;
-        let row = 0;
+        let col = 0;  // Current column position
+        let row = 0;  // Current row position
+        
         for (let i = 0; i < assets.length; i++) {
           const asset = assets[i];
           
-          // Calculate top-left position for the asset (centered in cell)
-          const x = 50 + col * config.cellW + (config.cellW - config.targetW) / 2;
-          const y = currentY + row * config.cellH + (config.cellH - config.targetH) / 2;
+          // Get actual image dimensions from the asset (populated by populate_dimensions.py)
+          // Default to 100x100 if dimensions are missing (shouldn't happen but safe fallback)
+          const imgW = asset.width || 100;
+          const imgH = asset.height || 100;
           
-          // Add the block with fixed width and height
+          // Calculate scale factor to fit within max bounds while maintaining aspect ratio
+          // Key concept: We calculate two possible scales (one for width, one for height)
+          // and use whichever is smaller to ensure the image fits within both constraints
+          const scaleW = config.maxW / imgW;  // How much to scale to fit width
+          const scaleH = config.maxH / imgH;  // How much to scale to fit height
+          const scale = Math.min(scaleW, scaleH); // Use smaller scale to fit within both dimensions
+          
+          // Calculate actual display dimensions by applying the scale
+          // Math.round ensures we get whole pixel values
+          const displayW = Math.round(imgW * scale);
+          const displayH = Math.round(imgH * scale);
+          
+          // Calculate position to center image in its cell
+          const cellX = 50 + col * config.cellW;  // Left edge of cell
+          const cellY = currentY + row * config.cellH;  // Top edge of cell
+          
+          // Center the image horizontally
+          const x = cellX + (config.cellW - displayW) / 2;
+          
+          // Position the image vertically with explicit separation from label
+          // Reserve space: top padding + image + gap + label
+          const topPadding = 10;  // Padding from top of cell
+          const gapBeforeLabel = 15;  // Explicit gap between image bottom and label top
+          const imageAreaHeight = config.cellH - labelHeight - gapBeforeLabel;
+          const y = cellY + topPadding + (imageAreaHeight - topPadding - displayH) / 2;
+          
+          // Add the block layer with calculated dimensions
           layers.push({
             type: "block",
             src: asset.src,
             x: x,
             y: y,
-            width: config.targetW,
-            height: config.targetH,
+            width: displayW,
+            height: displayH,
             params: "allimages"
           });
           
-          // Add label below the asset
-          const labelY = y + config.targetH + 5;
+          // Add text label at bottom of cell
+          const labelY = cellY + config.cellH - labelHeight;
           const displayText = asset.text || asset.src.replace(/_/g, ' ');
           layers.push({
             type: "text",
             data: displayText,
-            x: x + config.targetW / 2,
+            x: cellX + config.cellW / 2,  // Center of cell
             y: labelY,
             width: config.cellW,
-            height: 12,
+            height: 18,  // Increased from 12 for better readability
             color: "#333333",
             font: "Pagella",
             style: "normal",
@@ -471,20 +348,30 @@ var megaTemplates = {
             params: "alltext color"
           });
           
+          // Move to next cell position
           col++;
+          // If we've filled all columns in this row, wrap to next row
           if (col >= config.cols) {
-            col = 0;
-            row++;
+            col = 0;  // Reset to first column
+            row++;    // Move down one row
           }
         }
         
-        // Move to next category
+        // Calculate total vertical space used by this category
+        // Math.ceil handles partial rows (e.g., 7 items in 6 columns = 2 rows)
         const rowsUsed = Math.ceil(assets.length / config.cols);
-        currentY += rowsUsed * config.cellH + 70; // Extra space between categories
+        currentY += rowsUsed * config.cellH + 70; // Move down for next category with extra spacing
       }
       
+      // Calculate final canvas height based on actual content
+      const canvasHeight = currentY + 50; // Add bottom padding
+      
+      // Insert base layer at the beginning with calculated height
+      layers.unshift({type: "base", color: "#e8e8e8", height: canvasHeight, width: canvasWidth, params: "color"});
+      
+      // Return the complete array of layers to be rendered
       return layers;
-    })()
+    }
   }
 };
 
@@ -1528,7 +1415,11 @@ function allLoadingDone(loadautosave) {
   } catch (error) {
     // no autosave file
   }
-  // Canvas will be centered by DOMContentLoaded event handler
+  
+  // Reset canvas view (center and scale) after loading
+  if (typeof zoomCanvasReset === 'function') {
+    zoomCanvasReset();
+  }
 }
 
 function loadFrom(saved, autoload) {
@@ -1696,6 +1587,24 @@ function addBlock(th) {
   return newLayer;
 }
 
+/**
+ * Load a mega template (complete card layout preset)
+ * 
+ * Mega templates provide full starting layouts for different card types.
+ * This function clears the current project and loads all layers from the template.
+ * 
+ * Key enhancement: supports both static layer arrays and dynamic layer generation functions.
+ * 
+ * Why this matters:
+ * - Static templates are simple arrays defined at parse time
+ * - Function-based templates generate layers at runtime (e.g., debug_sprite_sheet)
+ * - Function-based approach allows dynamic content based on loaded data (blockList from assets.json)
+ * 
+ * Pattern demonstrated:
+ * - Type checking with typeof to handle different data structures
+ * - Lazy evaluation: functions run when called, not when parsed
+ * - Polymorphism: same interface supports multiple data types
+ */
 function addMegaTemplate() {
   if (!confirm("All current data will be discarded. Continue?")) return;
   if (this.id.slice(0,4) != "mega") return;
@@ -1706,8 +1615,31 @@ function addMegaTemplate() {
   ddcount = 0;
   aLayers = {};
   addLayer("Base",{type:"base", color:"#ffffff", height:1126, width:826, params:"color"});
-  loadFrom(megaTemplates[mega].layers);
+  
+  /**
+   * Support layers as a function (for dynamic generation like debug_sprite_sheet)
+   * 
+   * Why check typeof?
+   * - Most templates have static layers: { layers: [{type:"block",...}, ...] }
+   * - Dynamic templates have a function: { layers: function() { return [...]; } }
+   * - We detect which type and handle appropriately
+   * 
+   * The function approach is essential when layer content depends on runtime data
+   * that isn't available when the JavaScript file is parsed (e.g., assets.json data)
+   */
+  let layers = megaTemplates[mega].layers;
+  if (typeof layers === 'function') {
+    layers = layers();  // Call the function to generate layers array
+  }
+  // At this point, layers is always an array, regardless of source
+  
+  loadFrom(layers);
   captureInitialState("Load template: " + mega);
+  
+  // Reset canvas view (center and scale) after loading template
+  if (typeof zoomCanvasReset === 'function') {
+    zoomCanvasReset();
+  }
 }
 
 type2FuncList.text = addTextBox;
@@ -2868,19 +2800,10 @@ function getParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-var projectUrl = getParameterByName('project')
-let str = localStorage.getItem("loadedProjectUrl");
-if (projectUrl && projectUrl != "") {
-  localStorage.setItem("loadedProjectUrl", projectUrl);
-  // Redirect without the query parameters now that they are stored in local
-  // storage, so that they do not cause problems e.g. on reload or "new".
-  window.location.assign(location.protocol + '//' + location.host + location.pathname);
-} else if (str && str != "") {
-  resetProject(false);
-  loadInitialProject(str)
-} else {
-  resetProject(true);
-}
+// NOTE: Initialization moved to tm_cardmaker.html to ensure assets are loaded first
+// This allows blockList and blockDefaults to be populated before resetProject() runs
+var projectUrl = getParameterByName('project');
+let loadedProjectUrl = localStorage.getItem("loadedProjectUrl");
 
 var elem = document.getElementById('cmcanvas'),
     elemLeft = elem.offsetLeft + elem.clientLeft,

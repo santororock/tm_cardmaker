@@ -629,6 +629,75 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 <script src="tm_cm.js"></script>
 <script src="tm_debug_overlay.js"></script>
+<script>
+/**
+ * Application initialization script
+ * 
+ * This async IIFE (Immediately Invoked Function Expression) handles the critical
+ * startup sequence for the card maker application.
+ * 
+ * Key concepts demonstrated:
+ * 1. Async/Await: Modern JavaScript for handling asynchronous operations
+ * 2. IIFE Pattern: (async function() { })() - runs immediately, creating isolated scope
+ * 3. Dependency Management: Ensures assets.json loads BEFORE the rest of the app
+ * 
+ * Why this matters:
+ * - The blockList and blockDefaults are now in assets.json (external file)
+ * - The main JavaScript (tm_cm.js) needs this data to work
+ * - We must load assets.json first, then proceed with normal initialization
+ * - Using async/await ensures proper sequencing without callback hell
+ * 
+ * Flow:
+ * 1. Load assets.json → populate blockList and blockDefaults
+ * 2. Check for project URL parameter (for sharing/loading projects)
+ * 3. Check for previously loaded project in localStorage
+ * 4. Otherwise, load autosave or start fresh
+ */
+(async function initApp() {
+  try {
+    // Step 1: Load assets from external JSON file
+    // This populates blockList and blockDefaults used throughout the app
+    const assetsLoaded = await loadAssets();
+    if (!assetsLoaded) {
+      console.error('Failed to load assets, cannot initialize');
+      return;
+    }
+    
+    /**
+     * Step 2-4: Handle initialization based on context
+     * 
+     * Three possible startup scenarios:
+     * a) URL parameter with project to load (sharing feature)
+     * b) Previously loaded project saved in localStorage
+     * c) Default: load autosave or start fresh
+     */
+    
+    // Scenario A: Project URL parameter provided (e.g., ?project=https://...)
+    if (projectUrl && projectUrl != "") {
+      // Save to localStorage so it persists after redirect
+      localStorage.setItem("loadedProjectUrl", projectUrl);
+      // Redirect to clean URL without query parameters
+      // Why? Query parameters can cause issues on reload or when creating new projects
+      window.location.assign(location.protocol + '//' + location.host + location.pathname);
+    } 
+    // Scenario B: Previously loaded project exists in localStorage
+    else if (loadedProjectUrl && loadedProjectUrl != "") {
+      resetProject(false);  // Don't load autosave
+      loadInitialProject(loadedProjectUrl);  // Load the specified project
+    } 
+    // Scenario C: Normal startup - load autosave if it exists
+    else {
+      // resetProject(true) will attempt to load from localStorage autosave
+      // If no autosave exists, starts with a blank project
+      resetProject(true);
+    }
+  } catch (error) {
+    // Catch any errors during initialization and show user-friendly message
+    console.error('Error during app initialization:', error);
+    alert('Failed to initialize application. Check console for details.');
+  }
+})();
+</script>
 
 </body>
 </html>
