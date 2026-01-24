@@ -33,6 +33,7 @@ var blockList = [
     {putUnder: "templates", text: "Red Small Bottom", src:"templates__red_small_bottom"},
     {putUnder: "templates", text: "Prelude", src:"templates__prelude"},
     {putUnder: "templates", text: "Corporation", src:"templates__corporation"},
+    {putUnder: "templates", text: "Debug Sprite Sheet", src:"debug_sprite_sheet"},
 
   // Global parameters
   {putUnder: "globalparameters", text: "Oxygen", src:"globalparameters__oxygen"},
@@ -364,6 +365,126 @@ var megaTemplates = {
       {type:"text","data":"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:110,y:560,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
       {type:"text","data":"Flavor text!",x:563,y:723,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
     ]
+  },
+  debug_sprite_sheet: {
+    layers: (function() {
+      // Generate a debug sprite sheet with ALL block assets
+      const layers = [];
+      const canvasWidth = 3200;
+      const canvasHeight = 4000;
+      
+      // Add base layer
+      layers.push({type: "base", color: "#e8e8e8", height: canvasHeight, width: canvasWidth, params: "color"});
+      
+      // Category configurations: columns, cellWidth, cellHeight, targetWidth, targetHeight
+      const categoryConfig = {
+        templates: { cols: 8, cellW: 400, cellH: 400, targetW: 300, targetH: 360 },
+        globalparameters: { cols: 6, cellW: 180, cellH: 180, targetW: 140, targetH: 140 },
+        tags: { cols: 6, cellW: 150, cellH: 150, targetW: 120, targetH: 120 },
+        resources: { cols: 6, cellW: 150, cellH: 150, targetW: 120, targetH: 120 },
+        misc: { cols: 8, cellW: 130, cellH: 130, targetW: 110, targetH: 110 },
+        parties: { cols: 6, cellW: 200, cellH: 180, targetW: 180, targetH: 140 },
+        requisites: { cols: 6, cellW: 220, cellH: 100, targetW: 200, targetH: 80 },
+        tiles: { cols: 6, cellW: 180, cellH: 180, targetW: 150, targetH: 150 },
+        VPs: { cols: 4, cellW: 260, cellH: 260, targetW: 230, targetH: 230 },
+        productionboxes: { cols: 6, cellW: 180, cellH: 180, targetW: 150, targetH: 150 }
+      };
+      
+      // Group assets by category
+      const grouped = {};
+      for (let i = 0; i < blockList.length; i++) {
+        const asset = blockList[i];
+        // Skip the debug_sprite_sheet entry itself to avoid recursion
+        if (asset.src === 'debug_sprite_sheet') continue;
+        const category = asset.putUnder;
+        if (!grouped[category]) grouped[category] = [];
+        grouped[category].push(asset);
+      }
+      
+      // Layout each category
+      let currentY = 50; // Start position
+      const categoryOrder = ['templates', 'globalparameters', 'tags', 'resources', 'misc', 'parties', 'requisites', 'tiles', 'VPs', 'productionboxes'];
+      
+      for (const category of categoryOrder) {
+        if (!grouped[category] || grouped[category].length === 0) continue;
+        
+        const config = categoryConfig[category];
+        const assets = grouped[category];
+        
+        // Add category header
+        const headerText = category.toUpperCase().replace(/_/g, ' ');
+        layers.push({
+          type: "text",
+          data: headerText,
+          x: canvasWidth / 2,
+          y: currentY,
+          width: canvasWidth,
+          height: 32,
+          color: "#000000",
+          font: "Prototype",
+          style: "normal",
+          weight: "bold",
+          lineSpace: 4,
+          justify: "center",
+          params: "alltext color"
+        });
+        
+        currentY += 50; // Space after header
+        
+        // Layout assets in grid
+        let col = 0;
+        let row = 0;
+        for (let i = 0; i < assets.length; i++) {
+          const asset = assets[i];
+          
+          // Calculate top-left position for the asset (centered in cell)
+          const x = 50 + col * config.cellW + (config.cellW - config.targetW) / 2;
+          const y = currentY + row * config.cellH + (config.cellH - config.targetH) / 2;
+          
+          // Add the block with fixed width and height
+          layers.push({
+            type: "block",
+            src: asset.src,
+            x: x,
+            y: y,
+            width: config.targetW,
+            height: config.targetH,
+            params: "allimages"
+          });
+          
+          // Add label below the asset
+          const labelY = y + config.targetH + 5;
+          const displayText = asset.text || asset.src.replace(/_/g, ' ');
+          layers.push({
+            type: "text",
+            data: displayText,
+            x: x + config.targetW / 2,
+            y: labelY,
+            width: config.cellW,
+            height: 12,
+            color: "#333333",
+            font: "Pagella",
+            style: "normal",
+            weight: "normal",
+            lineSpace: 2,
+            justify: "center",
+            params: "alltext color"
+          });
+          
+          col++;
+          if (col >= config.cols) {
+            col = 0;
+            row++;
+          }
+        }
+        
+        // Move to next category
+        const rowsUsed = Math.ceil(assets.length / config.cols);
+        currentY += rowsUsed * config.cellH + 70; // Extra space between categories
+      }
+      
+      return layers;
+    })()
   }
 };
 
