@@ -71,7 +71,7 @@ var megaTemplates = {
   green_normal: {
       layers: [
         {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-        {type:"block", src:"templates__green_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
+        {type:"block", src:"templates__green_normal", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
         {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
         {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
         {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -83,7 +83,7 @@ var megaTemplates = {
   green_big_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"templates__green_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__green_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -95,7 +95,7 @@ var megaTemplates = {
   green_small_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"green_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"green_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -107,49 +107,49 @@ var megaTemplates = {
   blue_normal: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"templates__blue_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__blue_normal", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:798,width:826,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:860,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
       {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
+      {type:"block", src:"misc__arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
       {type:"text",data:"Effect or Action text!",x:413,y:360,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
     ]
   },
   blue_big_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"templates__blue_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__blue_big_bottom", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:753,width:702,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:860,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
       {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
+      {type:"block", src:"misc__arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
       {type:"text",data:"Effect or Action text!",x:413,y:360,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
     ]
   },
   blue_big_top: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"templates__blue_big_top", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__blue_big_top", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:413,y:849,width:702,height:24,color:"#0c5e84",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines",x:100,y:891,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"left",params:"allimages color alltext allpreset"},
       {type:"text",data:"Flavor text!",x:413,y:1005,width:826,height:22,color:"#000000",font:"Pagella",style:"italic",weight:"bold",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
-      {type:"block", src:"arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
+      {type:"block", src:"misc__arrow", x:355,y:265,width:116,height:55,params:"allimages allpreset"},
       {type:"text",data:"Effect or Action text!",x:413,y:360,width:826,height:22,color:"#000000",font:"Pagella",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"}
     ]
   },
   red_normal: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"templates__red_normal", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__red_normal", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -161,7 +161,7 @@ var megaTemplates = {
   red_small_bottom: {
     layers: [
       {type: "base", color: "#ffffff", height: 1126, width: 826, params: "color"},
-      {type:"block", src:"templates__red_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages"},
+      {type:"block", src:"templates__red_small_bottom", x:0,y:0,width:826,height:1126,params:"allimages allpreset"},
       {type:"text",data:"Cost",x:118,y:147,width:826,height:66,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"block", src:"requisites__normal", x:179,y:97,width:22,height:59,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:413,y:214,width:826,height:46,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -173,7 +173,7 @@ var megaTemplates = {
   prelude: {
     layers: [
       {type: "base", color: "#ffffff", height: 826, width: 1126, params: "color"},
-      {type:"block", src:"templates__prelude", x:0,y:0,width:1126,height:826,params:"allimages"},
+      {type:"block", src:"templates__prelude", x:0,y:0,width:1126,height:826,params:"allimages allpreset"},
       {type:"text",data:"CARD NAME",x:563,y:218,width:826,height:48,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"FAN MADE",x:563,y:500,width:826,height:24,color:"#ce809f",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text",data:"P R E L U D E",x:563,y:99,width:826,height:24,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -185,10 +185,10 @@ var megaTemplates = {
     layers: [
       {type:"base", color: "#ffffff", height: 826, width: 1126, params: "color"},
       //{type:"block", src:"2_for", x:969,y:103,width:257,height:89,params:"allimages"},
-      {type:"block", src:"templates__corporation", x:0,y:0,width:1126,height:826,params:"allimages"},
+      {type:"block", src:"templates__corporation", x:0,y:0,width:1126,height:826,params:"allimages allpreset"},
       {type:"effect", x: 600, y: 300, width: 400, height: 300, params: "allimages allpreset"},
       //{type:"block", name: "", iNum: 97, x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
-      {type:"block", name: "", src: "effect", x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
+      {type:"block", name: "", src: "blocks/misc__effect", x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
       {type:"text", data: "E F F E C T", x: 800, y: 333, width: 1126, height: 22, color: "#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text","data":"FAN MADE",x:198,y:736,width:826,height:24,color:"#c3c3c3",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text","data":"C O R P O R A T I O N",x:563,y:109,width:826,height:24,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
@@ -224,16 +224,16 @@ var megaTemplates = {
       // Images will be scaled to fit within maxW x maxH while maintaining aspect ratio
       // Note: maxH is reduced to leave room for text labels at the bottom
       const categoryConfig = {
-        templates: { cols: 8, cellW: 400, cellH: 400, maxW: 360, maxH: 340 },
-        globalparameters: { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 130 },
-        tags: { cols: 6, cellW: 150, cellH: 150, maxW: 120, maxH: 105 },
-        resources: { cols: 6, cellW: 150, cellH: 150, maxW: 120, maxH: 105 },
-        misc: { cols: 8, cellW: 130, cellH: 130, maxW: 110, maxH: 95 },
-        parties: { cols: 6, cellW: 200, cellH: 180, maxW: 180, maxH: 130 },
-        requisites: { cols: 6, cellW: 220, cellH: 100, maxW: 210, maxH: 70 },
-        tiles: { cols: 6, cellW: 180, cellH: 180, maxW: 160, maxH: 135 },
-        VPs: { cols: 4, cellW: 260, cellH: 260, maxW: 240, maxH: 215 },
-        productionboxes: { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 135 }
+        'blocks/templates': { cols: 8, cellW: 400, cellH: 400, maxW: 360, maxH: 340 },
+        'blocks/globalparameters': { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 130 },
+        'blocks/tags': { cols: 6, cellW: 150, cellH: 150, maxW: 120, maxH: 105 },
+        'blocks/resources': { cols: 6, cellW: 150, cellH: 150, maxW: 120, maxH: 105 },
+        'blocks/misc': { cols: 8, cellW: 130, cellH: 130, maxW: 110, maxH: 95 },
+        'blocks/parties': { cols: 6, cellW: 200, cellH: 180, maxW: 180, maxH: 130 },
+        'blocks/requisites': { cols: 6, cellW: 220, cellH: 100, maxW: 210, maxH: 70 },
+        'blocks/tiles': { cols: 6, cellW: 180, cellH: 180, maxW: 160, maxH: 135 },
+        'blocks/VPs': { cols: 4, cellW: 260, cellH: 260, maxW: 240, maxH: 215 },
+        'blocks/productionboxes': { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 135 }
       };
       
       // Group assets by category (putUnder field)
@@ -251,7 +251,7 @@ var megaTemplates = {
       // Layout each category section on the sprite sheet
       let currentY = 50; // Start position from top
       // Process categories in a specific order for consistent layout
-      const categoryOrder = ['templates', 'globalparameters', 'tags', 'resources', 'misc', 'parties', 'requisites', 'tiles', 'VPs', 'productionboxes'];
+      const categoryOrder = ['blocks/templates', 'blocks/globalparameters', 'blocks/tags', 'blocks/resources', 'blocks/misc', 'blocks/parties', 'blocks/requisites', 'blocks/tiles', 'blocks/VPs', 'blocks/productionboxes'];
       
       for (const category of categoryOrder) {
         // Skip if this category has no assets
@@ -504,7 +504,7 @@ function addBlockMenuItem(num) {
       toAdd.href = "#";
       toAdd.id = "image" + num;
       document.getElementById(blockList[num].putUnder).appendChild(toAdd);
-      if (blockList[num].putUnder == "templates") {
+      if (blockList[num].putUnder == "blocks/templates") {
         // add Super Templates (use src suffix as megaTemplates key)
         toAdd = document.createElement("a");
         toAdd.onclick = addMegaTemplate;
@@ -512,10 +512,11 @@ function addBlockMenuItem(num) {
         toAdd.classList.add("w3-bar-item");
         toAdd.classList.add("w3-button");
         toAdd.href = "#";
-        // normalize id to "mega" + template key (remove putUnder__ prefix if present)
+        // normalize id to "mega" + template key (remove "templates__" prefix if present)
         let megaKey = blockList[num].src || "";
-        const prefix = blockList[num].putUnder + "__";
-        if (megaKey.indexOf(prefix) === 0) megaKey = megaKey.slice(prefix.length);
+        if (megaKey.indexOf("templates__") === 0) {
+          megaKey = megaKey.slice("templates__".length);
+        }
         toAdd.id = "mega" + megaKey;
         document.getElementById("fromTemplate").appendChild(toAdd);
       }
@@ -667,6 +668,10 @@ function refreshParamsForLayer(layer, nodeId) {
             let defType = "";
             if (thisLayer.type == "block") {
               defType = blockList[thisLayer.iNum].putUnder;
+              // Strip "blocks/" prefix if present to match blockDefaults keys
+              if (defType && defType.indexOf("blocks/") === 0) {
+                defType = defType.slice(7);
+              }
             } else if (thisLayer.type == "text") {
               defType = "text";
             } else if (thisLayer.type == "production") {
@@ -1291,6 +1296,10 @@ function setPresets(th){
     let a = layer.iNum;
     let b = blockList[a];
     dName = b.putUnder;
+    // Strip "blocks/" prefix if present to match blockDefaults keys
+    if (dName && dName.indexOf("blocks/") === 0) {
+      dName = dName.slice(7);
+    }
   } else if (layer.type == "text") {
     dName = "text";
   } else if (layer.type == "production") {
@@ -1341,7 +1350,7 @@ function onBlockLoad() {
       toAdd.href = "#";
       toAdd.id = "image" + this.dataindex;
       document.getElementById(blockList[this.dataindex].putUnder).appendChild(toAdd);
-      if (blockList[this.dataindex].putUnder == "templates") {
+      if (blockList[this.dataindex].putUnder == "blocks/templates") {
         // add Super Templates
         toAdd = document.createElement("a");
         toAdd.onclick = addMegaTemplate;
@@ -1543,6 +1552,7 @@ function loadFrom(saved, autoload) {
 type2FuncList.block = addBlock;
 
 function addBlock(th) {
+  console.log("[ADDBLOCK] Called with:", th, "type:", typeof th);
   let layer = {type:"block", name:"", iNum:0, x:0, y:0, width:0, height:0, params:"allimages"};
   let myIndex = 0;
   if ((typeof th == "number")) {
@@ -1550,17 +1560,24 @@ function addBlock(th) {
   } else if (typeof th == "string") {
     // if string is numeric, convert, otherwise resolve by src/text
     myIndex = resolveBlockIndex(th);
+    console.log("[ADDBLOCK] Resolved", th, "to index:", myIndex);
     if (myIndex == -1) myIndex = this.id ? this.id.slice(5) : 0;
   } else {
     myIndex = this.id ? this.id.slice(5) : 0;
   }
   layer.iNum = Number(myIndex);
   let thisBlock = blockList[layer.iNum];
+  console.log("[ADDBLOCK] Using block at index", layer.iNum, ":", thisBlock);
   if (thisBlock.otherbg) {
     layer.params += " " + thisBlock.otherbg;
     layer.obg = false;
   }
-  if (blockDefaults[thisBlock.putUnder]) {
+  // Strip "blocks/" prefix if present to match blockDefaults keys
+  let defaultsKey = thisBlock.putUnder;
+  if (defaultsKey && defaultsKey.indexOf("blocks/") === 0) {
+    defaultsKey = defaultsKey.slice(7);
+  }
+  if (blockDefaults[defaultsKey]) {
     layer.params += " allpreset";
   }
   // layer.width = thisBlock.obj.width;
@@ -1606,10 +1623,15 @@ function addBlock(th) {
  * - Polymorphism: same interface supports multiple data types
  */
 function addMegaTemplate() {
+  console.log("[TEMPLATE] addMegaTemplate called, this.id:", this.id);
   if (!confirm("All current data will be discarded. Continue?")) return;
   if (this.id.slice(0,4) != "mega") return;
   let mega = this.id.slice(4);
-  if (!megaTemplates[mega]) return;
+  console.log("[TEMPLATE] Loading template:", mega);
+  if (!megaTemplates[mega]) {
+    console.error("[TEMPLATE] Template not found:", mega);
+    return;
+  }
   clearUndoHistory();
   document.getElementById("layerlist").innerHTML = "";
   ddcount = 0;
@@ -1632,6 +1654,7 @@ function addMegaTemplate() {
     layers = layers();  // Call the function to generate layers array
   }
   // At this point, layers is always an array, regardless of source
+  console.log("[TEMPLATE] Loading", layers.length, "layers");
   
   loadFrom(layers);
   captureInitialState("Load template: " + mega);

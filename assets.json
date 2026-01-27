@@ -1,103 +1,103 @@
 {
   "blockList": [
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Green Card",
       "src": "templates__green_normal",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Green Small Bottom",
       "src": "templates__green_small_bottom",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Green Big Bottom",
       "src": "templates__green_big_bottom",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Blue Card",
       "src": "templates__blue_normal",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Blue Big Bottom",
       "src": "templates__blue_big_bottom",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Blue Big Top",
       "src": "templates__blue_big_top",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Red Card",
       "src": "templates__red_normal",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Red Small Bottom",
       "src": "templates__red_small_bottom",
       "width": 1703,
       "height": 2319
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Prelude",
       "src": "templates__prelude",
       "width": 1126,
       "height": 826
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Corporation",
       "src": "templates__corporation",
       "width": 1126,
       "height": 826
     },
     {
-      "putUnder": "templates",
+      "putUnder": "blocks/templates",
       "text": "Debug Sprite Sheet",
       "src": "debug_sprite_sheet"
     },
     {
-      "putUnder": "globalparameters",
+      "putUnder": "blocks/globalparameters",
       "text": "Oxygen",
       "src": "globalparameters__oxygen",
       "width": 475,
       "height": 476
     },
     {
-      "putUnder": "globalparameters",
+      "putUnder": "blocks/globalparameters",
       "text": "Temperature",
       "src": "globalparameters__temperature",
       "width": 163,
       "height": 547
     },
     {
-      "putUnder": "globalparameters",
+      "putUnder": "blocks/globalparameters",
       "text": "Venus",
       "src": "globalparameters__venus",
       "width": 775,
       "height": 432
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Megacredit",
       "src": "misc__megacredit",
       "otherbg": "mc_otherbg",
@@ -105,7 +105,7 @@
       "height": 481
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "mc_otherbg",
       "src": "misc__other_player_background",
       "hidden": true,
@@ -113,182 +113,182 @@
       "height": 331
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Arrow",
       "src": "misc__arrow",
       "width": 531,
       "height": 248
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Asterisk",
       "src": "misc__asterisc",
       "width": 193,
       "height": 193
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Slash",
       "src": "misc__bar",
       "width": 123,
       "height": 327
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Chairman",
       "src": "misc__chairman",
       "width": 548,
       "height": 710
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Colon",
       "src": "misc__colon",
       "width": 28,
       "height": 122
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Delegate",
       "src": "misc__delegate",
       "width": 548,
       "height": 710
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Influence",
       "src": "misc__influence",
       "width": 1080,
       "height": 1136
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Party Leader",
       "src": "misc__party_leader",
       "width": 548,
       "height": 710
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Tag Holder",
       "src": "misc__corp_tag_holder",
       "width": 243,
       "height": 84
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Effect (bg)",
       "src": "misc__effect",
       "width": 730,
       "height": 76
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Asset",
       "src": "misc__asset",
       "width": 570,
       "height": 493
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Colony Tile",
       "src": "misc__colonytile",
       "width": 713,
       "height": 436
     },
     {
-      "putUnder": "misc",
+      "putUnder": "blocks/misc",
       "text": "Population",
       "src": "misc__population",
       "width": 270,
       "height": 266
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Bureaucrats",
       "src": "parties__bureacrats",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Centrists",
       "src": "parties__centrists",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Empower",
       "src": "parties__empower",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Greens",
       "src": "parties__greens",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Kelvinists",
       "src": "parties__kelvinists",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Mars First",
       "src": "parties__mars_first",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Populists",
       "src": "parties__populists",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Reds",
       "src": "parties__reds",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Scientists",
       "src": "parties__scientists",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Spome",
       "src": "parties__spome",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Transhumanists",
       "src": "parties__transhumanists",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "parties",
+      "putUnder": "blocks/parties",
       "text": "Unity",
       "src": "parties__unity",
       "width": 154,
       "height": 111
     },
     {
-      "putUnder": "productionboxes",
+      "putUnder": "blocks/productionboxes",
       "text": "prod_nxn",
       "src": "productionboxes__nxn",
       "hidden": true,
@@ -296,42 +296,42 @@
       "height": 173
     },
     {
-      "putUnder": "requisites",
+      "putUnder": "blocks/requisites",
       "text": "Max Requirement",
       "src": "requisites__max_big",
       "width": 881,
       "height": 263
     },
     {
-      "putUnder": "requisites",
+      "putUnder": "blocks/requisites",
       "text": "Min Requirement (big)",
       "src": "requisites__min_big",
       "width": 776,
       "height": 263
     },
     {
-      "putUnder": "requisites",
+      "putUnder": "blocks/requisites",
       "text": "Min Requirement",
       "src": "requisites__min_medium",
       "width": 646,
       "height": 263
     },
     {
-      "putUnder": "requisites",
+      "putUnder": "blocks/requisites",
       "text": "Min Requirement (small)",
       "src": "requisites__min_small",
       "width": 568,
       "height": 262
     },
     {
-      "putUnder": "requisites",
+      "putUnder": "blocks/requisites",
       "text": "No Requirement",
       "src": "requisites__normal",
       "width": 90,
       "height": 260
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Animal",
       "src": "resources__animal",
       "otherbg": "res_otherbg",
@@ -339,7 +339,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Biohazard",
       "src": "resources__biohazard",
       "otherbg": "res_otherbg",
@@ -347,7 +347,7 @@
       "height": 580
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Card",
       "src": "resources__card",
       "otherbg": "res_otherbg",
@@ -355,7 +355,7 @@
       "height": 478
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Data",
       "src": "resources__data",
       "otherbg": "res_otherbg",
@@ -363,7 +363,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Dust",
       "src": "resources__dust",
       "otherbg": "res_otherbg",
@@ -371,7 +371,7 @@
       "height": 942
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Fighter",
       "src": "resources__fighter",
       "otherbg": "res_otherbg",
@@ -379,7 +379,7 @@
       "height": 362
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Floater",
       "src": "resources__floater",
       "otherbg": "res_otherbg",
@@ -387,7 +387,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Heat",
       "src": "resources__heat",
       "otherbg": "res_otherbg",
@@ -395,7 +395,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Microbe",
       "src": "resources__microbe",
       "otherbg": "res_otherbg",
@@ -403,7 +403,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Other Player Background",
       "src": "resources__other_player_background",
       "hidden": true,
@@ -411,7 +411,7 @@
       "height": 368
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Plant",
       "src": "resources__plant",
       "otherbg": "res_otherbg",
@@ -419,7 +419,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Power",
       "src": "resources__power",
       "otherbg": "res_otherbg",
@@ -427,7 +427,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Radiation",
       "src": "resources__radiation",
       "otherbg": "res_otherbg",
@@ -435,7 +435,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Science",
       "src": "resources__science",
       "otherbg": "res_otherbg",
@@ -443,7 +443,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Steel",
       "src": "resources__steel",
       "otherbg": "res_otherbg",
@@ -451,7 +451,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Titanium",
       "src": "resources__titanium",
       "otherbg": "res_otherbg",
@@ -459,7 +459,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "TR",
       "src": "resources__TR",
       "otherbg": "res_otherbg",
@@ -467,7 +467,7 @@
       "height": 396
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Wild",
       "src": "resources__wild",
       "otherbg": "res_otherbg",
@@ -475,7 +475,7 @@
       "height": 331
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Asteroid",
       "src": "resources__asteroid",
       "otherbg": "res_otherbg",
@@ -483,7 +483,7 @@
       "height": 90
     },
     {
-      "putUnder": "resources",
+      "putUnder": "blocks/resources",
       "text": "Ore",
       "src": "resources__ore",
       "otherbg": "res_otherbg",
@@ -491,7 +491,7 @@
       "height": 82
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Animal",
       "src": "tags__animal",
       "otherbg": "tag_otherbg",
@@ -499,7 +499,7 @@
       "height": 445
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Building",
       "src": "tags__building",
       "otherbg": "tag_otherbg",
@@ -507,7 +507,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "City",
       "src": "tags__city",
       "otherbg": "tag_otherbg",
@@ -515,7 +515,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Earth",
       "src": "tags__earth",
       "otherbg": "tag_otherbg",
@@ -523,7 +523,7 @@
       "height": 454
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Event",
       "src": "tags__event",
       "otherbg": "tag_otherbg",
@@ -531,7 +531,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Galactic",
       "src": "tags__galactic",
       "otherbg": "tag_otherbg",
@@ -539,7 +539,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Infrastructure",
       "src": "tags__infrastructure",
       "otherbg": "tag_otherbg",
@@ -547,7 +547,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Jovian",
       "src": "tags__jovian",
       "otherbg": "tag_otherbg",
@@ -555,7 +555,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Mars",
       "src": "tags__mars",
       "otherbg": "tag_otherbg",
@@ -563,7 +563,7 @@
       "height": 446
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Microbe",
       "src": "tags__microbe",
       "otherbg": "tag_otherbg",
@@ -571,7 +571,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Moon",
       "src": "tags__moon",
       "otherbg": "tag_otherbg",
@@ -579,7 +579,7 @@
       "height": 445
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Other",
       "src": "tags__other_player_background",
       "hidden": true,
@@ -587,7 +587,7 @@
       "height": 290
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Planetary",
       "src": "tags__planetary",
       "otherbg": "tag_otherbg",
@@ -595,7 +595,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Plant",
       "src": "tags__plant",
       "otherbg": "tag_otherbg",
@@ -603,7 +603,7 @@
       "height": 445
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Power",
       "src": "tags__power",
       "otherbg": "tag_otherbg",
@@ -611,7 +611,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Radioactive",
       "src": "tags__radioactive",
       "otherbg": "tag_otherbg",
@@ -619,7 +619,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Science",
       "src": "tags__science",
       "otherbg": "tag_otherbg",
@@ -627,7 +627,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Space",
       "src": "tags__space",
       "otherbg": "tag_otherbg",
@@ -635,7 +635,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Venus",
       "src": "tags__venus",
       "otherbg": "tag_otherbg",
@@ -643,7 +643,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Wild",
       "src": "tags__wild",
       "otherbg": "tag_otherbg",
@@ -651,7 +651,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Multitag",
       "src": "tags__multitag",
       "otherbg": "tag_otherbg",
@@ -659,7 +659,7 @@
       "height": 444
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Tourism",
       "src": "tags__tourism",
       "otherbg": "tag_otherbg",
@@ -667,7 +667,7 @@
       "height": 107
     },
     {
-      "putUnder": "tags",
+      "putUnder": "blocks/tags",
       "text": "Mercury",
       "src": "tags__mercury",
       "otherbg": "tag_otherbg",
@@ -675,7 +675,7 @@
       "height": 405
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "City",
       "src": "tiles__city",
       "otherbg": "otherbg",
@@ -683,14 +683,14 @@
       "height": 477
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Colony",
       "src": "tiles__colony",
       "width": 373,
       "height": 324
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Empty",
       "src": "tiles__empty",
       "otherbg": "otherbg",
@@ -698,7 +698,7 @@
       "height": 477
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Greenery no O2",
       "src": "tiles__greenery_no_O2",
       "otherbg": "otherbg",
@@ -706,7 +706,7 @@
       "height": 478
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Greenery",
       "src": "tiles__greenery",
       "otherbg": "otherbg",
@@ -714,7 +714,7 @@
       "height": 478
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Ocean",
       "src": "tiles__ocean",
       "otherbg": "otherbg",
@@ -722,7 +722,7 @@
       "height": 483
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Off-World City",
       "src": "tiles__off-world_city",
       "otherbg": "otherbg",
@@ -730,7 +730,7 @@
       "height": 477
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Special",
       "src": "tiles__special",
       "otherbg": "otherbg",
@@ -738,14 +738,14 @@
       "height": 472
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Trade",
       "src": "tiles__trade",
       "width": 374,
       "height": 324
     },
     {
-      "putUnder": "tiles",
+      "putUnder": "blocks/tiles",
       "text": "Otherbg",
       "src": "tiles__other_player_background",
       "hidden": true,
@@ -753,112 +753,112 @@
       "height": 505
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "0 VP",
       "src": "VPs__0",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "VP 1/",
       "src": "VPs__1_for",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "1 VP",
       "src": "VPs__1",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "VP 2/",
       "src": "VPs__2_for",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "2 VP",
       "src": "VPs__2",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "3 VP",
       "src": "VPs__3",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "4 VP",
       "src": "VPs__4",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "5 VP",
       "src": "VPs__5",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "6 VP",
       "src": "VPs__6",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "7 VP",
       "src": "VPs__7",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "8 VP",
       "src": "VPs__8",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "9 VP",
       "src": "VPs__9",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "VP background",
       "src": "VPs__blank",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "-VP",
       "src": "VPs__negative",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "+VP",
       "src": "VPs__positive",
       "width": 926,
       "height": 926
     },
     {
-      "putUnder": "VPs",
+      "putUnder": "blocks/VPs",
       "text": "/ VP",
       "src": "VPs__n_for",
       "width": 926,
