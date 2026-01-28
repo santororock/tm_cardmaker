@@ -404,7 +404,7 @@
     },
     {
       "putUnder": "blocks/resources",
-      "text": "Other Player Background",
+      "text": "res_otherbg",
       "src": "resources__other_player_background",
       "hidden": true,
       "width": 372,
@@ -746,7 +746,7 @@
     },
     {
       "putUnder": "blocks/tiles",
-      "text": "Otherbg",
+      "text": "otherbg",
       "src": "tiles__other_player_background",
       "hidden": true,
       "width": 441,
@@ -863,6 +863,134 @@
       "src": "VPs__n_for",
       "width": 926,
       "height": 926
+    },
+    {
+      "height": 776,
+      "putUnder": "blocks/productionboxes",
+      "src": "productionboxes__1x1",
+      "text": "Productionboxes  1X1",
+      "width": 799,
+      "hidden": true
+    },
+    {
+      "height": 686,
+      "putUnder": "blocks/productionboxes",
+      "src": "productionboxes__1x1_5",
+      "text": "Productionboxes  1X1 5",
+      "width": 900,
+      "hidden": true
+    },
+    {
+      "height": 686,
+      "putUnder": "blocks/productionboxes",
+      "src": "productionboxes__1x2",
+      "text": "Productionboxes  1X2",
+      "width": 1210,
+      "hidden": true
+    },
+    {
+      "height": 1354,
+      "putUnder": "blocks/productionboxes",
+      "src": "productionboxes__2x2",
+      "text": "Productionboxes  2X2",
+      "width": 1431,
+      "hidden": true
+    },
+    {
+      "height": 1354,
+      "putUnder": "blocks/productionboxes",
+      "src": "productionboxes__2x3",
+      "text": "Productionboxes  2X3",
+      "width": 2017,
+      "hidden": true
+    },
+    {
+      "height": 2017,
+      "putUnder": "blocks/productionboxes",
+      "src": "productionboxes__3x2",
+      "text": "Productionboxes  3X2",
+      "width": 1354,
+      "hidden": true
+    },
+    {
+      "height": 798,
+      "putUnder": "blocks/productionboxes",
+      "src": "productionboxes__other_player_background",
+      "text": "Productionboxes  Other Player Background",
+      "width": 827,
+      "hidden": true
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__capitol",
+      "text": "Tiles  Capitol",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__commercial_district",
+      "text": "Tiles  Commercial District",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__ecological_zone",
+      "text": "Tiles  Ecological Zone",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__industrial_center",
+      "text": "Tiles  Industrial Center",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__lava_flow",
+      "text": "Tiles  Lava Flow",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__mining_area",
+      "text": "Tiles  Mining Area",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__mohole_area",
+      "text": "Tiles  Mohole Area",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__nuclear_zone",
+      "text": "Tiles  Nuclear Zone",
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "height": 472,
+      "putUnder": "blocks/tiles",
+      "src": "tiles__restricted_area",
+      "text": "Tiles  Restricted Area",
+      "width": 409,
+      "otherbg": "otherbg"
     }
   ],
   "blockDefaults": {
