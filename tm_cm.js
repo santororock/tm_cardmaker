@@ -700,6 +700,27 @@ function refreshParamsForLayer(layer, nodeId) {
   }
 }
 
+// Helper function to scroll the properties panel to show the selected element
+function scrollPropertiesPanelToElement(element) {
+  const rightPanel = document.getElementById('rightPanel');
+  if (!rightPanel || !element || !element.offsetParent) return;
+  
+  // Get the position of the element relative to the rightPanel
+  const elementRect = element.getBoundingClientRect();
+  const panelRect = rightPanel.getBoundingClientRect();
+  
+  // Calculate the element's position relative to the panel's scrollable content
+  const elementTopInPanel = elementRect.top - panelRect.top + rightPanel.scrollTop;
+  const elementHeight = elementRect.height;
+  const panelHeight = rightPanel.clientHeight;
+  
+  // Center the element vertically in the panel
+  // Calculate where the top should be so the element is centered
+  const targetScrollTop = elementTopInPanel - (panelHeight / 2) + (elementHeight / 2);
+  
+  rightPanel.scrollTop = targetScrollTop;
+}
+
 // Helper function to select a layer by its DOM ID (used by undo/redo)
 function selectLayerById(layerId) {
   const layerEl = document.getElementById(layerId);
@@ -751,6 +772,9 @@ function selectLayer() {
   } else {
     clickedNode.appendChild(domParams);
   }
+
+  // Auto-scroll the properties panel to show the selected layer's properties
+  scrollPropertiesPanelToElement(domParams);
 
   try { drawProject(); } catch (e) {}
 }
