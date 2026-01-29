@@ -25,13 +25,15 @@ try:
         QPushButton, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem,
         QFormLayout, QSpinBox, QCheckBox, QComboBox, QDialog, QDialogButtonBox,
         QTextEdit, QListWidget, QListWidgetItem, QMenu, QToolBar, QStatusBar,
-        QGroupBox, QScrollArea, QHeaderView, QAbstractItemView, QSizePolicy
+        QGroupBox, QScrollArea, QHeaderView, QAbstractItemView, QSizePolicy,
+        QStyledItemDelegate, QStyle, QStyleOptionViewItem
     )
     from PySide6.QtCore import (
-        Qt, Signal, QSize, QSettings, QTimer, QModelIndex, QPoint
+        Qt, Signal, QSize, QSettings, QTimer, QModelIndex, QPoint, QRect, QMimeData
     )
     from PySide6.QtGui import (
-        QPixmap, QAction, QIcon, QImage, QPalette, QFont, QUndoStack, QUndoCommand
+        QPixmap, QAction, QIcon, QImage, QPalette, QFont, QUndoStack, QUndoCommand,
+        QPainter, QBrush, QColor, QPen, QDrag
     )
 except ImportError:
     print("PySide6 not found. Please install: pip install PySide6")
@@ -156,6 +158,33 @@ class AssetDocument:
         if 0 <= from_index < len(self.data["blockList"]) and 0 <= to_index < len(self.data["blockList"]):
             sprite = self.data["blockList"].pop(from_index)
             self.data["blockList"].insert(to_index, sprite)
+            
+            # Update unsaved_indices tracking
+            was_unsaved = from_index in self.unsaved_indices
+            
+            # Remove the from_index
+            self.unsaved_indices.discard(from_index)
+            
+            # Shift indices that were affected by the removal
+            new_unsaved = set()
+            for idx in self.unsaved_indices:
+                if idx > from_index:
+                    new_unsaved.add(idx - 1)
+                else:
+                    new_unsaved.add(idx)
+            
+            # Shift indices that are affected by the insertion
+            self.unsaved_indices = set()
+            for idx in new_unsaved:
+                if idx >= to_index:
+                    self.unsaved_indices.add(idx + 1)
+                else:
+                    self.unsaved_indices.add(idx)
+            
+            # Add the moved sprite at its new position if it was unsaved
+            if was_unsaved:
+                self.unsaved_indices.add(to_index)
+            
             self.set_dirty()
             
     def get_categories(self) -> List[str]:
@@ -338,6 +367,353 @@ class AssetDocument:
         return new_sprites
 
 
+class DragHandleDelegate(QStyledItemDelegate):
+    """Custom delegate that draws a drag handle icon on sprite items"""
+    
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.drag_handle_width = 20
+        self.hovered_index = None  # Track which item is being hovered
+        
+    def paint(self, painter: QPainter, option: QStyleOptionViewItem, index: QModelIndex):
+        """Paint the item with hover highlight and drag handle icon"""
+        # Check if this item is being hovered
+        is_hovered = (self.hovered_index == index)
+        
+        # Draw subtle hover outline if item is hovered
+        if is_hovered:
+            painter.save()
+            painter.setPen(QPen(QColor(100, 150, 200, 80), 1))  # Subtle blue outline
+            painter.setBrush(QBrush(QColor(220, 235, 250, 30)))  # Very light blue fill
+            painter.drawRect(option.rect.adjusted(0, 0, -1, -1))
+            painter.restore()
+        
+        # Call base paint to draw normal item content
+        super().paint(painter, option, index)
+        
+        # Only draw drag handle for sprite items (not categories)
+        tree = self.parent()
+        if not isinstance(tree, QTreeWidget):
+            return
+            
+        item = tree.itemFromIndex(index)
+        if item:
+            data = item.data(0, Qt.ItemDataRole.UserRole)
+            if data and data.get("type") == "sprite":
+                # Draw drag handle (6 dots in 2x3 grid) on the right side
+                rect = option.rect
+                handle_x = rect.right() - self.drag_handle_width - 5
+                handle_y = rect.top() + (rect.height() - 12) // 2
+                
+                painter.save()
+                painter.setPen(Qt.PenStyle.NoPen)
+                
+                # Use slightly darker color for hover state
+                dot_color = QColor(120, 120, 120) if is_hovered else QColor(150, 150, 150)
+                painter.setBrush(QBrush(dot_color))
+                
+                # Draw 6 dots in 2 columns x 3 rows (30% smaller radius)
+                dot_radius = 1.4
+                dot_spacing = 5
+                
+                for row in range(3):
+                    for col in range(2):
+                        x = handle_x + col * dot_spacing
+                        y = handle_y + row * dot_spacing
+                        painter.drawEllipse(QPoint(x, y), dot_radius, dot_radius)
+                
+                painter.restore()
+    
+    def set_hovered_index(self, index):
+        """Update the hovered item index"""
+        self.hovered_index = index
+    
+    def get_drag_handle_rect(self, option: QStyleOptionViewItem) -> QRect:
+        """Get the rectangle for the drag handle area"""
+        rect = option.rect
+        return QRect(rect.right() - self.drag_handle_width - 5, 
+                    rect.top(),
+                    self.drag_handle_width + 5, 
+                    rect.height())
+
+
+class DraggableTreeWidget(QTreeWidget):
+    """Custom tree widget with drag-drop support via drag handles"""
+    
+    reorder_requested = Signal(int, int)  # from_index, to_index
+    
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.drag_start_pos = None
+        self.drag_item = None
+        self.is_drag_handle_pressed = False
+        self.drop_indicator_pos = -1  # Y position of drop indicator
+        self.drop_indicator_active = False
+        self.drop_target_item = None  # Item we're dropping on
+        self.drop_insert_after = False  # Whether to insert after (True) or before (False) the target
+        self.dragged_item_hidden = False  # Track if we've hidden the dragged item
+        
+        # Enable internal drag-drop with visible indicators
+        self.setDragEnabled(True)
+        self.setAcceptDrops(True)
+        self.setDropIndicatorShown(True)
+        self.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
+        self.setDefaultDropAction(Qt.DropAction.MoveAction)
+        
+        # Ensure animations are enabled for better visual feedback
+        self.setAnimated(True)
+        
+        # Make sure the tree allows dropping between items
+        self.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        
+        # Set custom delegate and enable mouse tracking
+        self.delegate = DragHandleDelegate(self)
+        self.setItemDelegate(self.delegate)
+        self.setMouseTracking(True)  # Enable mouse move events even without button pressed
+        
+    def mousePressEvent(self, event):
+        """Override to detect clicks on drag handle"""
+        pos = event.position().toPoint() if hasattr(event.position(), 'toPoint') else event.pos()
+        item = self.itemAt(pos)
+        
+        if item and event.button() == Qt.MouseButton.LeftButton:
+            data = item.data(0, Qt.ItemDataRole.UserRole)
+            
+            # Only enable drag for sprite items (not categories)
+            if data and data.get("type") == "sprite":
+                # Check if click is in drag handle area (right side of item)
+                index = self.indexFromItem(item)
+                item_rect = self.visualRect(index)
+                
+                # Drag handle is on the right side (last 25 pixels)
+                handle_width = 25
+                if pos.x() >= item_rect.right() - handle_width:
+                    self.is_drag_handle_pressed = True
+                    self.drag_start_pos = pos
+                    self.drag_item = item
+                    # Don't call super() to prevent normal selection behavior
+                    return
+        
+        # Reset drag state for normal clicks
+        self.is_drag_handle_pressed = False
+        self.drag_start_pos = None
+        self.drag_item = None
+        
+        # Normal click behavior (multi-select, etc.)
+        super().mousePressEvent(event)
+    
+    def mouseMoveEvent(self, event):
+        """Override to track hover and start drag only from drag handle"""
+        pos = event.position().toPoint() if hasattr(event.position(), 'toPoint') else event.pos()
+        
+        # Update hover highlight
+        hovered_item = self.itemAt(pos)
+        hovered_index = self.indexFromItem(hovered_item) if hovered_item else None
+        
+        if hovered_index != self.delegate.hovered_index:
+            self.delegate.set_hovered_index(hovered_index)
+            self.viewport().update()  # Trigger repaint for hover effect
+        
+        if not (event.buttons() & Qt.MouseButton.LeftButton):
+            return
+            
+        if not self.is_drag_handle_pressed or not self.drag_start_pos:
+            # Normal drag behavior (multi-select rubberband)
+            super().mouseMoveEvent(event)
+            return
+        
+        # Check if we've moved enough to start a drag
+        if (pos - self.drag_start_pos).manhattanLength() < QApplication.startDragDistance():
+            return
+        
+        # Start drag operation
+        if self.drag_item:
+            self.startDrag(Qt.DropAction.MoveAction)
+    
+    def startDrag(self, supportedActions):
+        """Start drag operation with the selected item"""
+        if not self.drag_item:
+            return
+        
+        # Hide the dragged item to create the "picked up" effect
+        try:
+            self.drag_item.setHidden(True)
+            self.dragged_item_hidden = True
+            self.viewport().update()
+        except RuntimeError:
+            # Item may have been deleted during tree refresh
+            self.dragged_item_hidden = False
+            self.drag_item = None
+            return
+        
+        # Create drag object
+        drag = QDrag(self)
+        mime_data = QMimeData()
+        
+        # Store the sprite index in mime data
+        data = self.drag_item.data(0, Qt.ItemDataRole.UserRole)
+        if data and data.get("type") == "sprite":
+            mime_data.setText(str(data.get("index", -1)))
+            drag.setMimeData(mime_data)
+            
+            # Create drag pixmap from item icon and text
+            icon = self.drag_item.icon(0)
+            if not icon.isNull():
+                pixmap = icon.pixmap(48, 48)
+                drag.setPixmap(pixmap)
+                drag.setHotSpot(pixmap.rect().center())
+            
+            # Execute drag - this will show drop indicators automatically
+            result = drag.exec(Qt.DropAction.MoveAction)
+            
+            # Show the item again after drag completes (drop or cancel)
+            if self.dragged_item_hidden and self.drag_item:
+                try:
+                    self.drag_item.setHidden(False)
+                    self.dragged_item_hidden = False
+                except RuntimeError:
+                    # Item may have been deleted, tree will be refreshed anyway
+                    self.dragged_item_hidden = False
+                self.viewport().update()
+        
+        # Clean up drag state
+        self.is_drag_handle_pressed = False
+        self.drag_start_pos = None
+        self.drag_item = None
+    
+    def dragEnterEvent(self, event):
+        """Accept drag enter events and enable drop indicator"""
+        if event.source() == self:
+            event.acceptProposedAction()
+            self.drop_indicator_active = True
+        else:
+            event.ignore()
+    
+    def dragMoveEvent(self, event):
+        """Handle drag move to show drop indicators"""
+        if event.source() == self:
+            pos = event.position().toPoint() if hasattr(event.position(), 'toPoint') else event.pos()
+            item = self.itemAt(pos)
+            
+            if item:
+                # Only allow dropping on sprite items (within same category)
+                data = item.data(0, Qt.ItemDataRole.UserRole)
+                if data and data.get("type") == "sprite":
+                    # Get the item's visual rectangle
+                    item_rect = self.visualRect(self.indexFromItem(item))
+                    
+                    # Calculate drop position based on cursor position relative to item
+                    item_center = item_rect.center().y()
+                    
+                    if pos.y() < item_center:
+                        # Snap to top of item (drop before this item)
+                        self.drop_indicator_pos = item_rect.top()
+                        self.drop_insert_after = False
+                    else:
+                        # Snap to bottom of item (drop after this item)
+                        self.drop_indicator_pos = item_rect.bottom()
+                        self.drop_insert_after = True
+                    
+                    # Store the target item for use in dropEvent
+                    self.drop_target_item = item
+                    self.drop_indicator_active = True
+                    event.acceptProposedAction()
+                    self.viewport().update()  # Trigger repaint to show indicator
+                    return
+            
+            self.drop_indicator_active = False
+            self.drop_target_item = None
+            event.ignore()
+        else:
+            self.drop_indicator_active = False
+            self.drop_target_item = None
+            event.ignore()
+    
+    def dragLeaveEvent(self, event):
+        """Handle drag leave - hide drop indicator and restore dragged item"""
+        self.drop_indicator_active = False
+        self.drop_target_item = None
+        
+        # Show the dragged item if drag was cancelled
+        if self.dragged_item_hidden and self.drag_item:
+            try:
+                self.drag_item.setHidden(False)
+                self.dragged_item_hidden = False
+            except RuntimeError:
+                # Item may have been deleted
+                self.dragged_item_hidden = False
+        
+        self.viewport().update()
+        super().dragLeaveEvent(event)
+    
+    def leaveEvent(self, event):
+        """Handle mouse leaving the tree - clear hover highlight"""
+        if self.delegate.hovered_index is not None:
+            self.delegate.set_hovered_index(None)
+            self.viewport().update()
+        super().leaveEvent(event)
+    
+    def dropEvent(self, event):
+        """Handle drop to reorder items"""
+        self.drop_indicator_active = False
+        self.viewport().update()
+        
+        if not event.source() == self:
+            event.ignore()
+            return
+        
+        # Get source index from mime data
+        mime_data = event.mimeData()
+        try:
+            from_index = int(mime_data.text())
+        except (ValueError, AttributeError):
+            event.ignore()
+            return
+        
+        # Use stored drop target and position from dragMoveEvent
+        if not self.drop_target_item:
+            event.ignore()
+            return
+        
+        target_data = self.drop_target_item.data(0, Qt.ItemDataRole.UserRole)
+        if not target_data or target_data.get("type") != "sprite":
+            event.ignore()
+            return
+        
+        to_index = target_data.get("index", -1)
+        
+        # Apply the insert position we calculated during drag
+        if self.drop_insert_after:
+            to_index += 1
+        
+        # Don't drop on itself
+        if from_index >= 0 and to_index >= 0 and from_index != to_index:
+            # Adjust if moving down
+            if from_index < to_index:
+                to_index -= 1
+            
+            if from_index != to_index:
+                event.accept()
+                self.reorder_requested.emit(from_index, to_index)
+                return
+        
+        event.ignore()
+    
+    def paintEvent(self, event):
+        """Paint the tree and draw custom drop indicator"""
+        super().paintEvent(event)
+        
+        # Draw custom drop indicator line if dragging
+        if self.drop_indicator_active and self.drop_indicator_pos > 0:
+            painter = QPainter(self.viewport())
+            painter.setPen(QPen(QColor(0, 120, 215), 2))  # Blue line
+            
+            # Draw horizontal line at drop position
+            painter.drawLine(0, self.drop_indicator_pos, 
+                           self.viewport().width(), self.drop_indicator_pos)
+            painter.end()
+
+
 class CategoryBrowser(QWidget):
     """Left panel tree view of categories and sprites"""
     
@@ -363,13 +739,14 @@ class CategoryBrowser(QWidget):
         self.search.textChanged.connect(self.filter_sprites)
         layout.addWidget(self.search)
         
-        # Category tree
-        self.tree = QTreeWidget()
+        # Category tree with drag-drop support
+        self.tree = DraggableTreeWidget()
         self.tree.setHeaderLabel("Categories & Sprites")
         self.tree.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
         self.tree.itemSelectionChanged.connect(self.on_selection_changed)
         self.tree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self.tree.customContextMenuRequested.connect(self.show_context_menu)
+        self.tree.reorder_requested.connect(self.on_reorder_requested)
         layout.addWidget(self.tree)
         
     def update_folder_label(self):
@@ -513,6 +890,13 @@ class CategoryBrowser(QWidget):
             for index in sorted(indices, reverse=True):
                 self.document.delete_sprite(index)
             self.refresh()
+    
+    def on_reorder_requested(self, from_index: int, to_index: int):
+        """Handle drag-drop reorder request"""
+        self.document.reorder_sprite(from_index, to_index)
+        self.refresh()
+        # Emit selection to update property editor
+        self.on_selection_changed()
 
 
 class PropertyEditor(QWidget):

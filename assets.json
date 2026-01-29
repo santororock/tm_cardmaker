@@ -676,6 +676,14 @@
     },
     {
       "putUnder": "blocks/tiles",
+      "text": "Empty",
+      "src": "tiles__empty",
+      "otherbg": "otherbg",
+      "width": 413,
+      "height": 477
+    },
+    {
+      "putUnder": "blocks/tiles",
       "text": "City",
       "src": "tiles__city",
       "otherbg": "otherbg",
@@ -688,14 +696,6 @@
       "src": "tiles__colony",
       "width": 373,
       "height": 324
-    },
-    {
-      "putUnder": "blocks/tiles",
-      "text": "Empty",
-      "src": "tiles__empty",
-      "otherbg": "otherbg",
-      "width": 413,
-      "height": 477
     },
     {
       "putUnder": "blocks/tiles",
@@ -731,14 +731,6 @@
     },
     {
       "putUnder": "blocks/tiles",
-      "text": "Special",
-      "src": "tiles__special",
-      "otherbg": "otherbg",
-      "width": 409,
-      "height": 472
-    },
-    {
-      "putUnder": "blocks/tiles",
       "text": "Trade",
       "src": "tiles__trade",
       "width": 374,
@@ -751,6 +743,14 @@
       "hidden": true,
       "width": 441,
       "height": 505
+    },
+    {
+      "putUnder": "blocks/tiles",
+      "text": "Special",
+      "src": "tiles__special",
+      "otherbg": "otherbg",
+      "width": 409,
+      "height": 472
     },
     {
       "putUnder": "blocks/VPs",
