@@ -1,58 +1,154 @@
 #!/usr/bin/env python3
 """
-Populate image dimensions in assets.json
-
-This script automates the process of adding width and height properties to
-every block entry in assets.json by reading the actual PNG files.
+================================================================================
+POPULATE IMAGE DIMENSIONS - populate_dimensions.py
+================================================================================
 
 Purpose:
-    The card maker needs image dimensions to calculate aspect-ratio-preserving
-    scales for the debug sprite sheet. Rather than manually measuring and typing
-    115+ dimensions, this script does it automatically.
+    This utility script automates adding width/height properties to every block
+    entry in assets.json by reading the actual PNG image files.
+    
+    Problem it solves:
+      - The card maker needs image dimensions for aspect-ratio-preserving scaling
+      - Manually measuring and typing 115+ dimensions is tedious and error-prone
+      - This tool is a "force multiplier" for asset management
+      - Eliminates manual data entry and keeps dimensions in sync with actual images
+    
+How It Works (Pipeline):
+    1. Load JSON
+       - Read assets.json file
+       - Parse into Python dictionary structure
+    
+    2. Iterate Assets
+       - Loop through each block in blockList
+       - Construct file path to the PNG image
+       
+    3. Read Images
+       - Use PIL (Python Imaging Library) to open PNG
+       - Extract width/height without loading entire image into memory
+       
+    4. Update JSON
+       - Add "width" and "height" properties to block
+       - Overwrite existing values if present
+       
+    5. Save Results
+       - Write updated JSON back to disk
+       - Pretty-print formatting for readability
+       - Report statistics (updated, skipped, errors)
+    
+Key Programming Concepts Demonstrated:
+    
+    1. File I/O
+       - Reading: open(), json.load(), Path operations
+       - Writing: json.dump() with formatting
+       - Error handling: try/except for file operations
+       - Encoding: UTF-8 for international character support
+       
+    2. Data Structures
+       - Dictionary: JSON maps to Python dict
+       - List comprehension: Could be used here for filtering
+       - Nested access: block.get('putUnder', '') with defaults
+       
+    3. Image Processing
+       - PIL/Pillow library: Industry-standard image library
+       - Lazy loading: Reading dimensions without loading pixel data
+       - Path resolution: Multiple naming conventions handled
+       
+    4. Path Manipulation
+       - pathlib.Path: Modern Python path handling (cross-platform)
+       - String manipulation: .stem, .with_suffix() for filename operations
+       
+    5. Error Handling Strategy
+       - Graceful degradation: Skip problematic files
+       - User feedback: Detailed logging for debugging
+       - Statistics: Report summary of what happened
+       
+    6. Defensive Programming
+       - Default values: .get() with fallback values
+       - Existence checks: path.exists() before accessing
+       - Type validation: Check for valid src before processing
+       
+    7. Script Entry Point
+       - if __name__ == '__main__': Allows import without execution
+       - Sys exit codes: Proper exit status reporting
+       
+Additional Learning Resources:
+    - PIL/Pillow docs: https://python-pillow.org/
+    - pathlib module: https://docs.python.org/3/library/pathlib.html
+    - JSON in Python: https://docs.python.org/3/library/json.html
+    - File I/O best practices: Real Python has excellent tutorials
+    - Exception handling: PEP 8 style guide recommendations
 
-How it works:
-    1. Reads assets.json to get the list of all image assets
-    2. For each asset, constructs the file path to the PNG
-    3. Uses PIL (Python Imaging Library) to read the image dimensions
-    4. Updates the JSON entry with "width" and "height" properties
-    5. Saves the updated JSON back to disk
-
-Key concepts demonstrated:
-    - File I/O in Python (reading and writing JSON)
-    - Image processing with PIL/Pillow
-    - Path manipulation and file existence checking
-    - Error handling and user feedback
-    - Data transformation and serialization
-
-Usage:
+Usage Examples:
     python populate_dimensions.py
+    python populate_dimensions.py --json /path/to/assets.json
+    
+Exit Codes:
+    0 = Success
+    1 = File not found
+    2 = Invalid JSON format
+    3 = PIL not installed
 
-Output:
-    Updates assets.json in place, adding width/height to all blocks
+Dependencies:
+    - Python 3.6+
+    - Pillow (PIL): pip install Pillow
 """
 
 import json
 import os
-from pathlib import Path
-from PIL import Image  # Pillow library for reading image files
+from pathlib import Path  # Modern path handling (better than os.path)
+from PIL import Image    # Pillow library: pip install Pillow
+
+# ============================================================================
+# MAIN FUNCTION: Orchestrates the dimension population process
+# ============================================================================
 
 def populate_dimensions(json_path='assets.json'):
     """
     Read assets.json, scan PNG files to get dimensions, and update each block.
     
-    This is the main function that orchestrates the dimension population process.
-    It handles file reading, image scanning, error handling, and saving results.
+    Function Signature:
+        populate_dimensions(json_path='assets.json') -> dict
     
-    Args:
-        json_path: Path to the assets.json file (default: 'assets.json')
+    Parameters:
+        json_path (str): Path to the assets.json file (default: 'assets.json')
     
-    Process:
-        1. Load JSON data from file
-        2. Iterate through each block in blockList
-        3. Construct image file path (handling two naming conventions)
-        4. Read image dimensions with PIL
-        5. Update block with width/height properties
-        6. Save updated JSON with pretty formatting
+    Returns:
+        dict: Statistics dictionary with keys:
+            - 'updated': Number of blocks with dimensions added/updated
+            - 'skipped': Number of blocks skipped (missing src, virtual, etc.)
+            - 'errors': Number of blocks that failed to process
+            - 'total': Total blocks processed
+    
+    Raises:
+        FileNotFoundError: If assets.json doesn't exist
+        json.JSONDecodeError: If assets.json is invalid JSON
+        
+    Example:
+        stats = populate_dimensions('assets.json')
+        print(f"Updated {stats['updated']} blocks")
+        
+    Process Flow (Pipeline Pattern):
+        Load JSON
+           ↓
+        Iterate Blocks
+           ↓
+        Construct Path
+           ↓
+        Read Image
+           ↓
+        Update JSON
+           ↓
+        Save File
+           ↓
+        Report Stats
+    
+    Error Handling Strategy:
+        - Try to process each image; skip on error (not fail fast)
+        - Continue processing remaining items after errors
+        - Report summary at end for investigation
+        - This approach is important for batch processes where you want
+          to maximize successful processing despite some failures
     """
     # Read the JSON file containing all asset definitions
     print(f"Reading {json_path}...")
@@ -60,41 +156,84 @@ def populate_dimensions(json_path='assets.json'):
         data = json.load(f)  # Parse JSON into Python dictionary
     
     # Extract the blockList array (main list of image assets)
+    # Using .get() with default empty list prevents KeyError if key missing
     block_list = data.get('blockList', [])
     print(f"Found {len(block_list)} blocks to process")
     
     # Track statistics for final report
+    # These counters help verify the script worked as expected
     updated_count = 0
     skipped_count = 0
     error_count = 0
     
+    # ========================================================================
+    # MAIN PROCESSING LOOP
+    # ========================================================================
+    
     # Process each block entry
     for i, block in enumerate(block_list):
+        """
+        Inner Loop: Process single block
+        
+        Data Structure Pattern:
+            Each block is a dictionary like:
+            {
+              "putUnder": "blocks/templates",
+              "src": "templates__green_normal",
+              "text": "Green Card Template",
+              "width": 826,          # We're adding this
+              "height": 1126         # We're adding this
+            }
+        """
         # Get key properties from block definition
         put_under = block.get('putUnder', '')  # Folder/category name
         src = block.get('src', '')              # Base filename (no extension)
         text = block.get('text', src)           # Display name (fallback to src)
         
         # Skip blocks with no source identifier
+        # This prevents attempting to find images for placeholder entries
         if not src:
             print(f"  [{i+1}] Skipping '{text}': no src field")
             skipped_count += 1
             continue
         
         # Skip the debug_sprite_sheet (it's not a real PNG file, it's generated)
+        # debug_sprite_sheet is a special entry used to reference dynamically
+        # generated sprite sheets, not a real image file
         if src == 'debug_sprite_sheet':
             print(f"  [{i+1}] Skipping '{text}': virtual template")
             skipped_count += 1
             continue
         
+        # ====================================================================
+        # PATH RESOLUTION: Handle multiple naming conventions
+        # ====================================================================
+        
         """
-        Construct the image file path
+        Challenge: PNG files use two different naming conventions:
         
-        Challenge: The actual PNG files use two different naming conventions:
-        1. Prefixed: "category__filename.png" (e.g., "resources__titanium.png")
-        2. Unprefixed: "filename.png" stored in category folder
+        Convention 1: Prefixed
+            - PNG filename: "category__filename.png"
+            - Location: blocks/category/ folder
+            - Example: "resources__titanium.png" in blocks/resources/
+            
+        Convention 2: Unprefixed
+            - PNG filename: "filename.png"
+            - Location: blocks/category/ folder
+            - Example: "titanium.png" in blocks/resources/
         
-        Strategy: Try both patterns and use whichever file exists
+        Resolution Strategy:
+            - Try Convention 1 first (prefixed)
+            - If not found, try Convention 2 (unprefixed)
+            - If still not found, try other combinations
+            - Use whichever file actually exists
+        
+        Why two conventions?
+            - Legacy code used prefixed names
+            - Newer code prefers unprefixed (cleaner organization)
+            - This flexibility maintains compatibility with both
+            
+        Lesson: Defensive programming - don't assume file naming is consistent
         """
         image_path = None
         

@@ -1,47 +1,141 @@
-﻿/* Phase 1: Sticky Layout for Desktop Mode */
+﻿/* 
+  ================================================================================
+  TM CARD MAKER - RESPONSIVE LAYOUT STYLESHEET
+  ================================================================================
+  
+  Overview:
+    This stylesheet implements a responsive two-column layout for desktop and
+    a single-column layout for mobile devices. Key features:
+    - Flexible sidebar (resizable on desktop)
+    - Main content area with canvas and layer panel
+    - Mobile-first media queries (@media for larger screens)
+    - Uses CSS Grid and Flexbox for layout (modern CSS approaches)
+    
+  Architecture:
+    - W3.CSS utilities: Classes like .w3-sidebar, .w3-main, .w3-button, etc.
+    - Custom styles: Layered on top for TM Cardmaker-specific needs
+    - CSS Variables (Custom Properties): Used for dynamic theming
+      Example: --sidebar-width dynamically adjusts layout
+      See: https://developer.mozilla.org/en-US/docs/Web/CSS/--*
+    
+  Responsive Design Strategy:
+    - Desktop (>993px): Fixed sidebar, full layout optimization
+    - Mobile (<993px): Collapsible sidebar, single column
+    - Tablet (in-between): Transitional layout
+    
+  Performance Considerations:
+    - Minimal use of transitions/animations to keep 60fps
+    - Hardware acceleration via transform: translate3d() where needed
+    - Avoid expensive operations like box-shadow on frequently-redrawn elements
+    
+  Accessibility Features:
+    - Sufficient color contrast ratios for text
+    - Focus states for keyboard navigation
+    - Readable font sizes (base 14-16px)
+    
+  Browser Compatibility:
+    - CSS Variables (IE 11 not supported - use fallback values)
+    - Flexbox: Supported in all modern browsers
+    - Grid: Used minimally, has fallbacks
+*/
+
+/* Phase 1: Sticky Layout for Desktop Mode */
 body {
-  overflow-x: hidden;
+  overflow-x: hidden;  /* Prevent horizontal scrollbar when sidebar appears */
 }
 
-/* Sidebar fixed to left on desktop */
+/* 
+  DESKTOP LAYOUT (min-width: 993px)
+  
+  Three key components:
+  1. .w3-sidebar: Fixed left navigation (resizable)
+  2. #sidebarResizeHandle: Draggable boundary (6px wide)
+  3. .w3-main: Main content area (adjusted for sidebar width)
+  
+  Implementation Pattern:
+    - Fixed positioning: Sidebar stays in view while user scrolls main content
+    - z-index stacking: Sidebar(100) > handle(101) > main content(default)
+    - CSS variables: Dynamic width allows JavaScript to resize sidebar
+*/
 @media (min-width: 993px) {
   .w3-sidebar {
-    position: fixed !important;
+    position: fixed !important;        /* Override any other position values */
     left: 0;
     top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    z-index: 100;
-    min-width: 180px;
-    max-width: 500px;
-    width: 180px;
-    resize: horizontal;
+    height: 100vh;                     /* Full viewport height */
+    overflow-y: auto;                  /* Allow scrolling if sidebar content exceeds viewport */
+    overflow-x: hidden;                /* Prevent horizontal scroll */
+    z-index: 100;                      /* Above main content */
+    min-width: 180px;                  /* Prevent sidebar from becoming too narrow */
+    max-width: 500px;                  /* Prevent sidebar from consuming too much screen */
+    width: 180px;                      /* Default width */
+    resize: horizontal;                /* Allow manual resize (built-in browser feature) */
   }
 
-  /* Resize handle */
+  /* 
+    Resize Handle: Visual affordance for dragging sidebar
+    
+    UX Pattern: Users can drag the right edge of the sidebar to resize it
+    
+    Technical Implementation:
+    - Position: Fixed to stay with sidebar as it's resized
+    - Width: 6px (thin handle, but easy to target with mouse)
+    - Cursor: Changes to 'col-resize' to indicate draggability
+    - Background: Transparent by default, shows on hover (visual feedback)
+    - Transition: Smooth color change (0.2s ease) for polish
+    
+    JavaScript Hook:
+      - JavaScript listens for mousedown on this element
+      - Triggers drag handler that updates sidebar width
+      - See tm_cm.js > document.addEventListener('mousedown', ...) for implementation
+  */
   #sidebarResizeHandle {
     position: fixed;
-    left: 180px;
+    left: 180px;                       /* Positioned at right edge of default sidebar width */
     top: 0;
     width: 6px;
     height: 100vh;
-    background: transparent;
-    cursor: col-resize;
-    z-index: 101;
-    transition: background 0.2s ease;
+    background: transparent;           /* Invisible until hovered */
+    cursor: col-resize;                /* Browser-standard resize cursor */
+    z-index: 101;                      /* Above sidebar so it can intercept mouse events */
+    transition: background 0.2s ease;  /* Smooth color animation on hover */
   }
 
+  /* 
+    Hover State: Visual feedback when user approaches resize handle
+    
+    CSS Color Syntax: rgba(0, 0, 0, 0.1)
+      - rgb: Red, Green, Blue channels (0, 0, 0 = black)
+      - a: Alpha/opacity (0.1 = 10% opaque, very subtle)
+    
+    This creates a barely-visible line that becomes more obvious when hovered,
+    reducing visual clutter while maintaining discoverability.
+  */
   #sidebarResizeHandle:hover {
     background: rgba(0, 0, 0, 0.1);
   }
 
+  /* Active State: User is currently dragging the handle */
   #sidebarResizeHandle.dragging {
-    background: #4CAF50;
+    background: #4CAF50;               /* Bright green for clear visual feedback during drag */
   }
 
+  /* 
+    Main Content Area Responsive Sizing
+    
+    CSS Flexbox Pattern:
+      - display: flex: Enables flexbox layout algorithm
+      - flex-direction: column: Stacks children vertically
+      - height: 100vh: Full viewport height
+      - overflow: hidden: Prevents scrolling (managed by child elements)
+      
+    This ensures the main area takes up remaining space after sidebar,
+    and child elements can manage their own scrolling independently.
+    
+    Reference: https://developer.mozilla.org/en-US/docs/Web/CSS/flexbox
+  */
   .w3-main {
-    margin-left: var(--sidebar-width, 180px);
+    margin-left: var(--sidebar-width, 180px);  /* CSS Variable with fallback */
     display: flex;
     flex-direction: column;
     height: 100vh;

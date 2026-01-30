@@ -188,7 +188,7 @@ var megaTemplates = {
       {type:"block", src:"templates__corporation", x:0,y:0,width:1126,height:826,params:"allimages allpreset"},
       {type:"effect", x: 600, y: 300, width: 400, height: 300, params: "allimages allpreset"},
       //{type:"block", name: "", iNum: 97, x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
-      {type:"block", name: "", src: "blocks/misc__effect", x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
+      {type:"block", name: "", src: "misc__effect", x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
       {type:"text", data: "E F F E C T", x: 800, y: 333, width: 1126, height: 22, color: "#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text","data":"FAN MADE",x:198,y:736,width:826,height:24,color:"#c3c3c3",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},
       {type:"text","data":"C O R P O R A T I O N",x:563,y:109,width:826,height:24,color:"#000000",font:"Prototype",style:"normal",weight:"normal",lineSpace:4,justify:"center",params:"allimages color alltext allpreset"},

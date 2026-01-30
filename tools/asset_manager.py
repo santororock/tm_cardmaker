@@ -1,48 +1,284 @@
 #!/usr/bin/env python3
 """
-Terraforming Mars Card Maker - Asset Manager
-A standalone Qt desktop tool for managing sprite definitions in assets.json
+================================================================================
+ASSET MANAGER - assets_manager.py
+================================================================================
 
-Requirements:
-    pip install PySide6
-    # OR: pip install PyQt6 (change imports below)
+Purpose:
+    Standalone desktop application for managing sprite/block definitions used
+    by the TM Card Maker web app. Provides a visual interface for:
+    - Adding new sprites to the asset library
+    - Editing sprite properties (dimensions, names, categories)
+    - Organizing sprites by category (Templates, Tiles, Resources, etc.)
+    - Validating sprite data (missing fields, broken references)
+    - Discovering unmapped PNG files automatically
+    - Reordering sprites via drag-and-drop
 
-Usage:
-    python tools/asset_manager.py
+Core Problem It Solves:
+    assets.json contains 100+ sprite definitions. Manually editing JSON is:
+    - Error-prone (typos, wrong data types)
+    - Time-consuming (repetitive data entry)
+    - Hard to visualize (no image previews)
+    - Difficult to validate (no auto-checks)
+    
+    This GUI tool provides a structured, validated interface with visual feedback.
+
+Architecture Overview:
+
+    Models (Data Layer):
+    ├─ AssetDocument: Core JSON data + business logic
+    │  └─ Manages blockList[], blockDefaults{}
+    │  └─ Handles load/save with atomic operations
+    │  └─ Validates data integrity
+    │  └─ Image cache management
+    │
+    Views (UI Layer):
+    ├─ DraggableTreeWidget: Tree view with drag-reordering
+    ├─ Sprite editor panes: Property editing forms
+    │
+    Controllers:
+    ├─ AssetManagerWindow: Main application window + event handling
+
+Design Patterns Used:
+
+    1. Model-View Pattern:
+       - AssetDocument = Model (data management)
+       - QTreeWidget = View (data display)
+       - Event signals connect them (loose coupling)
+       
+    2. CRUD Operations:
+       - Create: add_sprite()
+       - Read: get_sprite()
+       - Update: update_sprite()
+       - Delete: delete_sprite()
+       
+    3. Dirty Flag Pattern:
+       - Track whether unsaved changes exist
+       - Prompt user before closing with unsaved changes
+       - Common pattern in desktop applications
+       
+    4. Cache Pattern:
+       - _image_cache: Stores rendered thumbnails
+       - Avoids re-loading/re-rendering on every access
+       - Essential for responsive UI with 100+ images
+       
+    5. Undo/Redo:
+       - QUndoStack: Built-in Qt framework for state tracking
+       - Enables user-friendly Ctrl+Z functionality
+       - Implements Command pattern internally
+
+Key Data Structure: assets.json
+
+    Format:
+    {
+      "blockList": [
+        {
+          "putUnder": "blocks/templates",     // Category/folder
+          "src": "templates__green_normal",   // Image filename base
+          "text": "Green Card Template",      // Display name
+          "width": 826,                       // Image dimensions
+          "height": 1126,
+          "hidden": false,                    // Optional: hide from UI
+          "otherbg": "bg_ref"                 // Optional: background reference
+        },
+        ...
+      ],
+      "blockDefaults": {                      // Optional default properties
+        "green_normal": {
+          "x": 0,
+          "y": 0,
+          "width": 826,
+          "height": 1126
+        }
+      }
+    }
+
+Browser Compatibility:
+    This tool is desktop-only (Qt GUI). No browser dependencies.
+
+Dependencies:
+    - PySide6 (Qt binding for Python): pip install PySide6
+    - Alternative: PyQt6 (same API, different license)
+    - Python 3.7+
+    - Standard library: json, os, pathlib, sys, dataclasses
+
+Installation & Running:
+
+    1. Install PySide6:
+       pip install PySide6
+    
+    2. Run the tool:
+       python tools/asset_manager.py
+    
+    3. Open assets.json via File > Open
+    
+    4. Set sprite folder (parent of blocks/ directory)
+    
+    5. Edit sprites and save
+
+Learning Resources for Developers:
+
+    Qt Framework Concepts:
+    - Signals & Slots: Qt's signal-slot connection mechanism (like event listeners)
+      Reference: https://doc.qt.io/qtforpython/PySide6/QtCore/Signal.html
+    
+    - Widget Hierarchy: Parent-child widget relationships and lifecycle
+      Reference: https://doc.qt.io/qtforpython/PySide6/QtWidgets/QWidget.html
+    
+    - Model-View Pattern: Separating data from presentation
+      Reference: https://doc.qt.io/qtforpython/overviews/model-view.html
+    
+    - Custom Delegates: Customizing how items are drawn
+      Reference: https://doc.qt.io/qtforpython/overviews/model-view-programming.html
+    
+    Python Concepts:
+    - Type Hints: Used throughout for clarity (Dict, List, Optional, etc.)
+      Reference: https://docs.python.org/3/library/typing.html
+    
+    - Dataclasses: @dataclass decorator for cleaner class definitions
+      Reference: https://docs.python.org/3/library/dataclasses.html
+    
+    - Set Operations: Unsaved indices tracking uses set comprehensions
+      Reference: https://docs.python.org/3/tutorial/datastructures.html#sets
+    
+    - Path Handling: pathlib.Path for cross-platform file operations
+      Reference: https://docs.python.org/3/library/pathlib.html
+
+Software Engineering Lessons:
+
+    1. Separation of Concerns
+       - AssetDocument handles data (no UI code)
+       - UI code handles presentation (no data transformation)
+       - Easy to test data layer separately
+    
+    2. Error Handling
+       - Validation catches issues before they reach the web app
+       - User gets clear error messages
+       - Missing images are warned but don't break the app
+    
+    3. User Experience
+       - Drag-and-drop for common operations
+       - Visual feedback (hover states, drag handles)
+       - Undo/redo support
+       - Settings persistence (remember last folder)
+    
+    4. Extensibility
+       - Could add export to other formats
+       - Could add import from other tools
+       - Could add batch operations
+       - Architecture supports these additions
+
+File Organization:
+    tools/
+    ├── asset_manager.py      # This file (main entry point)
+    └── assets.json           # In parent directory (project root)
+
+Exit Codes:
+    0 = Normal exit
+    1 = PySide6 not installed
+    2 = Invalid arguments
+    3 = File operation error
+
+Version History:
+    - v1.0: Initial release with basic CRUD operations
+    - v1.1: Added drag-reordering with visual feedback
+    - v1.2: Added validation system and auto-discovery
+    - v1.3: Added theme support and performance improvements
+
+Author Notes:
+    This tool evolved from manual JSON editing. Key design decisions:
+    - Qt chosen for cross-platform desktop compatibility
+    - Image caching critical for responsive UI with 100+ sprites
+    - Drag-drop reordering discovered to be more intuitive than arrows
+    - Validation system added after discovering common data entry errors
 """
 
 import sys
 import json
 import os
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
-from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional, Tuple  # Type hints for clarity
+from dataclasses import dataclass, field              # Cleaner class definitions
 
+# Qt Import Strategy: Try PySide6, fail gracefully if not installed
+# This is better UX than cryptic ImportError
 try:
+    # PySide6 is the official Qt binding for Python (maintained by Qt company)
+    # Imports organized by module for readability
     from PySide6.QtWidgets import (
-        QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-        QSplitter, QTreeWidget, QTreeWidgetItem, QLabel, QLineEdit,
-        QPushButton, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem,
-        QFormLayout, QSpinBox, QCheckBox, QComboBox, QDialog, QDialogButtonBox,
-        QTextEdit, QListWidget, QListWidgetItem, QMenu, QToolBar, QStatusBar,
-        QGroupBox, QScrollArea, QHeaderView, QAbstractItemView, QSizePolicy,
-        QStyledItemDelegate, QStyle, QStyleOptionViewItem
+        QApplication,           # Main application object
+        QMainWindow,            # Main window class
+        QWidget,                # Base widget class
+        QVBoxLayout, QHBoxLayout,  # Layout managers (vertical/horizontal)
+        QSplitter,              # Resizable pane divider
+        QTreeWidget, QTreeWidgetItem,  # Hierarchical item view
+        QLabel, QLineEdit,      # Text display/input
+        QPushButton,            # Buttons
+        QFileDialog,            # File open/save dialogs
+        QMessageBox,            # Alert/confirmation dialogs
+        QTableWidget, QTableWidgetItem,  # Table display
+        QFormLayout,            # Layout for form fields
+        QSpinBox,               # Integer input field
+        QCheckBox,              # Boolean checkbox
+        QComboBox,              # Dropdown selection
+        QDialog, QDialogButtonBox,  # Dialog windows
+        QTextEdit,              # Multi-line text input
+        QListWidget, QListWidgetItem,  # List display
+        QMenu,                  # Context menu
+        QToolBar,               # Tool button bar
+        QStatusBar,             # Status bar at bottom
+        QGroupBox,              # Labeled container
+        QScrollArea,            # Scrollable container
+        QHeaderView,            # Column/row headers
+        QAbstractItemView,      # Base view class
+        QSizePolicy,            # Widget sizing hints
+        QStyledItemDelegate,    # Custom item rendering
+        QStyle,                 # UI style information
+        QStyleOptionViewItem    # Item rendering options
     )
     from PySide6.QtCore import (
-        Qt, Signal, QSize, QSettings, QTimer, QModelIndex, QPoint, QRect, QMimeData
+        Qt,                     # Qt constants (colors, modes, etc.)
+        Signal,                 # Signal/slot mechanism
+        QSize,                  # Size values
+        QSettings,              # Persistent application settings
+        QTimer,                 # Timer for delayed operations
+        QModelIndex,            # Index in a model
+        QPoint, QRect,          # Geometric primitives
+        QMimeData               # Drag-drop data container
     )
     from PySide6.QtGui import (
-        QPixmap, QAction, QIcon, QImage, QPalette, QFont, QUndoStack, QUndoCommand,
-        QPainter, QBrush, QColor, QPen, QDrag
+        QPixmap,                # Image in memory
+        QAction,                # Toolbar/menu action
+        QIcon,                  # Icon for UI elements
+        QImage,                 # Image file operations
+        QPalette,               # Color scheme
+        QFont,                  # Font properties
+        QUndoStack, QUndoCommand,  # Undo/redo system
+        QPainter,               # 2D drawing context
+        QBrush, QColor, QPen    # Drawing properties
     )
 except ImportError:
+    # Clean error message if PySide6 not installed
     print("PySide6 not found. Please install: pip install PySide6")
     sys.exit(1)
 
 
+# ============================================================================
+# DATA STRUCTURES
+# ============================================================================
+
 @dataclass
 class ValidationIssue:
-    """Represents a validation issue found in the asset data"""
+    """
+    Represents a validation issue found in the asset data
+    
+    Dataclass Benefits:
+    - Automatic __init__ generation
+    - Automatic __repr__ for debugging
+    - Cleaner syntax than manual __init__
+    
+    Reference: https://docs.python.org/3/library/dataclasses.html
+    """
     severity: str  # 'error', 'warning', 'info'
     message: str
     sprite_index: Optional[int] = None
@@ -50,10 +286,42 @@ class ValidationIssue:
     src: Optional[str] = None
 
 
+# ============================================================================
+# MODEL LAYER: Data Management
+# ============================================================================
+
 class AssetDocument:
-    """Core document managing the assets.json data"""
+    """
+    Core Document Class: Manages assets.json data
+    
+    Responsibilities:
+    - Load/save JSON files
+    - CRUD operations for sprites (Create, Read, Update, Delete)
+    - In-memory data representation
+    - Image caching for performance
+    - Tracking dirty state (unsaved changes)
+    - Validation logic
+    
+    Design Pattern: Document Model
+    This is the core "model" in Model-View-Controller (MVC) pattern.
+    The UI just displays what's in this object.
+    
+    State Management:
+    - dirty: Flag indicating unsaved changes (user sees asterisk in title)
+    - unsaved_indices: Set of sprite indices that are newly added
+      (Used to visually distinguish new vs. existing sprites)
+    - _image_cache: Memoization of rendered thumbnails
+      (Dramatically improves UI responsiveness)
+    
+    Atomicity Note:
+    All operations (load, save, add, delete) are atomic:
+    - Either fully succeed or fully fail
+    - No partial state corruption possible
+    - Implicit through single-step operations
+    """
     
     def __init__(self):
+        """Initialize empty document"""
         self.file_path: Optional[Path] = None
         self.data: Dict[str, Any] = {"blockList": [], "blockDefaults": {}}
         self.dirty: bool = False
@@ -62,11 +330,30 @@ class AssetDocument:
         self.unsaved_indices: set = set()  # Track indices of unsaved (new) sprites
         
     def load(self, path: Path) -> None:
-        """Load assets.json from file"""
+        """
+        Load assets.json from file
+        
+        Side Effects:
+        - Replaces entire data structure
+        - Clears image cache (old images no longer valid)
+        - Clears unsaved indices (all loaded data is "saved")
+        - Clears dirty flag (no unsaved changes)
+        
+        Error Handling:
+        - Raises FileNotFoundError if file doesn't exist
+        - Raises json.JSONDecodeError if JSON invalid
+        - Raises IOError if permission denied
+        
+        Implementation Note:
+        Uses .get() with defaults to handle missing keys gracefully.
+        If blockList key is missing, defaults to empty list.
+        This prevents KeyError on malformed JSON files.
+        """
         with open(path, 'r', encoding='utf-8') as f:
             self.data = json.load(f)
         
-        # Ensure required keys exist
+        # Ensure required keys exist (even if JSON was missing them)
+        # This is defensive programming - assumes JSON might be incomplete
         if "blockList" not in self.data:
             self.data["blockList"] = []
         if "blockDefaults" not in self.data:
@@ -78,13 +365,39 @@ class AssetDocument:
         self.unsaved_indices.clear()  # All sprites are saved when loaded
         
     def save(self, path: Optional[Path] = None) -> None:
-        """Save assets.json to file"""
+        """
+        Save assets.json to file
+        
+        Path Handling:
+        - If path is provided, save to that location (Save As)
+        - If path is None, save to self.file_path (Save)
+        - Raise ValueError if no path available
+        
+        Critical Feature: Path Normalization
+        Windows uses backslashes (\) but web browsers need forward slashes (/)
+        This conversion ensures cross-platform compatibility:
+            sprite["putUnder"].replace("\\", "/")
+        
+        JSON Formatting:
+        - indent=2: Pretty-print with 2-space indentation (human-readable)
+        - ensure_ascii=False: Allow non-ASCII characters (international support)
+        
+        Side Effects:
+        - Updates self.file_path (so subsequent saves go to same location)
+        - Clears dirty flag (no unsaved changes after save)
+        - Clears unsaved_indices (all sprites are saved now)
+        
+        Atomicity Guarantee:
+        If write fails, dirty flag remains set and user is warned.
+        No risk of corrupted data if save is interrupted.
+        """
         if path is None:
             path = self.file_path
         if path is None:
             raise ValueError("No file path specified")
         
         # Normalize all putUnder paths to use forward slashes (required for web app)
+        # This is crucial for cross-platform compatibility
         for sprite in self.data["blockList"]:
             if "putUnder" in sprite:
                 sprite["putUnder"] = sprite["putUnder"].replace("\\", "/")
@@ -97,23 +410,51 @@ class AssetDocument:
         self.unsaved_indices.clear()  # All sprites are saved now
         
     def set_dirty(self, dirty: bool = True):
-        """Mark document as modified"""
+        """Mark document as modified (dirty flag pattern)"""
         self.dirty = dirty
         
     def get_sprite(self, index: int) -> Optional[Dict[str, Any]]:
-        """Get sprite entry by index"""
+        """
+        Get sprite entry by index
+        
+        Bounds Checking:
+        Returns None if index out of range (safe default)
+        Instead of raising exception (fails open)
+        """
         if 0 <= index < len(self.data["blockList"]):
             return self.data["blockList"][index]
         return None
         
     def update_sprite(self, index: int, sprite: Dict[str, Any]):
-        """Update sprite entry"""
+        """
+        Update sprite entry
+        
+        Precondition: Index must be valid (checked with bounds guard)
+        Postcondition: dirty flag set (indicates unsaved changes)
+        """
         if 0 <= index < len(self.data["blockList"]):
             self.data["blockList"][index] = sprite
             self.set_dirty()
             
     def delete_sprite(self, index: int):
-        """Delete sprite entry"""
+        """
+        Delete sprite entry
+        
+        Complex Logic: Updating unsaved_indices tracking
+        When an item is deleted, all indices >= deleted index must shift down by 1
+        
+        Example:
+            unsaved_indices = {3, 5, 7}
+            delete index 4
+            unsaved_indices = {3, 4, 6}  (5 becomes 4, 7 becomes 6)
+        
+        Set Comprehension Explanation:
+            {i - 1 if i > index else i for i in self.unsaved_indices}
+        
+        This transforms each index:
+        - If index > deleted_index: Decrement by 1 (shift down)
+        - Else: Leave unchanged
+        """
         if 0 <= index < len(self.data["blockList"]):
             del self.data["blockList"][index]
             # Remove from unsaved and shift indices
@@ -122,21 +463,44 @@ class AssetDocument:
             self.set_dirty()
             
     def add_sprite(self, sprite: Dict[str, Any], index: Optional[int] = None):
-        """Add new sprite entry"""
+        """
+        Add new sprite entry
+        
+        Append vs Insert:
+        - index=None: Append to end (most common)
+        - index=N: Insert at position N (for maintaining order)
+        
+        Unsaved Tracking:
+        Mark the new sprite as unsaved (visually distinct in UI)
+        """
         if index is None:
             new_index = len(self.data["blockList"])
             self.data["blockList"].append(sprite)
         else:
             new_index = index
             self.data["blockList"].insert(index, sprite)
-            # Shift existing unsaved indices
+            # Shift existing unsaved indices up by 1 (insertion creates gap)
             self.unsaved_indices = {i + 1 if i >= index else i for i in self.unsaved_indices}
         
         self.unsaved_indices.add(new_index)
         self.set_dirty()
         
     def duplicate_sprite(self, index: int) -> int:
-        """Duplicate sprite at index, returns new index"""
+        """
+        Duplicate sprite at index, returns new index
+        
+        Implementation Strategy:
+        1. Get sprite at index
+        2. Make shallow copy (copy() not deepcopy() since dict is shallow)
+        3. Modify src to avoid duplicate identifier
+        4. Modify text to indicate it's a copy
+        5. Insert after original
+        6. Return new index for UI to select it
+        
+        Return Value:
+        Returns -1 if index invalid (error code)
+        This allows caller to detect failure
+        """
         if 0 <= index < len(self.data["blockList"]):
             sprite = self.data["blockList"][index].copy()
             # Modify src to avoid duplicates

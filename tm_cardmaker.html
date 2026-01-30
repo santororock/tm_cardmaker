@@ -1,53 +1,148 @@
 <!DOCTYPE html>
 <html>
-<!-- This template originally from https://www.w3schools.com/css/css_rwd_templates.asp
-or more specifically https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_clothing_store&stacked=h
+<!-- 
+  ================================================================================
+  TM CARD MAKER - Main HTML Entry Point
+  ================================================================================
+  
+  Purpose:
+    This is the main UI shell for the Terraforming Mars card design tool. It
+    provides the markup structure for menus, canvas, and layer panels.
+    
+  Architecture:
+    - Responsive design using W3.CSS framework (mobile-first approach)
+    - Template originally from: https://www.w3schools.com/css/css_rwd_templates.asp
+    - The actual application logic is in tm_cm.js (see reference below)
+    - Styling is in tm_cm.css (responsive layout with sidebar)
+    
+  Key Layout Components:
+    1. Sidebar Navigation (#mySidebar): Collapsible menu for adding blocks/templates
+    2. Main Canvas Area: Central workspace showing the card being edited
+    3. Layers Panel: Right sidebar displaying all layers and their properties
+    4. Progress Bar: Tracks image loading progress
+    5. Overlay Dialogs: Modal popups for URLs, fonts, etc.
+    
+  Design Patterns:
+    - W3.CSS: A minimal CSS framework for responsive layouts
+      (Reference: https://www.w3schools.com/w3css/default.asp)
+    - Progressive Enhancement: Works with JavaScript but provides UI structure
+    - Unobtrusive JavaScript: Event handlers use onclick/onchange attributes
+      (Note: Modern best practice would separate these to external JS, but this
+       structure keeps everything co-located for clarity in a single-page app)
+    
+  Browser APIs Used:
+    - HTML5 Canvas API: For rendering the card design
+    - File API: For local file uploads (users importing images)
+    - Drag & Drop API: For reordering layers
+    - localStorage: For auto-saving projects (in tm_cm.js)
+    
+  External Dependencies:
+    - W3.CSS framework (lightweight, 20KB)
+    - Google Fonts: Roboto, Montserrat (typography)
+    - tm_cm.js: Core application logic
+    - tm_cm.css: Responsive styling
+    - assets.json: External sprite/block definitions
 -->
 <title>TM Card Maker</title>
 <meta charset="UTF-8">
+<!-- Viewport meta tag ensures responsive design works on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="tm_cm.css">
+<!-- Load fonts from Google Fonts CDN (external resources, check network tab if fonts don't load) -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<!-- Font-Awesome removed but left as reference for UI icons -->
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <style>
-.w3-sidebar a {font-family: "Roboto", sans-serif}
-body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+  /* Inline styles for font family overrides (cascading CSS priority - applied AFTER external stylesheets) */
+  .w3-sidebar a {font-family: "Roboto", sans-serif}
+  body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 </style>
 <body>
+  <!-- 
+    ================================================================================
+    MODAL DIALOGS (Overlay Elements)
+    ================================================================================
+    
+    These are hidden overlays that appear when users need to input URLs or other
+    parameters. They use the pattern: overlay class with w3-nodisplay (initially hidden).
+    
+    Pattern Explanation:
+      1. Outer div: .overlay with position: fixed, covers entire screen
+      2. Inner div: .centerme with flexbox to center content
+      3. Content: White box with form elements
+      4. JavaScript shows/hides by toggling w3-nodisplay class
+      
+    Accessibility Note: These could benefit from ARIA labels (role="dialog", etc.)
+      for screen readers, but current implementation relies on visual feedback.
+  -->
   <div class="overlay w3-nodisplay" id="overlay">
+    <!-- Modal for loading web images -->
     <div class="centerme">
       <div class="w3-white" style="padding: 50px;">
+        <!-- Label + Input Pattern (semantic HTML for form usability) -->
         Enter url to load image from:
         <input id="url2load" type="url">
+        <!-- Buttons follow consistent naming: cancel/confirm actions -->
         <button onclick="cancelOverlay()">Cancel</button>
         <button onclick="loadWebImage()">Load</button>
       </div>
     </div>
   </div>
+  
+  <!-- Modal for loading web fonts -->
   <div class="overlay w3-nodisplay" id="fontoverlay">
     <div class="centerme">
       <div class="w3-white" style="padding: 50px;">
         Enter url to load font from:
+        <!-- Note: type="text" instead of type="url" because Google Fonts links can be complex -->
         <input id="fonturl2load" type="text">
         <button onclick="cancelFontOverlay()">Cancel</button>
         <button onclick="loadSpecifiedFont()">Load</button>
       </div>
     </div>
   </div>
-<!-- Sidebar/menu -->
+  
+<!-- ================================================================================
+     PRIMARY NAVIGATION - LEFT SIDEBAR
+     ================================================================================
+     
+     Pattern: Accordion-style nested menus populated dynamically
+     
+     Technical Details:
+       - w3-sidebar: Fixed position on desktop, collapses on mobile
+       - w3-bar-block: Creates vertical button layout
+       - w3-hide class: Used for accordion (show/hide via JavaScript toggle)
+       - myAccFunc('id'): JavaScript function that shows/hides menu sections
+       
+     Responsibility:
+       - File operations: New, Load, Save
+       - Add Block menu: Categorized asset browser (dynamically populated from assets.json)
+       - Templates: Pre-configured card layouts
+       
+     See tm_cm.js > myAccFunc() for accordion toggle logic
+-->
 <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:180px" id="mySidebar">
   <div class="w3-large w3-text-grey" style="font-weight:bold">
+    <!-- GitHub link for project repository -->
     <a class="w3-button w3-block w3-light-grey" href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer"><div style="font-size: 0.75em;">TM Cardmaker GitHub Project</div></a>
+    
+    <!-- FILE MENU: Main operations (New, Save, Load, Export) -->
+    <!-- onclick="myAccFunc('file')" toggles the visibility of the file menu's submenu -->
     <a onclick="myAccFunc('file')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
       File <i class="fa fa-caret-down"></i>
     </a>
+    <!-- This div contains all File menu items and is shown/hidden via w3-hide class -->
     <div id="file" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+      <!-- Create new blank project, clearing undo stack and auto-save -->
       <a onclick="clickNew()" href="#" class="w3-bar-item w3-button">New</a>
+      
+      <!-- New from Template: Submenu populated by addBlockMenuItem() from megaTemplates -->
       <a onclick="myAccFunc('fromTemplate')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
         New from Template <i class="fa fa-caret-down"></i>
       </a>
       <div id="fromTemplate" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+        <!-- Dynamically populated by tm_cm.js at load time -->
       </div>
         <!-- <a href="#" class="w3-bar-item w3-button">Load</a> -->
       <a onclick="saveProjectCont(false)" href="#" class="w3-bar-item w3-button">Save</a>
