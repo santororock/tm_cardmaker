@@ -67,6 +67,133 @@ async function loadAssets() {
   }
 }
 
+/**
+ * Get thumbnail URL for a block sprite
+ * @param {string} src - Block source name (e.g., "templates__green_normal")
+ * @param {string} putUnder - Category path (e.g., "blocks/templates")
+ * @param {number} size - Thumbnail size in pixels (32, 64, 128, 256)
+ * @returns {string} URL to thumbnail image
+ */
+function getThumbnailUrl(src, putUnder, size = 64) {
+  // Structure: blocks/{category}/{blockname}/{blockname}_{size}.png
+  // Example: blocks/templates/templates__green_normal/templates__green_normal_64.png
+  if (!src || !putUnder) return null;
+  
+  // Normalize putUnder path
+  let category = putUnder.replace(/^blocks\//, '').replace(/\\/g, '/');
+  return `${putUnder}/${src}/${src}_${size}.png`;
+}
+
+/**
+ * Load and cache thumbnail for a menu item
+ * Uses sessionStorage to avoid repeated fetches
+ * Automatically selects appropriate resolution based on device pixel ratio
+ * @param {Element} thumbContainer - DOM element to populate
+ * @param {string} src - Block source name
+ * @param {string} putUnder - Category path
+ * @param {number} blockIndex - Index in blockList (for data attribute)
+ */
+async function loadThumbnail(thumbContainer, src, putUnder, blockIndex) {
+  if (!thumbContainer || !src) return;
+  
+  // Adaptive resolution based on device pixel ratio (Retina display support)
+  // Menu thumbnails display at 40x40 CSS pixels
+  // devicePixelRatio: 1 = standard display, 2 = Retina, 3 = high-DPI mobile
+  const pixelRatio = window.devicePixelRatio || 1;
+  let size;
+  
+  if (pixelRatio >= 3) {
+    size = 128;  // High-DPI mobile devices
+  } else if (pixelRatio >= 2) {
+    size = 128;  // Retina displays (2x) - provides crisp rendering
+  } else if (pixelRatio >= 1.5) {
+    size = 64;   // Some laptops with 1.5x scaling
+  } else {
+    size = 64;   // Standard 1x displays
+  }
+  
+  const cacheKey = `thumbnail_${src}_${size}`;
+  
+  // Check sessionStorage cache first
+  let cachedUrl = sessionStorage.getItem(cacheKey);
+  if (cachedUrl) {
+    displayThumbnail(thumbContainer, cachedUrl);
+    return;
+  }
+  
+  // Try to load thumbnail at selected resolution
+  const thumbUrl = getThumbnailUrl(src, putUnder, size);
+  if (!thumbUrl) return;
+  
+  try {
+    const response = await fetch(thumbUrl, { method: 'HEAD' });
+    if (response.ok) {
+      // Thumbnail exists, cache and display it
+      sessionStorage.setItem(cacheKey, thumbUrl);
+      displayThumbnail(thumbContainer, thumbUrl);
+    } else {
+      // Fallback to 64px if higher resolution not found
+      if (size > 64) {
+        const fallbackUrl = getThumbnailUrl(src, putUnder, 64);
+        const fallbackResponse = await fetch(fallbackUrl, { method: 'HEAD' });
+        if (fallbackResponse.ok) {
+          sessionStorage.setItem(cacheKey, fallbackUrl);
+          displayThumbnail(thumbContainer, fallbackUrl);
+        }
+      }
+    }
+  } catch (error) {
+    // Thumbnail not found, leave placeholder
+    console.debug(`Thumbnail not found: ${thumbUrl}`);
+  }
+}
+
+/**
+ * Display thumbnail image in container
+ * @param {Element} container - DOM element to populate
+ * @param {string} imageUrl - URL to thumbnail image
+ */
+function displayThumbnail(container, imageUrl) {
+  if (!container) return;
+  
+  const img = document.createElement("img");
+  img.src = imageUrl;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "contain";
+  img.style.padding = "2px";
+  
+  container.innerHTML = "";
+  container.appendChild(img);
+}
+
+/**
+ * Load all thumbnails in a category (called when category expands)
+ * @param {string} categoryId - HTML id of category div (e.g., "blocks/templates")
+ */
+async function loadCategoryThumbnails(categoryId) {
+  const categoryDiv = document.getElementById(categoryId);
+  if (!categoryDiv) return;
+  
+  const containers = categoryDiv.querySelectorAll('.thumbnail-container[data-block-index]');
+  const promises = [];
+  
+  for (const container of containers) {
+    const blockIndex = parseInt(container.dataset.blockIndex);
+    const block = blockList[blockIndex];
+    
+    if (block && block.src) {
+      // Load thumbnail asynchronously (don't wait)
+      promises.push(
+        loadThumbnail(container, block.src, block.putUnder, blockIndex)
+      );
+    }
+  }
+  
+  // Fire off all loads in parallel but don't block
+  Promise.all(promises).catch(err => console.debug('Thumbnail loading errors:', err));
+}
+
 var megaTemplates = {
   green_normal: {
       layers: [
@@ -498,12 +625,50 @@ function addBlockMenuItem(num) {
     if (!document.getElementById("image" + num)) {
       let toAdd = document.createElement("a");
       toAdd.onclick = addBlock;
-      toAdd.innerText = tmpText;
       toAdd.classList.add("w3-bar-item");
       toAdd.classList.add("w3-button");
+      toAdd.classList.add("thumbnail-menu-item");
       toAdd.href = "#";
       toAdd.id = "image" + num;
+      toAdd.style.display = "flex";
+      toAdd.style.alignItems = "center";
+      toAdd.style.gap = "10px";
+      toAdd.style.padding = "5px 10px";
+      
+      // Create thumbnail container
+      let thumbContainer = document.createElement("div");
+      thumbContainer.style.flexShrink = "0";
+      thumbContainer.style.width = "40px";
+      thumbContainer.style.height = "40px";
+      thumbContainer.style.backgroundColor = "#f0f0f0";
+      thumbContainer.style.border = "1px solid #ccc";
+      thumbContainer.style.borderRadius = "3px";
+      thumbContainer.style.overflow = "hidden";
+      thumbContainer.style.display = "flex";
+      thumbContainer.style.alignItems = "center";
+      thumbContainer.style.justifyContent = "center";
+      thumbContainer.className = "thumbnail-container";
+      thumbContainer.dataset.blockIndex = num;
+      thumbContainer.dataset.src = blockList[num].src;
+      
+      // Add placeholder text
+      thumbContainer.innerText = "…";
+      thumbContainer.style.color = "#999";
+      thumbContainer.style.fontSize = "18px";
+      
+      // Create text container
+      let textContainer = document.createElement("span");
+      textContainer.innerText = tmpText;
+      textContainer.style.flex = "1";
+      textContainer.style.overflow = "hidden";
+      textContainer.style.textOverflow = "ellipsis";
+      textContainer.style.whiteSpace = "nowrap";
+      
+      toAdd.appendChild(thumbContainer);
+      toAdd.appendChild(textContainer);
+      
       document.getElementById(blockList[num].putUnder).appendChild(toAdd);
+      
       if (blockList[num].putUnder == "blocks/templates") {
         // add Super Templates (use src suffix as megaTemplates key)
         toAdd = document.createElement("a");
@@ -1023,6 +1188,11 @@ function drawProject() {
         if (i==0) {
           c.height = layer.height;
           c.width = layer.width;
+          // Set up clipping region to prevent drawing outside canvas bounds
+          ctx.save();
+          ctx.beginPath();
+          ctx.rect(0, 0, layer.width, layer.height);
+          ctx.clip();
         }
         // layer = {type:"block", obj:{}, x:0, y:0, width:0, height:0, params:"allimages"};
         if (layer.obg) { // draw others background?
@@ -1203,6 +1373,8 @@ function drawProject() {
         break;
     }
   }
+  // Restore the canvas state to remove the clipping region
+  ctx.restore();
   autoSave(imagesForSaving);
   if (window.debugOverlay && typeof window.debugOverlay.drawOverlay === 'function') {
     try {
@@ -2348,6 +2520,11 @@ function myAccFunc(acc) {
       showDivs[x].classList.remove("w3-show");
     }
     x.classList.add("w3-show");
+    
+    // Load thumbnails for this category if it's a block category
+    if (acc.startsWith("blocks/")) {
+      loadCategoryThumbnails(acc);
+    }
   } else {
     x.classList.add("w3-hide");
     x.classList.remove("w3-show");

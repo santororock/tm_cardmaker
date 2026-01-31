@@ -48,6 +48,8 @@
 <!-- Viewport meta tag ensures responsive design works on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="tm_cm.css">
+<!-- Markdown parser library for rendering README sections (local copy for offline support) -->
+<script src="marked.min.js"></script>
 <!-- Load fonts from Google Fonts CDN (external resources, check network tab if fonts don't load) -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -102,6 +104,17 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal for Help & Information -->
+  <div class="overlay w3-nodisplay" id="helpmodal">
+    <div class="centerme">
+      <div class="w3-white" style="padding: 50px; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+        <span onclick="cancelHelpModal()" style="float:right;cursor:pointer;font-size:28px;font-weight:bold;">&times;</span>
+        <div id="helpContent"></div>
+        <button onclick="cancelHelpModal()" style="margin-top:20px;">Close</button>
+      </div>
+    </div>
+  </div>
   
 <!-- ================================================================================
      PRIMARY NAVIGATION - LEFT SIDEBAR
@@ -124,8 +137,28 @@
 -->
 <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:180px" id="mySidebar">
   <div class="w3-large w3-text-grey" style="font-weight:bold">
-    <!-- GitHub link for project repository -->
-    <a class="w3-button w3-block w3-light-grey" href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer"><div style="font-size: 0.75em;">TM Cardmaker GitHub Project</div></a>
+    
+    <!-- MAIN HAMBURGER MENU: TM Cardmaker with Help, References, and GitHub -->
+    <a onclick="myAccFunc('tmCardmakerMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
+      ☰ TM Cardmaker <i class="fa fa-caret-down"></i>
+    </a>
+    <div id="tmCardmakerMenu" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+      <a onclick="myAccFunc('helpSubMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align w3-small">
+        Help <i class="fa fa-caret-down"></i>
+      </a>
+      <div id="helpSubMenu" class="w3-bar-block w3-hide w3-padding-large w3-small">
+        <a href="#" onclick="showHelpModal('How to Use'); return false;" class="w3-bar-item w3-button">How to Use</a>
+      </div>
+      <a onclick="myAccFunc('referencesSubMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align w3-small">
+        References <i class="fa fa-caret-down"></i>
+      </a>
+      <div id="referencesSubMenu" class="w3-bar-block w3-hide w3-padding-large w3-small">
+        <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0.pdf" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Game Reference PDF</a>
+        <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-1.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (1)</a>
+        <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-2.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (2)</a>
+      </div>
+      <a href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">GitHub Repository</a>
+    </div>
     
     <!-- FILE MENU: Main operations (New, Save, Load, Export) -->
     <!-- onclick="myAccFunc('file')" toggles the visibility of the file menu's submenu -->
@@ -383,7 +416,7 @@
   // Canvas zoom and scroll functionality
   let canvasZoom = 1;
   const zoomStep = 0.1;
-  const minZoom = 0.25;
+  const minZoom = 0.1;
   const maxZoom = 3;
   const canvaswrap = document.getElementById('canvaswrap');
   const canvasScrollarea = document.getElementById('canvasScrollarea');
@@ -725,6 +758,217 @@
 <script src="tm_cm.js"></script>
 <script src="tm_debug_overlay.js"></script>
 <script>
+
+// ============================================================================
+// HELP MODAL FUNCTIONS
+// ============================================================================
+
+const helpContent = {
+  hotkeys: {
+    title: 'Hotkeys & Shortcuts',
+    content: `
+      <h3>Keyboard Shortcuts</h3>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 8px;"><strong>Ctrl + Z</strong></td>
+          <td style="padding: 8px;">Undo last action</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 8px;"><strong>Ctrl + Y</strong></td>
+          <td style="padding: 8px;">Redo action</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 8px;"><strong>Ctrl + S</strong></td>
+          <td style="padding: 8px;">Save project</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 8px;"><strong>Delete</strong></td>
+          <td style="padding: 8px;">Delete selected layer</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 8px;"><strong>Arrow Keys</strong></td>
+          <td style="padding: 8px;">Move selected layer (1px per press, 10px with Shift)</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 8px;"><strong>Mouse Scroll</strong></td>
+          <td style="padding: 8px;">Zoom in/out on canvas</td>
+        </tr>
+      </table>
+      <h3>Mouse Controls</h3>
+      <ul>
+        <li><strong>Click</strong> - Select a layer on the canvas</li>
+        <li><strong>Drag</strong> - Move selected layer</li>
+        <li><strong>Scroll</strong> - Zoom the canvas (or use +/- buttons)</li>
+        <li><strong>Right-click</strong> - Show layer context menu</li>
+      </ul>
+    `
+  },
+  features: {
+    title: 'Features Overview',
+    content: `
+      <h3>Card Maker Features</h3>
+      <h4>Core Features</h4>
+      <ul>
+        <li><strong>Templates</strong> - Start with pre-built card templates</li>
+        <li><strong>Layers</strong> - Add and organize multiple layers (images, text, shapes)</li>
+        <li><strong>Text Editing</strong> - Add custom text with font and color control</li>
+        <li><strong>Images</strong> - Load images from web URLs or local files</li>
+        <li><strong>Production Boxes</strong> - Add resource production indicators</li>
+        <li><strong>Effects</strong> - Add visual effect elements</li>
+      </ul>
+      <h4>Productivity Features</h4>
+      <ul>
+        <li><strong>Auto-Save</strong> - Your work is automatically saved to local storage</li>
+        <li><strong>Undo/Redo</strong> - Up to 50 undo steps</li>
+        <li><strong>Zoom Controls</strong> - Zoom from 25% to 300% for detailed work</li>
+        <li><strong>Export</strong> - Save your card as a PNG image</li>
+        <li><strong>Project Save/Load</strong> - Save complete projects with embedded data</li>
+      </ul>
+    `
+  }
+};
+
+function showHelpModal(topic) {
+  const modal = document.getElementById('helpmodal');
+  const contentDiv = document.getElementById('helpContent');
+  
+  if (helpContent[topic]) {
+    const help = helpContent[topic];
+    contentDiv.innerHTML = '<h2>' + help.title + '</h2>' + help.content;
+    modal.classList.remove('w3-nodisplay');
+  }
+}
+
+function cancelHelpModal() {
+  const modal = document.getElementById('helpmodal');
+  modal.classList.add('w3-nodisplay');
+}
+
+// ============================================================================
+// HELP MODAL FUNCTIONS - MARKDOWN BASED
+// ============================================================================
+
+// Cache for fetched README to avoid multiple fetches
+let readmeCache = null;
+
+/**
+ * Fetch and cache the README.md file
+ */
+async function fetchReadme() {
+  console.log('[HELP] fetchReadme called, cache status:', readmeCache ? 'cached' : 'not cached');
+  
+  if (readmeCache !== null) {
+    console.log('[HELP] Using cached README');
+    return readmeCache;
+  }
+  
+  try {
+    console.log('[HELP] Fetching README.md from server...');
+    const response = await fetch('README.md');
+    console.log('[HELP] Fetch response status:', response.status);
+    
+    if (!response.ok) {
+      console.error('[HELP] Failed to fetch README:', response.status, response.statusText);
+      return null;
+    }
+    
+    readmeCache = await response.text();
+    console.log('[HELP] README cached, length:', readmeCache.length);
+    return readmeCache;
+  } catch (error) {
+    console.error('[HELP] Error fetching README:', error);
+    return null;
+  }
+}
+
+/**
+ * Extract a section from README by header title
+ * Matches from ## SectionTitle to the next ## or end of file
+ * Handles both Unix (\n) and Windows (\r\n) line endings
+ */
+function extractSection(markdown, sectionTitle) {
+  console.log('[HELP] extractSection called for:', sectionTitle);
+  // Match ## SectionTitle followed by optional \r and \n, then capture everything until the next ## or end
+  const regex = new RegExp(`## ${sectionTitle}\\r?\\n([\\s\\S]*?)(?=\\r?\\n## |$)`, 'i');
+  const match = markdown.match(regex);
+  
+  if (match && match[1]) {
+    console.log('[HELP] Section found, length:', match[1].length);
+    return `## ${sectionTitle}\n${match[1].trim()}`;
+  }
+  
+  console.warn('[HELP] Section not found in markdown. Available sections:', 
+    markdown.match(/## [^\r\n]+/g));
+  return null;
+}
+
+/**
+ * Override showHelpModal to load from README.md using markdown parser
+ * @param {string} sectionTitle - The heading from README to load (e.g., "How to Use")
+ */
+async function showHelpModal(sectionTitle) {
+  console.log('[HELP] showHelpModal called with section:', sectionTitle);
+  
+  // Check if marked.js is loaded
+  if (typeof marked === 'undefined') {
+    console.error('[HELP] ERROR: marked.js library not loaded!');
+    alert('Error: Markdown parser not loaded. Please reload the page.');
+    return;
+  }
+  
+  const modal = document.getElementById('helpmodal');
+  const contentDiv = document.getElementById('helpContent');
+  
+  if (!modal) {
+    console.error('[HELP] Modal element not found!');
+    alert('Error: Help modal element not found in page');
+    return;
+  }
+  if (!contentDiv) {
+    console.error('[HELP] Content div not found!');
+    alert('Error: Help content div not found in page');
+    return;
+  }
+  
+  // Show loading state
+  contentDiv.innerHTML = '<p style="text-align: center; color: #999;">Loading...</p>';
+  modal.classList.remove('w3-nodisplay');
+  console.log('[HELP] Modal shown with loading state');
+  
+  try {
+    console.log('[HELP] Fetching README...');
+    const readme = await fetchReadme();
+    
+    if (!readme) {
+      console.error('[HELP] README fetch returned null');
+      contentDiv.innerHTML = '<p style="color: #d32f2f;">Failed to load help content. Please check your internet connection or the README.md file.</p>';
+      return;
+    }
+    
+    console.log('[HELP] README fetched, extracting section:', sectionTitle);
+    
+    // Extract the requested section
+    const section = extractSection(readme, sectionTitle);
+    
+    if (!section) {
+      console.error('[HELP] Section not found:', sectionTitle);
+      contentDiv.innerHTML = `<p style="color: #d32f2f;">Section "${sectionTitle}" not found in README.md</p>`;
+      return;
+    }
+    
+    console.log('[HELP] Section extracted, rendering markdown...');
+    
+    // Render markdown to HTML using marked.js
+    const html = marked.parse(section);
+    contentDiv.innerHTML = html;
+    console.log('[HELP] Markdown rendered successfully');
+    
+  } catch (error) {
+    console.error('[HELP] Error loading help modal:', error);
+    contentDiv.innerHTML = '<p style="color: #d32f2f;">Error loading help content: ' + error.message + '</p>';
+  }
+}
+
 /**
  * Application initialization script
  * 

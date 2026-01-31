@@ -234,7 +234,9 @@ try:
         QSizePolicy,            # Widget sizing hints
         QStyledItemDelegate,    # Custom item rendering
         QStyle,                 # UI style information
-        QStyleOptionViewItem    # Item rendering options
+        QStyleOptionViewItem,   # Item rendering options
+        QTabWidget,             # Tab container
+        QProgressBar            # Progress indicator
     )
     from PySide6.QtCore import (
         Qt,                     # Qt constants (colors, modes, etc.)
@@ -244,7 +246,8 @@ try:
         QTimer,                 # Timer for delayed operations
         QModelIndex,            # Index in a model
         QPoint, QRect,          # Geometric primitives
-        QMimeData               # Drag-drop data container
+        QMimeData,              # Drag-drop data container
+        QThread                 # Background thread support
     )
     from PySide6.QtGui import (
         QPixmap,                # Image in memory
@@ -691,6 +694,225 @@ class AssetDocument:
                 
         return issues
         
+    # ==================== THUMBNAIL MANAGEMENT ====================
+    # Thumbnails stored at: blocks/{category}/{blockname}/{blockname}_{size}.png
+    # Sizes: 32, 64, 128, 256 pixels
+    # This supports multiple menu display options and preview sizing
+    
+    def get_thumbnail_folder(self, sprite: Dict[str, Any]) -> Optional[Path]:
+        """Get thumbnail directory for a sprite
+        
+        Structure: blocks/category/blockname/
+        Example: blocks/templates/templates__green_normal/
+        """
+        if self.sprite_folder is None or "src" not in sprite:
+            return None
+            
+        src = sprite["src"]
+        put_under = sprite.get("putUnder", "")
+        
+        # Normalize the path
+        if put_under.startswith("blocks/"):
+            put_under = put_under[7:]
+        elif put_under.startswith("blocks\\"):
+            put_under = put_under[7:]
+            
+        # Return blocks/{category}/{blockname}/
+        return self.sprite_folder / "blocks" / put_under / src
+    
+    def get_thumbnail_path(self, sprite: Dict[str, Any], size: int = 64) -> Optional[Path]:
+        """Get path to thumbnail of specific size
+        
+        Args:
+            sprite: Sprite dict with 'src' key
+            size: Thumbnail size in pixels (32, 64, 128, or 256)
+            
+        Returns:
+            Path to thumbnail, or None if invalid
+            Example: blocks/templates/templates__green_normal/templates__green_normal_64.png
+        """
+        if self.sprite_folder is None or "src" not in sprite:
+            return None
+            
+        src = sprite["src"]
+        folder = self.get_thumbnail_folder(sprite)
+        if folder is None:
+            return None
+            
+        return folder / f"{src}_{size}.png"
+    
+    def thumbnail_exists(self, sprite: Dict[str, Any], size: int = 64) -> bool:
+        """Check if thumbnail exists for given size"""
+        path = self.get_thumbnail_path(sprite, size)
+        return path is not None and path.exists()
+    
+    def is_thumbnail_outdated(self, sprite: Dict[str, Any], size: int = 64) -> bool:
+        """Check if thumbnail is older than source image
+        
+        Returns True if:
+        - Thumbnail doesn't exist
+        - Source image doesn't exist
+        - Source image is newer than thumbnail
+        """
+        source_path = self.get_sprite_image_path(sprite)
+        thumb_path = self.get_thumbnail_path(sprite, size)
+        
+        if source_path is None or thumb_path is None:
+            return True
+        if not source_path.exists() or not thumb_path.exists():
+            return True
+            
+        # Compare modification times
+        source_mtime = source_path.stat().st_mtime
+        thumb_mtime = thumb_path.stat().st_mtime
+        return source_mtime > thumb_mtime
+    
+    def generate_thumbnail(self, sprite: Dict[str, Any], sizes: List[int] = None) -> bool:
+        """Generate thumbnails for all specified sizes
+        
+        Args:
+            sprite: Sprite dict with 'src' and 'putUnder' keys
+            sizes: List of sizes to generate (defaults to [32, 64, 128, 256])
+            
+        Returns:
+            True if at least one thumbnail was generated successfully
+            False if all generations failed
+            
+        Implementation:
+        1. Load source image with PIL
+        2. For each size, create subdirectory if needed
+        3. Resize with high quality (LANCZOS)
+        4. Save as PNG
+        """
+        try:
+            from PIL import Image
+        except ImportError:
+            print("ERROR: PIL/Pillow not installed. Install with: pip install Pillow")
+            return False
+        
+        if sizes is None:
+            sizes = [32, 64, 128, 256]
+        
+        source_path = self.get_sprite_image_path(sprite)
+        if source_path is None or not source_path.exists():
+            return False
+        
+        try:
+            source_image = Image.open(source_path)
+            if source_image.mode == 'RGBA':
+                # Keep alpha channel for transparency
+                pass
+            else:
+                # Convert to RGBA for consistency
+                source_image = source_image.convert('RGBA')
+        except Exception as e:
+            print(f"ERROR: Failed to open image {source_path}: {e}")
+            return False
+        
+        success_count = 0
+        thumb_folder = self.get_thumbnail_folder(sprite)
+        
+        if thumb_folder is None:
+            return False
+        
+        # Create thumbnail folder if needed
+        thumb_folder.mkdir(parents=True, exist_ok=True)
+        
+        src = sprite["src"]
+        for size in sizes:
+            try:
+                # Resize preserving aspect ratio
+                img_copy = source_image.copy()
+                img_copy.thumbnail((size, size), Image.Resampling.LANCZOS)
+                
+                # Save thumbnail
+                thumb_path = thumb_folder / f"{src}_{size}.png"
+                img_copy.save(thumb_path, 'PNG')
+                success_count += 1
+            except Exception as e:
+                print(f"ERROR: Failed to generate {size}px thumbnail for {src}: {e}")
+        
+        return success_count > 0
+    
+    def validate_thumbnails(self) -> dict:
+        """Validate all thumbnails and return status report
+        
+        Returns:
+            {
+                'ok': [list of srcs with all thumbnails present and up-to-date],
+                'missing': [list of (src, missing_sizes)],
+                'outdated': [list of (src, outdated_sizes)],
+                'error': [list of (src, error_message)]
+            }
+        """
+        sizes = [32, 64, 128, 256]
+        report = {'ok': [], 'missing': [], 'outdated': [], 'error': []}
+        
+        for sprite in self.data["blockList"]:
+            src = sprite.get("src")
+            if not src:
+                continue
+            
+            # Check if source image exists
+            source_path = self.get_sprite_image_path(sprite)
+            if source_path is None or not source_path.exists():
+                # Skip silently - these will be skipped during generation anyway
+                continue
+            
+            missing = []
+            outdated = []
+            
+            for size in sizes:
+                if not self.thumbnail_exists(sprite, size):
+                    missing.append(size)
+                elif self.is_thumbnail_outdated(sprite, size):
+                    outdated.append(size)
+            
+            if not missing and not outdated:
+                report['ok'].append(src)
+            else:
+                if missing:
+                    report['missing'].append((src, missing))
+                if outdated:
+                    report['outdated'].append((src, outdated))
+        
+        return report
+    
+    def generate_missing_thumbnails(self, callback=None) -> dict:
+        """Generate all missing/outdated thumbnails
+        
+        Args:
+            callback: Optional function(sprite_index, total) for progress tracking
+            
+        Returns:
+            Report with counts: {'generated': N, 'failed': N, 'skipped': N}
+        """
+        sizes = [32, 64, 128, 256]
+        report = {'generated': 0, 'failed': 0, 'skipped': 0}
+        
+        for i, sprite in enumerate(self.data["blockList"]):
+            if callback:
+                callback(i, len(self.data["blockList"]))
+            
+            # Check if any thumbnail needs generating
+            needs_gen = False
+            for size in sizes:
+                if not self.thumbnail_exists(sprite, size) or self.is_thumbnail_outdated(sprite, size):
+                    needs_gen = True
+                    break
+            
+            if not needs_gen:
+                report['skipped'] += 1
+                continue
+            
+            # Attempt generation
+            if self.generate_thumbnail(sprite, sizes):
+                report['generated'] += 1
+            else:
+                report['failed'] += 1
+        
+        return report
+        
     def scan_sprites(self, folder: Path) -> List[Dict[str, Any]]:
         """Scan folder for PNG files not in blockList"""
         if not folder.exists():
@@ -1078,6 +1300,301 @@ class DraggableTreeWidget(QTreeWidget):
             painter.end()
 
 
+class ThumbnailManager(QWidget):
+    """Thumbnail management panel with generation, validation, and status display"""
+    
+    def __init__(self, document: AssetDocument):
+        super().__init__()
+        self.document = document
+        self.generation_thread = None
+        self.setup_ui()
+        
+    def setup_ui(self):
+        layout = QVBoxLayout(self)
+        
+        # Title
+        title = QLabel("Thumbnail Manager")
+        title_font = title.font()
+        title_font.setPointSize(12)
+        title_font.setBold(True)
+        title.setFont(title_font)
+        layout.addWidget(title)
+        
+        # Info text
+        info = QLabel(
+            "Generate thumbnail previews at multiple sizes (32, 64, 128, 256px).\n"
+            "Thumbnails are stored in: blocks/{category}/{blockname}/{blockname}_{size}.png"
+        )
+        info.setWordWrap(True)
+        info.setStyleSheet("color: gray; font-size: 9pt;")
+        layout.addWidget(info)
+        
+        # Control buttons
+        button_layout = QHBoxLayout()
+        
+        self.btn_validate = QPushButton("Validate")
+        self.btn_validate.clicked.connect(self.validate_thumbnails)
+        button_layout.addWidget(self.btn_validate)
+        
+        self.btn_generate_all = QPushButton("Generate All")
+        self.btn_generate_all.clicked.connect(self.generate_all)
+        button_layout.addWidget(self.btn_generate_all)
+        
+        self.btn_generate_missing = QPushButton("Generate Missing")
+        self.btn_generate_missing.clicked.connect(self.generate_missing)
+        button_layout.addWidget(self.btn_generate_missing)
+        
+        self.btn_regenerate_outdated = QPushButton("Regenerate Outdated")
+        self.btn_regenerate_outdated.clicked.connect(self.regenerate_outdated)
+        button_layout.addWidget(self.btn_regenerate_outdated)
+        
+        layout.addLayout(button_layout)
+        
+        # Status/progress display
+        self.progress = QProgressBar()
+        self.progress.setVisible(False)
+        self.progress.setMinimum(0)
+        layout.addWidget(self.progress)
+        
+        self.status_label = QLabel()
+        self.status_label.setWordWrap(True)
+        self.status_label.setStyleSheet("font-size: 9pt; color: gray;")
+        layout.addWidget(self.status_label)
+        
+        # Results table
+        self.results_table = QTableWidget()
+        self.results_table.setColumnCount(4)
+        self.results_table.setHorizontalHeaderLabels(["Sprite", "Status", "Sizes", "Action"])
+        self.results_table.horizontalHeader().setStretchLastSection(False)
+        self.results_table.setColumnWidth(0, 150)
+        self.results_table.setColumnWidth(1, 100)
+        self.results_table.setColumnWidth(2, 100)
+        self.results_table.setColumnWidth(3, 100)
+        self.results_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        layout.addWidget(self.results_table)
+        
+        # Enable/disable buttons based on folder
+        self.update_button_states()
+    
+    def update_button_states(self):
+        """Enable/disable buttons based on whether sprite folder is set"""
+        enabled = self.document.sprite_folder is not None
+        self.btn_validate.setEnabled(enabled)
+        self.btn_generate_all.setEnabled(enabled)
+        self.btn_generate_missing.setEnabled(enabled)
+        self.btn_regenerate_outdated.setEnabled(enabled)
+    
+    def set_controls_enabled(self, enabled: bool):
+        """Disable controls during generation"""
+        self.btn_validate.setEnabled(enabled)
+        self.btn_generate_all.setEnabled(enabled)
+        self.btn_generate_missing.setEnabled(enabled)
+        self.btn_regenerate_outdated.setEnabled(enabled)
+    
+    def validate_thumbnails(self):
+        """Validate all thumbnails and display results"""
+        if not self.document.data["blockList"]:
+            QMessageBox.information(self, "No Sprites", "No sprites loaded.")
+            return
+        
+        report = self.document.validate_thumbnails()
+        self.display_validation_results(report)
+    
+    def display_validation_results(self, report: dict):
+        """Display validation results in table"""
+        self.results_table.setRowCount(0)
+        
+        # Collect all sprites with status
+        rows = []
+        
+        for src in report['ok']:
+            rows.append((src, "✓ OK", "32, 64, 128, 256", "OK"))
+        
+        for src, missing_sizes in report['missing']:
+            sizes_str = ", ".join(str(s) for s in missing_sizes)
+            rows.append((src, "⚠ Missing", sizes_str, "Generate"))
+        
+        for src, outdated_sizes in report['outdated']:
+            sizes_str = ", ".join(str(s) for s in outdated_sizes)
+            rows.append((src, "🔄 Outdated", sizes_str, "Regenerate"))
+        
+        for src, error_msg in report['error']:
+            rows.append((src, "❌ Error", error_msg, ""))
+        
+        # Add rows to table
+        self.results_table.setRowCount(len(rows))
+        for row_idx, (src, status, sizes, action) in enumerate(rows):
+            
+            # Sprite name
+            item_src = QTableWidgetItem(src)
+            item_src.setFlags(item_src.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            self.results_table.setItem(row_idx, 0, item_src)
+            
+            # Status
+            item_status = QTableWidgetItem(status)
+            item_status.setFlags(item_status.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            if "OK" in status:
+                item_status.setBackground(QColor(200, 255, 200))
+            elif "Missing" in status:
+                item_status.setBackground(QColor(255, 255, 200))
+            elif "Outdated" in status:
+                item_status.setBackground(QColor(255, 230, 200))
+            elif "Error" in status:
+                item_status.setBackground(QColor(255, 200, 200))
+            self.results_table.setItem(row_idx, 1, item_status)
+            
+            # Sizes
+            item_sizes = QTableWidgetItem(sizes)
+            item_sizes.setFlags(item_sizes.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            self.results_table.setItem(row_idx, 2, item_sizes)
+            
+            # Action (if needed)
+            item_action = QTableWidgetItem(action)
+            item_action.setFlags(item_action.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            self.results_table.setItem(row_idx, 3, item_action)
+        
+        # Update summary
+        total = len(rows)
+        ok_count = len(report['ok'])
+        self.status_label.setText(
+            f"Validation complete: {ok_count}/{total} sprites have all thumbnails up-to-date"
+        )
+    
+    def generate_all(self):
+        """Generate all thumbnails from scratch"""
+        if not self.document.data["blockList"]:
+            QMessageBox.information(self, "No Sprites", "No sprites loaded.")
+            return
+        
+        reply = QMessageBox.question(
+            self, "Generate All Thumbnails",
+            f"Generate thumbnails for {len(self.document.data['blockList'])} sprite(s)?\n"
+            "This will create/overwrite thumbnails at: 32, 64, 128, 256px",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return
+        
+        self.run_generation(regenerate=True)
+    
+    def generate_missing(self):
+        """Generate only missing thumbnails"""
+        if not self.document.data["blockList"]:
+            QMessageBox.information(self, "No Sprites", "No sprites loaded.")
+            return
+        
+        self.run_generation(regenerate=False)
+    
+    def regenerate_outdated(self):
+        """Regenerate only outdated thumbnails"""
+        if not self.document.data["blockList"]:
+            QMessageBox.information(self, "No Sprites", "No sprites loaded.")
+            return
+        
+        reply = QMessageBox.question(
+            self, "Regenerate Outdated Thumbnails",
+            "Regenerate all thumbnails that are older than their source images?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return
+        
+        self.run_generation(regenerate=False, outdated_only=True)
+    
+    def run_generation(self, regenerate: bool = False, outdated_only: bool = False):
+        """Run thumbnail generation in a background thread"""
+        self.set_controls_enabled(False)
+        self.progress.setVisible(True)
+        self.progress.setValue(0)
+        self.progress.setMaximum(len(self.document.data["blockList"]))
+        
+        # Create thread
+        self.generation_thread = ThumbnailGenerationThread(
+            self.document, regenerate, outdated_only
+        )
+        self.generation_thread.progress.connect(self.on_generation_progress)
+        self.generation_thread.generation_complete.connect(self.on_generation_finished)
+        self.generation_thread.start()
+    
+    def on_generation_progress(self, current: int, total: int):
+        """Update progress bar"""
+        self.progress.setValue(current)
+    
+    def on_generation_finished(self, report: dict):
+        """Handle generation completion"""
+        self.progress.setVisible(False)
+        self.set_controls_enabled(True)
+        
+        generated = report.get('generated', 0)
+        failed = report.get('failed', 0)
+        skipped = report.get('skipped', 0)
+        
+        msg = f"Generation complete:\n"
+        msg += f"  Generated: {generated}\n"
+        msg += f"  Failed: {failed}\n"
+        msg += f"  Skipped: {skipped}"
+        
+        QMessageBox.information(self, "Generation Complete", msg)
+        
+        # Re-validate to show updated status
+        self.validate_thumbnails()
+
+
+class ThumbnailGenerationThread(QThread):
+    """Background thread for thumbnail generation"""
+    
+    progress = Signal(int, int)  # current, total
+    generation_complete = Signal(dict)  # report
+    
+    def __init__(self, document: AssetDocument, regenerate: bool = False, outdated_only: bool = False):
+        super().__init__()
+        self.document = document
+        self.regenerate = regenerate
+        self.outdated_only = outdated_only
+        self.report = {}
+    
+    def run(self):
+        """Run generation in background"""
+        sizes = [32, 64, 128, 256]
+        self.report = {'generated': 0, 'failed': 0, 'skipped': 0}
+        
+        for i, sprite in enumerate(self.document.data["blockList"]):
+            self.progress.emit(i, len(self.document.data["blockList"]))
+            
+            src = sprite.get("src")
+            if not src:
+                self.report['skipped'] += 1
+                continue
+            
+            # Skip if regenerate=False and all thumbnails exist and are current
+            if not self.regenerate:
+                all_exist_current = True
+                for size in sizes:
+                    if not self.document.thumbnail_exists(sprite, size):
+                        all_exist_current = False
+                        break
+                    if self.outdated_only and self.document.is_thumbnail_outdated(sprite, size):
+                        all_exist_current = False
+                        break
+                
+                if all_exist_current and not self.outdated_only:
+                    self.report['skipped'] += 1
+                    continue
+                elif all_exist_current and self.outdated_only:
+                    self.report['skipped'] += 1
+                    continue
+            
+            # Attempt generation
+            if self.document.generate_thumbnail(sprite, sizes):
+                self.report['generated'] += 1
+            else:
+                self.report['failed'] += 1
+        
+        self.progress.emit(len(self.document.data["blockList"]), len(self.document.data["blockList"]))
+        # Emit completion with report
+        self.generation_complete.emit(self.report)
+
+
 class CategoryBrowser(QWidget):
     """Left panel tree view of categories and sprites"""
     
@@ -1423,6 +1940,82 @@ class PropertyEditor(QWidget):
                     self.update_field(i, k, text))
                     
             self.form.addRow(key, widget)
+        
+        # Add separator
+        separator = QLabel("")
+        separator.setStyleSheet("border-top: 1px solid gray; margin: 10px 0;")
+        self.form.addRow(separator)
+        
+        # Add thumbnail preview section
+        thumb_section_label = QLabel("Thumbnail Preview")
+        thumb_section_label_font = thumb_section_label.font()
+        thumb_section_label_font.setBold(True)
+        thumb_section_label.setFont(thumb_section_label_font)
+        self.form.addRow(thumb_section_label)
+        
+        # Create 2x2 grid of thumbnails
+        thumb_grid_widget = QWidget()
+        thumb_grid = QVBoxLayout(thumb_grid_widget)
+        thumb_grid.setContentsMargins(0, 0, 0, 0)
+        
+        sizes = [32, 64, 128, 256]
+        row_layout = None
+        
+        for i, size in enumerate(sizes):
+            if i % 2 == 0:  # Start new row every 2 thumbnails
+                row_layout = QHBoxLayout()
+                row_layout.setContentsMargins(0, 0, 0, 0)
+                row_layout.setSpacing(10)
+                thumb_grid.addLayout(row_layout)
+            
+            # Container for this thumbnail
+            thumb_container = QWidget()
+            thumb_container_layout = QVBoxLayout(thumb_container)
+            thumb_container_layout.setContentsMargins(5, 5, 5, 5)
+            thumb_container_layout.setSpacing(3)
+            
+            # Get thumbnail
+            thumb_path = self.document.get_thumbnail_path(sprite, size)
+            exists = thumb_path and thumb_path.exists()
+            
+            # Thumbnail label
+            thumb_label = QLabel()
+            thumb_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            thumb_label.setMinimumSize(80, 80)
+            thumb_label.setMaximumSize(80, 80)
+            thumb_label.setStyleSheet("border: 1px solid gray; background-color: #333333;")
+            
+            if exists:
+                pixmap = QPixmap(str(thumb_path))
+                thumb_label.setPixmap(pixmap.scaled(
+                    QSize(80, 80),
+                    Qt.AspectRatioMode.KeepAspectRatio,
+                    Qt.TransformationMode.SmoothTransformation
+                ))
+                status_text = f"✓ {size}px"
+                status_color = "color: green;"
+            else:
+                # Empty placeholder
+                thumb_label.setText("–")
+                thumb_label.setStyleSheet("border: 1px dashed red; background-color: #333333; color: red; font-size: 20px;")
+                status_text = f"✗ {size}px"
+                status_color = "color: red;"
+            
+            thumb_container_layout.addWidget(thumb_label, alignment=Qt.AlignmentFlag.AlignCenter)
+            
+            # Status label
+            status_label = QLabel(status_text)
+            status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            status_label.setStyleSheet(f"{status_color} font-size: 9pt;")
+            thumb_container_layout.addWidget(status_label)
+            
+            row_layout.addWidget(thumb_container)
+        
+        # Add padding at end of last row if needed
+        if len(sizes) % 2 == 1:
+            row_layout.addStretch()
+        
+        self.form.addRow(thumb_grid_widget)
             
     def show_multi_editor(self, indices: List[int]):
         """Show table editor for multiple sprites"""
@@ -1660,7 +2253,7 @@ class MainWindow(QMainWindow):
         
     def setup_ui(self):
         self.setWindowTitle("Terraforming Mars - Asset Manager")
-        self.resize(1200, 800)
+        self.resize(1400, 800)
         
         # Menu bar
         menubar = self.menuBar()
@@ -1687,12 +2280,20 @@ class MainWindow(QMainWindow):
         self.statusBar = QStatusBar()
         self.setStatusBar(self.statusBar)
         
-        # Main layout
+        # Main layout with tabbed interface
         central = QWidget()
         self.setCentralWidget(central)
-        layout = QHBoxLayout(central)
+        layout = QVBoxLayout(central)
+        layout.setContentsMargins(0, 0, 0, 0)
         
-        # Two-panel splitter
+        # Tab widget
+        self.tabs = QTabWidget()
+        
+        # Tab 1: Sprites (original two-panel layout)
+        sprites_widget = QWidget()
+        sprites_layout = QHBoxLayout(sprites_widget)
+        sprites_layout.setContentsMargins(5, 5, 5, 5)
+        
         splitter = QSplitter(Qt.Orientation.Horizontal)
         
         # Left panel: Category browser
@@ -1705,7 +2306,15 @@ class MainWindow(QMainWindow):
         splitter.addWidget(self.editor)
         
         splitter.setSizes([400, 800])
-        layout.addWidget(splitter)
+        sprites_layout.addWidget(splitter)
+        
+        self.tabs.addTab(sprites_widget, "Sprites")
+        
+        # Tab 2: Thumbnails
+        self.thumbnail_manager = ThumbnailManager(self.document)
+        self.tabs.addTab(self.thumbnail_manager, "Thumbnails")
+        
+        layout.addWidget(self.tabs)
         
     def load_settings(self):
         """Load application settings"""
@@ -1731,6 +2340,7 @@ class MainWindow(QMainWindow):
     def refresh_all(self):
         """Refresh all UI components"""
         self.browser.refresh()
+        self.thumbnail_manager.update_button_states()
         self.update_title()
         self.update_status()
         
