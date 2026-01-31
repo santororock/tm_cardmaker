@@ -718,6 +718,15 @@ function addLayer(title, layer) {
   childAdd.onclick = selectLayer;
   // skip delete button for base layer
   if (ddcount) childAdd.appendChild(deleteButton());
+  // Add thumbnail for block layers (block layers use iNum, not src) - positioned after delete button
+  console.log(`[THUMBNAIL] Checking layer for thumbnail: type=${layer.type}, iNum=${layer.iNum}`);
+  if (layer.type === "block" && layer.iNum !== undefined && layer.iNum >= 0) {
+    const block = blockList[layer.iNum];
+    if (block && block.src) {
+      console.log(`[THUMBNAIL] Adding thumbnail for ${block.src}`);
+      childAdd.appendChild(createLayerThumbnail(block.src));
+    }
+  }
   toAdd.appendChild(childAdd);
   document.getElementById("layerlist").appendChild(toAdd);
   aLayers[toAdd.id] = layer;
@@ -748,6 +757,65 @@ function createTextbox(txt) {
   toAdd.value = txt;
   toAdd.onchange = function () {updateLayerName(event, this)};
   return toAdd;
+}
+
+function createLayerThumbnail(src) {
+  // Create thumbnail container
+  let container = document.createElement("span");
+  container.className = "layer-thumbnail";
+  container.style.display = "inline-block";
+  container.style.width = "32px";
+  container.style.height = "32px";
+  container.style.border = "1px solid #ddd";
+  container.style.borderRadius = "3px";
+  container.style.overflow = "hidden";
+  container.style.backgroundColor = "#f9f9f9";
+  
+  // Find the putUnder (category path) from blockList
+  let putUnder = null;
+  for (let block of blockList) {
+    if (block.src === src) {
+      putUnder = block.putUnder;
+      break;
+    }
+  }
+  
+  if (!putUnder) {
+    console.log(`Could not find category for ${src}`);
+    return container; // Return empty container
+  }
+  
+  // Use existing thumbnail system to load the image
+  const thumbnailUrl = getThumbnailUrl(src, putUnder, 64);
+  
+  // Create img element
+  let img = document.createElement("img");
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "contain";
+  img.style.display = "block";
+  
+  // Load thumbnail using existing fetch logic
+  fetch(thumbnailUrl)
+    .then(response => {
+      if (response.ok) {
+        img.src = thumbnailUrl;
+      } else {
+        // Fallback to 64px if preferred size not found
+        const fallbackUrl = getThumbnailUrl(src, putUnder, 64);
+        return fetch(fallbackUrl).then(fallbackResponse => {
+          if (fallbackResponse.ok) {
+            img.src = fallbackUrl;
+          }
+        });
+      }
+    })
+    .catch(err => {
+      console.log(`Thumbnail not available for ${src}`);
+    });
+  
+  container.appendChild(img);
+  return container;
 }
 
 function updateLayerName(e, th) {
@@ -1157,6 +1225,14 @@ function rebuildLayerListUI() {
       // Add delete button for non-base layers using deleteButton helper (check layer type, not position)
       if (layer.type !== "base") {
         childDiv.appendChild(deleteButton());
+      }
+      
+      // Add thumbnail for block layers (block layers use iNum, not src) - positioned after delete button
+      if (layer.type === "block" && layer.iNum !== undefined && layer.iNum >= 0) {
+        const block = blockList[layer.iNum];
+        if (block && block.src) {
+          childDiv.appendChild(createLayerThumbnail(block.src));
+        }
       }
       
       li.appendChild(childDiv);
