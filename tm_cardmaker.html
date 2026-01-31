@@ -45,6 +45,16 @@
 -->
 <title>TM Card Maker</title>
 <meta charset="UTF-8">
+<!-- Favicon icons for various platforms and resolutions -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64x64.png">
+<link rel="icon" type="image/png" sizes="128x128" href="favicon-128x128.png">
+<link rel="icon" type="image/png" sizes="256x256" href="favicon-256x256.png">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <!-- Viewport meta tag ensures responsive design works on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="tm_cm.css">
@@ -156,6 +166,11 @@
         <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0.pdf" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Game Reference PDF</a>
         <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-1.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (1)</a>
         <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-2.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (2)</a>
+        <div style="padding: 10px; font-size: 9pt; color: #666; line-height: 1.4; border-top: 1px solid #ddd; margin-top: 8px;">
+          <div style="font-style: italic; margin-bottom: 4px;">Terraforming Mars + Expansions</div>
+          <div style="margin-bottom: 4px;">Symbol and Play Reference</div>
+          <div>by <a href="https://boardgamegeek.com/profile/Magesmiley" target="_blank" rel="noopener noreferrer" style="color: #0066cc; text-decoration: none;">Magesmiley</a></div>
+        </div>
       </div>
       <a href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">GitHub Repository</a>
     </div>
@@ -762,82 +777,6 @@
 // ============================================================================
 // HELP MODAL FUNCTIONS
 // ============================================================================
-
-const helpContent = {
-  hotkeys: {
-    title: 'Hotkeys & Shortcuts',
-    content: `
-      <h3>Keyboard Shortcuts</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 8px;"><strong>Ctrl + Z</strong></td>
-          <td style="padding: 8px;">Undo last action</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 8px;"><strong>Ctrl + Y</strong></td>
-          <td style="padding: 8px;">Redo action</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 8px;"><strong>Ctrl + S</strong></td>
-          <td style="padding: 8px;">Save project</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 8px;"><strong>Delete</strong></td>
-          <td style="padding: 8px;">Delete selected layer</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 8px;"><strong>Arrow Keys</strong></td>
-          <td style="padding: 8px;">Move selected layer (1px per press, 10px with Shift)</td>
-        </tr>
-        <tr style="border-bottom: 1px solid #ddd;">
-          <td style="padding: 8px;"><strong>Mouse Scroll</strong></td>
-          <td style="padding: 8px;">Zoom in/out on canvas</td>
-        </tr>
-      </table>
-      <h3>Mouse Controls</h3>
-      <ul>
-        <li><strong>Click</strong> - Select a layer on the canvas</li>
-        <li><strong>Drag</strong> - Move selected layer</li>
-        <li><strong>Scroll</strong> - Zoom the canvas (or use +/- buttons)</li>
-        <li><strong>Right-click</strong> - Show layer context menu</li>
-      </ul>
-    `
-  },
-  features: {
-    title: 'Features Overview',
-    content: `
-      <h3>Card Maker Features</h3>
-      <h4>Core Features</h4>
-      <ul>
-        <li><strong>Templates</strong> - Start with pre-built card templates</li>
-        <li><strong>Layers</strong> - Add and organize multiple layers (images, text, shapes)</li>
-        <li><strong>Text Editing</strong> - Add custom text with font and color control</li>
-        <li><strong>Images</strong> - Load images from web URLs or local files</li>
-        <li><strong>Production Boxes</strong> - Add resource production indicators</li>
-        <li><strong>Effects</strong> - Add visual effect elements</li>
-      </ul>
-      <h4>Productivity Features</h4>
-      <ul>
-        <li><strong>Auto-Save</strong> - Your work is automatically saved to local storage</li>
-        <li><strong>Undo/Redo</strong> - Up to 50 undo steps</li>
-        <li><strong>Zoom Controls</strong> - Zoom from 25% to 300% for detailed work</li>
-        <li><strong>Export</strong> - Save your card as a PNG image</li>
-        <li><strong>Project Save/Load</strong> - Save complete projects with embedded data</li>
-      </ul>
-    `
-  }
-};
-
-function showHelpModal(topic) {
-  const modal = document.getElementById('helpmodal');
-  const contentDiv = document.getElementById('helpContent');
-  
-  if (helpContent[topic]) {
-    const help = helpContent[topic];
-    contentDiv.innerHTML = '<h2>' + help.title + '</h2>' + help.content;
-    modal.classList.remove('w3-nodisplay');
-  }
-}
 
 function cancelHelpModal() {
   const modal = document.getElementById('helpmodal');

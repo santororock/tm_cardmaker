@@ -306,3 +306,19 @@ pip install PySide6
 - Run Tools > Validate Assets to see detailed issues
 - Missing image warnings indicate `src` references that don't have corresponding PNG files
 - Fix paths or add the missing images
+
+## Credits & Attribution
+
+### Reference Materials
+
+The Symbol and Play Reference documents included in this project were created by **Magesmiley**:
+
+- **Terraforming Mars + Expansions Symbol and Play Reference**
+- Author: [Magesmiley](https://boardgamegeek.com/profile/Magesmiley)
+- Available in: `reference/` folder (PDF and PNG formats)
+
+These comprehensive reference materials are invaluable for understanding the game's iconography and mechanics when creating fan-made cards.
+
+### Original Project
+
+This project is a fork of [SliceOfBread's tm_cardmaker](https://github.com/SliceOfBread/tm_cardmaker) with significant enhancements.
