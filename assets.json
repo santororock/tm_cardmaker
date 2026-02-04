@@ -135,10 +135,17 @@
     },
     {
       "putUnder": "blocks/misc",
-      "text": "Chairman",
-      "src": "misc__chairman",
-      "width": 548,
-      "height": 710
+      "text": "Effect (bg)",
+      "src": "misc__effect",
+      "width": 730,
+      "height": 76
+    },
+    {
+      "putUnder": "blocks/misc",
+      "text": "Tag Holder",
+      "src": "misc__corp_tag_holder",
+      "width": 243,
+      "height": 84
     },
     {
       "putUnder": "blocks/misc",
@@ -146,6 +153,13 @@
       "src": "misc__colon",
       "width": 28,
       "height": 122
+    },
+    {
+      "putUnder": "blocks/misc",
+      "text": "Chairman",
+      "src": "misc__chairman",
+      "width": 548,
+      "height": 710
     },
     {
       "putUnder": "blocks/misc",
@@ -167,20 +181,6 @@
       "src": "misc__party_leader",
       "width": 548,
       "height": 710
-    },
-    {
-      "putUnder": "blocks/misc",
-      "text": "Tag Holder",
-      "src": "misc__corp_tag_holder",
-      "width": 243,
-      "height": 84
-    },
-    {
-      "putUnder": "blocks/misc",
-      "text": "Effect (bg)",
-      "src": "misc__effect",
-      "width": 730,
-      "height": 76
     },
     {
       "putUnder": "blocks/misc",
@@ -982,7 +982,7 @@
       "height": 123,
       "putUnder": "blocks/expansions",
       "src": "expansions__prelude",
-      "text": "Expansions  Prelude",
+      "text": "Prelude",
       "width": 112
     },
     {
@@ -1392,6 +1392,64 @@
       {
         "label": "3x width",
         "width": 325
+      }
+    ],
+    "expansions": [
+      {
+        "label": "First Expansion",
+        "x": 54,
+        "y": 874,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "label": "Second Expansion",
+        "x": 54,
+        "y": 820,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "label": "Third Expansion",
+        "x": 54,
+        "y": 766,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "label": "Forth Expansion",
+        "x": 54,
+        "y": 712,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "label": "First Expansion (corp / pre)",
+        "x": 60,
+        "y": 600,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "label": "Second Expansion (corp / pre)",
+        "x": 60,
+        "y": 546,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "label": "Third Expansion (corp / pre)",
+        "x": 60,
+        "y": 492,
+        "width": 40,
+        "height": 40
+      },
+      {
+        "label": "Forth Expansion (corp / pre)",
+        "x": 60,
+        "y": 438,
+        "width": 40,
+        "height": 40
       }
     ]
   }

@@ -188,6 +188,35 @@ python tools/asset_manager.py
 - **Delete Sprites**: Remove sprites from the list
 - **Duplicate Sprites**: Copy an existing sprite as a starting point for a new one
 - **Reorder Sprites**: Drag and drop to reorganize sprites within the list
+- **Defaults Manager**: Edit `blockDefaults` groups and presets from the new **Defaults** tab
+
+#### Defaults Manager (blockDefaults)
+
+The **Defaults** tab manages preset groups used by the web app’s **Presets** dropdown.
+
+- **Add/Remove Groups**: Use **Add Group** / **Delete Group** (with confirmation) to manage groups like `tags`, `templates`, `resources`, `expansions`, etc.
+- **Add/Remove Presets**: Use **Add Preset** / **Delete Preset** to manage the entries within the selected group. New presets include the common fields: `label`, `x`, `y`, `width`, `height`.
+- **Edit Preset Fields**: Click any cell in the right table to edit values. Empty cells remove that field from the JSON.
+
+**How presets apply in the web app**
+
+- The Presets dropdown in the property panel reads from `blockDefaults`.
+- For **block** layers, the group name is derived from the sprite’s `putUnder` (the `blocks/` prefix is stripped). Example: `blocks/tags` → `tags`.
+- For **text** layers, the group is `text`. For **production** layers, the group is `production`.
+
+#### Templates: What “Template” Means
+
+There are two related but distinct concepts:
+
+1. **Template images (blocks)**
+  - These are sprites under `blocks/templates` in `assets.json`.
+  - They appear under **Add Block → Templates**.
+  - Manage them in the **Sprites** tab like any other block.
+
+2. **Project templates (New from Template)**
+  - These are defined in `tm_cm.js` as `megaTemplates` (layer blueprints).
+  - They drive **File → New from Template**.
+  - Adding/removing these requires editing `tm_cm.js` (not `assets.json`).
 
 #### Sprite Properties
 
@@ -274,12 +303,22 @@ The `assets.json` file has this structure:
     }
   ],
   "blockDefaults": {
-    "green_normal": {
-      "x": 0,
-      "y": 0,
-      "width": 826,
-      "height": 1126
-    }
+    "templates": [
+      {
+        "label": "Vertical Card",
+        "x": 0,
+        "y": 0,
+        "width": 826,
+        "height": 1126
+      },
+      {
+        "label": "Horizontal Card",
+        "x": 0,
+        "y": 0,
+        "width": 1126,
+        "height": 826
+      }
+    ]
   }
 }
 ```

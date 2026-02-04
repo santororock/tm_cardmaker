@@ -427,7 +427,8 @@ var megaTemplates = {
                 'blocks/requisites': { cols: 6, cellW: 220, cellH: 100, maxW: 210, maxH: 70 },
                 'blocks/tiles': { cols: 6, cellW: 180, cellH: 180, maxW: 160, maxH: 135 },
                 'blocks/VPs': { cols: 4, cellW: 260, cellH: 260, maxW: 240, maxH: 215 },
-                'blocks/productionboxes': { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 135 }
+                'blocks/productionboxes': { cols: 6, cellW: 180, cellH: 180, maxW: 150, maxH: 135 },
+                'blocks/expansions': { cols: 8, cellW: 120, cellH: 120, maxW: 90, maxH: 90 }
             };
 
             // Group assets by category (putUnder field)
@@ -445,13 +446,19 @@ var megaTemplates = {
             // Layout each category section on the sprite sheet
             let currentY = 50; // Start position from top
             // Process categories in a specific order for consistent layout
-            const categoryOrder = ['blocks/templates', 'blocks/globalparameters', 'blocks/tags', 'blocks/resources', 'blocks/misc', 'blocks/parties', 'blocks/requisites', 'blocks/tiles', 'blocks/VPs', 'blocks/productionboxes'];
+            const categoryOrder = ['blocks/templates', 'blocks/globalparameters', 'blocks/tags', 'blocks/resources', 'blocks/misc', 'blocks/parties', 'blocks/requisites', 'blocks/tiles', 'blocks/VPs', 'blocks/productionboxes', 'blocks/expansions'];
+            const categorySet = new Set(Object.keys(grouped));
+            const orderedCategories = categoryOrder.filter((cat) => categorySet.has(cat));
+            const remainingCategories = Array.from(categorySet)
+                .filter((cat) => orderedCategories.indexOf(cat) === -1)
+                .sort();
+            const finalCategoryOrder = orderedCategories.concat(remainingCategories);
 
-            for (const category of categoryOrder) {
+            for (const category of finalCategoryOrder) {
                 // Skip if this category has no assets
                 if (!grouped[category] || grouped[category].length === 0) continue;
 
-                const config = categoryConfig[category];
+                const config = categoryConfig[category] || { cols: 6, cellW: 160, cellH: 160, maxW: 140, maxH: 120 };
                 const assets = grouped[category];
 
                 // Add category header text layer
@@ -475,6 +482,33 @@ var megaTemplates = {
                 currentY += 50; // Space after header
 
                 // Layout assets in grid
+                const availableWidth = canvasWidth - 100; // left/right margin = 50 each
+                // Estimate average display size for this category (after scaling)
+                let avgDisplayW = 0;
+                let avgDisplayH = 0;
+                for (let i = 0; i < assets.length; i++) {
+                    const imgW = assets[i].width || 100;
+                    const imgH = assets[i].height || 100;
+                    const scaleW = config.maxW / imgW;
+                    const scaleH = config.maxH / imgH;
+                    const scale = Math.min(scaleW, scaleH);
+                    avgDisplayW += imgW * scale;
+                    avgDisplayH += imgH * scale;
+                }
+                if (assets.length > 0) {
+                    avgDisplayW /= assets.length;
+                    avgDisplayH /= assets.length;
+                } else {
+                    avgDisplayW = config.maxW;
+                    avgDisplayH = config.maxH;
+                }
+
+                const paddingX = 20;
+                const desiredCellW = Math.max(80, Math.round(avgDisplayW + paddingX));
+                const cols = Math.max(1, Math.floor(availableWidth / desiredCellW));
+                const cellW = Math.floor(availableWidth / cols);
+                const gridWidth = cols * cellW;
+                const startX = Math.max(50, Math.round((canvasWidth - gridWidth) / 2));
                 let col = 0; // Current column position
                 let row = 0; // Current row position
 
@@ -499,11 +533,11 @@ var megaTemplates = {
                     const displayH = Math.round(imgH * scale);
 
                     // Calculate position to center image in its cell
-                    const cellX = 50 + col * config.cellW; // Left edge of cell
+                    const cellX = startX + col * cellW; // Left edge of cell
                     const cellY = currentY + row * config.cellH; // Top edge of cell
 
                     // Center the image horizontally
-                    const x = cellX + (config.cellW - displayW) / 2;
+                    const x = cellX + (cellW - displayW) / 2;
 
                     // Position the image vertically with explicit separation from label
                     // Reserve space: top padding + image + gap + label
@@ -529,9 +563,9 @@ var megaTemplates = {
                     layers.push({
                         type: "text",
                         data: displayText,
-                        x: cellX + config.cellW / 2, // Center of cell
+                        x: cellX + cellW / 2, // Center of cell
                         y: labelY,
-                        width: config.cellW,
+                        width: cellW,
                         height: 18, // Increased from 12 for better readability
                         color: "#333333",
                         font: "Pagella",
@@ -545,7 +579,7 @@ var megaTemplates = {
                     // Move to next cell position
                     col++;
                     // If we've filled all columns in this row, wrap to next row
-                    if (col >= config.cols) {
+                    if (col >= cols) {
                         col = 0; // Reset to first column
                         row++; // Move down one row
                     }
@@ -553,7 +587,7 @@ var megaTemplates = {
 
                 // Calculate total vertical space used by this category
                 // Math.ceil handles partial rows (e.g., 7 items in 6 columns = 2 rows)
-                const rowsUsed = Math.ceil(assets.length / config.cols);
+                const rowsUsed = Math.ceil(assets.length / cols);
                 currentY += rowsUsed * config.cellH + 70; // Move down for next category with extra spacing
             }
 

@@ -236,7 +236,8 @@ try:
         QStyle,                 # UI style information
         QStyleOptionViewItem,   # Item rendering options
         QTabWidget,             # Tab container
-        QProgressBar            # Progress indicator
+        QProgressBar,           # Progress indicator
+        QInputDialog            # Simple input dialogs
     )
     from PySide6.QtCore import (
         Qt,                     # Qt constants (colors, modes, etc.)
@@ -378,7 +379,7 @@ class AssetDocument:
         - Raise ValueError if no path available
         
         Critical Feature: Path Normalization
-        Windows uses backslashes (\) but web browsers need forward slashes (/)
+        Windows uses backslashes (\\) but web browsers need forward slashes (/)
         This conversion ensures cross-platform compatibility:
             sprite["putUnder"].replace("\\", "/")
         
@@ -427,6 +428,15 @@ class AssetDocument:
         """
         if 0 <= index < len(self.data["blockList"]):
             return self.data["blockList"][index]
+        return None
+
+    def get_sprite_by_src(self, src: str) -> Optional[Dict[str, Any]]:
+        """Find sprite by src value"""
+        if not src:
+            return None
+        for sprite in self.data["blockList"]:
+            if sprite.get("src") == src:
+                return sprite
         return None
         
     def update_sprite(self, index: int, sprite: Dict[str, Any]):
@@ -607,6 +617,37 @@ class AssetDocument:
             return path
                 
         return None
+
+    # ==================== BLOCK DEFAULTS MANAGEMENT ====================
+    def get_default_groups(self) -> List[str]:
+        """Get list of blockDefaults group names"""
+        defaults = self.data.get("blockDefaults", {})
+        return sorted(defaults.keys())
+
+    def get_default_group(self, name: str) -> List[Dict[str, Any]]:
+        """Get list of presets for a group (returns empty list if missing)"""
+        return list(self.data.get("blockDefaults", {}).get(name, []))
+
+    def set_default_group(self, name: str, presets: List[Dict[str, Any]]):
+        """Replace presets list for a group"""
+        if "blockDefaults" not in self.data:
+            self.data["blockDefaults"] = {}
+        self.data["blockDefaults"][name] = presets
+        self.set_dirty()
+
+    def add_default_group(self, name: str):
+        """Add a new empty defaults group"""
+        if "blockDefaults" not in self.data:
+            self.data["blockDefaults"] = {}
+        if name not in self.data["blockDefaults"]:
+            self.data["blockDefaults"][name] = []
+            self.set_dirty()
+
+    def delete_default_group(self, name: str):
+        """Delete a defaults group"""
+        if "blockDefaults" in self.data and name in self.data["blockDefaults"]:
+            del self.data["blockDefaults"][name]
+            self.set_dirty()
         
     def get_sprite_pixmap(self, sprite: Dict[str, Any], max_size: QSize = QSize(64, 64)) -> QPixmap:
         """Get cached pixmap for sprite thumbnail"""
@@ -1397,14 +1438,17 @@ class ThumbnailManager(QWidget):
         
         # Results table
         self.results_table = QTableWidget()
-        self.results_table.setColumnCount(4)
-        self.results_table.setHorizontalHeaderLabels(["Sprite", "Status", "Sizes", "Action"])
+        self.results_table.setColumnCount(5)
+        self.results_table.setHorizontalHeaderLabels(["Thumbnail", "Sprite", "Status", "Sizes", "Action"])
         self.results_table.horizontalHeader().setStretchLastSection(False)
-        self.results_table.setColumnWidth(0, 150)
-        self.results_table.setColumnWidth(1, 100)
+        self.results_table.setColumnWidth(0, 50)
+        self.results_table.setColumnWidth(1, 150)
         self.results_table.setColumnWidth(2, 100)
         self.results_table.setColumnWidth(3, 100)
+        self.results_table.setColumnWidth(4, 100)
         self.results_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.results_table.verticalHeader().setDefaultSectionSize(64)
+        self.results_table.horizontalHeader().sectionResized.connect(self.on_results_column_resized)
         layout.addWidget(self.results_table)
         
         # Enable/disable buttons based on folder
@@ -1457,12 +1501,16 @@ class ThumbnailManager(QWidget):
         
         # Add rows to table
         self.results_table.setRowCount(len(rows))
+        thumb_size = self._results_thumb_size()
+        self.results_table.verticalHeader().setDefaultSectionSize(max(48, self.results_table.columnWidth(0)))
         for row_idx, (src, status, sizes, action) in enumerate(rows):
+            # Thumbnail
+            self._set_results_thumbnail(row_idx, src, thumb_size)
             
             # Sprite name
             item_src = QTableWidgetItem(src)
             item_src.setFlags(item_src.flags() & ~Qt.ItemFlag.ItemIsEditable)
-            self.results_table.setItem(row_idx, 0, item_src)
+            self.results_table.setItem(row_idx, 1, item_src)
             
             # Status
             item_status = QTableWidgetItem(status)
@@ -1475,24 +1523,49 @@ class ThumbnailManager(QWidget):
                 item_status.setBackground(QColor(255, 230, 200))
             elif "Error" in status:
                 item_status.setBackground(QColor(255, 200, 200))
-            self.results_table.setItem(row_idx, 1, item_status)
+            self.results_table.setItem(row_idx, 2, item_status)
             
             # Sizes
             item_sizes = QTableWidgetItem(sizes)
             item_sizes.setFlags(item_sizes.flags() & ~Qt.ItemFlag.ItemIsEditable)
-            self.results_table.setItem(row_idx, 2, item_sizes)
+            self.results_table.setItem(row_idx, 3, item_sizes)
             
             # Action (if needed)
             item_action = QTableWidgetItem(action)
             item_action.setFlags(item_action.flags() & ~Qt.ItemFlag.ItemIsEditable)
-            self.results_table.setItem(row_idx, 3, item_action)
-        
-        # Update summary
-        total = len(rows)
-        ok_count = len(report['ok'])
-        self.status_label.setText(
-            f"Validation complete: {ok_count}/{total} sprites have all thumbnails up-to-date"
-        )
+            self.results_table.setItem(row_idx, 4, item_action)
+
+    def _results_thumb_size(self) -> int:
+        """Compute thumbnail size based on current column width"""
+        return max(32, self.results_table.columnWidth(0) - 10)
+
+    def _set_results_thumbnail(self, row: int, src: str, size: int):
+        sprite = self.document.get_sprite_by_src(src)
+        thumb_label = QLabel()
+        thumb_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        thumb_label.setStyleSheet("background-color: transparent;")
+        if sprite:
+            pixmap = self.document.get_sprite_pixmap(sprite, QSize(size, size))
+            thumb_label.setPixmap(pixmap)
+        self.results_table.setCellWidget(row, 0, thumb_label)
+
+    def on_results_column_resized(self, column: int, old_width: int, new_width: int):
+        """Update thumbnails when thumbnail column is resized"""
+        if column != 0:
+            return
+        thumb_size = self._results_thumb_size()
+        self.results_table.verticalHeader().setDefaultSectionSize(max(48, new_width))
+        for row in range(self.results_table.rowCount()):
+            src_item = self.results_table.item(row, 1)
+            if not src_item:
+                continue
+            sprite = self.document.get_sprite_by_src(src_item.text())
+            if not sprite:
+                continue
+            pixmap = self.document.get_sprite_pixmap(sprite, QSize(thumb_size, thumb_size))
+            thumb_label = self.results_table.cellWidget(row, 0)
+            if isinstance(thumb_label, QLabel):
+                thumb_label.setPixmap(pixmap)
     
     def generate_all(self):
         """Generate all thumbnails from scratch"""
@@ -1549,7 +1622,7 @@ class ThumbnailManager(QWidget):
         self.generation_thread.progress.connect(self.on_generation_progress)
         self.generation_thread.generation_complete.connect(self.on_generation_finished)
         self.generation_thread.start()
-    
+
     def on_generation_progress(self, current: int, total: int):
         """Update progress bar"""
         self.progress.setValue(current)
@@ -1572,6 +1645,261 @@ class ThumbnailManager(QWidget):
         
         # Re-validate to show updated status
         self.validate_thumbnails()
+
+
+class DefaultsManager(QWidget):
+    """UI for managing blockDefaults groups and presets"""
+
+    def __init__(self, document: AssetDocument):
+        super().__init__()
+        self.document = document
+        self.current_group: Optional[str] = None
+        self._updating_table = False
+        self.setup_ui()
+
+    def setup_ui(self):
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(5, 5, 5, 5)
+
+        splitter = QSplitter(Qt.Orientation.Horizontal)
+        splitter.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+
+        # Left panel: groups list
+        left_panel = QWidget()
+        left_layout = QVBoxLayout(left_panel)
+
+        group_btns = QHBoxLayout()
+        self.btn_add_group = QPushButton("Add Group")
+        self.btn_add_group.clicked.connect(self.add_group)
+        group_btns.addWidget(self.btn_add_group)
+
+        self.btn_delete_group = QPushButton("Delete Group")
+        self.btn_delete_group.clicked.connect(self.delete_group)
+        group_btns.addWidget(self.btn_delete_group)
+        left_layout.addLayout(group_btns)
+
+        self.groups_tree = QTreeWidget()
+        self.groups_tree.setHeaderLabel("Defaults")
+        self.groups_tree.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.groups_tree.itemSelectionChanged.connect(self.on_group_selected)
+        self.groups_tree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.groups_tree.customContextMenuRequested.connect(self.show_group_menu)
+        left_layout.addWidget(self.groups_tree)
+
+        splitter.addWidget(left_panel)
+
+        # Right panel: presets table
+        right_panel = QWidget()
+        right_layout = QVBoxLayout(right_panel)
+
+        preset_btns = QHBoxLayout()
+        self.btn_add_preset = QPushButton("Add Preset")
+        self.btn_add_preset.clicked.connect(self.add_preset)
+        preset_btns.addWidget(self.btn_add_preset)
+
+        self.btn_delete_preset = QPushButton("Delete Preset")
+        self.btn_delete_preset.clicked.connect(self.delete_preset)
+        preset_btns.addWidget(self.btn_delete_preset)
+        preset_btns.addStretch(1)
+        right_layout.addLayout(preset_btns)
+
+        self.presets_table = QTableWidget()
+        self.presets_table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
+        self.presets_table.setSelectionMode(QAbstractItemView.SelectionMode.ExtendedSelection)
+        self.presets_table.itemChanged.connect(self.on_preset_changed)
+        right_layout.addWidget(self.presets_table)
+
+        splitter.addWidget(right_panel)
+        splitter.setSizes([300, 900])
+
+        layout.addWidget(splitter, 1)
+
+        self.refresh()
+
+    def refresh(self):
+        """Refresh group list and table"""
+        self.groups_tree.clear()
+        for group in self.document.get_default_groups():
+            item = QTreeWidgetItem(self.groups_tree, [group])
+            item.setData(0, Qt.ItemDataRole.UserRole, group)
+
+        self.groups_tree.expandAll()
+        if self.current_group and self._find_group_item(self.current_group):
+            self._select_group(self.current_group)
+        else:
+            self.current_group = None
+            self.presets_table.clear()
+            self.presets_table.setRowCount(0)
+
+    def _find_group_item(self, group: str) -> Optional[QTreeWidgetItem]:
+        for i in range(self.groups_tree.topLevelItemCount()):
+            item = self.groups_tree.topLevelItem(i)
+            if item.text(0) == group:
+                return item
+        return None
+
+    def _select_group(self, group: str):
+        item = self._find_group_item(group)
+        if item:
+            self.groups_tree.setCurrentItem(item)
+
+    def show_group_menu(self, pos: QPoint):
+        item = self.groups_tree.itemAt(pos)
+        if not item:
+            return
+        menu = QMenu(self)
+        menu.addAction("Add Group", self.add_group)
+        menu.addAction("Delete Group", self.delete_group)
+        menu.exec(self.groups_tree.mapToGlobal(pos))
+
+    def on_group_selected(self):
+        items = self.groups_tree.selectedItems()
+        if not items:
+            self.current_group = None
+            self.presets_table.clear()
+            self.presets_table.setRowCount(0)
+            return
+        group = items[0].data(0, Qt.ItemDataRole.UserRole)
+        self.current_group = group
+        self.load_group(group)
+
+    def load_group(self, group: str):
+        presets = self.document.get_default_group(group)
+        columns = self._get_columns(presets)
+
+        self._updating_table = True
+        self.presets_table.clear()
+        self.presets_table.setColumnCount(len(columns))
+        self.presets_table.setHorizontalHeaderLabels(columns)
+        self.presets_table.setRowCount(len(presets))
+
+        for row, preset in enumerate(presets):
+            for col, key in enumerate(columns):
+                value = preset.get(key, "")
+                item = QTableWidgetItem(str(value)) if value != "" else QTableWidgetItem("")
+                self.presets_table.setItem(row, col, item)
+
+        self.presets_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self._updating_table = False
+
+    def _get_columns(self, presets: List[Dict[str, Any]]) -> List[str]:
+        keys = set()
+        for preset in presets:
+            keys.update(preset.keys())
+        base_keys = {"label", "x", "y", "width", "height"}
+        if not keys:
+            keys = set(base_keys)
+        else:
+            keys.update(base_keys)
+        preferred = [
+            "label", "x", "y", "width", "height", "color", "font",
+            "style", "weight", "justify", "lineSpace", "data"
+        ]
+        ordered = [k for k in preferred if k in keys]
+        for k in sorted(keys):
+            if k not in ordered:
+                ordered.append(k)
+        if "label" not in ordered:
+            ordered.insert(0, "label")
+        return ordered
+
+    def add_group(self):
+        name, ok = QInputDialog.getText(self, "Add Defaults Group", "Group name:")
+        if not ok or not name.strip():
+            return
+        name = name.strip()
+        reply = QMessageBox.question(
+            self, "Confirm Add", f"Add defaults group '{name}'?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return
+        self.document.add_default_group(name)
+        self.refresh()
+        self._select_group(name)
+
+    def delete_group(self):
+        if not self.current_group:
+            return
+        reply = QMessageBox.question(
+            self, "Delete Group",
+            f"Delete defaults group '{self.current_group}'?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return
+        self.document.delete_default_group(self.current_group)
+        self.current_group = None
+        self.refresh()
+
+    def add_preset(self):
+        if not self.current_group:
+            QMessageBox.information(self, "No Group Selected", "Select a defaults group first.")
+            return
+        reply = QMessageBox.question(
+            self, "Add Preset", "Add a new preset to this group?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return
+        presets = self.document.get_default_group(self.current_group)
+        presets.append({
+            "label": "New Preset",
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+        })
+        self.document.set_default_group(self.current_group, presets)
+        self.load_group(self.current_group)
+
+    def delete_preset(self):
+        if not self.current_group:
+            return
+        rows = sorted({idx.row() for idx in self.presets_table.selectedIndexes()})
+        if not rows:
+            return
+        reply = QMessageBox.question(
+            self, "Delete Preset",
+            f"Delete {len(rows)} preset(s) from '{self.current_group}'?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+        if reply != QMessageBox.StandardButton.Yes:
+            return
+        presets = self.document.get_default_group(self.current_group)
+        for row in sorted(rows, reverse=True):
+            if 0 <= row < len(presets):
+                presets.pop(row)
+        self.document.set_default_group(self.current_group, presets)
+        self.load_group(self.current_group)
+
+    def on_preset_changed(self, item: QTableWidgetItem):
+        if self._updating_table or not self.current_group:
+            return
+        row = item.row()
+        col = item.column()
+        presets = self.document.get_default_group(self.current_group)
+        if row >= len(presets):
+            return
+        columns = [self.presets_table.horizontalHeaderItem(i).text() for i in range(self.presets_table.columnCount())]
+        key = columns[col]
+        raw = item.text()
+
+        if raw == "":
+            if key in presets[row]:
+                del presets[row][key]
+        else:
+            value: Any = raw
+            try:
+                if raw.strip().isdigit() or (raw.strip().startswith("-") and raw.strip()[1:].isdigit()):
+                    value = int(raw)
+                else:
+                    value = float(raw) if raw.replace(".", "", 1).isdigit() else raw
+            except ValueError:
+                value = raw
+            presets[row][key] = value
+
+        self.document.set_default_group(self.current_group, presets)
 
 
 class ThumbnailGenerationThread(QThread):
@@ -2416,6 +2744,10 @@ class MainWindow(QMainWindow):
         # Tab 2: Thumbnails
         self.thumbnail_manager = ThumbnailManager(self.document)
         self.tabs.addTab(self.thumbnail_manager, "Thumbnails")
+
+        # Tab 3: Defaults
+        self.defaults_manager = DefaultsManager(self.document)
+        self.tabs.addTab(self.defaults_manager, "Defaults")
         
         layout.addWidget(self.tabs)
         
@@ -2444,6 +2776,7 @@ class MainWindow(QMainWindow):
         """Refresh all UI components"""
         self.browser.refresh()
         self.thumbnail_manager.update_button_states()
+        self.defaults_manager.refresh()
         self.update_title()
         self.update_status()
         
