@@ -66,12 +66,26 @@
 <!-- Font-Awesome removed but left as reference for UI icons -->
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
 <style>
-  /* Inline styles for font family overrides (cascading CSS priority - applied AFTER external stylesheets) */
-  .w3-sidebar a {font-family: "Roboto", sans-serif}
-  body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
+    /* Inline styles for font family overrides (cascading CSS priority - applied AFTER external stylesheets) */
+    
+    .w3-sidebar a {
+        font-family: "Roboto", sans-serif
+    }
+    
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .w3-wide {
+        font-family: "Montserrat", sans-serif;
+    }
 </style>
+
 <body>
-  <!-- 
+    <!-- 
     ================================================================================
     MODAL DIALOGS (Overlay Elements)
     ================================================================================
@@ -88,45 +102,45 @@
     Accessibility Note: These could benefit from ARIA labels (role="dialog", etc.)
       for screen readers, but current implementation relies on visual feedback.
   -->
-  <div class="overlay w3-nodisplay" id="overlay">
-    <!-- Modal for loading web images -->
-    <div class="centerme">
-      <div class="w3-white" style="padding: 50px;">
-        <!-- Label + Input Pattern (semantic HTML for form usability) -->
-        Enter url to load image from:
-        <input id="url2load" type="url">
-        <!-- Buttons follow consistent naming: cancel/confirm actions -->
-        <button onclick="cancelOverlay()">Cancel</button>
-        <button onclick="loadWebImage()">Load</button>
-      </div>
+    <div class="overlay w3-nodisplay" id="overlay">
+        <!-- Modal for loading web images -->
+        <div class="centerme">
+            <div class="w3-white" style="padding: 50px;">
+                <!-- Label + Input Pattern (semantic HTML for form usability) -->
+                Enter url to load image from:
+                <input id="url2load" type="url">
+                <!-- Buttons follow consistent naming: cancel/confirm actions -->
+                <button onclick="cancelOverlay()">Cancel</button>
+                <button onclick="loadWebImage()">Load</button>
+            </div>
+        </div>
     </div>
-  </div>
-  
-  <!-- Modal for loading web fonts -->
-  <div class="overlay w3-nodisplay" id="fontoverlay">
-    <div class="centerme">
-      <div class="w3-white" style="padding: 50px;">
-        Enter url to load font from:
-        <!-- Note: type="text" instead of type="url" because Google Fonts links can be complex -->
-        <input id="fonturl2load" type="text">
-        <button onclick="cancelFontOverlay()">Cancel</button>
-        <button onclick="loadSpecifiedFont()">Load</button>
-      </div>
-    </div>
-  </div>
 
-  <!-- Modal for Help & Information -->
-  <div class="overlay w3-nodisplay" id="helpmodal">
-    <div class="centerme">
-      <div class="w3-white" style="padding: 50px; max-width: 600px; max-height: 80vh; overflow-y: auto;">
-        <span onclick="cancelHelpModal()" style="float:right;cursor:pointer;font-size:28px;font-weight:bold;">&times;</span>
-        <div id="helpContent"></div>
-        <button onclick="cancelHelpModal()" style="margin-top:20px;">Close</button>
-      </div>
+    <!-- Modal for loading web fonts -->
+    <div class="overlay w3-nodisplay" id="fontoverlay">
+        <div class="centerme">
+            <div class="w3-white" style="padding: 50px;">
+                Enter url to load font from:
+                <!-- Note: type="text" instead of type="url" because Google Fonts links can be complex -->
+                <input id="fonturl2load" type="text">
+                <button onclick="cancelFontOverlay()">Cancel</button>
+                <button onclick="loadSpecifiedFont()">Load</button>
+            </div>
+        </div>
     </div>
-  </div>
-  
-<!-- ================================================================================
+
+    <!-- Modal for Help & Information -->
+    <div class="overlay w3-nodisplay" id="helpmodal">
+        <div class="centerme">
+            <div class="w3-white" style="padding: 50px; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+                <span onclick="cancelHelpModal()" style="float:right;cursor:pointer;font-size:28px;font-weight:bold;">&times;</span>
+                <div id="helpContent"></div>
+                <button onclick="cancelHelpModal()" style="margin-top:20px;">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================================
      PRIMARY NAVIGATION - LEFT SIDEBAR
      ================================================================================
      
@@ -145,837 +159,799 @@
        
      See tm_cm.js > myAccFunc() for accordion toggle logic
 -->
-<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:180px" id="mySidebar">
-  <div class="w3-large w3-text-grey" style="font-weight:bold">
-    
-    <!-- MAIN HAMBURGER MENU: TM Cardmaker with Help, References, and GitHub -->
-    <a onclick="myAccFunc('tmCardmakerMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
+    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:180px" id="mySidebar">
+        <div class="w3-large w3-text-grey" style="font-weight:bold">
+
+            <!-- MAIN HAMBURGER MENU: TM Cardmaker with Help, References, and GitHub -->
+            <a onclick="myAccFunc('tmCardmakerMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
       ☰ TM Cardmaker <i class="fa fa-caret-down"></i>
     </a>
-    <div id="tmCardmakerMenu" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      <a onclick="myAccFunc('helpSubMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align w3-small">
+            <div id="tmCardmakerMenu" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                <a onclick="myAccFunc('helpSubMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align w3-small">
         Help <i class="fa fa-caret-down"></i>
       </a>
-      <div id="helpSubMenu" class="w3-bar-block w3-hide w3-padding-large w3-small">
-        <a href="#" onclick="showHelpModal('How to Use'); return false;" class="w3-bar-item w3-button">How to Use</a>
-      </div>
-      <a onclick="myAccFunc('referencesSubMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align w3-small">
+                <div id="helpSubMenu" class="w3-bar-block w3-hide w3-padding-large w3-small">
+                    <a href="#" onclick="showHelpModal('How to Use'); return false;" class="w3-bar-item w3-button">How to Use</a>
+                </div>
+                <a onclick="myAccFunc('referencesSubMenu')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align w3-small">
         References <i class="fa fa-caret-down"></i>
       </a>
-      <div id="referencesSubMenu" class="w3-bar-block w3-hide w3-padding-large w3-small">
-        <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0.pdf" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Game Reference PDF</a>
-        <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-1.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (1)</a>
-        <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-2.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (2)</a>
-        <div style="padding: 10px; font-size: 9pt; color: #666; line-height: 1.4; border-top: 1px solid #ddd; margin-top: 8px;">
-          <div style="font-style: italic; margin-bottom: 4px;">Terraforming Mars + Expansions</div>
-          <div style="margin-bottom: 4px;">Symbol and Play Reference</div>
-          <div>by <a href="https://boardgamegeek.com/profile/Magesmiley" target="_blank" rel="noopener noreferrer" style="color: #0066cc; text-decoration: none;">Magesmiley</a></div>
-        </div>
-      </div>
-      <a href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">GitHub Repository</a>
-    </div>
-    
-    <!-- FILE MENU: Main operations (New, Save, Load, Export) -->
-    <!-- onclick="myAccFunc('file')" toggles the visibility of the file menu's submenu -->
-    <a onclick="myAccFunc('file')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
+                <div id="referencesSubMenu" class="w3-bar-block w3-hide w3-padding-large w3-small">
+                    <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0.pdf" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Game Reference PDF</a>
+                    <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-1.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (1)</a>
+                    <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-2.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (2)</a>
+                    <div style="padding: 10px; font-size: 9pt; color: #666; line-height: 1.4; border-top: 1px solid #ddd; margin-top: 8px;">
+                        <div style="font-style: italic; margin-bottom: 4px;">Terraforming Mars + Expansions</div>
+                        <div style="margin-bottom: 4px;">Symbol and Play Reference</div>
+                        <div>by <a href="https://boardgamegeek.com/profile/Magesmiley" target="_blank" rel="noopener noreferrer" style="color: #0066cc; text-decoration: none;">Magesmiley</a></div>
+                    </div>
+                </div>
+                <a href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">GitHub Repository</a>
+            </div>
+
+            <!-- FILE MENU: Main operations (New, Save, Load, Export) -->
+            <!-- onclick="myAccFunc('file')" toggles the visibility of the file menu's submenu -->
+            <a onclick="myAccFunc('file')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
       File <i class="fa fa-caret-down"></i>
     </a>
-    <!-- This div contains all File menu items and is shown/hidden via w3-hide class -->
-    <div id="file" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      <!-- Create new blank project, clearing undo stack and auto-save -->
-      <a onclick="clickNew()" href="#" class="w3-bar-item w3-button">New</a>
-      
-      <!-- New from Template: Submenu populated by addBlockMenuItem() from megaTemplates -->
-      <a onclick="myAccFunc('fromTemplate')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
+            <!-- This div contains all File menu items and is shown/hidden via w3-hide class -->
+            <div id="file" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                <!-- Create new blank project, clearing undo stack and auto-save -->
+                <a onclick="clickNew()" href="#" class="w3-bar-item w3-button">New</a>
+
+                <!-- New from Template: Submenu populated by addBlockMenuItem() from megaTemplates -->
+                <a onclick="myAccFunc('fromTemplate')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
         New from Template <i class="fa fa-caret-down"></i>
       </a>
-      <div id="fromTemplate" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-        <!-- Dynamically populated by tm_cm.js at load time -->
-      </div>
-        <!-- <a href="#" class="w3-bar-item w3-button">Load</a> -->
-      <a onclick="saveProjectCont(false)" href="#" class="w3-bar-item w3-button">Save</a>
-      <a onclick="clickLoadNewProject()" href="#" class="w3-bar-item w3-button">Clear &amp; Load Project</a>
-      <a onclick="clickLoadProject()" href="#" class="w3-bar-item w3-button">Load Project</a>
-      <a onclick="clickSaveProject()" href="#" class="w3-bar-item w3-button">Save as Project</a>
-    </div>
-    <a onclick="myAccFunc('design')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
+                <div id="fromTemplate" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                    <!-- Dynamically populated by tm_cm.js at load time -->
+                </div>
+                <!-- <a href="#" class="w3-bar-item w3-button">Load</a> -->
+                <a onclick="saveProjectCont(false)" href="#" class="w3-bar-item w3-button">Save</a>
+                <a onclick="clickLoadNewProject()" href="#" class="w3-bar-item w3-button">Clear &amp; Load Project</a>
+                <a onclick="clickLoadProject()" href="#" class="w3-bar-item w3-button">Load Project</a>
+                <a onclick="clickSaveProject()" href="#" class="w3-bar-item w3-button">Save as Project</a>
+            </div>
+            <a onclick="myAccFunc('design')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
       Add Block <i class="fa fa-caret-down"></i>
     </a>
-    <div id="design" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      <a onclick="myAccFunc('backgrounds')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
+            <div id="design" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                <a onclick="myAccFunc('backgrounds')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
         User Images <i class="fa fa-caret-down"></i>
       </a>
-      <div id="backgrounds" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-        <a onclick="clickLoadWebImage()" href="#" class="w3-bar-item w3-button">Load Web Image</a>
-        <a onclick="document.getElementById('fileselection').click()" href="#" class="w3-bar-item w3-button">Load Local Image</a>
-        <input type="file" id="fileselection" class="w3-hide" onchange="addUserFile(this)">
-        <!-- <a onclick="addColor()" href="#" class="w3-bar-item w3-button">Set Color</a> -->
-      </div>
-      <a onclick="clickLoadFont()" href="#" class="w3-bar-item w3-button">Add Web Font</a>
-      <a onclick="addTextBox()" href="#" class="w3-bar-item w3-button">Text box</a>
-      <a onclick="addProduction()" href="#" class="w3-bar-item w3-button">Production box</a>
-      <a onclick="addEffectBox()" href="#" class="w3-bar-item w3-button">Effect box</a>
-      <a onclick="addLine()" href="#" class="w3-bar-item w3-button">Line</a>
-      <a onclick="myAccFunc('blocks/templates')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-        Templates <i class="fa fa-caret-down"></i>
-      </a>
-      <div id="blocks/templates" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/tags')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-        Tags <i class="fa fa-caret-down"></i>
-      </a>
-      <div id="blocks/tags" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/globalparameters')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-        Global Params <i class="fa fa-caret-down"></i>
-      </a>
-      <div id="blocks/globalparameters" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/misc')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-       Misc <i class="fa fa-caret-down"></i>
-     </a>
-     <div id="blocks/misc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/parties')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-       Parties <i class="fa fa-caret-down"></i>
-     </a>
-     <div id="blocks/parties" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/requisites')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-       Requirements <i class="fa fa-caret-down"></i>
-     </a>
-     <div id="blocks/requisites" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/resources')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-       Resources <i class="fa fa-caret-down"></i>
-     </a>
-     <div id="blocks/resources" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/tiles')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-       Tiles <i class="fa fa-caret-down"></i>
-     </a>
-     <div id="blocks/tiles" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-      <a onclick="myAccFunc('blocks/VPs')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
-       VPs <i class="fa fa-caret-down"></i>
-     </a>
-     <div id="blocks/VPs" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      </div>
-    </div>
-  </div>
-  
-</nav>
-
-<!-- Sidebar Resize Handle -->
-<div id="sidebarResizeHandle"></div>
-
-<!-- Top menu on small screens -->
-<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()">
-    <div class="fa-bars"></div><div class="fa-bars"></div><div class="fa-bars"></div></i></a>
-</header>
-
-<!-- Overlay effect when opening sidebar on small screens -->
-<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-
-<!-- !PAGE CONTENT! -->
-<div class="w3-main">
-
-  <!-- Push down content on small screens -->
-  <div class="w3-hide-large" style="margin-top:83px"></div>
-
-  <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
-    <div id="loadprogress">
-      <label for="files">Loading images:</label>
-      <progress id="files" value="0" max="100"></progress>
-      <div id="fontload">
-        <div style="font-family: Prototype;">Prototype</div>
-        <div style="font-family: Pagella;">Palatino-like</div>
-        <div style="font-family: 'Times New Roman';">Times New Roman</div>
-      </div>
-    </div>
-
-    <!-- Canvas Container with Zoom Controls -->
-    <div id="canvasContainer">
-      <div id="zoomControls">
-        <button onclick="zoomCanvasOut()">−</button>
-        <button onclick="zoomCanvasReset()">Reset</button>
-        <button onclick="zoomCanvasIn()">+</button>
-        <span id="zoomLevel">100%</span>
-      </div>
-      <div id="canvasScrollarea">
-        <div id="canvasScrollinner">
-          <div id="canvaswrap" style="position:relative;">
-            <canvas id="cmcanvas" height="1050px" width="750px" style="border:1px solid #101010; display:block;"></canvas>
-            <canvas id="cmcanvas_overlay" class="debug-overlay-canvas"></canvas>
-          </div>
+                <div id="backgrounds" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+                    <a onclick="clickLoadWebImage()" href="#" class="w3-bar-item w3-button">Load Web Image</a>
+                    <a onclick="document.getElementById('fileselection').click()" href="#" class="w3-bar-item w3-button">Load Local Image</a>
+                    <input type="file" id="fileselection" class="w3-hide" onchange="addUserFile(this)">
+                    <!-- <a onclick="addColor()" href="#" class="w3-bar-item w3-button">Set Color</a> -->
+                </div>
+                <a onclick="clickLoadFont()" href="#" class="w3-bar-item w3-button">Add Web Font</a>
+                <a onclick="addTextBox()" href="#" class="w3-bar-item w3-button">Text box</a>
+                <a onclick="addProduction()" href="#" class="w3-bar-item w3-button">Production box (dynamic)</a>
+                <a onclick="addEffectBox()" href="#" class="w3-bar-item w3-button">Effect box</a>
+                <a onclick="addLine()" href="#" class="w3-bar-item w3-button">Line</a>
+                <div id="blocksMenu"></div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <a id="projectlink"></a>
-    <div id="xcanvases" width="100%" style="display: none;"></div>
+    </nav>
 
-    <!-- Properties Panel Resize Handle -->
-    <div id="paramsResizeHandle"></div>
+    <!-- Sidebar Resize Handle -->
+    <div id="sidebarResizeHandle"></div>
 
-    <!-- Right Sidebar Panel - Contains debug controls and layer list -->
-    <div id="rightPanel" style="position: fixed; right: 0; top: 0; width: 340px; height: 100vh; overflow-y: auto; background: white; border-left: 1px solid #ddd; padding: 16px; z-index: 200; box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);">
-      <!-- Debug Controls -->
-      <div id="debugcontrols" style="margin-bottom:8px;">
-        <label style="white-space:nowrap;"><input id="debugBounds" type="checkbox" onchange="window.debugOverlay && window.debugOverlay.toggle(this.checked)"> Debug bounds</label>
-        <select id="debugMode" onchange="window.debugOverlay && window.debugOverlay.setMode(this.value)">
+    <!-- Top menu on small screens -->
+    <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+        <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()">
+            <div class="fa-bars"></div>
+            <div class="fa-bars"></div>
+            <div class="fa-bars"></div>
+            </i>
+        </a>
+    </header>
+
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main">
+
+        <!-- Push down content on small screens -->
+        <div class="w3-hide-large" style="margin-top:83px"></div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+            <div id="loadprogress">
+                <label for="files">Loading images:</label>
+                <progress id="files" value="0" max="100"></progress>
+                <div id="fontload">
+                    <div style="font-family: Prototype;">Prototype</div>
+                    <div style="font-family: Pagella;">Palatino-like</div>
+                    <div style="font-family: 'Times New Roman';">Times New Roman</div>
+                </div>
+            </div>
+
+            <!-- Canvas Container with Zoom Controls -->
+            <div id="canvasContainer">
+                <div id="zoomControls">
+                    <button onclick="zoomCanvasOut()">−</button>
+                    <button onclick="zoomCanvasReset()">Reset</button>
+                    <button onclick="zoomCanvasIn()">+</button>
+                    <span id="zoomLevel">100%</span>
+                </div>
+                <div id="canvasScrollarea">
+                    <div id="canvasScrollinner">
+                        <div id="canvaswrap" style="position:relative;">
+                            <canvas id="cmcanvas" height="1050px" width="750px" style="border:1px solid #101010; display:block;"></canvas>
+                            <canvas id="cmcanvas_overlay" class="debug-overlay-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <a id="projectlink"></a>
+            <div id="xcanvases" width="100%" style="display: none;"></div>
+
+            <!-- Properties Panel Resize Handle -->
+            <div id="paramsResizeHandle"></div>
+
+            <!-- Right Sidebar Panel - Contains debug controls and layer list -->
+            <div id="rightPanel" style="position: fixed; right: 0; top: 0; width: 340px; height: 100vh; overflow-y: auto; background: white; border-left: 1px solid #ddd; padding: 16px; z-index: 200; box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);">
+                <!-- Debug Controls -->
+                <div id="debugcontrols" style="margin-bottom:8px;">
+                    <label style="white-space:nowrap;"><input id="debugBounds" type="checkbox" onchange="window.debugOverlay && window.debugOverlay.toggle(this.checked)"> Debug bounds</label>
+                    <select id="debugMode" onchange="window.debugOverlay && window.debugOverlay.setMode(this.value)">
           <option value="selected">Selected</option>
           <option value="all">All</option>
         </select>
-        <div id="debuglegend" class="debug-legend">
-          <span class="legend-item"><span class="legend-swatch swatch-mask"></span> clickable mask</span>
-          <span class="legend-item"><span class="legend-swatch swatch-tainted"></span> mask unavailable (tainted)</span>
-          <span class="legend-item"><span class="legend-swatch swatch-rect"></span> logical rect</span>
-          <span class="legend-item"><span class="legend-swatch swatch-cross"></span> origin</span>
-        </div>
-      </div>
-      
-      <!-- Layer List - params will be appended inside selected layer -->
-      <section id="layerlist"></section>
-      
-      <span class="w3-padding-16"><input id="groupmode" type="checkbox" onchange="groupModeToggle()" class="w3-show-inline-block" >Group Mode</span>
-      <button onclick="copyToClipboard()" style="display: none;" >Copy</button>
-      
-      <hr>
-      
-      <!-- Settings -->
-      <div id="settings">
-        <b>Settings</b><br>
-        <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
-      </div>
-    </div>
+                    <div id="debuglegend" class="debug-legend">
+                        <span class="legend-item"><span class="legend-swatch swatch-mask"></span> clickable mask</span>
+                        <span class="legend-item"><span class="legend-swatch swatch-tainted"></span> mask unavailable (tainted)</span>
+                        <span class="legend-item"><span class="legend-swatch swatch-rect"></span> logical rect</span>
+                        <span class="legend-item"><span class="legend-swatch swatch-cross"></span> origin</span>
+                    </div>
+                </div>
 
-    <!-- Properties sections - will be moved into selected layer by JavaScript -->
-    <div id="params">
-    <div id="allpreset">
-      <span style="float: right;">Presets:<select id="presets" type="select" onchange="setPresets(this)">
+                <!-- Layer List - params will be appended inside selected layer -->
+                <section id="layerlist"></section>
+
+                <span class="w3-padding-16"><input id="groupmode" type="checkbox" onchange="groupModeToggle()" class="w3-show-inline-block" >Group Mode</span>
+                <button onclick="copyToClipboard()" style="display: none;">Copy</button>
+
+                <hr>
+
+                <!-- Settings -->
+                <div id="settings">
+                    <b>Settings</b><br>
+                    <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
+                </div>
+            </div>
+
+            <!-- Properties sections - will be moved into selected layer by JavaScript -->
+            <div id="params">
+                <div id="allpreset">
+                    <span style="float: right;">Presets:<select id="presets" type="select" onchange="setPresets(this)">
         <option value="" default>Select...</option>
         <option value="defselect0"></option>
         <option value="defselect1"></option>
       </select></span><br>
-    </div>
-    <div id="allall">
-      <span style="float: right;">X:<input id="inputx" type="number" onchange="updateValue(this)"></span><br>
-      <span style="float: right;">Y:<input id="inputy" type="number" onchange="updateValue(this)"></span><br>
-      <span style="float: right;">width:<input id="inputwidth" type="number" min="1" onchange="updateValue(this)"></span><br>
-    </div>
-    <div id="allimages">
-      <span style="float: right;">Lock aspect ratio:<input id="lar" type="checkbox" onchange="updateValue(this)" checked></span><br>
-      <span style="float: right;">height:<input id="inputheight" type="number" min="1" onchange="updateValue(this)"></span><br>
-    </div>
-    <div id="allangle">
-      <span style="float: right;">Angle:<input id="inputangle" type="number" min="0" max="359" onchange="updateValue(this)"></span><br>
-    </div>
-    <div id="alllen">
-      <span style="float: right;">Length:<input id="inputlen" type="number" min="1" onchange="updateValue(this)"></span><br>
-    </div>
-    <div id="clipimages">
-      <span style="float: right;">Opacity:<input id="inputalpha" type="number" min="0" max="100" onchange="updateValue(this)">%</span><br>
-      <span style="float: right;">sX:<input id="inputsx" type="number" min="0" onchange="updateValue(this)"></span><br>
-      <span style="float: right;">sY:<input id="inputsy" type="number" min="0" onchange="updateValue(this)"></span><br>
-      <span style="float: right;">swidth:<input id="inputswidth" type="number" min="1" onchange="updateValue(this)"></span><br>
-      <span style="float: right;">Lock aspect ratio:<input id="slar" type="checkbox" onchange="updateValue(this)" checked></span><br>
-      <span style="float: right;">sheight:<input id="inputsheight" type="number" min="1" onchange="updateValue(this)"></span><br>
-    </div>
-    <div id="otherbg">
-      <span>'Others' background:<input id="inputobg" type="checkbox" onchange="updateValue(this)"></span><br>
-    </div>
-    <div id="alltext">
-      <span style="float: right;"><textarea id="inputdata" cols="17" oninput="updateValue(this)" onchange="updateValue(this)"></textarea></span><br>
-      <span style="float: right;">V space:<input id="inputlineSpace" type="number" oninput="updateValue(this)" onchange="updateValue(this)"></span><br>
-      <span style="float: right;">Font:<select id="inputfont" type="select" onchange="updateValue(this)">
+                </div>
+                <div id="allall">
+                    <span style="float: right;">X:<input id="inputx" type="number" onchange="updateValue(this)"></span><br>
+                    <span style="float: right;">Y:<input id="inputy" type="number" onchange="updateValue(this)"></span><br>
+                    <span style="float: right;">width:<input id="inputwidth" type="number" min="1" onchange="updateValue(this)"></span><br>
+                </div>
+                <div id="allimages">
+                    <span style="float: right;">Lock aspect ratio:<input id="lar" type="checkbox" onchange="updateValue(this)" checked></span><br>
+                    <span style="float: right;">height:<input id="inputheight" type="number" min="1" onchange="updateValue(this)"></span><br>
+                </div>
+                <div id="allangle">
+                    <span style="float: right;">Angle:<input id="inputangle" type="number" min="0" max="359" onchange="updateValue(this)"></span><br>
+                </div>
+                <div id="alllen">
+                    <span style="float: right;">Length:<input id="inputlen" type="number" min="1" onchange="updateValue(this)"></span><br>
+                </div>
+                <div id="clipimages">
+                    <span style="float: right;">Opacity:<input id="inputalpha" type="number" min="0" max="100" onchange="updateValue(this)">%</span><br>
+                    <span style="float: right;">sX:<input id="inputsx" type="number" min="0" onchange="updateValue(this)"></span><br>
+                    <span style="float: right;">sY:<input id="inputsy" type="number" min="0" onchange="updateValue(this)"></span><br>
+                    <span style="float: right;">swidth:<input id="inputswidth" type="number" min="1" onchange="updateValue(this)"></span><br>
+                    <span style="float: right;">Lock aspect ratio:<input id="slar" type="checkbox" onchange="updateValue(this)" checked></span><br>
+                    <span style="float: right;">sheight:<input id="inputsheight" type="number" min="1" onchange="updateValue(this)"></span><br>
+                </div>
+                <div id="otherbg">
+                    <span>'Others' background:<input id="inputobg" type="checkbox" onchange="updateValue(this)"></span><br>
+                </div>
+                <div id="alltext">
+                    <span style="float: right;"><textarea id="inputdata" cols="17" oninput="updateValue(this)" onchange="updateValue(this)"></textarea></span><br>
+                    <span style="float: right;">V space:<input id="inputlineSpace" type="number" oninput="updateValue(this)" onchange="updateValue(this)"></span><br>
+                    <span style="float: right;">Font:<select id="inputfont" type="select" onchange="updateValue(this)">
         <option value="Prototype" style="font-family: Prototype;" default>Prototype</option>
         <option value="Pagella" style="font-family: Pagella;">Palatino-like</option>
         <option value="times" style="font-family: 'Times New Roman';">Times New Roman</option>
       </select></span><br>
-      <span style="float: right;">Style:<select id="inputstyle" type="select" onchange="updateValue(this)">
+                    <span style="float: right;">Style:<select id="inputstyle" type="select" onchange="updateValue(this)">
         <option value="normal" default>Normal</option>
         <option value="italic">Italic</option>
-      </select></span><br> 
-      <span style="float: right;">Weight:<select id="inputweight" type="select" onchange="updateValue(this)">
+      </select></span><br>
+                    <span style="float: right;">Weight:<select id="inputweight" type="select" onchange="updateValue(this)">
         <option value="normal" default>Normal</option>
         <option value="bold">Bold</option> 
       </select></span><br>
-      <span style="float: right;">Justify:<select id="inputjustify" type="select" onchange="updateValue(this)">
+                    <span style="float: right;">Justify:<select id="inputjustify" type="select" onchange="updateValue(this)">
         <option value="center" default>Center</option>
         <option value="left">Left</option>
         <option value="right">Right</option>
       </select></span><br>
-    </div>
-    <div id="color">
-      <span style="float: right;">Color:<input id="inputcolor" type="color" onchange="updateValue(this)"></span>
-      <!-- <span style="float: right;">Red</label><input type="range" id="inputred" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
+                </div>
+                <div id="color">
+                    <span style="float: right;">Color:<input id="inputcolor" type="color" onchange="updateValue(this)"></span>
+                    <!-- <span style="float: right;">Red</label><input type="range" id="inputred" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Green</label><input type="range" id="inputgreen" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Blue</label><input type="range" id="inputblue" min="0" max="255" value="255" onchange="updateValue(this)"></span> -->
-    </div>
-    <hr>
-    <div id="settings">
-      <b>Settings</b><br>
-      <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
-    </div>
-  </div>
+                </div>
+                <hr>
+                <div id="settings">
+                    <b>Settings</b><br>
+                    <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
+                </div>
+            </div>
 
-  <!-- End page content -->
-</div>
+            <!-- End page content -->
+        </div>
 
-<script src="imageFit.js"></script>
+        <script src="imageFit.js"></script>
 
-<!-- Canvas Zoom & Scroll Script -->
-<script>
-  // Canvas zoom and scroll functionality
-  let canvasZoom = 1;
-  const zoomStep = 0.1;
-  const minZoom = 0.1;
-  const maxZoom = 3;
-  const canvaswrap = document.getElementById('canvaswrap');
-  const canvasScrollarea = document.getElementById('canvasScrollarea');
-  const canvasScrollinner = document.getElementById('canvasScrollinner');
-  const zoomLevelDisplay = document.getElementById('zoomLevel');
+        <!-- Canvas Zoom & Scroll Script -->
+        <script>
+            // Canvas zoom and scroll functionality
+            let canvasZoom = 1;
+            const zoomStep = 0.1;
+            const minZoom = 0.1;
+            const maxZoom = 3;
+            const canvaswrap = document.getElementById('canvaswrap');
+            const canvasScrollarea = document.getElementById('canvasScrollarea');
+            const canvasScrollinner = document.getElementById('canvasScrollinner');
+            const zoomLevelDisplay = document.getElementById('zoomLevel');
 
-  // Center the canvas in the visible viewport
-  function centerCanvas() {
-    console.log("[HTML] centerCanvas called at", Date.now());
-    console.log("[HTML] Call stack:", new Error().stack);
-    if (canvasScrollinner && canvasScrollarea) {
-      // Use setTimeout to ensure DOM has fully rendered
-      setTimeout(() => {
-        console.log("[HTML] centerCanvas setTimeout executing at", Date.now());
-        // Since the canvas is centered in #canvasScrollinner via flexbox,
-        // we just need to scroll to the center of the scrollable area
-        const scrollWidth = canvasScrollarea.scrollWidth;
-        const scrollHeight = canvasScrollarea.scrollHeight;
-        const viewportWidth = canvasScrollarea.clientWidth;
-        const viewportHeight = canvasScrollarea.clientHeight;
-        
-        console.log("[HTML] scrollWidth:", scrollWidth, "viewportWidth:", viewportWidth);
-        console.log("[HTML] Before - scrollLeft:", canvasScrollarea.scrollLeft, "scrollTop:", canvasScrollarea.scrollTop);
-        
-        // Center the scrollable content in the viewport
-        const scrollX = (scrollWidth - viewportWidth) / 2;
-        const scrollY = (scrollHeight - viewportHeight) / 2;
-        
-        canvasScrollarea.scrollLeft = scrollX;
-        canvasScrollarea.scrollTop = scrollY;
-        
-        console.log("[HTML] After - scrollLeft:", canvasScrollarea.scrollLeft, "scrollTop:", canvasScrollarea.scrollTop);
-      }, 100);
-    }
-  }
+            // Center the canvas in the visible viewport
+            function centerCanvas() {
+                console.log("[HTML] centerCanvas called at", Date.now());
+                console.log("[HTML] Call stack:", new Error().stack);
+                if (canvasScrollinner && canvasScrollarea) {
+                    // Use setTimeout to ensure DOM has fully rendered
+                    setTimeout(() => {
+                        console.log("[HTML] centerCanvas setTimeout executing at", Date.now());
+                        // Since the canvas is centered in #canvasScrollinner via flexbox,
+                        // we just need to scroll to the center of the scrollable area
+                        const scrollWidth = canvasScrollarea.scrollWidth;
+                        const scrollHeight = canvasScrollarea.scrollHeight;
+                        const viewportWidth = canvasScrollarea.clientWidth;
+                        const viewportHeight = canvasScrollarea.clientHeight;
 
-  // Always start at default zoom on page load
-  canvasScrollinner.style.transform = 'scale(1)';
-  zoomLevelDisplay.textContent = '100%';
-  
-  // Make centerCanvas globally accessible so it can be called after autosave loads
-  window.centerCanvas = centerCanvas;
-  console.log("[HTML] window.centerCanvas set to HTML version");
-  
-  // Make zoomCanvasReset accessible for initial zoom-to-fit
-  window.zoomToFitAndCenter = function() {
-    console.log("[HTML] zoomToFitAndCenter called - will be overridden by zoomCanvasReset");
-  };
-  
-  // On page load, we'll call zoomCanvasReset from JS after it's defined
-  // For now, just center at default zoom
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      // The JS file will override this and call zoomCanvasReset instead
-      if (window.zoomToFitAndCenter) {
-        window.zoomToFitAndCenter();
-      }
-    });
-  } else {
-    if (window.zoomToFitAndCenter) {
-      window.zoomToFitAndCenter();
-    }
-  }
+                        console.log("[HTML] scrollWidth:", scrollWidth, "viewportWidth:", viewportWidth);
+                        console.log("[HTML] Before - scrollLeft:", canvasScrollarea.scrollLeft, "scrollTop:", canvasScrollarea.scrollTop);
 
-  function updateCanvasZoom(mouseX, mouseY) {
-    const oldZoom = canvasZoom;
-    
-    // If mouse position is provided, zoom to that point
-    if (mouseX !== undefined && mouseY !== undefined) {
-      const scrollArea = canvasScrollarea;
-      const rect = scrollArea.getBoundingClientRect();
-      
-      // Get mouse position relative to scroll area viewport
-      const viewportX = mouseX - rect.left;
-      const viewportY = mouseY - rect.top;
-      
-      // Calculate the point in the content before zoom (using the OLD zoom value)
-      const contentX = scrollArea.scrollLeft + viewportX;
-      const contentY = scrollArea.scrollTop + viewportY;
-      
-      // Calculate position in the unscaled canvas
-      const canvasX = contentX / oldZoom;
-      const canvasY = contentY / oldZoom;
-      
-      // Apply new zoom
-      canvasScrollinner.style.transform = `scale(${canvasZoom})`;
-      
-      // Calculate where that point should be now with the new zoom
-      const newContentX = canvasX * canvasZoom;
-      const newContentY = canvasY * canvasZoom;
-      
-      // Adjust scroll to keep the point under the cursor
-      scrollArea.scrollLeft = newContentX - viewportX;
-      scrollArea.scrollTop = newContentY - viewportY;
-    } else {
-      // No mouse position, just zoom normally
-      canvasScrollinner.style.transform = `scale(${canvasZoom})`;
-    }
-    
-    zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
-  }
+                        // Center the scrollable content in the viewport
+                        const scrollX = (scrollWidth - viewportWidth) / 2;
+                        const scrollY = (scrollHeight - viewportHeight) / 2;
 
-  function zoomCanvasIn(mouseX, mouseY) {
-    const oldZoom = canvasZoom;
-    canvasZoom = Math.min(maxZoom, canvasZoom + zoomStep);
-    updateCanvasZoom(mouseX, mouseY);
-  }
+                        canvasScrollarea.scrollLeft = scrollX;
+                        canvasScrollarea.scrollTop = scrollY;
 
-  function zoomCanvasOut(mouseX, mouseY) {
-    const oldZoom = canvasZoom;
-    canvasZoom = Math.max(minZoom, canvasZoom - zoomStep);
-    updateCanvasZoom(mouseX, mouseY);
-  }
+                        console.log("[HTML] After - scrollLeft:", canvasScrollarea.scrollLeft, "scrollTop:", canvasScrollarea.scrollTop);
+                    }, 100);
+                }
+            }
 
-  function zoomCanvasReset() {
-    // Calculate optimal zoom to fit canvas between sidebars
-    const sidebar = document.getElementById('mySidebar');
-    const rightPanel = document.getElementById('rightPanel');
-    const leftSidebarWidth = sidebar ? sidebar.offsetWidth : 0;
-    const rightPanelWidth = rightPanel ? rightPanel.offsetWidth : 0;
-    
-    // Available space for the canvas
-    const availableWidth = canvasScrollarea.clientWidth - rightPanelWidth;
-    const availableHeight = canvasScrollarea.clientHeight;
-    
-    // Get the actual canvas dimensions
-    const canvas = document.getElementById('cmcanvas');
-    const canvasWidth = canvas ? canvas.width : 826;
-    const canvasHeight = canvas ? canvas.height : 1126;
-    
-    // Add some padding (e.g., 5% on each side)
-    const paddingFactor = 0.90;
-    
-    // Calculate zoom ratios for width and height
-    const zoomToFitWidth = (availableWidth * paddingFactor) / canvasWidth;
-    const zoomToFitHeight = (availableHeight * paddingFactor) / canvasHeight;
-    
-    // Use the smaller zoom to ensure it fits in both dimensions
-    const optimalZoom = Math.min(zoomToFitWidth, zoomToFitHeight);
-    
-    // Clamp to min/max zoom limits
-    canvasZoom = Math.max(minZoom, Math.min(maxZoom, optimalZoom));
-    
-    console.log("=== Zoom to Fit Debug ===");
-    console.log("Available space:", availableWidth, "x", availableHeight);
-    console.log("Canvas size:", canvasWidth, "x", canvasHeight);
-    console.log("Zoom to fit width:", zoomToFitWidth);
-    console.log("Zoom to fit height:", zoomToFitHeight);
-    console.log("Optimal zoom:", optimalZoom);
-    console.log("Applied zoom:", canvasZoom);
-    console.log("========================");
-    
-    updateCanvasZoom();
-    // Center the canvas after zooming
-    centerCanvas();
-  }
+            // Always start at default zoom on page load
+            canvasScrollinner.style.transform = 'scale(1)';
+            zoomLevelDisplay.textContent = '100%';
 
-  // Mousewheel zoom (zoom to cursor position)
-  canvasScrollarea.addEventListener('wheel', (e) => {
-    if (e.ctrlKey || e.metaKey) {
-      e.preventDefault();
-      if (e.deltaY < 0) {
-        zoomCanvasIn(e.clientX, e.clientY);
-      } else {
-        zoomCanvasOut(e.clientX, e.clientY);
-      }
-    }
-  }, { passive: false });
+            // Make centerCanvas globally accessible so it can be called after autosave loads
+            window.centerCanvas = centerCanvas;
+            console.log("[HTML] window.centerCanvas set to HTML version");
 
-  // Pan/drag canvas (ctrl + left-click)
-  let isPanning = false;
-  let startX = 0;
-  let startY = 0;
-  let scrollLeft = 0;
-  let scrollTop = 0;
+            // Make zoomCanvasReset accessible for initial zoom-to-fit
+            window.zoomToFitAndCenter = function() {
+                console.log("[HTML] zoomToFitAndCenter called - will be overridden by zoomCanvasReset");
+            };
 
-  canvasScrollarea.addEventListener('mousedown', (e) => {
-    // Only pan if ctrl is held and left mouse button
-    if (e.ctrlKey && e.button === 0) {
-      isPanning = true;
-      startX = e.pageX - canvasScrollarea.offsetLeft;
-      startY = e.pageY - canvasScrollarea.offsetTop;
-      scrollLeft = canvasScrollarea.scrollLeft;
-      scrollTop = canvasScrollarea.scrollTop;
-      canvasScrollarea.classList.add('grabbing');
-      e.preventDefault();
-    }
-  });
+            // On page load, we'll call zoomCanvasReset from JS after it's defined
+            // For now, just center at default zoom
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    // The JS file will override this and call zoomCanvasReset instead
+                    if (window.zoomToFitAndCenter) {
+                        window.zoomToFitAndCenter();
+                    }
+                });
+            } else {
+                if (window.zoomToFitAndCenter) {
+                    window.zoomToFitAndCenter();
+                }
+            }
 
-  document.addEventListener('mousemove', (e) => {
-    if (!isPanning) return;
-    e.preventDefault();
-    const x = e.pageX - canvasScrollarea.offsetLeft;
-    const y = e.pageY - canvasScrollarea.offsetTop;
-    const walkX = (x - startX);
-    const walkY = (y - startY);
-    canvasScrollarea.scrollLeft = scrollLeft - walkX;
-    canvasScrollarea.scrollTop = scrollTop - walkY;
-  });
+            function updateCanvasZoom(mouseX, mouseY) {
+                const oldZoom = canvasZoom;
 
-  document.addEventListener('mouseup', () => {
-    if (isPanning) {
-      isPanning = false;
-      canvasScrollarea.classList.remove('grabbing');
-    }
-  });
-</script>
+                // If mouse position is provided, zoom to that point
+                if (mouseX !== undefined && mouseY !== undefined) {
+                    const scrollArea = canvasScrollarea;
+                    const rect = scrollArea.getBoundingClientRect();
 
-<!-- Sidebar Resize Script -->
-<script>
-  (function() {
-    // LEFT SIDEBAR RESIZE
-    const handle = document.getElementById('sidebarResizeHandle');
-    const sidebar = document.getElementById('mySidebar');
-    const minWidth = 180;
-    const maxWidth = 500;
-    const storageKey = 'tm_cardmaker_sidebar_width';
+                    // Get mouse position relative to scroll area viewport
+                    const viewportX = mouseX - rect.left;
+                    const viewportY = mouseY - rect.top;
 
-    // Load saved width from localStorage
-    const savedWidth = localStorage.getItem(storageKey);
-    if (savedWidth) {
-      setSidebarWidth(parseInt(savedWidth));
-    }
+                    // Calculate the point in the content before zoom (using the OLD zoom value)
+                    const contentX = scrollArea.scrollLeft + viewportX;
+                    const contentY = scrollArea.scrollTop + viewportY;
 
-    function setSidebarWidth(width) {
-      const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
-      sidebar.style.width = constrainedWidth + 'px';
-      handle.style.left = constrainedWidth + 'px';
-      document.documentElement.style.setProperty('--sidebar-width', constrainedWidth + 'px');
-      localStorage.setItem(storageKey, constrainedWidth);
-    }
+                    // Calculate position in the unscaled canvas
+                    const canvasX = contentX / oldZoom;
+                    const canvasY = contentY / oldZoom;
 
-    let isResizing = false;
-    let startX = 0;
-    let startWidth = 0;
+                    // Apply new zoom
+                    canvasScrollinner.style.transform = `scale(${canvasZoom})`;
 
-    handle.addEventListener('mousedown', (e) => {
-      if (window.innerWidth <= 992) return; // Only on desktop
-      isResizing = true;
-      startX = e.clientX;
-      startWidth = parseInt(window.getComputedStyle(sidebar).width);
-      handle.classList.add('dragging');
-      document.body.style.userSelect = 'none';
-      document.body.style.cursor = 'col-resize';
-      e.preventDefault();
-    });
+                    // Calculate where that point should be now with the new zoom
+                    const newContentX = canvasX * canvasZoom;
+                    const newContentY = canvasY * canvasZoom;
 
-    document.addEventListener('mousemove', (e) => {
-      if (!isResizing) return;
-      const delta = e.clientX - startX;
-      const newWidth = startWidth + delta;
-      setSidebarWidth(newWidth);
-    });
+                    // Adjust scroll to keep the point under the cursor
+                    scrollArea.scrollLeft = newContentX - viewportX;
+                    scrollArea.scrollTop = newContentY - viewportY;
+                } else {
+                    // No mouse position, just zoom normally
+                    canvasScrollinner.style.transform = `scale(${canvasZoom})`;
+                }
 
-    document.addEventListener('mouseup', () => {
-      if (isResizing) {
-        isResizing = false;
-        handle.classList.remove('dragging');
-        document.body.style.userSelect = '';
-        document.body.style.cursor = '';
-      }
-    });
+                zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
+            }
 
-    // Handle window resize on mobile
-    window.addEventListener('resize', () => {
-      if (window.innerWidth <= 992) {
-        handle.style.display = 'none';
-      } else {
-        handle.style.display = 'block';
-      }
-    });
-  })();
+            function zoomCanvasIn(mouseX, mouseY) {
+                const oldZoom = canvasZoom;
+                canvasZoom = Math.min(maxZoom, canvasZoom + zoomStep);
+                updateCanvasZoom(mouseX, mouseY);
+            }
 
-  // RIGHT PROPERTIES PANEL RESIZE
-  (function() {
-    const handle = document.getElementById('paramsResizeHandle');
-    const rightPanel = document.getElementById('rightPanel');
-    const minWidth = 180;
-    const maxWidth = 600;
-    const storageKey = 'tm_cardmaker_params_width';
+            function zoomCanvasOut(mouseX, mouseY) {
+                const oldZoom = canvasZoom;
+                canvasZoom = Math.max(minZoom, canvasZoom - zoomStep);
+                updateCanvasZoom(mouseX, mouseY);
+            }
 
-    // Load saved width from localStorage
-    const savedWidth = localStorage.getItem(storageKey);
-    if (savedWidth) {
-      setRightPanelWidth(parseInt(savedWidth));
-    } else {
-      setRightPanelWidth(340);
-    }
+            function zoomCanvasReset() {
+                // Calculate optimal zoom to fit canvas between sidebars
+                const sidebar = document.getElementById('mySidebar');
+                const rightPanel = document.getElementById('rightPanel');
+                const leftSidebarWidth = sidebar ? sidebar.offsetWidth : 0;
+                const rightPanelWidth = rightPanel ? rightPanel.offsetWidth : 0;
 
-    function setRightPanelWidth(width) {
-      const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
-      rightPanel.style.width = constrainedWidth + 'px';
-      handle.style.right = constrainedWidth + 'px';
-      localStorage.setItem(storageKey, constrainedWidth);
-    }
+                // Available space for the canvas
+                const availableWidth = canvasScrollarea.clientWidth - rightPanelWidth;
+                const availableHeight = canvasScrollarea.clientHeight;
 
-    let isResizing = false;
-    let startX = 0;
-    let startWidth = 0;
+                // Get the actual canvas dimensions
+                const canvas = document.getElementById('cmcanvas');
+                const canvasWidth = canvas ? canvas.width : 826;
+                const canvasHeight = canvas ? canvas.height : 1126;
 
-    handle.addEventListener('mousedown', (e) => {
-      if (window.innerWidth <= 992) return; // Only on desktop
-      isResizing = true;
-      startX = e.clientX;
-      startWidth = parseInt(window.getComputedStyle(rightPanel).width);
-      handle.classList.add('dragging');
-      document.body.style.userSelect = 'none';
-      document.body.style.cursor = 'col-resize';
-      e.preventDefault();
-    });
+                // Add some padding (e.g., 5% on each side)
+                const paddingFactor = 0.90;
 
-    document.addEventListener('mousemove', (e) => {
-      if (!isResizing) return;
-      const delta = startX - e.clientX; // Note: reversed because we're dragging from the right
-      const newWidth = startWidth + delta;
-      setRightPanelWidth(newWidth);
-    });
+                // Calculate zoom ratios for width and height
+                const zoomToFitWidth = (availableWidth * paddingFactor) / canvasWidth;
+                const zoomToFitHeight = (availableHeight * paddingFactor) / canvasHeight;
 
-    document.addEventListener('mouseup', () => {
-      if (isResizing) {
-        isResizing = false;
-        handle.classList.remove('dragging');
-        document.body.style.userSelect = '';
-        document.body.style.cursor = '';
-      }
-    });
+                // Use the smaller zoom to ensure it fits in both dimensions
+                const optimalZoom = Math.min(zoomToFitWidth, zoomToFitHeight);
 
-    // Handle window resize on mobile
-    window.addEventListener('resize', () => {
-      if (window.innerWidth <= 992) {
-        handle.style.display = 'none';
-      } else {
-        handle.style.display = 'block';
-      }
-    });
-  })();
-</script>
+                // Clamp to min/max zoom limits
+                canvasZoom = Math.max(minZoom, Math.min(maxZoom, optimalZoom));
 
-<script src="tm_cm.js"></script>
-<script src="tm_debug_overlay.js"></script>
-<script>
+                console.log("=== Zoom to Fit Debug ===");
+                console.log("Available space:", availableWidth, "x", availableHeight);
+                console.log("Canvas size:", canvasWidth, "x", canvasHeight);
+                console.log("Zoom to fit width:", zoomToFitWidth);
+                console.log("Zoom to fit height:", zoomToFitHeight);
+                console.log("Optimal zoom:", optimalZoom);
+                console.log("Applied zoom:", canvasZoom);
+                console.log("========================");
 
-// ============================================================================
-// HELP MODAL FUNCTIONS
-// ============================================================================
+                updateCanvasZoom();
+                // Center the canvas after zooming
+                centerCanvas();
+            }
 
-function cancelHelpModal() {
-  const modal = document.getElementById('helpmodal');
-  modal.classList.add('w3-nodisplay');
-}
+            // Mousewheel zoom (zoom to cursor position)
+            canvasScrollarea.addEventListener('wheel', (e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    if (e.deltaY < 0) {
+                        zoomCanvasIn(e.clientX, e.clientY);
+                    } else {
+                        zoomCanvasOut(e.clientX, e.clientY);
+                    }
+                }
+            }, {
+                passive: false
+            });
 
-// ============================================================================
-// HELP MODAL FUNCTIONS - MARKDOWN BASED
-// ============================================================================
+            // Pan/drag canvas (ctrl + left-click)
+            let isPanning = false;
+            let startX = 0;
+            let startY = 0;
+            let scrollLeft = 0;
+            let scrollTop = 0;
 
-// Cache for fetched README to avoid multiple fetches
-let readmeCache = null;
+            canvasScrollarea.addEventListener('mousedown', (e) => {
+                // Only pan if ctrl is held and left mouse button
+                if (e.ctrlKey && e.button === 0) {
+                    isPanning = true;
+                    startX = e.pageX - canvasScrollarea.offsetLeft;
+                    startY = e.pageY - canvasScrollarea.offsetTop;
+                    scrollLeft = canvasScrollarea.scrollLeft;
+                    scrollTop = canvasScrollarea.scrollTop;
+                    canvasScrollarea.classList.add('grabbing');
+                    e.preventDefault();
+                }
+            });
 
-/**
- * Fetch and cache the README.md file
- */
-async function fetchReadme() {
-  console.log('[HELP] fetchReadme called, cache status:', readmeCache ? 'cached' : 'not cached');
-  
-  if (readmeCache !== null) {
-    console.log('[HELP] Using cached README');
-    return readmeCache;
-  }
-  
-  try {
-    console.log('[HELP] Fetching README.md from server...');
-    const response = await fetch('README.md');
-    console.log('[HELP] Fetch response status:', response.status);
-    
-    if (!response.ok) {
-      console.error('[HELP] Failed to fetch README:', response.status, response.statusText);
-      return null;
-    }
-    
-    readmeCache = await response.text();
-    console.log('[HELP] README cached, length:', readmeCache.length);
-    return readmeCache;
-  } catch (error) {
-    console.error('[HELP] Error fetching README:', error);
-    return null;
-  }
-}
+            document.addEventListener('mousemove', (e) => {
+                if (!isPanning) return;
+                e.preventDefault();
+                const x = e.pageX - canvasScrollarea.offsetLeft;
+                const y = e.pageY - canvasScrollarea.offsetTop;
+                const walkX = (x - startX);
+                const walkY = (y - startY);
+                canvasScrollarea.scrollLeft = scrollLeft - walkX;
+                canvasScrollarea.scrollTop = scrollTop - walkY;
+            });
 
-/**
- * Extract a section from README by header title
- * Matches from ## SectionTitle to the next ## or end of file
- * Handles both Unix (\n) and Windows (\r\n) line endings
- */
-function extractSection(markdown, sectionTitle) {
-  console.log('[HELP] extractSection called for:', sectionTitle);
-  // Match ## SectionTitle followed by optional \r and \n, then capture everything until the next ## or end
-  const regex = new RegExp(`## ${sectionTitle}\\r?\\n([\\s\\S]*?)(?=\\r?\\n## |$)`, 'i');
-  const match = markdown.match(regex);
-  
-  if (match && match[1]) {
-    console.log('[HELP] Section found, length:', match[1].length);
-    return `## ${sectionTitle}\n${match[1].trim()}`;
-  }
-  
-  console.warn('[HELP] Section not found in markdown. Available sections:', 
-    markdown.match(/## [^\r\n]+/g));
-  return null;
-}
+            document.addEventListener('mouseup', () => {
+                if (isPanning) {
+                    isPanning = false;
+                    canvasScrollarea.classList.remove('grabbing');
+                }
+            });
+        </script>
 
-/**
- * Override showHelpModal to load from README.md using markdown parser
- * @param {string} sectionTitle - The heading from README to load (e.g., "How to Use")
- */
-async function showHelpModal(sectionTitle) {
-  console.log('[HELP] showHelpModal called with section:', sectionTitle);
-  
-  // Check if marked.js is loaded
-  if (typeof marked === 'undefined') {
-    console.error('[HELP] ERROR: marked.js library not loaded!');
-    alert('Error: Markdown parser not loaded. Please reload the page.');
-    return;
-  }
-  
-  const modal = document.getElementById('helpmodal');
-  const contentDiv = document.getElementById('helpContent');
-  
-  if (!modal) {
-    console.error('[HELP] Modal element not found!');
-    alert('Error: Help modal element not found in page');
-    return;
-  }
-  if (!contentDiv) {
-    console.error('[HELP] Content div not found!');
-    alert('Error: Help content div not found in page');
-    return;
-  }
-  
-  // Show loading state
-  contentDiv.innerHTML = '<p style="text-align: center; color: #999;">Loading...</p>';
-  modal.classList.remove('w3-nodisplay');
-  console.log('[HELP] Modal shown with loading state');
-  
-  try {
-    console.log('[HELP] Fetching README...');
-    const readme = await fetchReadme();
-    
-    if (!readme) {
-      console.error('[HELP] README fetch returned null');
-      contentDiv.innerHTML = '<p style="color: #d32f2f;">Failed to load help content. Please check your internet connection or the README.md file.</p>';
-      return;
-    }
-    
-    console.log('[HELP] README fetched, extracting section:', sectionTitle);
-    
-    // Extract the requested section
-    const section = extractSection(readme, sectionTitle);
-    
-    if (!section) {
-      console.error('[HELP] Section not found:', sectionTitle);
-      contentDiv.innerHTML = `<p style="color: #d32f2f;">Section "${sectionTitle}" not found in README.md</p>`;
-      return;
-    }
-    
-    console.log('[HELP] Section extracted, rendering markdown...');
-    
-    // Render markdown to HTML using marked.js
-    const html = marked.parse(section);
-    contentDiv.innerHTML = html;
-    console.log('[HELP] Markdown rendered successfully');
-    
-  } catch (error) {
-    console.error('[HELP] Error loading help modal:', error);
-    contentDiv.innerHTML = '<p style="color: #d32f2f;">Error loading help content: ' + error.message + '</p>';
-  }
-}
+        <!-- Sidebar Resize Script -->
+        <script>
+            (function() {
+                // LEFT SIDEBAR RESIZE
+                const handle = document.getElementById('sidebarResizeHandle');
+                const sidebar = document.getElementById('mySidebar');
+                const minWidth = 180;
+                const maxWidth = 500;
+                const storageKey = 'tm_cardmaker_sidebar_width';
 
-/**
- * Application initialization script
- * 
- * This async IIFE (Immediately Invoked Function Expression) handles the critical
- * startup sequence for the card maker application.
- * 
- * Key concepts demonstrated:
- * 1. Async/Await: Modern JavaScript for handling asynchronous operations
- * 2. IIFE Pattern: (async function() { })() - runs immediately, creating isolated scope
- * 3. Dependency Management: Ensures assets.json loads BEFORE the rest of the app
- * 
- * Why this matters:
- * - The blockList and blockDefaults are now in assets.json (external file)
- * - The main JavaScript (tm_cm.js) needs this data to work
- * - We must load assets.json first, then proceed with normal initialization
- * - Using async/await ensures proper sequencing without callback hell
- * 
- * Flow:
- * 1. Load assets.json → populate blockList and blockDefaults
- * 2. Check for project URL parameter (for sharing/loading projects)
- * 3. Check for previously loaded project in localStorage
- * 4. Otherwise, load autosave or start fresh
- */
-(async function initApp() {
-  try {
-    // Step 1: Load assets from external JSON file
-    // This populates blockList and blockDefaults used throughout the app
-    const assetsLoaded = await loadAssets();
-    if (!assetsLoaded) {
-      console.error('Failed to load assets, cannot initialize');
-      return;
-    }
-    
-    /**
-     * Step 2-4: Handle initialization based on context
-     * 
-     * Three possible startup scenarios:
-     * a) URL parameter with project to load (sharing feature)
-     * b) Previously loaded project saved in localStorage
-     * c) Default: load autosave or start fresh
-     */
-    
-    // Scenario A: Project URL parameter provided (e.g., ?project=https://...)
-    if (projectUrl && projectUrl != "") {
-      // Save to localStorage so it persists after redirect
-      localStorage.setItem("loadedProjectUrl", projectUrl);
-      // Redirect to clean URL without query parameters
-      // Why? Query parameters can cause issues on reload or when creating new projects
-      window.location.assign(location.protocol + '//' + location.host + location.pathname);
-    } 
-    // Scenario B: Previously loaded project exists in localStorage
-    else if (loadedProjectUrl && loadedProjectUrl != "") {
-      resetProject(false);  // Don't load autosave
-      loadInitialProject(loadedProjectUrl);  // Load the specified project
-    } 
-    // Scenario C: Normal startup - load autosave if it exists
-    else {
-      // resetProject(true) will attempt to load from localStorage autosave
-      // If no autosave exists, starts with a blank project
-      resetProject(true);
-    }
-  } catch (error) {
-    // Catch any errors during initialization and show user-friendly message
-    console.error('Error during app initialization:', error);
-    alert('Failed to initialize application. Check console for details.');
-  }
-})();
-</script>
+                // Load saved width from localStorage
+                const savedWidth = localStorage.getItem(storageKey);
+                if (savedWidth) {
+                    setSidebarWidth(parseInt(savedWidth));
+                }
+
+                function setSidebarWidth(width) {
+                    const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+                    sidebar.style.width = constrainedWidth + 'px';
+                    handle.style.left = constrainedWidth + 'px';
+                    document.documentElement.style.setProperty('--sidebar-width', constrainedWidth + 'px');
+                    localStorage.setItem(storageKey, constrainedWidth);
+                }
+
+                let isResizing = false;
+                let startX = 0;
+                let startWidth = 0;
+
+                handle.addEventListener('mousedown', (e) => {
+                    if (window.innerWidth <= 992) return; // Only on desktop
+                    isResizing = true;
+                    startX = e.clientX;
+                    startWidth = parseInt(window.getComputedStyle(sidebar).width);
+                    handle.classList.add('dragging');
+                    document.body.style.userSelect = 'none';
+                    document.body.style.cursor = 'col-resize';
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isResizing) return;
+                    const delta = e.clientX - startX;
+                    const newWidth = startWidth + delta;
+                    setSidebarWidth(newWidth);
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isResizing) {
+                        isResizing = false;
+                        handle.classList.remove('dragging');
+                        document.body.style.userSelect = '';
+                        document.body.style.cursor = '';
+                    }
+                });
+
+                // Handle window resize on mobile
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth <= 992) {
+                        handle.style.display = 'none';
+                    } else {
+                        handle.style.display = 'block';
+                    }
+                });
+            })();
+
+            // RIGHT PROPERTIES PANEL RESIZE
+            (function() {
+                const handle = document.getElementById('paramsResizeHandle');
+                const rightPanel = document.getElementById('rightPanel');
+                const minWidth = 180;
+                const maxWidth = 600;
+                const storageKey = 'tm_cardmaker_params_width';
+
+                // Load saved width from localStorage
+                const savedWidth = localStorage.getItem(storageKey);
+                if (savedWidth) {
+                    setRightPanelWidth(parseInt(savedWidth));
+                } else {
+                    setRightPanelWidth(340);
+                }
+
+                function setRightPanelWidth(width) {
+                    const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+                    rightPanel.style.width = constrainedWidth + 'px';
+                    handle.style.right = constrainedWidth + 'px';
+                    localStorage.setItem(storageKey, constrainedWidth);
+                }
+
+                let isResizing = false;
+                let startX = 0;
+                let startWidth = 0;
+
+                handle.addEventListener('mousedown', (e) => {
+                    if (window.innerWidth <= 992) return; // Only on desktop
+                    isResizing = true;
+                    startX = e.clientX;
+                    startWidth = parseInt(window.getComputedStyle(rightPanel).width);
+                    handle.classList.add('dragging');
+                    document.body.style.userSelect = 'none';
+                    document.body.style.cursor = 'col-resize';
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isResizing) return;
+                    const delta = startX - e.clientX; // Note: reversed because we're dragging from the right
+                    const newWidth = startWidth + delta;
+                    setRightPanelWidth(newWidth);
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isResizing) {
+                        isResizing = false;
+                        handle.classList.remove('dragging');
+                        document.body.style.userSelect = '';
+                        document.body.style.cursor = '';
+                    }
+                });
+
+                // Handle window resize on mobile
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth <= 992) {
+                        handle.style.display = 'none';
+                    } else {
+                        handle.style.display = 'block';
+                    }
+                });
+            })();
+        </script>
+
+        <script src="tm_cm.js"></script>
+        <script src="tm_debug_overlay.js"></script>
+        <script>
+            // ============================================================================
+            // HELP MODAL FUNCTIONS
+            // ============================================================================
+
+            function cancelHelpModal() {
+                const modal = document.getElementById('helpmodal');
+                modal.classList.add('w3-nodisplay');
+            }
+
+            // ============================================================================
+            // HELP MODAL FUNCTIONS - MARKDOWN BASED
+            // ============================================================================
+
+            // Cache for fetched README to avoid multiple fetches
+            let readmeCache = null;
+
+            /**
+             * Fetch and cache the README.md file
+             */
+            async function fetchReadme() {
+                console.log('[HELP] fetchReadme called, cache status:', readmeCache ? 'cached' : 'not cached');
+
+                if (readmeCache !== null) {
+                    console.log('[HELP] Using cached README');
+                    return readmeCache;
+                }
+
+                try {
+                    console.log('[HELP] Fetching README.md from server...');
+                    const response = await fetch('README.md');
+                    console.log('[HELP] Fetch response status:', response.status);
+
+                    if (!response.ok) {
+                        console.error('[HELP] Failed to fetch README:', response.status, response.statusText);
+                        return null;
+                    }
+
+                    readmeCache = await response.text();
+                    console.log('[HELP] README cached, length:', readmeCache.length);
+                    return readmeCache;
+                } catch (error) {
+                    console.error('[HELP] Error fetching README:', error);
+                    return null;
+                }
+            }
+
+            /**
+             * Extract a section from README by header title
+             * Matches from ## SectionTitle to the next ## or end of file
+             * Handles both Unix (\n) and Windows (\r\n) line endings
+             */
+            function extractSection(markdown, sectionTitle) {
+                console.log('[HELP] extractSection called for:', sectionTitle);
+                // Match ## SectionTitle followed by optional \r and \n, then capture everything until the next ## or end
+                const regex = new RegExp(`## ${sectionTitle}\\r?\\n([\\s\\S]*?)(?=\\r?\\n## |$)`, 'i');
+                const match = markdown.match(regex);
+
+                if (match && match[1]) {
+                    console.log('[HELP] Section found, length:', match[1].length);
+                    return `## ${sectionTitle}\n${match[1].trim()}`;
+                }
+
+                console.warn('[HELP] Section not found in markdown. Available sections:',
+                    markdown.match(/## [^\r\n]+/g));
+                return null;
+            }
+
+            /**
+             * Override showHelpModal to load from README.md using markdown parser
+             * @param {string} sectionTitle - The heading from README to load (e.g., "How to Use")
+             */
+            async function showHelpModal(sectionTitle) {
+                console.log('[HELP] showHelpModal called with section:', sectionTitle);
+
+                // Check if marked.js is loaded
+                if (typeof marked === 'undefined') {
+                    console.error('[HELP] ERROR: marked.js library not loaded!');
+                    alert('Error: Markdown parser not loaded. Please reload the page.');
+                    return;
+                }
+
+                const modal = document.getElementById('helpmodal');
+                const contentDiv = document.getElementById('helpContent');
+
+                if (!modal) {
+                    console.error('[HELP] Modal element not found!');
+                    alert('Error: Help modal element not found in page');
+                    return;
+                }
+                if (!contentDiv) {
+                    console.error('[HELP] Content div not found!');
+                    alert('Error: Help content div not found in page');
+                    return;
+                }
+
+                // Show loading state
+                contentDiv.innerHTML = '<p style="text-align: center; color: #999;">Loading...</p>';
+                modal.classList.remove('w3-nodisplay');
+                console.log('[HELP] Modal shown with loading state');
+
+                try {
+                    console.log('[HELP] Fetching README...');
+                    const readme = await fetchReadme();
+
+                    if (!readme) {
+                        console.error('[HELP] README fetch returned null');
+                        contentDiv.innerHTML = '<p style="color: #d32f2f;">Failed to load help content. Please check your internet connection or the README.md file.</p>';
+                        return;
+                    }
+
+                    console.log('[HELP] README fetched, extracting section:', sectionTitle);
+
+                    // Extract the requested section
+                    const section = extractSection(readme, sectionTitle);
+
+                    if (!section) {
+                        console.error('[HELP] Section not found:', sectionTitle);
+                        contentDiv.innerHTML = `<p style="color: #d32f2f;">Section "${sectionTitle}" not found in README.md</p>`;
+                        return;
+                    }
+
+                    console.log('[HELP] Section extracted, rendering markdown...');
+
+                    // Render markdown to HTML using marked.js
+                    const html = marked.parse(section);
+                    contentDiv.innerHTML = html;
+                    console.log('[HELP] Markdown rendered successfully');
+
+                } catch (error) {
+                    console.error('[HELP] Error loading help modal:', error);
+                    contentDiv.innerHTML = '<p style="color: #d32f2f;">Error loading help content: ' + error.message + '</p>';
+                }
+            }
+
+            /**
+             * Application initialization script
+             * 
+             * This async IIFE (Immediately Invoked Function Expression) handles the critical
+             * startup sequence for the card maker application.
+             * 
+             * Key concepts demonstrated:
+             * 1. Async/Await: Modern JavaScript for handling asynchronous operations
+             * 2. IIFE Pattern: (async function() { })() - runs immediately, creating isolated scope
+             * 3. Dependency Management: Ensures assets.json loads BEFORE the rest of the app
+             * 
+             * Why this matters:
+             * - The blockList and blockDefaults are now in assets.json (external file)
+             * - The main JavaScript (tm_cm.js) needs this data to work
+             * - We must load assets.json first, then proceed with normal initialization
+             * - Using async/await ensures proper sequencing without callback hell
+             * 
+             * Flow:
+             * 1. Load assets.json → populate blockList and blockDefaults
+             * 2. Check for project URL parameter (for sharing/loading projects)
+             * 3. Check for previously loaded project in localStorage
+             * 4. Otherwise, load autosave or start fresh
+             */
+            (async function initApp() {
+                try {
+                    // Step 1: Load assets from external JSON file
+                    // This populates blockList and blockDefaults used throughout the app
+                    const assetsLoaded = await loadAssets();
+                    if (!assetsLoaded) {
+                        console.error('Failed to load assets, cannot initialize');
+                        return;
+                    }
+
+                    /**
+                     * Step 2-4: Handle initialization based on context
+                     * 
+                     * Three possible startup scenarios:
+                     * a) URL parameter with project to load (sharing feature)
+                     * b) Previously loaded project saved in localStorage
+                     * c) Default: load autosave or start fresh
+                     */
+
+                    // Scenario A: Project URL parameter provided (e.g., ?project=https://...)
+                    if (projectUrl && projectUrl != "") {
+                        // Save to localStorage so it persists after redirect
+                        localStorage.setItem("loadedProjectUrl", projectUrl);
+                        // Redirect to clean URL without query parameters
+                        // Why? Query parameters can cause issues on reload or when creating new projects
+                        window.location.assign(location.protocol + '//' + location.host + location.pathname);
+                    }
+                    // Scenario B: Previously loaded project exists in localStorage
+                    else if (loadedProjectUrl && loadedProjectUrl != "") {
+                        resetProject(false); // Don't load autosave
+                        loadInitialProject(loadedProjectUrl); // Load the specified project
+                    }
+                    // Scenario C: Normal startup - load autosave if it exists
+                    else {
+                        // resetProject(true) will attempt to load from localStorage autosave
+                        // If no autosave exists, starts with a blank project
+                        resetProject(true);
+                    }
+                } catch (error) {
+                    // Catch any errors during initialization and show user-friendly message
+                    console.error('Error during app initialization:', error);
+                    alert('Failed to initialize application. Check console for details.');
+                }
+            })();
+        </script>
 
 </body>
+
 </html>

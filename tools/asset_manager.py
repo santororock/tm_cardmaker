@@ -258,7 +258,8 @@ try:
         QFont,                  # Font properties
         QUndoStack, QUndoCommand,  # Undo/redo system
         QPainter,               # 2D drawing context
-        QBrush, QColor, QPen    # Drawing properties
+        QBrush, QColor, QPen,   # Drawing properties
+        QDrag                  # Drag-and-drop support
     )
 except ImportError:
     # Clean error message if PySide6 not installed
@@ -572,10 +573,10 @@ class AssetDocument:
     def get_sprite_image_path(self, sprite: Dict[str, Any]) -> Optional[Path]:
         """Resolve sprite src to actual image file path
         
-        Sprite folder should be set to the project root (parent of blocks/ folder).
-        This allows the tool to find images at: sprite_folder/putUnder/src.png
-        Example: If putUnder="blocks/templates" and src="templates__green_normal",
-                 looks for: sprite_folder/blocks/templates/templates__green_normal.png
+        Sprite folder should be set to the blocks folder.
+        This allows the tool to find images at: sprite_folder/category/src.png
+        Example: If putUnder="templates" and src="templates__green_normal",
+                 looks for: sprite_folder/templates/templates__green_normal.png
         """
         if self.sprite_folder is None or "src" not in sprite:
             return None
@@ -583,7 +584,13 @@ class AssetDocument:
         src = sprite["src"]
         put_under = sprite.get("putUnder", "")
         
-        # Primary: putUnder/src.png (e.g., blocks/templates/templates__green_normal.png)
+        # Strip 'blocks/' prefix from putUnder if present (for backwards compatibility)
+        if put_under.startswith("blocks/"):
+            put_under = put_under[7:]  # Remove 'blocks/' prefix
+        elif put_under.startswith("blocks\\"):
+            put_under = put_under[7:]  # Remove 'blocks\' prefix
+        
+        # Primary: category/src.png (e.g., templates/templates__green_normal.png)
         if put_under:
             path = self.sprite_folder / put_under / f"{src}.png"
             if path.exists():
@@ -627,6 +634,7 @@ class AssetDocument:
         """Validate asset data and return list of issues"""
         issues = []
         src_counts = {}
+        virtual_srcs = {"debug_sprite_sheet"}
         
         for i, sprite in enumerate(self.data["blockList"]):
             # Check required fields
@@ -640,7 +648,7 @@ class AssetDocument:
                 src_counts[src] = src_counts.get(src, 0) + 1
                 
                 # Check image exists
-                if self.sprite_folder:
+                if self.sprite_folder and src not in virtual_srcs:
                     path = self.get_sprite_image_path(sprite)
                     if path is None or not path.exists():
                         issues.append(ValidationIssue(
@@ -660,7 +668,7 @@ class AssetDocument:
                 ))
                 
             # Check optional but recommended fields
-            if "width" not in sprite or "height" not in sprite:
+            if ("width" not in sprite or "height" not in sprite) and sprite.get("src") not in virtual_srcs:
                 issues.append(ValidationIssue(
                     "info",
                     f"Sprite '{sprite.get('src', '?')}': Missing width/height",
@@ -670,7 +678,10 @@ class AssetDocument:
             # Validate otherbg reference
             if "otherbg" in sprite:
                 otherbg = sprite["otherbg"]
-                if not any(s.get("src") == otherbg for s in self.data["blockList"]):
+                if not any(
+                    s.get("src") == otherbg or s.get("text") == otherbg
+                    for s in self.data["blockList"]
+                ):
                     issues.append(ValidationIssue(
                         "warning",
                         f"Sprite '{sprite.get('src', '?')}': otherbg '{otherbg}' not found",
@@ -702,8 +713,8 @@ class AssetDocument:
     def get_thumbnail_folder(self, sprite: Dict[str, Any]) -> Optional[Path]:
         """Get thumbnail directory for a sprite
         
-        Structure: blocks/category/blockname/
-        Example: blocks/templates/templates__green_normal/
+        Structure: category/blockname/
+        Example: templates/templates__green_normal/
         """
         if self.sprite_folder is None or "src" not in sprite:
             return None
@@ -711,14 +722,14 @@ class AssetDocument:
         src = sprite["src"]
         put_under = sprite.get("putUnder", "")
         
-        # Normalize the path
+        # Strip 'blocks/' prefix from putUnder if present
         if put_under.startswith("blocks/"):
             put_under = put_under[7:]
         elif put_under.startswith("blocks\\"):
             put_under = put_under[7:]
             
-        # Return blocks/{category}/{blockname}/
-        return self.sprite_folder / "blocks" / put_under / src
+        # Return {category}/{blockname}/
+        return self.sprite_folder / put_under / src
     
     def get_thumbnail_path(self, sprite: Dict[str, Any], size: int = 64) -> Optional[Path]:
         """Get path to thumbnail of specific size
@@ -923,32 +934,55 @@ class AssetDocument:
         
         for png_file in folder.rglob("*.png"):
             stem = png_file.stem
-            if stem not in existing_srcs:
-                # Try to read dimensions
-                width, height = None, None
-                try:
-                    image = QImage(str(png_file))
-                    if not image.isNull():
-                        width, height = image.width(), image.height()
-                except:
-                    pass
-                    
-                # Infer category from folder structure
-                relative = png_file.relative_to(folder)
-                category = str(relative.parent) if len(relative.parts) > 1 else "misc"
-                if category == ".":
-                    category = "misc"
-                    
-                new_sprite = {
-                    "putUnder": category,
-                    "text": stem.replace("_", " ").title(),
-                    "src": stem,
-                }
-                if width and height:
-                    new_sprite["width"] = width
-                    new_sprite["height"] = height
-                    
-                new_sprites.append(new_sprite)
+            
+            # Skip thumbnails: files with pattern {name}_{size}.png where size is 32, 64, 128, or 256
+            if stem.endswith(('_32', '_64', '_128', '_256')):
+                continue
+            
+            # Skip if already in assets.json
+            if stem in existing_srcs:
+                continue
+            
+            # Skip files inside subdirectories that match the thumbnail folder pattern
+            # Thumbnail folders are: blocks/{category}/{blockname}/
+            relative = png_file.relative_to(folder)
+            if len(relative.parts) > 2:  # More than "blocks/category/file.png"
+                # Check if parent directory name matches the file stem
+                parent_name = relative.parts[-2]
+                # Extract base name without the size suffix
+                base_stem = stem
+                for suffix in ['_32', '_64', '_128', '_256']:
+                    if base_stem.endswith(suffix):
+                        base_stem = base_stem[:-len(suffix)]
+                        break
+                # If the parent folder matches the base file name, it's a thumbnail
+                if parent_name == base_stem:
+                    continue
+            
+            # Try to read dimensions
+            width, height = None, None
+            try:
+                image = QImage(str(png_file))
+                if not image.isNull():
+                    width, height = image.width(), image.height()
+            except:
+                pass
+                
+            # Infer category from folder structure
+            category = str(relative.parent) if len(relative.parts) > 1 else "misc"
+            if category == ".":
+                category = "misc"
+                
+            new_sprite = {
+                "putUnder": category,
+                "text": stem.replace("_", " ").title(),
+                "src": stem,
+            }
+            if width and height:
+                new_sprite["width"] = width
+                new_sprite["height"] = height
+                
+            new_sprites.append(new_sprite)
                 
         return new_sprites
 
@@ -1860,6 +1894,10 @@ class PropertyEditor(QWidget):
         # Connect column resize to update thumbnails
         self.table.horizontalHeader().sectionResized.connect(self.on_column_resized)
         
+        # Add context menu for table
+        self.table.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.table.customContextMenuRequested.connect(self.show_table_context_menu)
+        
         multi_layout.addWidget(self.table)
         
         # Stack layouts
@@ -2016,7 +2054,27 @@ class PropertyEditor(QWidget):
             row_layout.addStretch()
         
         self.form.addRow(thumb_grid_widget)
+        
+        # Add Generate Thumbnails button
+        gen_thumb_btn = QPushButton("Generate/Update Thumbnails")
+        gen_thumb_btn.clicked.connect(lambda: self.generate_thumbnails_for_sprite(index))
+        gen_thumb_btn.setStyleSheet("padding: 8px; font-weight: bold;")
+        self.form.addRow("", gen_thumb_btn)
             
+    def generate_thumbnails_for_sprite(self, index: int):
+        """Generate thumbnails for a single sprite"""
+        sprite = self.document.get_sprite(index)
+        if not sprite:
+            return
+        
+        success = self.document.generate_thumbnail(sprite)
+        if success:
+            QMessageBox.information(self, "Success", "Thumbnails generated successfully!")
+            # Refresh the view to show new thumbnails
+            self.show_single_editor(index)
+        else:
+            QMessageBox.warning(self, "Error", "Failed to generate thumbnails. Check that PIL/Pillow is installed.")
+    
     def show_multi_editor(self, indices: List[int]):
         """Show table editor for multiple sprites"""
         self.single_editor.hide()
@@ -2090,6 +2148,48 @@ class PropertyEditor(QWidget):
                 thumb_label = self.table.cellWidget(row, 0)
                 if isinstance(thumb_label, QLabel):
                     thumb_label.setPixmap(pixmap)
+    
+    def show_table_context_menu(self, pos: QPoint):
+        """Show right-click context menu for table view"""
+        # Check if we have selected rows
+        selected_rows = set(item.row() for item in self.table.selectedItems())
+        if not selected_rows:
+            return
+        
+        menu = QMenu(self)
+        action = menu.addAction("Generate/Update Thumbnails")
+        action.triggered.connect(lambda: self.generate_thumbnails_for_selected())
+        menu.exec(self.table.viewport().mapToGlobal(pos))
+    
+    def generate_thumbnails_for_selected(self):
+        """Generate thumbnails for selected sprites in table view"""
+        selected_rows = set(item.row() for item in self.table.selectedItems())
+        if not selected_rows:
+            return
+        
+        success_count = 0
+        fail_count = 0
+        
+        for row in sorted(selected_rows):
+            if row < len(self.current_indices):
+                index = self.current_indices[row]
+                sprite = self.document.get_sprite(index)
+                if sprite:
+                    if self.document.generate_thumbnail(sprite):
+                        success_count += 1
+                    else:
+                        fail_count += 1
+        
+        # Show result message
+        if success_count > 0:
+            msg = f"Generated thumbnails for {success_count} sprite(s)."
+            if fail_count > 0:
+                msg += f"\n{fail_count} sprite(s) failed."
+            QMessageBox.information(self, "Thumbnail Generation", msg)
+            # Refresh the table to show new thumbnails
+            self.show_multi_editor(self.current_indices)
+        else:
+            QMessageBox.warning(self, "Error", "Failed to generate any thumbnails. Check that PIL/Pillow is installed.")
     
     def on_splitter_moved(self, pos: int, index: int):
         """Handle splitter movement to update thumbnail scaling"""
@@ -2242,11 +2342,12 @@ class MainWindow(QMainWindow):
         self.document = AssetDocument()
         self.settings = QSettings("TerraformingMars", "AssetManager")
         
-        # Auto-detect sprite folder (project root = parent of tools folder)
+        # Auto-detect sprite folder (blocks folder within project)
         script_dir = Path(__file__).parent  # tools/
         project_root = script_dir.parent     # project root
-        if project_root.exists():
-            self.document.sprite_folder = project_root
+        blocks_folder = project_root / "blocks"
+        if blocks_folder.exists():
+            self.document.sprite_folder = blocks_folder
         
         self.setup_ui()
         self.load_settings()
@@ -2274,6 +2375,8 @@ class MainWindow(QMainWindow):
         tools_menu = menubar.addMenu("&Tools")
         tools_menu.addAction("Set &Sprite Folder...", self.set_sprite_folder)
         tools_menu.addAction("&Scan for New Sprites...", self.scan_sprites, "Ctrl+N")
+        tools_menu.addSeparator()
+        tools_menu.addAction("Auto-Populate &Dimensions...", self.auto_populate_dimensions)
         tools_menu.addAction("&Validate", self.validate, "Ctrl+V")
         
         # Status bar
@@ -2355,11 +2458,22 @@ class MainWindow(QMainWindow):
         
     def update_status(self):
         """Update status bar"""
+        parts = []
+        
+        # Show sprite folder
+        if self.document.sprite_folder:
+            parts.append(f"Sprites: {self.document.sprite_folder}")
+        else:
+            parts.append("Sprites: Not set")
+        
+        # Show file info
         if self.document.file_path:
             count = len(self.document.data["blockList"])
-            self.statusBar.showMessage(f"{self.document.file_path} | {count} sprites")
+            parts.append(f"{self.document.file_path.name} ({count} sprites)")
         else:
-            self.statusBar.showMessage("No file loaded")
+            parts.append("No file loaded")
+        
+        self.statusBar.showMessage(" | ".join(parts))
             
     def open_file(self):
         """Open assets.json file"""
@@ -2446,16 +2560,17 @@ class MainWindow(QMainWindow):
         # Show helpful message
         QMessageBox.information(
             self, "Select Sprite Folder",
-            "Select the PROJECT ROOT folder (parent of the 'blocks' folder).\n\n"
-            "Example: If your sprites are in:\n"
-            "  /project/blocks/templates/template_name.png\n\n"
-            "Then select: /project/\n\n"
-            "The tool will use the 'putUnder' field (e.g., 'blocks/templates') "
-            "to locate images."
+            "Select the BLOCKS folder containing your sprite categories.\n\n"
+            "Example: If your sprites are organized as:\n"
+            "  /project/blocks/templates/template_name.png\n"
+            "  /project/blocks/VPs/VPs__0.png\n\n"
+            "Then select: /project/blocks/\n\n"
+            "The tool will use the 'putUnder' field to organize sprites "
+            "within category subfolders."
         )
         
         folder = QFileDialog.getExistingDirectory(
-            self, "Select Sprite Folder (Project Root)",
+            self, "Select Sprite Folder (Blocks Folder)",
             str(self.document.sprite_folder if self.document.sprite_folder else Path.home())
         )
         
@@ -2493,6 +2608,53 @@ class MainWindow(QMainWindow):
         issues = self.document.validate()
         dialog = ValidationDialog(issues, self)
         dialog.exec()
+    
+    def auto_populate_dimensions(self):
+        """Auto-populate missing width/height from image files"""
+        if self.document.sprite_folder is None:
+            QMessageBox.warning(
+                self, "No Sprite Folder",
+                "Please set sprite folder first (Tools → Set Sprite Folder)"
+            )
+            return
+        
+        updated_count = 0
+        failed_count = 0
+        
+        for i, sprite in enumerate(self.document.data["blockList"]):
+            # Skip if already has both width and height
+            if "width" in sprite and "height" in sprite:
+                continue
+            
+            # Try to read dimensions from image
+            image_path = self.document.get_sprite_image_path(sprite)
+            if image_path and image_path.exists():
+                try:
+                    from PySide6.QtGui import QImage
+                    image = QImage(str(image_path))
+                    if not image.isNull():
+                        sprite["width"] = image.width()
+                        sprite["height"] = image.height()
+                        updated_count += 1
+                        self.document.dirty = True
+                    else:
+                        failed_count += 1
+                except Exception as e:
+                    failed_count += 1
+            else:
+                failed_count += 1
+        
+        if updated_count > 0:
+            msg = f"Updated dimensions for {updated_count} sprite(s)."
+            if failed_count > 0:
+                msg += f"\n{failed_count} sprite(s) failed (image not found or unreadable)."
+            QMessageBox.information(self, "Auto-Populate Dimensions", msg)
+            self.refresh_all()
+        else:
+            msg = "No sprites needed dimension updates."
+            if failed_count > 0:
+                msg += f"\n{failed_count} sprite(s) have missing dimensions but image files could not be read."
+            QMessageBox.information(self, "Auto-Populate Dimensions", msg)
         
     def duplicate_selected(self):
         """Duplicate selected sprites"""

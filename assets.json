@@ -494,7 +494,7 @@
       "putUnder": "blocks/tags",
       "text": "Animal",
       "src": "tags__animal",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 445,
       "height": 445
     },
@@ -502,7 +502,7 @@
       "putUnder": "blocks/tags",
       "text": "Building",
       "src": "tags__building",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -510,7 +510,7 @@
       "putUnder": "blocks/tags",
       "text": "City",
       "src": "tags__city",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -518,7 +518,7 @@
       "putUnder": "blocks/tags",
       "text": "Earth",
       "src": "tags__earth",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 455,
       "height": 454
     },
@@ -526,7 +526,7 @@
       "putUnder": "blocks/tags",
       "text": "Event",
       "src": "tags__event",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -534,7 +534,7 @@
       "putUnder": "blocks/tags",
       "text": "Galactic",
       "src": "tags__galactic",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -542,7 +542,7 @@
       "putUnder": "blocks/tags",
       "text": "Infrastructure",
       "src": "tags__infrastructure",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 447,
       "height": 444
     },
@@ -550,7 +550,7 @@
       "putUnder": "blocks/tags",
       "text": "Jovian",
       "src": "tags__jovian",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -558,7 +558,7 @@
       "putUnder": "blocks/tags",
       "text": "Mars",
       "src": "tags__mars",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 446,
       "height": 446
     },
@@ -566,7 +566,7 @@
       "putUnder": "blocks/tags",
       "text": "Microbe",
       "src": "tags__microbe",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -574,23 +574,15 @@
       "putUnder": "blocks/tags",
       "text": "Moon",
       "src": "tags__moon",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 445,
       "height": 445
     },
     {
       "putUnder": "blocks/tags",
-      "text": "Other",
-      "src": "tags__other_player_background",
-      "hidden": true,
-      "width": 290,
-      "height": 290
-    },
-    {
-      "putUnder": "blocks/tags",
       "text": "Planetary",
       "src": "tags__planetary",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -598,7 +590,7 @@
       "putUnder": "blocks/tags",
       "text": "Plant",
       "src": "tags__plant",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 445,
       "height": 445
     },
@@ -606,7 +598,7 @@
       "putUnder": "blocks/tags",
       "text": "Power",
       "src": "tags__power",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -614,7 +606,7 @@
       "putUnder": "blocks/tags",
       "text": "Radioactive",
       "src": "tags__radioactive",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -622,7 +614,7 @@
       "putUnder": "blocks/tags",
       "text": "Science",
       "src": "tags__science",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -630,7 +622,7 @@
       "putUnder": "blocks/tags",
       "text": "Space",
       "src": "tags__space",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -638,7 +630,7 @@
       "putUnder": "blocks/tags",
       "text": "Venus",
       "src": "tags__venus",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -646,7 +638,7 @@
       "putUnder": "blocks/tags",
       "text": "Wild",
       "src": "tags__wild",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -654,7 +646,7 @@
       "putUnder": "blocks/tags",
       "text": "Multitag",
       "src": "tags__multitag",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 444,
       "height": 444
     },
@@ -662,7 +654,7 @@
       "putUnder": "blocks/tags",
       "text": "Tourism",
       "src": "tags__tourism",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 107,
       "height": 107
     },
@@ -670,7 +662,7 @@
       "putUnder": "blocks/tags",
       "text": "Mercury",
       "src": "tags__mercury",
-      "otherbg": "tag_otherbg",
+      "otherbg": "tags_otherbg",
       "width": 405,
       "height": 405
     },
@@ -869,48 +861,42 @@
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__1x1",
       "text": "Productionboxes  1X1",
-      "width": 799,
-      "hidden": true
+      "width": 799
     },
     {
       "height": 686,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__1x1_5",
       "text": "Productionboxes  1X1 5",
-      "width": 900,
-      "hidden": true
+      "width": 900
     },
     {
       "height": 686,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__1x2",
       "text": "Productionboxes  1X2",
-      "width": 1210,
-      "hidden": true
+      "width": 1210
     },
     {
       "height": 1354,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__2x2",
       "text": "Productionboxes  2X2",
-      "width": 1431,
-      "hidden": true
+      "width": 1431
     },
     {
       "height": 1354,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__2x3",
       "text": "Productionboxes  2X3",
-      "width": 2017,
-      "hidden": true
+      "width": 2017
     },
     {
       "height": 2017,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__3x2",
       "text": "Productionboxes  3X2",
-      "width": 1354,
-      "hidden": true
+      "width": 1354
     },
     {
       "height": 798,
@@ -991,6 +977,21 @@
       "text": "Tiles  Restricted Area",
       "width": 409,
       "otherbg": "otherbg"
+    },
+    {
+      "height": 123,
+      "putUnder": "blocks/expansions",
+      "src": "expansions__prelude",
+      "text": "Expansions  Prelude",
+      "width": 112
+    },
+    {
+      "height": 290,
+      "putUnder": "blocks/tags",
+      "src": "tags__otherbg",
+      "text": "tags_otherbg",
+      "width": 292,
+      "hidden": true
     }
   ],
   "blockDefaults": {
