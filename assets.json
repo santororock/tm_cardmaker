@@ -142,7 +142,7 @@
     },
     {
       "putUnder": "blocks/misc",
-      "text": "Tag Holder",
+      "text": "Corp Tag Holder",
       "src": "misc__corp_tag_holder",
       "width": 243,
       "height": 84
@@ -979,11 +979,11 @@
       "otherbg": "otherbg"
     },
     {
-      "height": 123,
+      "height": 150,
       "putUnder": "blocks/expansions",
       "src": "expansions__prelude",
       "text": "Prelude",
-      "width": 112
+      "width": 150
     },
     {
       "height": 290,
@@ -992,6 +992,20 @@
       "text": "tags_otherbg",
       "width": 292,
       "hidden": true
+    },
+    {
+      "height": 160,
+      "putUnder": "blocks/expansions",
+      "src": "expansions__colonies",
+      "text": "Colonies",
+      "width": 160
+    },
+    {
+      "height": 185,
+      "putUnder": "blocks/expansions",
+      "src": "expansions__venus_next",
+      "text": "Expansions  Venus Next",
+      "width": 185
     }
   ],
   "blockDefaults": {
@@ -1103,7 +1117,7 @@
         "label": "Description",
         "x": 413,
         "y": 643,
-        "height": 22,
+        "height": 24,
         "lineSpace": 4,
         "color": "#000000",
         "font": "Pagella",
@@ -1115,7 +1129,7 @@
         "label": "Flavor Text",
         "x": 413,
         "y": 1005,
-        "height": 22,
+        "height": 24,
         "lineSpace": 4,
         "color": "#000000",
         "font": "Pagella",
@@ -1139,7 +1153,7 @@
         "data": "P R E L U D E",
         "x": 563,
         "y": 99,
-        "height": 22,
+        "height": 24,
         "color": "#000000",
         "font": "Prototype",
         "style": "normal",
@@ -1163,12 +1177,38 @@
         "data": "E F F E C T",
         "x": 800,
         "y": 333,
-        "height": 22,
+        "height": 24,
         "color": "#000000",
         "font": "Prototype",
         "style": "normal",
         "weight": "normal",
         "justify": "center"
+      },
+      {
+        "label": "Card Number",
+        "x": 716,
+        "y": 805,
+        "width": 60,
+        "height": 17,
+        "color": "#4D4D4D",
+        "font": "Prototype",
+        "style": "normal",
+        "weight": "normal",
+        "justify": "center",
+        "data": "X##"
+      },
+      {
+        "label": "Card Number Prelude",
+        "x": 1002,
+        "y": 519,
+        "width": 60,
+        "height": 17,
+        "color": "#4D4D4D",
+        "font": "Prototype",
+        "style": "normal",
+        "weight": "normal",
+        "justify": "center",
+        "data": "X##"
       }
     ],
     "resources": [

@@ -1013,6 +1013,9 @@ class AssetDocument:
             category = str(relative.parent) if len(relative.parts) > 1 else "misc"
             if category == ".":
                 category = "misc"
+            category = category.replace("\\", "/")
+            if not category.startswith("blocks/"):
+                category = f"blocks/{category}"
                 
             new_sprite = {
                 "putUnder": category,

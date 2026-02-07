@@ -227,7 +227,7 @@
                 </div>
                 <a onclick="clickLoadFont()" href="#" class="w3-bar-item w3-button">Add Web Font</a>
                 <a onclick="addTextBox()" href="#" class="w3-bar-item w3-button">Text box</a>
-                <a onclick="addProduction()" href="#" class="w3-bar-item w3-button">Production box (dynamic)</a>
+                <a onclick="addProduction()" href="#" class="w3-bar-item w3-button">Production box (expandable)</a>
                 <a onclick="addEffectBox()" href="#" class="w3-bar-item w3-button">Effect box</a>
                 <a onclick="addLine()" href="#" class="w3-bar-item w3-button">Line</a>
                 <div id="blocksMenu"></div>
@@ -276,12 +276,55 @@
                     <button onclick="zoomCanvasReset()">Reset</button>
                     <button onclick="zoomCanvasIn()">+</button>
                     <span id="zoomLevel">100%</span>
+                    <button id="openShortcutsBtn" title="Show keyboard shortcuts">Hotkeys ⌨</button>
                 </div>
                 <div id="canvasScrollarea">
                     <div id="canvasScrollinner">
                         <div id="canvaswrap" style="position:relative;">
+                            <div id="hotkeyHint">Press ? for shortcuts</div>
                             <canvas id="cmcanvas" height="1050px" width="750px" style="border:1px solid #101010; display:block;"></canvas>
                             <canvas id="cmcanvas_overlay" class="debug-overlay-canvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hotkeys modal -->
+            <div id="shortcutsModal" class="w3-modal" aria-hidden="true">
+                <div class="w3-modal-content w3-card-4">
+                    <header class="w3-container w3-light-grey">
+                        <span id="closeShortcutsBtn" class="w3-button w3-display-topright" title="Close">&times;</span>
+                        <h3>Keyboard Shortcuts</h3>
+                    </header>
+                    <div class="w3-container" style="padding-bottom: 16px;">
+                        <div class="hotkeys-section">
+                            <h4>Canvas</h4>
+                            <ul class="hotkeys-list">
+                                <li><span class="hotkey">Space + Left Drag</span> Pan canvas</li>
+                                <li><span class="hotkey">Alt + Mouse Wheel</span> Zoom</li>
+                                <li><span class="hotkey">+</span> / <span class="hotkey">-</span> Zoom in/out (10%)</li>
+                                <li><span class="hotkey">F</span> Reset view (fit)</li>
+                                <li><span class="hotkey">?</span> Show this dialog</li>
+                            </ul>
+                        </div>
+                        <div class="hotkeys-section">
+                            <h4>Editing</h4>
+                            <ul class="hotkeys-list">
+                                <li><span class="hotkey">Ctrl</span>/<span class="hotkey">Cmd</span> + <span class="hotkey">Z</span> Undo</li>
+                                <li><span class="hotkey">Ctrl</span>/<span class="hotkey">Cmd</span> + <span class="hotkey">Shift</span> + <span class="hotkey">Z</span> Redo</li>
+                                <li><span class="hotkey">Ctrl</span>/<span class="hotkey">Cmd</span> + <span class="hotkey">Y</span> Redo</li>
+                            </ul>
+                        </div>
+                        <div class="hotkeys-section">
+                            <h4>Layer Movement (when a layer is focused)</h4>
+                            <ul class="hotkeys-list">
+                                <li><span class="hotkey">Arrow Keys</span> Move by 1px</li>
+                                <li><span class="hotkey">Shift</span> + <span class="hotkey">Arrow</span> Move by 25px</li>
+                                <li><span class="hotkey">Alt</span> + <span class="hotkey">Arrow</span> Resize</li>
+                                <li><span class="hotkey">Alt</span> + <span class="hotkey">Shift</span> + <span class="hotkey">Arrow</span> Resize by 25px</li>
+                                <li><span class="hotkey">Alt</span> + <span class="hotkey">Up/Down</span> (Text) Adjust font size</li>
+                                <li><span class="hotkey">Alt</span> + <span class="hotkey">Left/Right</span> (Text) Adjust wrap width</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -411,6 +454,7 @@
             const canvasScrollarea = document.getElementById('canvasScrollarea');
             const canvasScrollinner = document.getElementById('canvasScrollinner');
             const zoomLevelDisplay = document.getElementById('zoomLevel');
+            let isEditingZoom = false;
 
             // Center the canvas in the visible viewport
             function centerCanvas() {
@@ -505,8 +549,122 @@
                     canvasScrollinner.style.transform = `scale(${canvasZoom})`;
                 }
 
-                zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
+                if (!isEditingZoom) {
+                    zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
+                }
             }
+
+            function applyZoomFromInput(inputValue) {
+                const rawValue = String(inputValue).trim().replace('%', '');
+                if (!rawValue) return;
+                const parsed = Number(rawValue);
+                if (Number.isNaN(parsed)) return;
+
+                let nextZoom = parsed / 100;
+                let clamped = false;
+
+                if (nextZoom > maxZoom) {
+                    nextZoom = maxZoom;
+                    clamped = true;
+                } else if (nextZoom < minZoom) {
+                    nextZoom = minZoom;
+                    clamped = true;
+                }
+
+                if (clamped) {
+                    alert(`Zoom limit is ${Math.round(minZoom * 100)}% - ${Math.round(maxZoom * 100)}%. Using nearest limit.`);
+                }
+
+                canvasZoom = nextZoom;
+                updateCanvasZoom();
+            }
+
+            function startZoomEdit() {
+                if (!zoomLevelDisplay || isEditingZoom) return;
+                isEditingZoom = true;
+
+                const currentValue = Math.round(canvasZoom * 100);
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = `${currentValue}%`;
+                input.setAttribute('aria-label', 'Zoom level');
+                input.style.width = '60px';
+                input.style.fontSize = '12px';
+                input.style.textAlign = 'center';
+                input.style.padding = '2px 4px';
+
+                zoomLevelDisplay.textContent = '';
+                zoomLevelDisplay.appendChild(input);
+                input.focus();
+                input.select();
+
+                const finish = (applyValue) => {
+                    if (applyValue) {
+                        applyZoomFromInput(input.value);
+                    }
+                    isEditingZoom = false;
+                    zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
+                };
+
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        finish(true);
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        finish(false);
+                    }
+                });
+
+                input.addEventListener('blur', () => finish(true));
+            }
+
+            zoomLevelDisplay.addEventListener('click', () => {
+                startZoomEdit();
+            });
+
+            const shortcutsModal = document.getElementById('shortcutsModal');
+            const openShortcutsBtn = document.getElementById('openShortcutsBtn');
+            const closeShortcutsBtn = document.getElementById('closeShortcutsBtn');
+
+            function openShortcuts() {
+                if (!shortcutsModal) return;
+                shortcutsModal.style.display = 'block';
+                shortcutsModal.setAttribute('aria-hidden', 'false');
+            }
+
+            function closeShortcuts() {
+                if (!shortcutsModal) return;
+                shortcutsModal.style.display = 'none';
+                shortcutsModal.setAttribute('aria-hidden', 'true');
+            }
+
+            if (openShortcutsBtn) {
+                openShortcutsBtn.addEventListener('click', openShortcuts);
+            }
+            if (closeShortcutsBtn) {
+                closeShortcutsBtn.addEventListener('click', closeShortcuts);
+            }
+            if (shortcutsModal) {
+                shortcutsModal.addEventListener('click', (e) => {
+                    if (e.target === shortcutsModal) {
+                        closeShortcuts();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (isEditableTarget(e.target)) return;
+                if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+                    e.preventDefault();
+                    openShortcuts();
+                } else if (e.key === 'Escape') {
+                    if (shortcutsModal && shortcutsModal.style.display === 'block') {
+                        e.preventDefault();
+                        closeShortcuts();
+                    }
+                }
+            });
 
             function zoomCanvasIn(mouseX, mouseY) {
                 const oldZoom = canvasZoom;
@@ -563,9 +721,9 @@
                 centerCanvas();
             }
 
-            // Mousewheel zoom (zoom to cursor position)
+            // Mousewheel zoom (zoom to cursor position) - Alt + wheel
             canvasScrollarea.addEventListener('wheel', (e) => {
-                if (e.ctrlKey || e.metaKey) {
+                if (e.altKey) {
                     e.preventDefault();
                     if (e.deltaY < 0) {
                         zoomCanvasIn(e.clientX, e.clientY);
@@ -577,25 +735,73 @@
                 passive: false
             });
 
-            // Pan/drag canvas (ctrl + left-click)
+            // Pan/drag canvas (Space + left-click)
             let isPanning = false;
+            let isSpacePressed = false;
+            let isCanvasHovered = false;
             let startX = 0;
             let startY = 0;
             let scrollLeft = 0;
             let scrollTop = 0;
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+
+            function isEditableTarget(target) {
+                if (!target) return false;
+                const tag = target.tagName ? target.tagName.toLowerCase() : '';
+                return tag === 'input' || tag === 'textarea' || tag === 'select' || target.isContentEditable;
+            }
+
+            function updatePanCursor() {
+                if (isPanning) {
+                    canvaswrap.classList.add('grabbing');
+                    canvasScrollarea.classList.add('grabbing');
+                    canvaswrap.classList.remove('pan-mode');
+                    canvasScrollarea.classList.remove('pan-mode');
+                    return;
+                }
+                canvaswrap.classList.remove('grabbing');
+                canvasScrollarea.classList.remove('grabbing');
+                if (isSpacePressed && isCanvasHovered) {
+                    canvaswrap.classList.add('pan-mode');
+                    canvasScrollarea.classList.add('pan-mode');
+                } else {
+                    canvaswrap.classList.remove('pan-mode');
+                    canvasScrollarea.classList.remove('pan-mode');
+                }
+            }
+
+            canvasScrollarea.addEventListener('mouseenter', () => {
+                isCanvasHovered = true;
+                updatePanCursor();
+            });
+
+            canvasScrollarea.addEventListener('mouseleave', () => {
+                isCanvasHovered = false;
+                if (!isPanning) {
+                    canvaswrap.classList.remove('pan-mode');
+                    canvasScrollarea.classList.remove('pan-mode');
+                }
+            });
+
+            canvasScrollarea.addEventListener('mousemove', (e) => {
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+            });
 
             canvasScrollarea.addEventListener('mousedown', (e) => {
-                // Only pan if ctrl is held and left mouse button
-                if (e.ctrlKey && e.button === 0) {
+                // Only pan if space is held and left mouse button
+                if (isSpacePressed && e.button === 0) {
                     isPanning = true;
                     startX = e.pageX - canvasScrollarea.offsetLeft;
                     startY = e.pageY - canvasScrollarea.offsetTop;
                     scrollLeft = canvasScrollarea.scrollLeft;
                     scrollTop = canvasScrollarea.scrollTop;
-                    canvasScrollarea.classList.add('grabbing');
+                    updatePanCursor();
                     e.preventDefault();
+                    e.stopPropagation();
                 }
-            });
+            }, true);
 
             document.addEventListener('mousemove', (e) => {
                 if (!isPanning) return;
@@ -611,7 +817,42 @@
             document.addEventListener('mouseup', () => {
                 if (isPanning) {
                     isPanning = false;
-                    canvasScrollarea.classList.remove('grabbing');
+                    updatePanCursor();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (isEditableTarget(e.target)) return;
+
+                if (e.key === ' ') {
+                    isSpacePressed = true;
+                    updatePanCursor();
+                    e.preventDefault();
+                    return;
+                }
+
+                if (!isCanvasHovered) return;
+
+                if (e.key === 'f' || e.key === 'F') {
+                    e.preventDefault();
+                    zoomCanvasReset();
+                } else if (e.key === '+' || e.key === '=') {
+                    e.preventDefault();
+                    zoomCanvasIn(lastMouseX, lastMouseY);
+                } else if (e.key === '-' || e.key === '_') {
+                    e.preventDefault();
+                    zoomCanvasOut(lastMouseX, lastMouseY);
+                }
+            });
+
+            document.addEventListener('keyup', (e) => {
+                if (e.key === ' ') {
+                    isSpacePressed = false;
+                    if (isPanning) {
+                        isPanning = false;
+                    }
+                    updatePanCursor();
+                    e.preventDefault();
                 }
             });
         </script>
@@ -701,6 +942,7 @@
                     const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
                     rightPanel.style.width = constrainedWidth + 'px';
                     handle.style.right = constrainedWidth + 'px';
+                    document.documentElement.style.setProperty('--right-panel-width', constrainedWidth + 'px');
                     localStorage.setItem(storageKey, constrainedWidth);
                 }
 
