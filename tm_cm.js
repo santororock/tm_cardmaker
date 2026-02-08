@@ -1127,6 +1127,22 @@ function selectLayer() {
     try { drawProject(); } catch (e) {}
 }
 
+function deselectAllLayers() {
+    let selectedNodes = document.getElementsByClassName("selected");
+    for (let i = selectedNodes.length - 1; i >= 0; i--) {
+        let node = selectedNodes[i];
+        if (typeof domParams !== 'undefined' && domParams.parentNode === node) {
+            node.removeChild(domParams);
+        }
+        node.classList.remove("selected");
+        let buttons = node.getElementsByTagName("button");
+        if (buttons.length) {
+            buttons[0].style.display = "block";
+        }
+    }
+    try { drawProject(); } catch (e) {}
+}
+
 // ========== UNDO SYSTEM ==========
 // Clear undo history and prepare for a fresh start
 function clearUndoHistory() {
@@ -3291,6 +3307,16 @@ var elem = document.getElementById('cmcanvas'),
 elem.addEventListener("mousedown", dragStart, false);
 elem.addEventListener("mouseup", dragEnd, false);
 elem.addEventListener("mousemove", drag, false);
+
+var scrollArea = document.getElementById('canvasScrollarea');
+var scrollInner = document.getElementById('canvasScrollinner');
+if (scrollArea) {
+    scrollArea.addEventListener("mousedown", function(event) {
+        if (event.target === scrollArea || event.target === scrollInner) {
+            deselectAllLayers();
+        }
+    }, false);
+}
 
 // Center the canvas in the scrollable area on load
 function centerCanvas() {

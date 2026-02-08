@@ -340,7 +340,7 @@
             <div id="rightPanel" style="position: fixed; right: 0; top: 0; width: 340px; height: 100vh; overflow-y: auto; background: white; border-left: 1px solid #ddd; padding: 16px; z-index: 200; box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);">
                 <!-- Debug Controls -->
                 <div id="debugcontrols" style="margin-bottom:8px;">
-                    <label style="white-space:nowrap;"><input id="debugBounds" type="checkbox" onchange="window.debugOverlay && window.debugOverlay.toggle(this.checked)"> Debug bounds</label>
+                    <label style="white-space:nowrap;"><input id="debugBounds" type="checkbox" checked onchange="window.debugOverlay && window.debugOverlay.toggle(this.checked)"> Debug bounds</label>
                     <select id="debugMode" onchange="window.debugOverlay && window.debugOverlay.setMode(this.value)">
           <option value="selected">Selected</option>
           <option value="all">All</option>
