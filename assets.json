@@ -1011,8 +1011,22 @@
       "height": 185,
       "putUnder": "blocks/expansions",
       "src": "expansions__venus_next",
-      "text": "Expansions  Venus Next",
+      "text": "Venus Next",
       "width": 185
+    },
+    {
+      "height": 160,
+      "putUnder": "blocks/expansions",
+      "src": "expansions__corporate_era",
+      "text": "Corporate Era",
+      "width": 160
+    },
+    {
+      "height": 180,
+      "putUnder": "blocks/expansions",
+      "src": "expansions_turmoil",
+      "text": "Turmoil",
+      "width": 180
     }
   ],
   "blockDefaults": {
