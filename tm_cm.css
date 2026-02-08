@@ -293,7 +293,6 @@ body {
     #canvaswrap.pan-mode {
         cursor: grab;
     }
-
     #canvasScrollarea.pan-mode {
         cursor: grab;
     }
@@ -588,7 +587,7 @@ select,
 textarea,
 optgroup {
     font: inherit;
-    margin: 0
+    margin: 0;
 }
 
 optgroup {

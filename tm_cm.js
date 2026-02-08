@@ -271,6 +271,7 @@ var megaTemplates = {
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 612, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 716, y: 667, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },
@@ -283,6 +284,7 @@ var megaTemplates = {
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 562, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 716, y: 617, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },
@@ -295,6 +297,7 @@ var megaTemplates = {
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 664, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 716, y: 720, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },
@@ -309,6 +312,7 @@ var megaTemplates = {
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 860, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
+            { type: "text", data: "X##", x: 716, y: 805, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },
@@ -321,6 +325,7 @@ var megaTemplates = {
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 753, width: 702, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 860, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 716, y: 759, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
             { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
@@ -335,6 +340,7 @@ var megaTemplates = {
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 849, width: 702, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 891, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 716, y: 856, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
             { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
@@ -349,6 +355,7 @@ var megaTemplates = {
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 685, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 716, y: 713, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },
@@ -361,6 +368,7 @@ var megaTemplates = {
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 718, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 716, y: 745, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },
@@ -372,18 +380,18 @@ var megaTemplates = {
             { type: "text", data: "FAN MADE", x: 563, y: 500, width: 826, height: 22, color: "#ce809f", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "P R E L U D E", x: 563, y: 99, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 1002, y: 519, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", data: "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },
     corporation: {
         layers: [
             { type: "base", color: "#ffffff", height: 826, width: 1126, params: "color" },
-            //{type:"block", src:"2_for", x:969,y:103,width:257,height:89,params:"allimages"},
             { type: "block", src: "misc__corp_tag_holder", x: 969, y: 103, width: 257, height: 89, params: "allimages" },
             { type: "block", src: "templates__corporation", x: 0, y: 0, width: 1126, height: 826, params: "allimages allpreset" },
             { type: "effect", x: 600, y: 300, width: 400, height: 300, params: "allimages allpreset" },
-            //{type:"block", name: "", iNum: 97, x: 631, y: 307, width: 345.79, height: 36,params:"allimages"},
             { type: "block", name: "", src: "misc__effect", x: 631, y: 307, width: 345.79, height: 36, params: "allimages" },
+            { type: "block", name: "", src: "misc__card_number_box", x: 947, y: 607, width: 54, height: 27, params: "allimages" },
             { type: "text", data: "E F F E C T", x: 800, y: 333, width: 1126, height: 22, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", "data": "FAN MADE", x: 198, y: 736, width: 826, height: 22, color: "#c3c3c3", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", "data": "C O R P O R A T I O N", x: 563, y: 109, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
