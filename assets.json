@@ -1027,6 +1027,13 @@
       "src": "expansions_turmoil",
       "text": "Turmoil",
       "width": 180
+    },
+    {
+      "height": 155,
+      "putUnder": "blocks/expansions",
+      "src": "expansions_promo",
+      "text": "Promo",
+      "width": 155
     }
   ],
   "blockDefaults": {
