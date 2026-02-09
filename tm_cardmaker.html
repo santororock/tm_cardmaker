@@ -159,7 +159,7 @@
        
      See tm_cm.js > myAccFunc() for accordion toggle logic
 -->
-    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:180px" id="mySidebar">
+    <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3" id="mySidebar">
         <div class="w3-large w3-text-grey" style="font-weight:bold">
 
             <!-- MAIN HAMBURGER MENU: TM Cardmaker with Help, References, and GitHub -->
@@ -337,7 +337,7 @@
             <div id="paramsResizeHandle"></div>
 
             <!-- Right Sidebar Panel - Contains debug controls and layer list -->
-            <div id="rightPanel" style="position: fixed; right: 0; top: 0; width: 340px; height: 100vh; overflow-y: auto; background: white; border-left: 1px solid #ddd; padding: 16px; z-index: 200; box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);">
+            <div id="rightPanel" style="position: fixed; right: 0; top: 0; height: 100vh; overflow-y: auto; background: white; border-left: 1px solid #ddd; padding: 16px; z-index: 200; box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);">
                 <!-- Debug Controls -->
                 <div id="debugcontrols" style="margin-bottom:8px;">
                     <label style="white-space:nowrap;"><input id="debugBounds" type="checkbox" checked onchange="window.debugOverlay && window.debugOverlay.toggle(this.checked)"> Debug bounds</label>

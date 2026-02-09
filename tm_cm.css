@@ -48,8 +48,8 @@ body {
 }
 
 :root {
-    --sidebar-width: 180px;
-    --right-panel-width: 340px;
+    --sidebar-width: clamp(180px, 16vw, 320px);
+    --right-panel-width: clamp(280px, 22vw, 420px);
 }
 
 
