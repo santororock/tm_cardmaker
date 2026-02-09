@@ -396,6 +396,7 @@ var megaTemplates = {
             { type: "text", "data": "FAN MADE", x: 198, y: 736, width: 826, height: 22, color: "#c3c3c3", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", "data": "C O R P O R A T I O N", x: 563, y: 109, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", "data": "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
+            { type: "text", data: "X##", x: 973, y: 626, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
             { type: "text", "data": "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
         ]
     },

@@ -447,6 +447,7 @@
         <script>
             // Canvas zoom and scroll functionality
             let canvasZoom = 1;
+            let lastCanvasZoom = 1;
             const zoomStep = 0.1;
             const minZoom = 0.1;
             const maxZoom = 3;
@@ -514,8 +515,8 @@
                 }
             }
 
-            function updateCanvasZoom(mouseX, mouseY) {
-                const oldZoom = canvasZoom;
+            function updateCanvasZoom(mouseX, mouseY, oldZoomOverride) {
+                const oldZoom = (typeof oldZoomOverride === 'number') ? oldZoomOverride : canvasZoom;
 
                 // If mouse position is provided, zoom to that point
                 if (mouseX !== undefined && mouseY !== undefined) {
@@ -552,6 +553,7 @@
                 if (!isEditingZoom) {
                     zoomLevelDisplay.textContent = Math.round(canvasZoom * 100) + '%';
                 }
+                lastCanvasZoom = canvasZoom;
             }
 
             function applyZoomFromInput(inputValue) {
@@ -575,8 +577,14 @@
                     alert(`Zoom limit is ${Math.round(minZoom * 100)}% - ${Math.round(maxZoom * 100)}%. Using nearest limit.`);
                 }
 
+                const oldZoom = canvasZoom;
                 canvasZoom = nextZoom;
-                updateCanvasZoom();
+                const anchor = getZoomAnchor();
+                if (anchor) {
+                    updateCanvasZoom(anchor.x, anchor.y, oldZoom);
+                } else {
+                    updateCanvasZoom(undefined, undefined, oldZoom);
+                }
             }
 
             function startZoomEdit() {
@@ -669,13 +677,31 @@
             function zoomCanvasIn(mouseX, mouseY) {
                 const oldZoom = canvasZoom;
                 canvasZoom = Math.min(maxZoom, canvasZoom + zoomStep);
-                updateCanvasZoom(mouseX, mouseY);
+                if (mouseX !== undefined && mouseY !== undefined) {
+                    updateCanvasZoom(mouseX, mouseY, oldZoom);
+                    return;
+                }
+                const anchor = getZoomAnchor();
+                if (anchor) {
+                    updateCanvasZoom(anchor.x, anchor.y, oldZoom);
+                } else {
+                    updateCanvasZoom(undefined, undefined, oldZoom);
+                }
             }
 
             function zoomCanvasOut(mouseX, mouseY) {
                 const oldZoom = canvasZoom;
                 canvasZoom = Math.max(minZoom, canvasZoom - zoomStep);
-                updateCanvasZoom(mouseX, mouseY);
+                if (mouseX !== undefined && mouseY !== undefined) {
+                    updateCanvasZoom(mouseX, mouseY, oldZoom);
+                    return;
+                }
+                const anchor = getZoomAnchor();
+                if (anchor) {
+                    updateCanvasZoom(anchor.x, anchor.y, oldZoom);
+                } else {
+                    updateCanvasZoom(undefined, undefined, oldZoom);
+                }
             }
 
             function zoomCanvasReset() {
@@ -721,14 +747,15 @@
                 centerCanvas();
             }
 
-            // Mousewheel zoom (zoom to cursor position) - Alt + wheel
+            // Mousewheel zoom (cursor if over canvas, otherwise viewport center) - Alt + wheel
             canvasScrollarea.addEventListener('wheel', (e) => {
                 if (e.altKey) {
                     e.preventDefault();
+                    const anchor = getCanvasAnchorFromPoint(e.clientX, e.clientY) || getViewportCenter();
                     if (e.deltaY < 0) {
-                        zoomCanvasIn(e.clientX, e.clientY);
+                        zoomCanvasIn(anchor.x, anchor.y);
                     } else {
-                        zoomCanvasOut(e.clientX, e.clientY);
+                        zoomCanvasOut(anchor.x, anchor.y);
                     }
                 }
             }, {
@@ -745,6 +772,37 @@
             let scrollTop = 0;
             let lastMouseX = 0;
             let lastMouseY = 0;
+
+            function isPointInRect(x, y, rect) {
+                return rect && x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+            }
+
+            function getViewportCenter() {
+                if (!canvasScrollarea) return null;
+                const rect = canvasScrollarea.getBoundingClientRect();
+                return {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+            }
+
+            function getCanvasAnchorFromPoint(x, y) {
+                if (!canvaswrap) return null;
+                const rect = canvaswrap.getBoundingClientRect();
+                if (!isPointInRect(x, y, rect)) return null;
+                return {
+                    x: x,
+                    y: y
+                };
+            }
+
+            function getZoomAnchor() {
+                if (isCanvasHovered) {
+                    const canvasAnchor = getCanvasAnchorFromPoint(lastMouseX, lastMouseY);
+                    if (canvasAnchor) return canvasAnchor;
+                }
+                return getViewportCenter();
+            }
 
             function isEditableTarget(target) {
                 if (!target) return false;
@@ -838,10 +896,10 @@
                     zoomCanvasReset();
                 } else if (e.key === '+' || e.key === '=') {
                     e.preventDefault();
-                    zoomCanvasIn(lastMouseX, lastMouseY);
+                    zoomCanvasIn();
                 } else if (e.key === '-' || e.key === '_') {
                     e.preventDefault();
-                    zoomCanvasOut(lastMouseX, lastMouseY);
+                    zoomCanvasOut();
                 }
             });
 

@@ -47,6 +47,11 @@ body {
     /* Prevent horizontal scrollbar when sidebar appears */
 }
 
+:root {
+    --sidebar-width: 180px;
+    --right-panel-width: 340px;
+}
+
 
 /* 
   DESKTOP LAYOUT (min-width: 993px)
@@ -80,7 +85,7 @@ body {
         /* Prevent sidebar from becoming too narrow */
         max-width: 500px;
         /* Prevent sidebar from consuming too much screen */
-        width: 180px;
+        width: var(--sidebar-width, 180px);
         /* Default width */
         resize: horizontal;
         /* Allow manual resize (built-in browser feature) */
@@ -104,7 +109,7 @@ body {
   */
     #sidebarResizeHandle {
         position: fixed;
-        left: 180px;
+        left: var(--sidebar-width, 180px);
         /* Positioned at right edge of default sidebar width */
         top: 0;
         width: 6px;
@@ -158,25 +163,10 @@ body {
         height: 100vh;
         overflow: hidden;
     }
-    /* Properties panel fixed to right - layer 200 */
-    #params {
-        /*position: fixed !important;*/
-        right: 0;
-        top: 0;
-        width: 340px;
-        /*height: 100vh;*/
-        overflow-y: auto;
-        background: white;
-        border-left: 1px solid #ddd;
-        padding: 16px;
-        z-index: 200;
-        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
-        pointer-events: auto;
-    }
     /* Properties panel resize handle */
     #paramsResizeHandle {
         position: fixed;
-        right: 340px;
+        right: var(--right-panel-width, 340px);
         top: 0;
         width: 6px;
         height: 100vh;
@@ -196,7 +186,7 @@ body {
         position: fixed !important;
         right: 0;
         top: 0;
-        width: 340px;
+        width: var(--right-panel-width, 340px);
         height: 100vh;
         overflow-y: auto;
         background: white;
@@ -241,6 +231,8 @@ body {
         flex: 1;
         overflow: auto;
         padding: 20px;
+        background-color: #d0d0d0;
+        position: relative;
     }
     /* Debug and layer controls area below canvas - scrollable and resizable */
     #debugcontrols {
@@ -254,12 +246,6 @@ body {
         padding-top: 10px;
     }
     /* Canvas scroll area - container for pan/zoom */
-    #canvasScrollarea {
-        flex: 1;
-        overflow: auto;
-        background-color: #d0d0d0;
-        position: relative;
-    }
     #canvasScrollarea.grabbing {
         cursor: grabbing !important;
     }
@@ -274,6 +260,7 @@ body {
         justify-content: center;
         min-width: 100%;
         min-height: 100%;
+        transform-origin: 0 0;
         background-color: #d0d0d0;
         background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%), linear-gradient(-45deg, #e0e0e0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e0e0e0 75%), linear-gradient(-45deg, transparent 75%, #e0e0e0 75%);
         background-size: 20px 20px;
@@ -307,6 +294,7 @@ body {
         background: #f0f0f0;
         border-bottom: 1px solid #ddd;
         align-items: center;
+        /* Keep controls clear of the fixed right panel. */
         padding-right: var(--right-panel-width, 340px);
     }
     #zoomControls button {
@@ -2225,10 +2213,7 @@ a {
 }
 
 #layerlist {
-    /* list-style-type:none;
-}
-
-section { */
+    /* Grid layout keeps sortable rows aligned and compact. */
     margin: 0;
     padding: 0;
     list-style: none;
@@ -2239,11 +2224,6 @@ section { */
     grid-gap: 5px;
     grid-template-rows: auto;
     grid-template-columns: auto;
-}
-
-.inside {
-    display: inline-block;
-    background-color: #fff;
 }
 
 .inside button {
@@ -2407,7 +2387,7 @@ input[type=checkbox] {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    image-rendering: smooth;
+    image-rendering: auto;
 }
 
 
@@ -2424,9 +2404,11 @@ input[type=checkbox] {
 /* Thumbnails in the layer list (right panel) */
 
 .inside {
+    /* Align text and thumbnails in layer rows. */
     display: flex;
     align-items: center;
     gap: 8px;
+    background-color: #fff;
 }
 
 .inside .layer-thumbnail {
