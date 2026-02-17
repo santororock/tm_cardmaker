@@ -266,122 +266,122 @@ var megaTemplates = {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__green_normal", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 612, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 716, y: 667, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 612, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 716, y: 667, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     green_big_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__green_big_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 562, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 716, y: 617, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 562, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 716, y: 617, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     green_small_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "green_small_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 664, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 716, y: 720, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 664, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 716, y: 720, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_normal: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__blue_normal", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 798, width: 826, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 860, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 798, width: 826, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 860, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
-            { type: "text", data: "X##", x: 716, y: 805, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "X##", x: 716, y: 805, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_big_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__blue_big_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 753, width: 702, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 860, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 716, y: 759, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 753, width: 702, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 860, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 716, y: 759, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
-            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_big_top: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__blue_big_top", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 849, width: 702, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 891, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 716, y: 856, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 849, width: 702, height: 22, color: "#0c5e84", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 891, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 716, y: 856, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
-            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     red_normal: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__red_normal", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 685, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 716, y: 713, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 685, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 716, y: 713, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     red_small_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__red_small_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
-            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
+            { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 413, y: 718, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 716, y: 745, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 413, y: 718, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 716, y: 745, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     prelude: {
         layers: [
             { type: "base", color: "#ffffff", height: 826, width: 1126, params: "color" },
             { type: "block", src: "templates__prelude", x: 0, y: 0, width: 1126, height: 826, params: "allimages allpreset" },
-            { type: "text", data: "CARD NAME", x: 563, y: 218, width: 826, height: 48, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "FAN MADE", x: 563, y: 500, width: 826, height: 22, color: "#ce809f", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "P R E L U D E", x: 563, y: 99, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 1002, y: 519, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", data: "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "CARD NAME", x: 563, y: 218, width: 826, height: 48, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "FAN MADE", x: 563, y: 500, width: 826, height: 22, color: "#ce809f", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "P R E L U D E", x: 563, y: 99, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 1002, y: 519, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     corporation: {
@@ -392,12 +392,12 @@ var megaTemplates = {
             { type: "effect", x: 600, y: 300, width: 400, height: 300, params: "allimages allpreset" },
             { type: "block", name: "", src: "misc__effect", x: 631, y: 307, width: 345.79, height: 36, params: "allimages" },
             { type: "block", name: "", src: "misc__card_number_box", x: 947, y: 607, width: 54, height: 27, params: "allimages" },
-            { type: "text", data: "E F F E C T", x: 800, y: 333, width: 1126, height: 22, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", "data": "FAN MADE", x: 198, y: 736, width: 826, height: 22, color: "#c3c3c3", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", "data": "C O R P O R A T I O N", x: 563, y: 109, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", "data": "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allpreset" },
-            { type: "text", data: "X##", x: 973, y: 626, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" },
-            { type: "text", "data": "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allpreset" }
+            { type: "text", data: "E F F E C T", x: 800, y: 333, width: 1126, height: 22, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", "data": "FAN MADE", x: 198, y: 736, width: 826, height: 22, color: "#c3c3c3", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", "data": "C O R P O R A T I O N", x: 563, y: 109, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", "data": "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "X##", x: 973, y: 626, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", "data": "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     debug_sprite_sheet: {
@@ -1428,10 +1428,18 @@ function drawProject() {
                 // color:"#000000",
                 // font:"Prototype", lineSpace:4, justify:"center",
                 // params:""};
+                ctx.save();
                 ctx.textAlign = layer.justify;
                 if (!layer.style) layer.style = "normal";
                 ctx.font = layer.style + " " + layer.weight + " " + layer.height + "px " + layer.font;
                 ctx.fillStyle = layer.color;
+
+                // Apply rotation if angle is set
+                if (layer.angle && layer.angle !== 0) {
+                    ctx.translate(layer.x, layer.y);
+                    ctx.rotate(Math.PI * layer.angle / 180);
+                }
+
                 // TBD break up long text into mutiple parts
                 // Note that this algorithm is copied in clickIsWithinText()
                 let lines = layer.data.split("\n");
@@ -1444,10 +1452,15 @@ function drawProject() {
                         while (spl.length && (ctx.measureText(o + " " + spl[0]).width < layer.width)) {
                             o += " " + spl.shift();
                         }
-                        ctx.fillText(o, layer.x, 0 + layer.y + (layer.height + layer.lineSpace) * cnt);
+                        if (layer.angle && layer.angle !== 0) { // When rotated, draw relative to origin
+                            ctx.fillText(o, 0, (layer.height + layer.lineSpace) * cnt);
+                        } else {
+                            ctx.fillText(o, layer.x, 0 + layer.y + (layer.height + layer.lineSpace) * cnt);
+                        }
                         cnt++;
                     }
                 }
+                ctx.restore();
 
                 break;
             case "production":
@@ -1949,6 +1962,19 @@ function loadFrom(saved, autoload) {
     // Capture initial state after loading (but not for autoload)
     if (!autoload) {
         captureInitialState("Load project");
+
+        // Auto-select the first layer after loading to populate properties panel
+        // Use setTimeout to ensure DOM has updated with all layers
+        setTimeout(function() {
+            const layerList = document.getElementById("layerlist");
+            if (layerList && layerList.children.length > 0) {
+                // Select the first non-base layer (dragdropdiv1 if it exists)
+                const firstLayer = layerList.children[0];
+                if (firstLayer && firstLayer.id !== "dragdropdiv0") {
+                    selectLayerById(firstLayer.id);
+                }
+            }
+        }, 0);
     }
 
 }
@@ -2085,7 +2111,8 @@ function addTextBox(th) {
         weight: "normal",
         lineSpace: 4,
         justify: "center",
-        params: "allimages color alltext allpreset"
+        angle: 0,
+        params: "allimages color alltext allangle allpreset"
     };
     if ((typeof th == "string") || (typeof th == "number")) {
         layer.data = th;
@@ -2201,84 +2228,96 @@ function userImageLoaded() {
 
             // need to wait until canvas drawn
             setTimeout(function() {
-                // now we can access the image
-                let c = document.getElementById("cmcanvas");
-                let ctx = c.getContext("2d");
-                let imgData = ctx.getImageData(0, 0, c.width, c.height);
-                let tmp = "tm_cmV01";
-                let p = 0;
+                try {
+                    // now we can access the image
+                    let c = document.getElementById("cmcanvas");
+                    let ctx = c.getContext("2d");
+                    let imgData = ctx.getImageData(0, 0, c.width, c.height);
+                    let tmp = "tm_cmV01";
+                    let p = 0;
 
-                let ob = array2string(imgData.data, p, 8);
-                if (ob.str != tmp) throw "project";
-                p = ob.pos;
+                    let ob = array2string(imgData.data, p, 8);
+                    if (ob.str != tmp) throw "project";
+                    p = ob.pos;
 
-                // get image pos data
-                ob = array2string(imgData.data, p, 0);
-                let posStr = ob.str;
-                p = ob.pos;
+                    // get image pos data
+                    ob = array2string(imgData.data, p, 0);
+                    let posStr = ob.str;
+                    p = ob.pos;
 
-                // get layer data
-                ob = array2string(imgData.data, p, 0);
-                let layerStr = ob.str;
-                //p = ob.pos;
+                    // get layer data
+                    ob = array2string(imgData.data, p, 0);
+                    let layerStr = ob.str;
+                    //p = ob.pos;
 
-                // parse pos data and extract images
-                let pos = JSON.parse(posStr);
-                // if (pos.length) window.alert("User files not yet supported. :(");
-                let aCanvases = [];
-                for (let i = 0; i < pos.length; i++) {
-                    // draw images on new canvases, use canvas{i} for each
-                    // later we could retrieve 'i' if needed
-                    let cvs = document.createElement("CANVAS");
-                    cvs.id = "canvas" + i;
-                    cvs.width = pos[i].width;
-                    cvs.height = pos[i].height;
-                    let nctx = cvs.getContext("2d");
-                    nctx.drawImage(oLoadedProject, pos[i].x, pos[i].y, pos[i].width, pos[i].height, 0, 0, pos[i].width, pos[i].height);
-                    // add cvs to DOM (needed, I think, or they won't draw)
-                    //document.getElementById("xcanvases").appendChild(cvs);
-                    aCanvases.push(cvs);
+                    // parse pos data and extract images
+                    let pos = JSON.parse(posStr);
+                    // if (pos.length) window.alert("User files not yet supported. :(");
+                    let aCanvases = [];
+                    for (let i = 0; i < pos.length; i++) {
+                        // draw images on new canvases, use canvas{i} for each
+                        // later we could retrieve 'i' if needed
+                        let cvs = document.createElement("CANVAS");
+                        cvs.id = "canvas" + i;
+                        cvs.width = pos[i].width;
+                        cvs.height = pos[i].height;
+                        let nctx = cvs.getContext("2d");
+                        nctx.drawImage(oLoadedProject, pos[i].x, pos[i].y, pos[i].width, pos[i].height, 0, 0, pos[i].width, pos[i].height);
+                        // add cvs to DOM (needed, I think, or they won't draw)
+                        //document.getElementById("xcanvases").appendChild(cvs);
+                        aCanvases.push(cvs);
 
-                    // TBD put canvases into a temporary array
-                    // when we first try to draw them, we will pull them out in the order they went in.
+                        // TBD put canvases into a temporary array
+                        // when we first try to draw them, we will pull them out in the order they went in.
 
-                    // // use setTimeout to ensure image is drawn before we extract it
-                    // setTimeout(function (oCvs, num) {
-                    //   // oCvs is canvas object
-                    //   // num should match up with iNum of save layer
-                    //   userImageList[num] = oCvs.toDataURL("image/png");
-                    //   // disappear this canvas
-                    //   oCvs.style.display = "none";
-                    // },0,cvs, i);
-                    // TBD
-                }
-
-                // parse layer data
-                let newLayers = JSON.parse(layerStr);
-                for (let i = 0; i < newLayers.length; i++) {
-                    // update dragdropdiv0 and remove that newLayer (if it existed)
-                    let layer;
-                    if ((newLayers[0].type == "base") && (aLayers["dragdropdiv0"])) {
-                        layer = aLayers["dragdropdiv0"];
-                        layer.width = newLayers[0].width;
-                        layer.height = newLayers[0].height;
-                        layer.color = newLayers[0].color;
-                        newLayers.shift();
+                        // // use setTimeout to ensure image is drawn before we extract it
+                        // setTimeout(function (oCvs, num) {
+                        //   // oCvs is canvas object
+                        //   // num should match up with iNum of save layer
+                        //   userImageList[num] = oCvs.toDataURL("image/png");
+                        //   // disappear this canvas
+                        //   oCvs.style.display = "none";
+                        // },0,cvs, i);
+                        // TBD
                     }
-                    // normally userFile cannot reload but here we have userFile data embedded
-                    // so change from userFile to embedded if needed
-                    if ((newLayers[i].type == "userFile") || (newLayers[i].type == "embedded")) {
-                        newLayers[i].iNum = userImageList.length;
-                        // set iNum above to point to canvas we add to userImageList below
-                        userImageList.push(aCanvases.shift());
-                        newLayers[i].type = "embedded";
+
+                    // parse layer data
+                    let newLayers = JSON.parse(layerStr);
+                    for (let i = 0; i < newLayers.length; i++) {
+                        // update dragdropdiv0 and remove that newLayer (if it existed)
+                        let layer;
+                        if ((newLayers[0].type == "base") && (aLayers["dragdropdiv0"])) {
+                            layer = aLayers["dragdropdiv0"];
+                            layer.width = newLayers[0].width;
+                            layer.height = newLayers[0].height;
+                            layer.color = newLayers[0].color;
+                            newLayers.shift();
+                        }
+                        // normally userFile cannot reload but here we have userFile data embedded
+                        // so change from userFile to embedded if needed
+                        if ((newLayers[i].type == "userFile") || (newLayers[i].type == "embedded")) {
+                            newLayers[i].iNum = userImageList.length;
+                            // set iNum above to point to canvas we add to userImageList below
+                            userImageList.push(aCanvases.shift());
+                            newLayers[i].type = "embedded";
+                        }
+                    }
+                    // load the rest of newLayers using loadFrom
+                    loadFrom(newLayers);
+                    projectLoad = false;
+                    // redraw project
+                    setTimeout(drawProject, 100);
+                } catch (error) {
+                    // end up here for a variety of reasons
+                    projectLoad = false;
+                    if (error == "project") {
+                        // doesn't look like a project file, or one we support
+                        console.log("Not a valid project file");
+                    } else {
+                        // probably a JSON parse error, just call it parse error
+                        console.error("Error loading project:", error);
                     }
                 }
-                // load the rest of newLayers using loadFrom
-                loadFrom(newLayers);
-                projectLoad = false;
-                // redraw project
-                setTimeout(drawProject, 100);
             }, 50);
 
 
@@ -3107,22 +3146,67 @@ function calculateTextBounds(layer) {
     // Calculate total height
     const totalHeight = (layer.height + layer.lineSpace) * cnt - layer.lineSpace;
 
-    // Calculate x offset based on justification
-    let x = layer.x;
+    // Calculate x offset based on justification (in local coordinates)
+    let localX = 0;
     let width = maxLineWidth;
 
     if (layer.justify === "center") {
-        x = layer.x - (maxLineWidth / 2);
+        localX = -(maxLineWidth / 2);
     } else if (layer.justify === "right") {
-        x = layer.x - maxLineWidth;
+        localX = -maxLineWidth;
     }
-    // For "left", x stays as is
+    // For "left", localX stays at 0
+
+    // If rotated, calculate axis-aligned bounding box (AABB)
+    if (layer.angle && layer.angle !== 0) {
+        const angleRad = Math.PI * layer.angle / 180;
+        const cos = Math.cos(angleRad);
+        const sin = Math.sin(angleRad);
+
+        // Four corners of the unrotated text box (in local coordinates)
+        // Text baseline is at y=0, text extends upward (negative y) by approximately layer.height
+        const corners = [
+            { x: localX, y: -layer.height },
+            { x: localX + width, y: -layer.height },
+            { x: localX, y: totalHeight - layer.height },
+            { x: localX + width, y: totalHeight - layer.height }
+        ];
+
+        // Rotate corners and find AABB
+        let minX = Infinity,
+            minY = Infinity,
+            maxX = -Infinity,
+            maxY = -Infinity;
+        for (let corner of corners) {
+            const rotatedX = corner.x * cos - corner.y * sin;
+            const rotatedY = corner.x * sin + corner.y * cos;
+            minX = Math.min(minX, rotatedX);
+            minY = Math.min(minY, rotatedY);
+            maxX = Math.max(maxX, rotatedX);
+            maxY = Math.max(maxY, rotatedY);
+        }
+
+        return {
+            x: layer.x + minX,
+            y: layer.y + minY,
+            width: maxX - minX,
+            height: maxY - minY,
+            rotated: true,
+            angle: layer.angle,
+            // Include original corners for drawing rotated rect
+            corners: corners.map(c => ({
+                x: layer.x + c.x * cos - c.y * sin,
+                y: layer.y + c.x * sin + c.y * cos
+            }))
+        };
+    }
 
     return {
-        x: x,
-        y: layer.y - layer.height, // Text is drawn from baseline, extends upward
+        x: layer.x + localX,
+        y: layer.y - layer.height,
         width: width,
-        height: totalHeight + layer.height // Include the top of the first line
+        height: totalHeight + layer.height,
+        rotated: false
     };
 }
 
@@ -3130,7 +3214,24 @@ function calculateTextBounds(layer) {
 window.calculateTextBounds = calculateTextBounds;
 
 function clickIsWithinText(layer, x, y) {
-    if (y < 0) {
+    // Transform click coordinates if text is rotated
+    let testX = x;
+    let testY = y;
+
+    if (layer.angle && layer.angle !== 0) {
+        // For rotated text, compensate for the baseline offset that was applied by the caller
+        // The caller added layer.height, but for rotated text we need to work in the rotated coordinate system
+        testY = y - layer.height;
+
+        // Apply inverse rotation to click point
+        const angleRad = -Math.PI * layer.angle / 180;
+        const cos = Math.cos(angleRad);
+        const sin = Math.sin(angleRad);
+        testX = x * cos - testY * sin;
+        testY = x * sin + testY * cos;
+    }
+
+    if (testY < 0) {
         return false;
     }
     text = layer.data
@@ -3148,15 +3249,15 @@ function clickIsWithinText(layer, x, y) {
             }
             cnt++;
             lineWidth = ctx.measureText(o).width;
-            if (y < ((layer.height + layer.lineSpace) * cnt)) {
+            if (testY < ((layer.height + layer.lineSpace) * cnt)) {
                 if (layer.justify == "center") {
-                    x = x + (lineWidth / 2);
+                    testX = testX + (lineWidth / 2);
                 }
                 if (layer.justify == "right") {
-                    x = x + lineWidth;
+                    testX = testX + lineWidth;
                 }
 
-                return (x > 0) && (x < lineWidth);
+                return (testX > 0) && (testX < lineWidth);
             }
         }
     }

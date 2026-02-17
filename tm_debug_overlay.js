@@ -278,8 +278,24 @@
                     bounds = window.calculateTextBounds(layer);
                 }
 
+                // Draw bounding box (AABB for rotated text, regular rect otherwise)
                 this.octx.strokeStyle = 'red';
                 this.octx.strokeRect(bounds.x, bounds.y, bounds.width, bounds.height);
+
+                // If text is rotated, also draw the actual rotated rectangle
+                if (bounds.rotated && bounds.corners) {
+                    this.octx.save();
+                    this.octx.strokeStyle = 'blue';
+                    this.octx.lineWidth = 2;
+                    this.octx.beginPath();
+                    this.octx.moveTo(bounds.corners[0].x, bounds.corners[0].y);
+                    for (let i = 1; i < bounds.corners.length; i++) {
+                        this.octx.lineTo(bounds.corners[i].x, bounds.corners[i].y);
+                    }
+                    this.octx.closePath();
+                    this.octx.stroke();
+                    this.octx.restore();
+                }
 
                 let drewMask = false;
                 try {
@@ -290,8 +306,10 @@
                         const b = window.blockList[layer.iNum];
                         if (b && b.obj && b.obj.complete) {
                             const mask = getAlphaMask(b.obj, 0, 0, b.obj.width, b.obj.height, Math.max(1, Math.round(layer.width)), Math.max(1, Math.round(layer.height)));
-                            if (mask) { drawMaskOnOverlay(this.octx, mask, layer.x, layer.y);
-                                drewMask = true; }
+                            if (mask) {
+                                drawMaskOnOverlay(this.octx, mask, layer.x, layer.y);
+                                drewMask = true;
+                            }
                         }
                     } else if ((layer.type === 'webFile' || layer.type === 'userFile' || layer.type === 'embedded') && window.userImageList && typeof layer.iNum === 'number' && layer.iNum >= 0) {
                         const img = window.userImageList[layer.iNum];
@@ -301,8 +319,10 @@
                             const sw = (layer.swidth && layer.swidth > 0) ? layer.swidth : img.width;
                             const sh = (layer.sheight && layer.sheight > 0) ? layer.sheight : img.height;
                             const mask = getAlphaMask(img, sx, sy, sw, sh, Math.max(1, Math.round(layer.width)), Math.max(1, Math.round(layer.height)));
-                            if (mask) { drawMaskOnOverlay(this.octx, mask, layer.x, layer.y);
-                                drewMask = true; }
+                            if (mask) {
+                                drawMaskOnOverlay(this.octx, mask, layer.x, layer.y);
+                                drewMask = true;
+                            }
                         }
                     }
                 } catch (err) { console.error('debugOverlay: mask error', err); }
@@ -353,8 +373,11 @@
         for (let y = 0; y < mask.h; y++) {
             const spans = mask.rows[y];
             if (!spans) continue;
-            for (let s = 0; s < spans.length; s++) { const st = spans[s][0]; const en = spans[s][1];
-                octx.fillRect(x0 + st, y0 + y, en - st, 1); }
+            for (let s = 0; s < spans.length; s++) {
+                const st = spans[s][0];
+                const en = spans[s][1];
+                octx.fillRect(x0 + st, y0 + y, en - st, 1);
+            }
         }
         octx.restore();
     }
@@ -375,9 +398,13 @@
                 for (let x = 0; x < dstW; x++) {
                     const a = id[(y * dstW + x) * 4 + 3];
                     const opaque = a > 0;
-                    if (opaque && !inSpan) { inSpan = true;
-                        spanStart = x; } else if (!opaque && inSpan) { inSpan = false;
-                        rowSpans.push([spanStart, x]); }
+                    if (opaque && !inSpan) {
+                        inSpan = true;
+                        spanStart = x;
+                    } else if (!opaque && inSpan) {
+                        inSpan = false;
+                        rowSpans.push([spanStart, x]);
+                    }
                 }
                 if (inSpan) rowSpans.push([spanStart, dstW]);
                 rows[y] = rowSpans.length ? rowSpans : null;

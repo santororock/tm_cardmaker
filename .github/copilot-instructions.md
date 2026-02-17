@@ -9,12 +9,15 @@ Purpose: Help an AI coding agent become productive quickly in this static, clien
   - `blockDefaults` & `megaTemplates` — provide presets and full templates used to create initial layer sets.
   - `aLayers` — runtime map of layered objects (layer types include `base`, `block`, `text`, `production`, `effect`, `line`, `embedded`, `webFile`, `userFile`).
   - `userImageList`, `otherBgList`, `fontList` — registries for user images, alternate backgrounds, and loaded fonts.
+  - **Layer properties**: common properties include `x`, `y`, `width`, `height`. Text and line layers support `angle` (rotation in degrees).
 
 - **Important functions to inspect/modify**:
   - `drawProject()` — paints the canvas from `aLayers` (central rendering loop).
   - `addBlock()`, `addTextBox()`, `addProduction()` — factories for new layers.
   - `fetchBlock()` / `onBlockLoad()` — image loading logic and CORS handling (note: `crossOrigin` set only for http/https).
   - `loadFrom()` / `autoSave()` / `projectDataToJson()` — save/load and project-embedding logic (projects are embedded in PNGs using signature `tm_cmV01`).
+  - `calculateTextBounds()` — computes bounding box for text layers (handles rotation via AABB); used by debug overlay and hit testing.
+  - `clickIsWithinText()` — hit testing for text layers (applies inverse rotation to click coordinates).
 
 - **Dev / run workflow** (non-obvious):
   - Serve the folder over HTTP to avoid CORS/tainted-canvas issues when exporting (see `README.md`): e.g. `python -m http.server 8000` or `npx http-server -p 8000`. Then open `/tm_cardmaker.html`.
