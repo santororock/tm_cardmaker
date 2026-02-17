@@ -272,7 +272,8 @@ var megaTemplates = {
             { type: "text", data: "FAN MADE", x: 413, y: 612, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 667, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 542, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     green_big_bottom: {
@@ -285,7 +286,8 @@ var megaTemplates = {
             { type: "text", data: "FAN MADE", x: 413, y: 562, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 617, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 490, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     green_small_bottom: {
@@ -298,7 +300,8 @@ var megaTemplates = {
             { type: "text", data: "FAN MADE", x: 413, y: 664, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 720, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 593, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_normal: {
@@ -313,7 +316,8 @@ var megaTemplates = {
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
             { type: "text", data: "X##", x: 716, y: 805, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 676, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_big_bottom: {
@@ -328,7 +332,8 @@ var megaTemplates = {
             { type: "text", data: "X##", x: 716, y: 759, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
-            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 628, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_big_top: {
@@ -343,7 +348,8 @@ var megaTemplates = {
             { type: "text", data: "X##", x: 716, y: 856, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
-            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 724, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     red_normal: {
@@ -356,7 +362,8 @@ var megaTemplates = {
             { type: "text", data: "FAN MADE", x: 413, y: 685, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 713, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 593, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     red_small_bottom: {
@@ -369,7 +376,8 @@ var megaTemplates = {
             { type: "text", data: "FAN MADE", x: 413, y: 718, width: 826, height: 22, color: "#c36a17", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 745, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 625, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     prelude: {
