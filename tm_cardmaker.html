@@ -365,6 +365,13 @@
                 <div id="settings">
                     <b>Settings</b><br>
                     <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
+                    <div style="clear: both; padding-top: 8px;">
+                        <b>Image Cache</b><br>
+                        <span id="cacheStatus">Checking cache...</span><br>
+                        <span id="cacheSize">Size: n/a</span><br>
+                        <button id="refreshImageCacheBtn" onclick="refreshUserImageCacheUsage()" style="margin-top: 4px;">Refresh</button>
+                        <button id="clearImageCacheBtn" onclick="clearCachedUserImages()" style="margin-top: 4px;">Clear Cached Images</button>
+                    </div>
                 </div>
             </div>
 
@@ -1214,6 +1221,11 @@
                     if (!assetsLoaded) {
                         console.error('Failed to load assets, cannot initialize');
                         return;
+                    }
+
+                    // Restore user image cache before loading autosave/project layers
+                    if (typeof initializeUserImageCache === 'function') {
+                        await initializeUserImageCache();
                     }
 
                     /**
