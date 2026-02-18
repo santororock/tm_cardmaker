@@ -266,20 +266,23 @@ var megaTemplates = {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__green_normal", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 542, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "FAN MADE", x: 413, y: 612, width: 826, height: 22, color: "#24770d", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 667, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 542, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
+            { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     green_big_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__green_big_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 490, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
@@ -287,13 +290,14 @@ var megaTemplates = {
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 617, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 490, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     green_small_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "green_small_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 593, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
@@ -301,13 +305,14 @@ var megaTemplates = {
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 770, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 720, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 22, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 593, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_normal: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__blue_normal", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 676, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
@@ -317,13 +322,14 @@ var megaTemplates = {
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
             { type: "text", data: "X##", x: 716, y: 805, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 676, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_big_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__blue_big_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 628, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
@@ -333,13 +339,14 @@ var megaTemplates = {
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
             { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 628, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     blue_big_top: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__blue_big_top", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 724, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
@@ -349,13 +356,14 @@ var megaTemplates = {
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "misc__arrow", x: 355, y: 265, width: 116, height: 55, params: "allimages allpreset" },
             { type: "text", data: "Effect or Action text!", x: 413, y: 360, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 724, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     red_normal: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__red_normal", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 593, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
@@ -363,13 +371,14 @@ var megaTemplates = {
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 713, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 593, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     red_small_bottom: {
         layers: [
             { type: "base", color: "#ffffff", height: 1126, width: 826, params: "color" },
             { type: "block", src: "templates__red_small_bottom", x: 0, y: 0, width: 826, height: 1126, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 625, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 425, y: 1069, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Cost", x: 118, y: 147, width: 826, height: 66, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "block", src: "requisites__normal", x: 179, y: 97, width: 22, height: 59, params: "allimages allpreset" },
             { type: "text", data: "CARD NAME", x: 413, y: 214, width: 826, height: 46, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
@@ -377,20 +386,20 @@ var megaTemplates = {
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 100, y: 810, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 716, y: 745, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Flavor text!", x: 413, y: 1005, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 743, y: 625, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     prelude: {
         layers: [
             { type: "base", color: "#ffffff", height: 826, width: 1126, params: "color" },
             { type: "block", src: "templates__prelude", x: 0, y: 0, width: 1126, height: 826, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 1031, y: 431, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 563, y: 766, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "CARD NAME", x: 563, y: 218, width: 826, height: 48, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "FAN MADE", x: 563, y: 500, width: 826, height: 22, color: "#ce809f", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "P R E L U D E", x: 563, y: 99, width: 826, height: 24, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 1002, y: 519, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 1031, y: 431, width: 300, height: 12, color: "#000000", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     corporation: {
@@ -398,6 +407,8 @@ var megaTemplates = {
             { type: "base", color: "#ffffff", height: 826, width: 1126, params: "color" },
             { type: "block", src: "misc__corp_tag_holder", x: 969, y: 103, width: 257, height: 89, params: "allimages" },
             { type: "block", src: "templates__corporation", x: 0, y: 0, width: 1126, height: 826, params: "allimages allpreset" },
+            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 1052, y: 626, width: 300, height: 11, color: "#ffffff", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
+            { type: "text", data: "Card Designer(s)", x: 563, y: 766, width: 400, height: 11, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "effect", x: 600, y: 300, width: 400, height: 300, params: "allimages allpreset" },
             { type: "block", name: "", src: "misc__effect", x: 631, y: 307, width: 345.79, height: 36, params: "allimages" },
             { type: "block", name: "", src: "misc__card_number_box", x: 947, y: 607, width: 54, height: 27, params: "allimages" },
@@ -407,7 +418,6 @@ var megaTemplates = {
             { type: "text", "data": "Card description\nMultiple lines\nand they can be much, much, much longer\n'V space' controls the spacing between lines", x: 110, y: 560, width: 826, height: 24, color: "#000000", font: "Pagella", style: "normal", weight: "normal", lineSpace: 4, justify: "left", params: "allimages color alltext allangle allpreset" },
             { type: "text", data: "X##", x: 973, y: 626, width: 60, height: 17, color: "#4D4D4D", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
             { type: "text", "data": "Flavor text!", x: 563, y: 723, width: 826, height: 24, color: "#000000", font: "Pagella", style: "italic", weight: "bold", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" },
-            { type: "text", data: "ART ATTRIBUTION", angle: -90, x: 1052, y: 626, width: 300, height: 11, color: "#ffffff", font: "Prototype", style: "normal", weight: "normal", lineSpace: 4, justify: "center", params: "allimages color alltext allangle allpreset" }
         ]
     },
     debug_sprite_sheet: {

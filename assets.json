@@ -347,6 +347,14 @@
     },
     {
       "putUnder": "blocks/resources",
+      "text": "Asteroid",
+      "src": "resources__asteroid",
+      "otherbg": "res_otherbg",
+      "width": 92,
+      "height": 90
+    },
+    {
+      "putUnder": "blocks/resources",
       "text": "Biohazard",
       "src": "resources__biohazard",
       "otherbg": "res_otherbg",
@@ -360,6 +368,30 @@
       "otherbg": "res_otherbg",
       "width": 334,
       "height": 478
+    },
+    {
+      "height": 334,
+      "putUnder": "blocks/resources",
+      "src": "resources__card_corporation",
+      "text": "Card - Corporation",
+      "width": 463,
+      "otherbg": "res_otherbg"
+    },
+    {
+      "height": 463,
+      "putUnder": "blocks/resources",
+      "src": "resources__card_player_aid",
+      "text": "Card - Player Aid",
+      "width": 334,
+      "otherbg": "res_otherbg"
+    },
+    {
+      "height": 334,
+      "putUnder": "blocks/resources",
+      "src": "resources__card_prelude",
+      "text": "Card - Prelude",
+      "width": 463,
+      "otherbg": "res_otherbg"
     },
     {
       "putUnder": "blocks/resources",
@@ -411,11 +443,11 @@
     },
     {
       "putUnder": "blocks/resources",
-      "text": "res_otherbg",
-      "src": "resources__other_player_background",
-      "hidden": true,
-      "width": 372,
-      "height": 368
+      "text": "Ore",
+      "src": "resources__ore",
+      "otherbg": "res_otherbg",
+      "width": 81,
+      "height": 82
     },
     {
       "putUnder": "blocks/resources",
@@ -440,6 +472,14 @@
       "otherbg": "res_otherbg",
       "width": 331,
       "height": 331
+    },
+    {
+      "putUnder": "blocks/resources",
+      "text": "res_otherbg",
+      "src": "resources__other_player_background",
+      "hidden": true,
+      "width": 372,
+      "height": 368
     },
     {
       "putUnder": "blocks/resources",
@@ -480,22 +520,6 @@
       "otherbg": "res_otherbg",
       "width": 331,
       "height": 331
-    },
-    {
-      "putUnder": "blocks/resources",
-      "text": "Asteroid",
-      "src": "resources__asteroid",
-      "otherbg": "res_otherbg",
-      "width": 92,
-      "height": 90
-    },
-    {
-      "putUnder": "blocks/resources",
-      "text": "Ore",
-      "src": "resources__ore",
-      "otherbg": "res_otherbg",
-      "width": 81,
-      "height": 82
     },
     {
       "putUnder": "blocks/tags",
