@@ -140,6 +140,19 @@
         </div>
     </div>
 
+    <!-- Modal for Cached Image Contact Sheet -->
+    <div class="overlay w3-nodisplay" id="cacheSheetModal" style="z-index: 1200;">
+        <div class="centerme" style="width: auto; max-width: 900px; padding: 0; margin: auto;">
+            <div class="w3-white" style="padding: 24px; max-width: 900px; width: 90vw; max-height: 80vh; overflow-y: auto;">
+                <span onclick="hideCachedImageContactSheet()" style="float:right;cursor:pointer;font-size:28px;font-weight:bold;">&times;</span>
+                <h3 style="margin-top:0;">Cached Images</h3>
+                <div id="cacheSheetSummary" style="margin-bottom: 10px;">Loading...</div>
+                <div id="cacheSheetGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px;"></div>
+                <button onclick="hideCachedImageContactSheet()" style="margin-top:20px;">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ================================================================================
      PRIMARY NAVIGATION - LEFT SIDEBAR
      ================================================================================
@@ -222,6 +235,7 @@
                 <div id="backgrounds" class="w3-bar-block w3-hide w3-padding-large w3-medium">
                     <a onclick="clickLoadWebImage()" href="#" class="w3-bar-item w3-button">Load Web Image</a>
                     <a onclick="document.getElementById('fileselection').click()" href="#" class="w3-bar-item w3-button">Load Local Image</a>
+                    <a onclick="clickLoadCachedImage()" href="#" class="w3-bar-item w3-button">Load Cached Image</a>
                     <input type="file" id="fileselection" class="w3-hide" onchange="addUserFile(this)">
                     <!-- <a onclick="addColor()" href="#" class="w3-bar-item w3-button">Set Color</a> -->
                 </div>
@@ -369,8 +383,11 @@
                         <b>Image Cache</b><br>
                         <span id="cacheStatus">Checking cache...</span><br>
                         <span id="cacheSize">Size: n/a</span><br>
+                        <span>Warning Threshold (MB): <input id="cacheWarningThresholdMb" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 250" onchange="setUserImageCacheWarningThreshold(this)" onblur="setUserImageCacheWarningThreshold(this)" style="width: 80px;"></span><br>
+                        <span id="cacheWarningStatus">Warning threshold disabled</span><br>
                         <button id="refreshImageCacheBtn" onclick="refreshUserImageCacheUsage()" style="margin-top: 4px;">Refresh</button>
                         <button id="clearImageCacheBtn" onclick="clearCachedUserImages()" style="margin-top: 4px;">Clear Cached Images</button>
+                        <button id="viewCachedImagesBtn" onclick="showCachedImageContactSheet()" style="margin-top: 4px;">View Cached Images</button>
                     </div>
                 </div>
             </div>

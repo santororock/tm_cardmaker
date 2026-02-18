@@ -1,6 +1,6 @@
 # tm_cardmaker
 
-Web App for people to make fan cards for the game Terraforming Mars.
+Web app for people to make fan cards for the game Terraforming Mars.
 
 This is currently 100% client-side. It works best on a desktop/laptop but probably works on tablets and even (painfully) on phones.
 You can access the original at https://sliceofbread.neocities.org/tm/tm_cardmaker.html
@@ -42,7 +42,7 @@ Then open `http://localhost:8000/tm_cardmaker.html` in your browser.
 
 ## How to Use
 
-TM_Cardmaker provides **templates**, **presets** and graphic assets called **blocks** to help build attractive card that match the look and feel of the original game.
+TM_Cardmaker provides **templates**, **presets**, and graphic assets called **blocks** to help build attractive cards that match the look and feel of the original game.
 
 To begin, click on **File** > **New from Template**, and select an appropriate starting template for the card that you wish to design. The available templates include:
 
@@ -52,9 +52,9 @@ To begin, click on **File** > **New from Template**, and select an appropriate s
 - Blue project card (three layouts)
 - Red event card (two layouts)
 
-For this example, we'll choose 'Green Card'. This will create layers with the elements of the most common type of project card. On the right (possibly bottom if you have a small screen) you will see the list of layers. Let's set the cost of the card by first selecting that layer. To start, it is labelled  'Text:Cost'. Click that.
+For this example, we'll choose 'Green Card'. This creates layers with the elements of the most common type of project card. On the right (or at the bottom if you have a small screen), you will see the list of layers. Let's set the cost of the card by selecting that layer first. To start, it is labeled 'Text:Cost'. Click that.
 
-Clicking on a layer opens up the layer information pane, which contains all of the information needed to render the layer (postion, font color, etc). Change the text, which is in the box jest below 'height'. It currently says 'Cost'. Change it to a number. To see the change, you need to 'tab' or click outside this box.
+Clicking on a layer opens the layer information pane, which contains all of the information needed to render the layer (position, font color, etc). Change the text in the box just below 'height'. It currently says 'Cost'. Change it to a number. To see the change, press `Tab` or click outside this box.
 
 If you felt like the number wasn't in the right spot, you can click on it on the rendered card, and drag it to the right spot. You can make fine adjustments by using the keyboard shortcuts:
 
@@ -63,7 +63,7 @@ If you felt like the number wasn't in the right spot, you can click on it on the
 - Alt + up and down arrows will make the text size larger or smaller
 - Alt + left and right arrows will change the width of the text bounding box, which controls where word-wrapping happens.
 
-If you know exactly where you want the object to go, you can also type in its X and Y coordinates in the layer information pane. The 'height' controls the size of the text, and the 'width' is the aforementioned word-wrapping boundary. There is also a 'V space' setting that controls the line-to--line spacing. There's also a 'Justify' selection if you want your text to be centered, aligned on the left or right. Click on the layer name to apply your changes and re-render the object. Note that you can change the layer names to anything that you prefer.
+If you know exactly where you want the object to go, you can also type in its X and Y coordinates in the layer information pane. The 'height' controls the size of the text, and the 'width' is the aforementioned word-wrapping boundary. There is also a 'V space' setting that controls line-to-line spacing. There is also a 'Justify' selection if you want your text centered, left-aligned, or right-aligned. Click on the layer name to apply your changes and re-render the object. Note that you can change layer names to anything you prefer.
 
 Other than text, there are a few other things already in your card.
 
@@ -75,9 +75,9 @@ To demonstrate how to place new blocks and use presets, we'll change the card to
 
 - Delete the 'No Requirement' layer by clicking the 'X' next to its name.
 - On the left menu, click 'Add Block' then 'Requirements' then 'Min Requirement (small)'. Wow that is NOT small!
-- On the right, the layer has been added 'Min Requirement (sma'. Click it. Under 'Presets' choose the obvious 'Min Small'. Things should look much more normal. There are presets for almost anything you add. Some are more useful than others
+- On the right, the layer has been added as 'Min Requirement (sma'. Click it. Under 'Presets', choose 'Min Small'. Things should look much more normal. There are presets for almost anything you add. Some are more useful than others.
 - Let's require an Ocean tile. On the left click 'Tiles' then 'Ocean'. On the right, click the new layer 'Ocean'. There is one preset, 'Standard'. Hmm, that is not very useful.
-- Change 'X' to 214 and 'y' to 87. Change 'width' to 67 (and watch height will change automatically). Mostly you will leave the 'Lock aspect ratio' box checked but if you want to change height and width independently, just uncheck it.
+- Change 'X' to 214 and 'Y' to 87. Change 'width' to 67 (and watch height change automatically). Most of the time, you will leave the 'Lock aspect ratio' box checked, but if you want to change height and width independently, uncheck it.
 
 Blocks can also be moved around with the mouse and arrow keys, just like text layers. Resizing blocks is a little different, though.
 
@@ -86,18 +86,36 @@ Blocks can also be moved around with the mouse and arrow keys, just like text la
 
 A couple other things to highlight:
 
-- If you want to use an image from the Web (with permission of course), that's under 'Add Block' -> 'User Images' -> 'Load Web Image'.
-- If you want to use an image from your computer, it's the same as above but 'Load Local Image'
-- You might want the above (or some other) layer to look like it's in the background. Drag the layer name to where you want it. The layers are draw, in order, from the top of the list to the bottom. 'Base' is always the first layer.
-- If you want to use a font from the web (and this has only been checked with Google fonts https://fonts.google.com/) it hopefully has something like the google fonts and you can add that using 'Add Block' -> 'Add Web Font'. Here's and example from Google of what to look for to paste in the box that pops up:
+- If you want to use an image from the Web (with permission of course), that's under **Add Block -> User Images -> Load Web Image**.
+- If you want to use an image from your computer, it's the same as above but choose **Load Local Image**.
+- If you have previously cached local images in this browser, use **Add Block -> User Images -> Load Cached Image** to pick one from the cache contact sheet.
+- You might want the above (or some other) layer to look like it's in the background. Drag the layer name to where you want it. Layers are drawn in order from the top of the list to the bottom. 'Base' is always the first layer.
+- If you want to use a font from the web (this has only been checked with Google Fonts: https://fonts.google.com/), you can add it using **Add Block -> Add Web Font**. Here's an example from Google of what to paste into the popup:
 <link href="https://fonts.googleapis.com/css2?family=Turret+Road:wght@400;700;800&display=swap" rel="stylesheet"> OR just the URL https://fonts.googleapis.com/css2?family=Turret+Road:wght@400;700;800&display=swap
-- You can save your project using the 'File' -> 'Save as Project'. This saves your project as an image. This is especially important if you used any local (non-web) image files. This image can also be shared with others who might want to translate or modify your card.
-- You can later load one of these project images using 'File' -> 'Clear & Load Project'
+- You can save your project using **File -> Save as Project**. This saves your project as an image. This is especially important if you used any local (non-web) image files. This image can also be shared with others who might want to translate or modify your card.
+- You can later load one of these project images using **File -> Clear & Load Project**
+
+### Image Cache (Browser Storage)
+
+The app keeps local/user images in browser `IndexedDB` storage so they can survive browser restarts on the same machine/browser profile.
+
+- **Where to find controls**: Right-side panel -> **Settings** -> **Image Cache**
+- **Refresh**: Re-check cached image count and total size
+- **Clear Cached Images**: Remove all cached user images from browser storage
+- **View Cached Images**: Open a contact sheet popup to review cached images
+- **Warning Threshold (MB)**: Optional alert threshold for total cache size
+
+Notes:
+
+- Cache persistence is browser-profile specific (different browser/profile/private mode = separate storage).
+- The cache is used to reload `userFile` and `embedded` image layers during autosave/project restore when possible.
+- Exporting with **Save as Project** still embeds project data in PNG and remains the most portable backup/share format.
+
 ## New Features (Since Fork from SliceOfBread)
 
 ### Undo/Redo System
 
-The webapp now includes a comprehensive undo/redo system to help you recover from mistakes:
+The web app now includes a comprehensive undo/redo system to help you recover from mistakes:
 
 - **Undo** (`Ctrl+Z` or `Cmd+Z`): Revert to the previous state
 - **Redo** (`Ctrl+Shift+Z` or `Cmd+Shift+Z`): Re-apply an undone action
@@ -116,21 +134,31 @@ Your work is automatically saved to your browser's local storage:
 
 - **Automatic Saving**: Every change to your project is automatically saved to `localStorage`
 - **Crash Recovery**: If your browser crashes or you accidentally close the tab, your work can be recovered
-- **Load Auto-Save**: When opening the webapp, it will prompt you to restore a previously saved project
-- **Manual Save**: You can still manually save projects as images using 'File' -> 'Save as Project'
+- **Load Auto-Save**: When opening the web app, it will prompt you to restore a previously saved project
+- **Manual Save**: You can still manually save projects as images using **File -> Save as Project**
+- **Image Cache Metadata**: Autosave records cache metadata for local and embedded user images, so they can reconnect to cached image data on reload
 
 ### Project Embedding
 
 Projects can now be embedded directly into the exported PNG images:
 
-- **Save Project Data**: When you export a card as PNG using 'File' -> 'Save as Project', the full project state is embedded in the image
-- **Roundtrip Loading**: You can load these saved project images back into the editor using 'File' -> 'Clear & Load Project'
+- **Save Project Data**: When you export a card as PNG using **File -> Save as Project**, the full project state is embedded in the image
+- **Roundtrip Loading**: You can load these saved project images back into the editor using **File -> Clear & Load Project**
 - **Data Integrity**: The project data uses the signature `tm_cmV01` to identify embedded projects
 - **Lossless Workflow**: All layer information, local images, and properties are preserved
+- **Cache Rehydration**: Loading a project PNG rehydrates user images into the browser image cache when possible
+
+### Deterministic Image Cache IDs
+
+User image cache IDs are content-based for consistency and de-dup behavior:
+
+- **Primary strategy**: SHA-256 hash of image bytes (`img_sha256_...`)
+- **Fallback strategy**: Deterministic FNV-1a 32-bit hash when WebCrypto digest is unavailable
+- **Benefit**: Re-loading the same image content produces the same cache ID, making cache linkage stable across sessions
 
 ### Asset Management from JSON
 
-The webapp now loads block definitions from an external `assets.json` file:
+The web app now loads block definitions from an external `assets.json` file:
 
 - **Centralized Asset Configuration**: All block definitions are in `assets.json` instead of hardcoded in JavaScript
 - **Easier Maintenance**: Add, remove, or modify blocks without editing JavaScript code
@@ -157,7 +185,7 @@ A companion desktop application for managing sprite definitions (see **Asset Man
 
 ## Asset Manager Tool
 
-The `asset_manager.py` tool is a standalone desktop application for managing the sprites and blocks used by the webapp. It provides a visual interface for organizing, editing, and validating your sprite definitions.
+The `asset_manager.py` tool is a standalone desktop application for managing the sprites and blocks used by the web app. It provides a visual interface for organizing, editing, and validating your sprite definitions.
 
 ### Installation
 

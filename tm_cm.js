@@ -13,9 +13,13 @@ var fontList = {
 const USER_IMAGE_DB_NAME = "tm_cardmaker_user_images";
 const USER_IMAGE_DB_VERSION = 1;
 const USER_IMAGE_STORE = "images";
+const USER_IMAGE_CACHE_WARNING_MB_KEY = "tm_cm_user_image_cache_warning_mb";
 var userImageCacheDbPromise = null;
 var userImageCacheIndexById = {};
 var userImageMetaList = [];
+var userImageCacheWarningWasAbove = false;
+var cacheSheetObjectUrls = [];
+var cacheSheetSelectMode = false;
 
 function supportsUserImageCache() {
     return (typeof indexedDB !== "undefined");
@@ -53,12 +57,187 @@ function createUserImageCacheId() {
     return "img_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
 }
 
+function bytesToHex(bytes) {
+    let out = "";
+    for (let i = 0; i < bytes.length; i++) {
+        out += bytes[i].toString(16).padStart(2, "0");
+    }
+    return out;
+}
+
+function fnv1a32HexFromBuffer(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let hash = 0x811c9dc5;
+    for (let i = 0; i < bytes.length; i++) {
+        hash ^= bytes[i];
+        hash = Math.imul(hash, 0x01000193) >>> 0;
+    }
+    return hash.toString(16).padStart(8, "0");
+}
+
+async function createDeterministicCacheIdFromBlob(blob) {
+    if (!blob) return createUserImageCacheId();
+    const buffer = await blob.arrayBuffer();
+
+    if (typeof crypto !== "undefined" && crypto.subtle && typeof crypto.subtle.digest === "function") {
+        const digest = await crypto.subtle.digest("SHA-256", buffer);
+        return "img_sha256_" + bytesToHex(new Uint8Array(digest));
+    }
+
+    return "img_fnv1a32_" + fnv1a32HexFromBuffer(buffer);
+}
+
+function canvasToBlob(canvasObj, mimeType) {
+    return new Promise(function(resolve) {
+        if (!canvasObj || typeof canvasObj.toBlob !== "function") {
+            resolve(null);
+            return;
+        }
+        canvasObj.toBlob(function(blob) {
+            resolve(blob || null);
+        }, mimeType || "image/png");
+    });
+}
+
+function normalizeUserImageFilename(name) {
+    if (!name) return "";
+    const strName = String(name);
+    const pieces = strName.split(/[\\/]/);
+    const base = pieces[pieces.length - 1] || "";
+    return base.trim().toLowerCase();
+}
+
+function resolveCachedUserImageIndex(layer) {
+    if (!layer) return -1;
+
+    if (layer.cacheId && (userImageCacheIndexById[layer.cacheId] !== undefined)) {
+        return userImageCacheIndexById[layer.cacheId];
+    }
+
+    const wanted = normalizeUserImageFilename(layer.filename);
+    if (!wanted) return -1;
+
+    for (let i = 0; i < userImageMetaList.length; i++) {
+        const meta = userImageMetaList[i];
+        if (!meta) continue;
+        const have = normalizeUserImageFilename(meta.filename);
+        if (have && have === wanted && userImageList[i]) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+async function persistCanvasToUserImageCache(canvasObj, cacheId, filename) {
+    if (!canvasObj || !supportsUserImageCache()) {
+        return { cacheId: cacheId || "", size: 0, persisted: false };
+    }
+
+    try {
+        const blob = await canvasToBlob(canvasObj, "image/png");
+        if (!blob) {
+            return { cacheId: cacheId || "", size: 0, persisted: false };
+        }
+
+        let resolvedCacheId = cacheId || "";
+        if (!resolvedCacheId) {
+            resolvedCacheId = await createDeterministicCacheIdFromBlob(blob);
+        }
+
+        await putCachedUserImage(resolvedCacheId, filename || "", blob);
+        refreshUserImageCacheUsage();
+        return { cacheId: resolvedCacheId, size: blob.size || 0, persisted: true };
+    } catch (error) {
+        console.error("Failed to cache embedded canvas image", error);
+        return { cacheId: cacheId || "", size: 0, persisted: false };
+    }
+}
+
 function formatByteSize(bytes) {
     if (!bytes || bytes < 0) return "0 B";
     if (bytes < 1024) return bytes + " B";
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
     if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(2) + " MB";
     return (bytes / (1024 * 1024 * 1024)).toFixed(2) + " GB";
+}
+
+function sanitizeIntegerString(value) {
+    if (value === undefined || value === null) return "";
+    const digits = String(value).replace(/\D/g, "");
+    if (!digits.length) return "";
+    const parsed = parseInt(digits, 10);
+    if (!isFinite(parsed) || parsed < 0) return "";
+    return String(parsed);
+}
+
+function getUserImageCacheWarningThresholdMb() {
+    const inputEl = document.getElementById("cacheWarningThresholdMb");
+    if (inputEl) {
+        const cleaned = sanitizeIntegerString(inputEl.value);
+        if (cleaned !== "") return parseInt(cleaned, 10);
+    }
+    const stored = localStorage.getItem(USER_IMAGE_CACHE_WARNING_MB_KEY);
+    const cleanedStored = sanitizeIntegerString(stored);
+    if (cleanedStored === "") return 0;
+    return parseInt(cleanedStored, 10);
+}
+
+function setUserImageCacheWarningThreshold(inputEl) {
+    let cleaned = "";
+    if (inputEl && inputEl.value !== undefined) {
+        cleaned = sanitizeIntegerString(inputEl.value);
+        inputEl.value = cleaned;
+    } else {
+        const domInput = document.getElementById("cacheWarningThresholdMb");
+        if (domInput) {
+            cleaned = sanitizeIntegerString(domInput.value);
+            domInput.value = cleaned;
+        }
+    }
+
+    if (cleaned === "") {
+        localStorage.removeItem(USER_IMAGE_CACHE_WARNING_MB_KEY);
+        userImageCacheWarningWasAbove = false;
+    } else {
+        localStorage.setItem(USER_IMAGE_CACHE_WARNING_MB_KEY, cleaned);
+    }
+    refreshUserImageCacheUsage();
+}
+
+function initializeUserImageCacheWarningThresholdInput() {
+    const inputEl = document.getElementById("cacheWarningThresholdMb");
+    if (!inputEl) return;
+    const stored = localStorage.getItem(USER_IMAGE_CACHE_WARNING_MB_KEY);
+    const cleaned = sanitizeIntegerString(stored);
+    inputEl.value = cleaned;
+}
+
+function updateUserImageCacheWarningStatus(totalBytes) {
+    const warningEl = document.getElementById("cacheWarningStatus");
+    const thresholdMb = getUserImageCacheWarningThresholdMb();
+
+    if (!warningEl) return;
+
+    if (!thresholdMb || thresholdMb <= 0) {
+        warningEl.innerText = "Warning threshold disabled";
+        userImageCacheWarningWasAbove = false;
+        return;
+    }
+
+    const thresholdBytes = thresholdMb * 1024 * 1024;
+    const isAbove = totalBytes >= thresholdBytes;
+
+    if (isAbove) {
+        warningEl.innerText = "Warning: cache is above " + thresholdMb + " MB";
+        if (!userImageCacheWarningWasAbove) {
+            window.alert("Image cache warning: current cache size (" + formatByteSize(totalBytes) + ") exceeds your threshold (" + thresholdMb + " MB).");
+        }
+    } else {
+        warningEl.innerText = "Threshold " + thresholdMb + " MB (current below limit)";
+    }
+
+    userImageCacheWarningWasAbove = isAbove;
 }
 
 function putCachedUserImage(cacheId, filename, blob) {
@@ -143,6 +322,7 @@ async function refreshUserImageCacheUsage() {
     const statusEl = document.getElementById("cacheStatus");
     const sizeEl = document.getElementById("cacheSize");
     const clearBtn = document.getElementById("clearImageCacheBtn");
+    const viewBtn = document.getElementById("viewCachedImagesBtn");
 
     if (!statusEl && !sizeEl && !clearBtn) return;
 
@@ -150,6 +330,8 @@ async function refreshUserImageCacheUsage() {
         if (statusEl) statusEl.innerText = "IndexedDB not available";
         if (sizeEl) sizeEl.innerText = "Size: n/a";
         if (clearBtn) clearBtn.disabled = true;
+        if (viewBtn) viewBtn.disabled = true;
+        updateUserImageCacheWarningStatus(0);
         return;
     }
 
@@ -175,15 +357,193 @@ async function refreshUserImageCacheUsage() {
         if (clearBtn) {
             clearBtn.disabled = (records.length === 0);
         }
+        if (viewBtn) {
+            viewBtn.disabled = (records.length === 0);
+        }
+        updateUserImageCacheWarningStatus(total);
     } catch (error) {
         if (statusEl) statusEl.innerText = "Cache status unavailable";
         if (sizeEl) sizeEl.innerText = "Size: n/a";
         if (clearBtn) clearBtn.disabled = false;
+        if (viewBtn) viewBtn.disabled = false;
+        updateUserImageCacheWarningStatus(0);
         console.error("Failed to refresh image cache usage", error);
     }
 }
 
+function hideCachedImageContactSheet(resetMode) {
+    const modal = document.getElementById("cacheSheetModal");
+    const grid = document.getElementById("cacheSheetGrid");
+    const summary = document.getElementById("cacheSheetSummary");
+
+    if (resetMode === undefined) resetMode = true;
+
+    for (let i = 0; i < cacheSheetObjectUrls.length; i++) {
+        try {
+            URL.revokeObjectURL(cacheSheetObjectUrls[i]);
+        } catch (error) {}
+    }
+    cacheSheetObjectUrls = [];
+
+    if (grid) grid.innerHTML = "";
+    if (summary) summary.innerText = "";
+    if (resetMode) cacheSheetSelectMode = false;
+
+    if (modal) {
+        modal.classList.remove("w3-show");
+        modal.classList.add("w3-nodisplay");
+    }
+}
+
+function addCachedImageLayerByRecord(record) {
+    if (!record || !record.id) return;
+
+    function createLayerFromIndex(idx) {
+        const imgObj = userImageList[idx];
+        if (!imgObj) return;
+
+        const layer = {
+            type: "userFile",
+            iNum: idx,
+            x: 0,
+            y: 0,
+            width: imgObj.width,
+            height: imgObj.height,
+            alpha: 100,
+            sx: 0,
+            sy: 0,
+            swidth: imgObj.width,
+            sheight: imgObj.height,
+            params: "allimages clipimages",
+            filename: record.filename || "Cached image",
+            cacheId: record.id
+        };
+
+        addLayer("Local:" + layer.filename, layer);
+        drawProject();
+    }
+
+    const knownIndex = userImageCacheIndexById[record.id];
+    if (knownIndex !== undefined && knownIndex !== null && userImageList[knownIndex]) {
+        createLayerFromIndex(knownIndex);
+        return;
+    }
+
+    if (!record.blob) return;
+    cachedBlobToImage(record.blob).then(function(imageObj) {
+        const idx = userImageList.length;
+        userImageList.push(imageObj);
+        userImageCacheIndexById[record.id] = idx;
+        userImageMetaList[idx] = {
+            cacheId: record.id,
+            filename: record.filename || "",
+            size: Number(record.size || (record.blob && record.blob.size) || 0),
+            persisted: true
+        };
+        createLayerFromIndex(idx);
+    }).catch(function(error) {
+        console.error("Failed to decode cached image for layer insertion", error);
+        window.alert("Failed to load cached image.");
+    });
+}
+
+function clickLoadCachedImage() {
+    if (!supportsUserImageCache()) {
+        window.alert("IndexedDB is not available in this browser.");
+        return;
+    }
+    cacheSheetSelectMode = true;
+    showCachedImageContactSheet();
+}
+
+async function showCachedImageContactSheet() {
+    const modal = document.getElementById("cacheSheetModal");
+    const grid = document.getElementById("cacheSheetGrid");
+    const summary = document.getElementById("cacheSheetSummary");
+
+    if (!modal || !grid || !summary) return;
+    if (!supportsUserImageCache()) {
+        window.alert("IndexedDB is not available in this browser.");
+        return;
+    }
+
+    hideCachedImageContactSheet(false);
+    modal.classList.remove("w3-nodisplay");
+    modal.classList.add("w3-show");
+    summary.innerText = "Loading cached images...";
+
+    try {
+        const records = await getAllCachedUserImageRecords();
+        let total = 0;
+        for (let i = 0; i < records.length; i++) {
+            const rec = records[i] || {};
+            total += Number(rec.size || (rec.blob && rec.blob.size) || 0);
+        }
+
+        if (!records.length) {
+            summary.innerText = "No cached images found.";
+            return;
+        }
+
+        if (cacheSheetSelectMode) {
+            summary.innerText = "Select an image to add as a layer • " + records.length + " image" + (records.length === 1 ? "" : "s") + " • " + formatByteSize(total);
+        } else {
+            summary.innerText = records.length + " image" + (records.length === 1 ? "" : "s") + " • " + formatByteSize(total);
+        }
+
+        records.sort(function(a, b) {
+            return Number(b.updatedAt || 0) - Number(a.updatedAt || 0);
+        });
+
+        for (let i = 0; i < records.length; i++) {
+            const rec = records[i];
+            if (!rec || !rec.blob) continue;
+
+            const card = document.createElement("div");
+            card.style.border = "1px solid #ddd";
+            card.style.padding = "6px";
+            if (cacheSheetSelectMode) {
+                card.style.cursor = "pointer";
+                card.onclick = function() {
+                    addCachedImageLayerByRecord(rec);
+                    hideCachedImageContactSheet();
+                };
+            }
+
+            const url = URL.createObjectURL(rec.blob);
+            cacheSheetObjectUrls.push(url);
+
+            const img = document.createElement("img");
+            img.src = url;
+            img.alt = rec.filename || rec.id;
+            img.style.width = "100%";
+            img.style.height = "110px";
+            img.style.objectFit = "contain";
+            img.style.display = "block";
+
+            const name = document.createElement("div");
+            name.style.fontSize = "11px";
+            name.style.wordBreak = "break-word";
+            name.innerText = rec.filename || rec.id;
+
+            const meta = document.createElement("div");
+            meta.style.fontSize = "10px";
+            meta.innerText = formatByteSize(Number(rec.size || (rec.blob && rec.blob.size) || 0));
+
+            card.appendChild(img);
+            card.appendChild(name);
+            card.appendChild(meta);
+            grid.appendChild(card);
+        }
+    } catch (error) {
+        summary.innerText = "Failed to load cached images.";
+        console.error("showCachedImageContactSheet failed", error);
+    }
+}
+
 async function initializeUserImageCache() {
+    initializeUserImageCacheWarningThresholdInput();
+
     if (!supportsUserImageCache()) {
         refreshUserImageCacheUsage();
         return;
@@ -225,6 +585,7 @@ async function clearCachedUserImages() {
 
     try {
         await clearAllCachedUserImages();
+        hideCachedImageContactSheet();
         userImageCacheIndexById = {};
         for (let i = 0; i < userImageMetaList.length; i++) {
             if (!userImageMetaList[i]) continue;
@@ -1878,6 +2239,14 @@ function autoSave(layers) {
             }
             // remove numeric index to make saved data index-independent
             delete copy.iNum;
+        } else if ((copy.type === "userFile") || (copy.type === "embedded")) {
+            if ((copy.iNum !== undefined) && (copy.iNum !== null) && (copy.iNum !== -1)) {
+                const meta = userImageMetaList[copy.iNum];
+                if (meta) {
+                    if (!copy.cacheId && meta.cacheId) copy.cacheId = meta.cacheId;
+                    if (!copy.filename && meta.filename) copy.filename = meta.filename;
+                }
+            }
         }
         saveLayers.push(copy);
     }
@@ -2163,7 +2532,24 @@ function loadFrom(saved, autoload) {
                     //   addLayer(layer.name, layer);
                     //   break;
                 case "embedded":
-                    if (autoload) { unreloadable = true; break };
+                    if (autoload) {
+                        const cachedIndex = resolveCachedUserImageIndex(layer);
+                        if (cachedIndex !== -1) {
+                            layer.iNum = cachedIndex;
+                            const matchedMeta = userImageMetaList[cachedIndex];
+                            if (matchedMeta && matchedMeta.cacheId && !layer.cacheId) {
+                                layer.cacheId = matchedMeta.cacheId;
+                            }
+                            if (layer.name) {
+                                addLayer(layer.name, layer);
+                            } else {
+                                addLayer("embed" + layer.iNum, layer);
+                            }
+                        } else {
+                            unreloadable = true;
+                        }
+                        break;
+                    }
                     if (layer.name) {
                         addLayer(layer.name, layer);
                     } else {
@@ -2178,8 +2564,13 @@ function loadFrom(saved, autoload) {
                     break;
                 case "userFile":
                     if (autoload) {
-                        if (layer.cacheId && (userImageCacheIndexById[layer.cacheId] !== undefined)) {
-                            layer.iNum = userImageCacheIndexById[layer.cacheId];
+                        const cachedIndex = resolveCachedUserImageIndex(layer);
+                        if (cachedIndex !== -1) {
+                            layer.iNum = cachedIndex;
+                            const matchedMeta = userImageMetaList[cachedIndex];
+                            if (matchedMeta && matchedMeta.cacheId && !layer.cacheId) {
+                                layer.cacheId = matchedMeta.cacheId;
+                            }
                             addLayer("Local:" + layer.filename, layer);
                         } else {
                             unreloadable = true;
@@ -2394,7 +2785,7 @@ function addTextBox(th) {
 
 var mostRecentFile = { file: null, name: "", cacheId: "" };
 
-function addUserFile(th) {
+async function addUserFile(th) {
     if (!th.value) return;
     try {
         let file = th.files[0];
@@ -2403,11 +2794,12 @@ function addUserFile(th) {
             window.alert('File is not an image.');
             return;
         }
+        const deterministicCacheId = await createDeterministicCacheIdFromBlob(file);
         // load a local file
         mostRecentFile = {
             file: file,
             name: file.name,
-            cacheId: createUserImageCacheId()
+            cacheId: deterministicCacheId
         };
         const reader = new FileReader();
         reader.addEventListener('load', function() {
@@ -2495,7 +2887,7 @@ function userImageLoaded() {
             oLoadedProject = this;
 
             // need to wait until canvas drawn
-            setTimeout(function() {
+            setTimeout(async function() {
                 try {
                     // now we can access the image
                     let c = document.getElementById("cmcanvas");
@@ -2564,9 +2956,35 @@ function userImageLoaded() {
                         // normally userFile cannot reload but here we have userFile data embedded
                         // so change from userFile to embedded if needed
                         if ((newLayers[i].type == "userFile") || (newLayers[i].type == "embedded")) {
+                            let cacheId = newLayers[i].cacheId || "";
+                            const fileName = newLayers[i].filename || ("Embedded image " + (i + 1));
                             newLayers[i].iNum = userImageList.length;
+                            newLayers[i].filename = fileName;
                             // set iNum above to point to canvas we add to userImageList below
-                            userImageList.push(aCanvases.shift());
+                            const nextCanvas = aCanvases.shift();
+                            if (!cacheId) {
+                                const blobForHash = await canvasToBlob(nextCanvas, "image/png");
+                                cacheId = await createDeterministicCacheIdFromBlob(blobForHash);
+                            }
+                            newLayers[i].cacheId = cacheId;
+                            userImageList.push(nextCanvas);
+                            const layerImageIndex = newLayers[i].iNum;
+                            userImageMetaList[newLayers[i].iNum] = {
+                                cacheId: cacheId,
+                                filename: fileName,
+                                size: 0,
+                                persisted: false
+                            };
+                            userImageCacheIndexById[cacheId] = newLayers[i].iNum;
+                            persistCanvasToUserImageCache(nextCanvas, cacheId, fileName).then(function(cacheResult) {
+                                if (!cacheResult || !cacheResult.cacheId) return;
+                                userImageCacheIndexById[cacheResult.cacheId] = layerImageIndex;
+                                if (userImageMetaList[layerImageIndex]) {
+                                    userImageMetaList[layerImageIndex].cacheId = cacheResult.cacheId;
+                                    userImageMetaList[layerImageIndex].size = cacheResult.size || userImageMetaList[layerImageIndex].size || 0;
+                                    userImageMetaList[layerImageIndex].persisted = !!cacheResult.persisted;
+                                }
+                            });
                             newLayers[i].type = "embedded";
                         }
                     }
