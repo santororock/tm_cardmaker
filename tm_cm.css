@@ -2388,6 +2388,24 @@ input[type=checkbox] {
     margin: 0px 8px;
 }
 
+/* Asset Sets panel uses compact checkboxes; override global scaling. */
+#assetSetsCheckboxes > span {
+    display: block;
+    min-height: 24px;
+    line-height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#assetSetsCheckboxes input[type=checkbox] {
+    transform: none;
+    margin: 0 4px 0 0;
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+}
+
 
 /* Debug overlay canvas positioned on top of main canvas; does not block pointer events */
 
