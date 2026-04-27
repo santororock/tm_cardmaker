@@ -50,6 +50,9 @@ body {
 :root {
     --sidebar-width: clamp(180px, 16vw, 320px);
     --right-panel-width: clamp(280px, 22vw, 420px);
+    --ui-font-size: clamp(12px, 0.35vw + 0.25vh, 15px);
+    --ui-font-size-small: clamp(11px, 0.24vw + 0.18vh, 13px);
+    --overlay-edge-pad: clamp(12px, 5vh, 64px);
 }
 
 
@@ -86,9 +89,19 @@ body {
         max-width: 500px;
         /* Prevent sidebar from consuming too much screen */
         width: var(--sidebar-width, 180px);
+        font-size: var(--ui-font-size);
         /* Default width */
         resize: horizontal;
         /* Allow manual resize (built-in browser feature) */
+    }
+    #mySidebar .w3-small {
+        font-size: clamp(11px, 0.22vw + 0.16vh, 13px) !important;
+    }
+    #mySidebar .w3-medium {
+        font-size: clamp(12px, 0.34vw + 0.22vh, 15px) !important;
+    }
+    #mySidebar .w3-large {
+        font-size: clamp(17px, 0.5vw + 0.35vh, 22px) !important;
     }
     /* 
     Resize Handle: Visual affordance for dragging sidebar
@@ -191,7 +204,8 @@ body {
         overflow-y: auto;
         background: white;
         border-left: 1px solid #ddd;
-        padding: 16px;
+        padding: clamp(10px, 1.4vw, 16px);
+        font-size: var(--ui-font-size);
         z-index: 200;
         box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
     }
@@ -230,7 +244,7 @@ body {
     #canvasScrollarea {
         flex: 1;
         overflow: auto;
-        padding: 20px;
+        padding: clamp(8px, 2vh, 20px);
         background-color: #d0d0d0;
         position: relative;
     }
@@ -290,20 +304,21 @@ body {
     #zoomControls {
         display: flex;
         gap: 8px;
-        padding: 8px;
+        padding: clamp(6px, 1.2vh, 8px);
         background: #f0f0f0;
         border-bottom: 1px solid #ddd;
         align-items: center;
         /* Keep controls clear of the fixed right panel. */
         padding-right: var(--right-panel-width, 340px);
+        font-size: var(--ui-font-size);
     }
     #zoomControls button {
-        padding: 4px 12px;
+        padding: clamp(3px, 0.8vh, 6px) clamp(8px, 1.1vw, 12px);
         background: white;
         border: 1px solid #ccc;
         border-radius: 3px;
         cursor: pointer;
-        font-size: 12px;
+        font-size: var(--ui-font-size-small);
     }
     #zoomControls button:hover {
         background: #e0e0e0;
@@ -320,14 +335,14 @@ body {
     #zoomLevel {
         min-width: 50px;
         text-align: center;
-        font-size: 12px;
+        font-size: var(--ui-font-size-small);
         font-weight: bold;
     }
     #hotkeyHint {
         position: absolute;
         top: 10px;
         right: 12px;
-        font-size: 11px;
+        font-size: var(--ui-font-size-small);
         color: #555;
         background: rgba(255, 255, 255, 0.85);
         border: 1px solid #ddd;
@@ -353,16 +368,79 @@ body {
         gap: 8px;
         align-items: center;
         margin: 6px 0;
-        font-size: 13px;
+        font-size: var(--ui-font-size);
     }
     .hotkey {
         font-family: Consolas, "Courier New", monospace;
-        font-size: 12px;
+        font-size: var(--ui-font-size-small);
         background: #f2f2f2;
         border: 1px solid #d6d6d6;
         border-radius: 4px;
         padding: 2px 6px;
         white-space: nowrap;
+    }
+}
+
+@media (min-width: 993px) and (max-width: 1205px) {
+    :root {
+        --sidebar-width: clamp(170px, 18vw, 260px);
+        --ui-font-size: clamp(11px, 0.22vw + 0.18vh, 13px);
+        --ui-font-size-small: clamp(10px, 0.18vw + 0.14vh, 12px);
+    }
+    #mySidebar .w3-small {
+        font-size: clamp(10px, 0.18vw + 0.12vh, 12px) !important;
+    }
+    #mySidebar .w3-medium {
+        font-size: clamp(11px, 0.2vw + 0.15vh, 13px) !important;
+    }
+    #mySidebar .w3-large {
+        font-size: clamp(15px, 0.3vw + 0.2vh, 18px) !important;
+    }
+    #canvaswrap {
+        padding: clamp(18px, 2.8vw, 50px);
+    }
+    .divRec {
+        font-size: clamp(11px, 0.3vw + 0.22vh, 17px);
+    }
+}
+
+@media (min-width: 993px) and (max-height: 760px) {
+    :root {
+        --ui-font-size: clamp(10px, 0.2vw + 0.16vh, 12px);
+        --ui-font-size-small: clamp(9px, 0.16vw + 0.12vh, 11px);
+    }
+    #mySidebar .w3-small {
+        font-size: clamp(9px, 0.16vw + 0.1vh, 11px) !important;
+    }
+    #mySidebar .w3-medium {
+        font-size: clamp(10px, 0.18vw + 0.12vh, 12px) !important;
+    }
+    #mySidebar .w3-large {
+        font-size: clamp(14px, 0.25vw + 0.16vh, 16px) !important;
+    }
+    #rightPanel {
+        padding: 10px;
+    }
+    #debugcontrols {
+        margin-bottom: 4px;
+    }
+    #layerlist {
+        padding-top: 6px;
+    }
+    #zoomControls {
+        gap: 6px;
+    }
+    #zoomControls button {
+        padding: 3px 8px;
+    }
+    .hotkeys-list li {
+        margin: 4px 0;
+    }
+    .inside button {
+        height: 22px;
+    }
+    .divRec {
+        font-size: clamp(10px, 0.24vw + 0.18vh, 15px);
     }
 }
 
@@ -977,7 +1055,8 @@ a {
 .w3-modal {
     z-index: 3;
     display: none;
-    padding-top: 100px;
+    padding-top: clamp(12px, 4vh, 100px);
+    padding-bottom: clamp(12px, 4vh, 32px);
     position: fixed;
     left: 0;
     top: 0;
@@ -994,7 +1073,9 @@ a {
     position: relative;
     padding: 0;
     outline: 0;
-    width: 600px
+    width: min(92vw, 900px);
+    max-height: calc(100dvh - 2 * clamp(12px, 4vh, 100px));
+    overflow: auto
 }
 
 .w3-bar {
@@ -2158,9 +2239,29 @@ a {
 }
 
 .centerme {
-    width: 300px;
-    padding: 200px 0px;
+    width: min(92vw, 720px);
+    padding: var(--overlay-edge-pad) clamp(10px, 2vw, 24px);
     margin: auto;
+}
+
+.dialog-card {
+    padding: clamp(14px, 3vw, 50px);
+    max-width: min(92vw, 640px);
+    max-height: calc(100dvh - 2 * var(--overlay-edge-pad));
+    overflow-y: auto;
+    font-size: var(--ui-font-size);
+}
+
+.dialog-center-wide {
+    width: min(94vw, 920px);
+    max-width: 920px;
+    padding: clamp(8px, 2vh, 20px);
+}
+
+.dialog-card-cache {
+    max-width: min(92vw, 900px);
+    width: min(92vw, 900px);
+    padding: clamp(12px, 2.5vw, 24px);
 }
 
 
@@ -2172,8 +2273,20 @@ a {
 
 #helpmodal .centerme {
     width: auto;
-    max-width: 600px;
-    padding: 50px;
+    max-width: 680px;
+    padding: var(--overlay-edge-pad) clamp(10px, 2vw, 24px);
+}
+
+#shortcutsModal .w3-modal-content {
+    width: min(92vw, 760px);
+}
+
+#shortcutsModal {
+    z-index: 1300;
+}
+
+#cacheSheetModal {
+    z-index: 1200;
 }
 
 #helpContent h2 {
@@ -2228,13 +2341,13 @@ a {
 
 .inside button {
     height: 24px;
-    font-size: 14px;
+    font-size: var(--ui-font-size-small);
 }
 
 .divRec {
     cursor: move;
     padding: 2px;
-    font-size: 20px;
+    font-size: clamp(13px, 0.55vw + 0.35vh, 20px);
     border: 1px solid #000;
 }
 

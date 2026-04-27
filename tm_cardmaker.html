@@ -105,7 +105,7 @@
     <div class="overlay w3-nodisplay" id="overlay">
         <!-- Modal for loading web images -->
         <div class="centerme">
-            <div class="w3-white" style="padding: 50px;">
+            <div class="w3-white dialog-card">
                 <!-- Label + Input Pattern (semantic HTML for form usability) -->
                 Enter url to load image from:
                 <input id="url2load" type="url">
@@ -119,7 +119,7 @@
     <!-- Modal for loading web fonts -->
     <div class="overlay w3-nodisplay" id="fontoverlay">
         <div class="centerme">
-            <div class="w3-white" style="padding: 50px;">
+            <div class="w3-white dialog-card">
                 Enter url to load font from:
                 <!-- Note: type="text" instead of type="url" because Google Fonts links can be complex -->
                 <input id="fonturl2load" type="text">
@@ -132,7 +132,7 @@
     <!-- Modal for Help & Information -->
     <div class="overlay w3-nodisplay" id="helpmodal">
         <div class="centerme">
-            <div class="w3-white" style="padding: 50px; max-width: 600px; max-height: 80vh; overflow-y: auto;">
+            <div class="w3-white dialog-card">
                 <span onclick="cancelHelpModal()" style="float:right;cursor:pointer;font-size:28px;font-weight:bold;">&times;</span>
                 <div id="helpContent"></div>
                 <button onclick="cancelHelpModal()" style="margin-top:20px;">Close</button>
@@ -141,9 +141,9 @@
     </div>
 
     <!-- Modal for Cached Image Contact Sheet -->
-    <div class="overlay w3-nodisplay" id="cacheSheetModal" style="z-index: 1200;">
-        <div class="centerme" style="width: auto; max-width: 900px; padding: 0; margin: auto;">
-            <div class="w3-white" style="padding: 24px; max-width: 900px; width: 90vw; max-height: 80vh; overflow-y: auto;">
+    <div class="overlay w3-nodisplay" id="cacheSheetModal">
+        <div class="centerme dialog-center-wide">
+            <div class="w3-white dialog-card dialog-card-cache">
                 <span onclick="hideCachedImageContactSheet()" style="float:right;cursor:pointer;font-size:28px;font-weight:bold;">&times;</span>
                 <h3 style="margin-top:0;">Cached Images</h3>
                 <div id="cacheSheetSummary" style="margin-bottom: 10px;">Loading...</div>
@@ -351,7 +351,7 @@
             <div id="paramsResizeHandle"></div>
 
             <!-- Right Sidebar Panel - Contains debug controls and layer list -->
-            <div id="rightPanel" style="position: fixed; right: 0; top: 0; height: 100vh; overflow-y: auto; background: white; border-left: 1px solid #ddd; padding: 16px; z-index: 200; box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);">
+            <div id="rightPanel">
                 <!-- Debug Controls -->
                 <div id="debugcontrols" style="margin-bottom:8px;">
                     <label style="white-space:nowrap;"><input id="debugBounds" type="checkbox" checked onchange="window.debugOverlay && window.debugOverlay.toggle(this.checked)"> Debug bounds</label>
@@ -380,6 +380,10 @@
                     <b>Settings</b><br>
                     <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
                     <div style="clear: both; padding-top: 8px;">
+                        <b>Asset Sets</b>
+                        <div id="assetSetsCheckboxes" style="margin-top:6px; margin-bottom:8px;"></div>
+                    </div>
+                    <div style="clear: both; padding-top: 4px;">
                         <b>Image Cache</b><br>
                         <span id="cacheStatus">Checking cache...</span><br>
                         <span id="cacheSize">Size: n/a</span><br>
@@ -495,12 +499,16 @@
                         const scrollHeight = canvasScrollarea.scrollHeight;
                         const viewportWidth = canvasScrollarea.clientWidth;
                         const viewportHeight = canvasScrollarea.clientHeight;
+                        const rightPanel = document.getElementById('rightPanel');
+                        const rightPanelWidth = (window.innerWidth > 992 && rightPanel) ? rightPanel.offsetWidth : 0;
+                        // The right panel is fixed above the canvas on desktop, so center within visible space.
+                        const visibleViewportWidth = Math.max(200, viewportWidth - rightPanelWidth);
 
-                        console.log("[HTML] scrollWidth:", scrollWidth, "viewportWidth:", viewportWidth);
+                        console.log("[HTML] scrollWidth:", scrollWidth, "viewportWidth:", viewportWidth, "visibleViewportWidth:", visibleViewportWidth);
                         console.log("[HTML] Before - scrollLeft:", canvasScrollarea.scrollLeft, "scrollTop:", canvasScrollarea.scrollTop);
 
                         // Center the scrollable content in the viewport
-                        const scrollX = (scrollWidth - viewportWidth) / 2;
+                        const scrollX = (scrollWidth - visibleViewportWidth) / 2;
                         const scrollY = (scrollHeight - viewportHeight) / 2;
 
                         canvasScrollarea.scrollLeft = scrollX;
@@ -734,9 +742,13 @@
                 const rightPanel = document.getElementById('rightPanel');
                 const leftSidebarWidth = sidebar ? sidebar.offsetWidth : 0;
                 const rightPanelWidth = rightPanel ? rightPanel.offsetWidth : 0;
+                const minVisibleCanvasWidth = 420;
+                const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 1024;
+                const maxRightPanelForViewport = Math.max(180, viewportWidth - leftSidebarWidth - minVisibleCanvasWidth);
+                const effectiveRightPanelWidth = Math.min(rightPanelWidth, maxRightPanelForViewport);
 
                 // Available space for the canvas
-                const availableWidth = canvasScrollarea.clientWidth - rightPanelWidth;
+                const availableWidth = Math.max(minVisibleCanvasWidth, canvasScrollarea.clientWidth - effectiveRightPanelWidth);
                 const availableHeight = canvasScrollarea.clientHeight;
 
                 // Get the actual canvas dimensions
@@ -1012,16 +1024,33 @@
                 const maxWidth = 600;
                 const storageKey = 'tm_cardmaker_params_width';
 
+                function getSidebarWidth() {
+                    const sidebar = document.getElementById('mySidebar');
+                    return sidebar ? sidebar.offsetWidth : 0;
+                }
+
+                function getMaxAllowedWidth() {
+                    const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 1024;
+                    const minCanvasWidth = 420;
+                    const widthFromViewport = viewportWidth - getSidebarWidth() - minCanvasWidth;
+                    return Math.max(minWidth, Math.min(maxWidth, widthFromViewport));
+                }
+
+                function getDefaultPanelWidth() {
+                    return Math.min(340, getMaxAllowedWidth());
+                }
+
                 // Load saved width from localStorage
                 const savedWidth = localStorage.getItem(storageKey);
                 if (savedWidth) {
-                    setRightPanelWidth(parseInt(savedWidth));
+                    setRightPanelWidth(parseInt(savedWidth, 10));
                 } else {
-                    setRightPanelWidth(340);
+                    setRightPanelWidth(getDefaultPanelWidth());
                 }
 
                 function setRightPanelWidth(width) {
-                    const constrainedWidth = Math.max(minWidth, Math.min(maxWidth, width));
+                    const dynamicMaxWidth = getMaxAllowedWidth();
+                    const constrainedWidth = Math.max(minWidth, Math.min(dynamicMaxWidth, width));
                     rightPanel.style.width = constrainedWidth + 'px';
                     handle.style.right = constrainedWidth + 'px';
                     document.documentElement.style.setProperty('--right-panel-width', constrainedWidth + 'px');
@@ -1065,6 +1094,8 @@
                         handle.style.display = 'none';
                     } else {
                         handle.style.display = 'block';
+                        const currentWidth = parseInt(window.getComputedStyle(rightPanel).width, 10) || getDefaultPanelWidth();
+                        setRightPanelWidth(currentWidth);
                     }
                 });
             })();
@@ -1240,6 +1271,9 @@
                         return;
                     }
 
+                    // Populate Asset Sets checkboxes now that assetSets is loaded
+                    buildAssetSetsUI();
+
                     // Restore user image cache before loading autosave/project layers
                     if (typeof initializeUserImageCache === 'function') {
                         await initializeUserImageCache();
@@ -1279,6 +1313,69 @@
                     alert('Failed to initialize application. Check console for details.');
                 }
             })();
+
+            /**
+             * Build the Asset Sets toggle UI in the right panel settings section.
+             * Called once after loadAssets() resolves.
+             */
+            function buildAssetSetsUI() {
+                const container = document.getElementById("assetSetsCheckboxes");
+                if (!container) return;
+                container.innerHTML = "";
+
+                if (!assetSets || assetSets.length === 0) {
+                    container.innerHTML = "<em style='font-size:var(--ui-font-size-small);color:#888'>No sets defined.</em>";
+                    return;
+                }
+
+                const enabled = getEnabledSets();
+
+                assetSets.forEach(function(setDef) {
+                    // Use a <span> row so it inherits the panel's inline/block flow
+                    // without conflicting with any CSS applied to <div> children.
+                    const row = document.createElement("span");
+                    row.style.cssText = "display:block; line-height:1.8; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;";
+
+                    const cb = document.createElement("input");
+                    cb.type = "checkbox";
+                    cb.id = "assetset_" + setDef.id;
+                    cb.checked = enabled.has(setDef.id);
+                    cb.disabled = !!setDef.locked;
+                    cb.title = setDef.description || setDef.name || setDef.id;
+                    cb.style.verticalAlign = "middle";
+                    cb.style.marginRight = "4px";
+                    cb.addEventListener("change", function() {
+                        setAssetSetEnabled(setDef.id, cb.checked);
+                    });
+
+                    const dot = document.createElement("span");
+                    dot.style.cssText = "display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:4px; vertical-align:middle; background:" + (setDef.color || "#888") + ";";
+
+                    const lbl = document.createElement("label");
+                    lbl.htmlFor = "assetset_" + setDef.id;
+                    lbl.style.cursor = setDef.locked ? "default" : "pointer";
+                    lbl.style.fontSize = "var(--ui-font-size-small)";
+                    lbl.style.userSelect = "none";
+                    lbl.style.verticalAlign = "middle";
+                    lbl.title = setDef.description || "";
+                    lbl.textContent = setDef.name || setDef.id;
+                    if (setDef.locked) {
+                        const lockIcon = document.createElement("span");
+                        lockIcon.textContent = " \uD83D\uDD12";
+                        lockIcon.style.fontSize = "0.85em";
+                        lbl.appendChild(lockIcon);
+                    }
+
+                    row.appendChild(cb);
+                    row.appendChild(dot);
+                    row.appendChild(lbl);
+                    container.appendChild(row);
+                });
+
+                     // Final sync: make sure checkbox states exactly match what's in localStorage
+                     // (guards against stale state from a previous session)
+                     if (typeof syncAssetSetsUI === "function") syncAssetSetsUI();
+            }
         </script>
 
 </body>

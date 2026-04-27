@@ -616,10 +616,6 @@ var undoIndex = -1;
 var maxUndoSteps = 50;
 var isRestoringState = false;
 
-// blockList and blockDefaults will be loaded from assets.json
-var blockList = [];
-var blockDefaults = {};
-
 const sidebarCategoryOrder = [
     "blocks/templates",
     "blocks/tags",
@@ -634,9 +630,286 @@ const sidebarCategoryOrder = [
     "blocks/VPs"
 ];
 
-// blockList and blockDefaults will be loaded from assets.json
+// Asset data loaded from assets.json
 var blockList = [];
 var blockDefaults = {};
+var assetSets = [];           // schema v2: array of set definition objects
+var assetSchemaVersion = 1;   // schema v2: version number from assets.json
+
+// ---------------------------------------------------------------------------
+// Asset set filtering helpers (schema v2)
+// ---------------------------------------------------------------------------
+const ASSET_SETS_STORAGE_KEY = "tm_cardmaker_enabled_asset_sets";
+
+function canonicalizeSetToken(value) {
+    return String(value || "")
+        .trim()
+        .replace(/^['\"]+|['\"]+$/g, "")
+        .toLowerCase();
+}
+
+function slugifySetToken(value) {
+    return canonicalizeSetToken(value)
+        .replace(/[_\s]+/g, "-")
+        .replace(/[^a-z0-9-]/g, "")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+}
+
+function normalizeAssetSetValues(rawSets) {
+    if (Array.isArray(rawSets)) {
+        return rawSets
+            .map(v => String(v || "").trim())
+            .filter(Boolean);
+    }
+    if (typeof rawSets === "string") {
+        const s = rawSets.trim();
+        if (!s) return [];
+
+        // Accept malformed legacy strings like "['Core']" and proper JSON arrays.
+        if ((s.startsWith("[") && s.endsWith("]")) || (s.startsWith("(") && s.endsWith(")"))) {
+            try {
+                const normalizedJson = s.replace(/'/g, '"').replace(/^\(/, "[").replace(/\)$/, "]");
+                const parsed = JSON.parse(normalizedJson);
+                if (Array.isArray(parsed)) {
+                    return parsed
+                        .map(v => String(v || "").trim())
+                        .filter(Boolean);
+                }
+            } catch (e) {
+                // Fall through to comma split.
+            }
+        }
+
+        return s
+            .split(",")
+            .map(v => v.trim())
+            .filter(Boolean)
+            .map(v => v.replace(/^['\"]+|['\"]+$/g, ""));
+    }
+    return [];
+}
+
+function buildSetLookup(sets) {
+    const lookup = new Map();
+    sets.forEach(function(setDef) {
+        if (!setDef || !setDef.id) return;
+        const keys = [
+            setDef.id,
+            setDef.name,
+            canonicalizeSetToken(setDef.id),
+            canonicalizeSetToken(setDef.name),
+            slugifySetToken(setDef.id),
+            slugifySetToken(setDef.name)
+        ];
+        keys.forEach(function(key) {
+            if (key) lookup.set(key, setDef.id);
+        });
+    });
+    return lookup;
+}
+
+function deriveAssetSets(declaredSets, assets) {
+    const result = [];
+    const usedIds = new Set();
+
+    (Array.isArray(declaredSets) ? declaredSets : []).forEach(function(setDef) {
+        const baseId = slugifySetToken(setDef && setDef.id ? setDef.id : setDef && setDef.name ? setDef.name : "");
+        if (!baseId || usedIds.has(baseId)) return;
+        usedIds.add(baseId);
+        result.push({
+            id: baseId,
+            name: (setDef && setDef.name) ? setDef.name : baseId,
+            description: (setDef && setDef.description) ? setDef.description : "",
+            locked: !!(setDef && setDef.locked),
+            official: !!(setDef && setDef.official),
+            color: (setDef && setDef.color) ? setDef.color : "#888888"
+        });
+    });
+
+    const lookup = buildSetLookup(result);
+    const discovered = [];
+
+    (Array.isArray(assets) ? assets : []).forEach(function(asset) {
+        normalizeAssetSetValues(asset && asset.sets).forEach(function(rawSet) {
+            const candidates = [
+                rawSet,
+                canonicalizeSetToken(rawSet),
+                slugifySetToken(rawSet)
+            ].filter(Boolean);
+
+            let canonicalId = null;
+            for (const c of candidates) {
+                if (lookup.has(c)) {
+                    canonicalId = lookup.get(c);
+                    break;
+                }
+            }
+
+            if (canonicalId) return;
+
+            const autoId = slugifySetToken(rawSet);
+            if (!autoId || usedIds.has(autoId)) return;
+
+            usedIds.add(autoId);
+            const autoDef = {
+                id: autoId,
+                name: String(rawSet).trim(),
+                description: "Auto-discovered from blockList",
+                locked: false,
+                official: false,
+                color: "#888888"
+            };
+            discovered.push(autoDef);
+            lookup.set(autoId, autoId);
+            lookup.set(canonicalizeSetToken(autoDef.name), autoId);
+            lookup.set(slugifySetToken(autoDef.name), autoId);
+        });
+    });
+
+    return result.concat(discovered);
+}
+
+function resolveSetId(rawSet) {
+    const lookup = buildSetLookup(assetSets);
+    const candidates = [
+        rawSet,
+        canonicalizeSetToken(rawSet),
+        slugifySetToken(rawSet)
+    ].filter(Boolean);
+    for (const c of candidates) {
+        if (lookup.has(c)) return lookup.get(c);
+    }
+    return null;
+}
+
+/** Initialise enabledAssetSets from localStorage; locked sets are always on. */
+function initEnabledAssetSets() {
+    let stored;
+    try { stored = JSON.parse(localStorage.getItem(ASSET_SETS_STORAGE_KEY)); } catch(e) { stored = null; }
+    const storedSet = new Set();
+    if (Array.isArray(stored)) {
+        stored.forEach(function(v) {
+            const canonical = resolveSetId(v);
+            if (canonical) storedSet.add(canonical);
+        });
+    }
+    for (const s of assetSets) {
+        // Always enable: locked sets AND any set not yet seen by this browser
+        // (so newly-added sets in assets.json default to enabled)
+        if (s.locked || !storedSet.has(s.id)) {
+            storedSet.add(s.id);
+        }
+    }
+    localStorage.setItem(ASSET_SETS_STORAGE_KEY, JSON.stringify([...storedSet]));
+}
+
+/** Sync checkbox elements in the Asset Sets UI to match current localStorage state. */
+function syncAssetSetsUI() {
+    const enabled = getEnabledSets();
+    if (typeof assetSets === "undefined") return;
+    assetSets.forEach(function(setDef) {
+        const cb = document.getElementById("assetset_" + setDef.id);
+        if (cb) cb.checked = enabled.has(setDef.id);
+    });
+}
+
+/** Returns the currently enabled set IDs as a Set. */
+function getEnabledSets() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(ASSET_SETS_STORAGE_KEY));
+        if (Array.isArray(stored)) {
+            const canonicalStored = new Set();
+            stored.forEach(function(v) {
+                const canonical = resolveSetId(v);
+                if (canonical) canonicalStored.add(canonical);
+            });
+            return canonicalStored;
+        }
+    } catch(e) {}
+    return new Set(assetSets.map(s => s.id));
+}
+
+/**
+ * Persist a toggle of a single set id.
+ * @param {string} setId
+ * @param {boolean} enabled
+ */
+function setAssetSetEnabled(setId, enabled) {
+    const current = getEnabledSets();
+    // Never disable a locked set
+    const setDef = assetSets.find(s => s.id === setId);
+    if (setDef && setDef.locked) return;
+    if (enabled) current.add(setId); else current.delete(setId);
+    localStorage.setItem(ASSET_SETS_STORAGE_KEY, JSON.stringify([...current]));
+    rebuildBlockMenu();
+}
+
+
+/**
+ * Returns true when a sprite should appear in menus given current enabled sets.
+ * Rules:
+ *  1. debug usage → always visible (never filtered)
+ *  2. hidden otherbg sprites → never in menu regardless
+ *  3. legacy sprites (no sets field) → always visible (backward compat)
+ *  4. sprite.sets must intersect with enabled sets
+ */
+function isAssetVisible(asset) {
+    // debug sprites are always accessible
+    if (Array.isArray(asset.usage) && asset.usage.includes("debug")) return true;
+    // hidden sprites never appear in menu
+    if (asset.hidden) return false;
+    // schema v2 sets filtering
+    const normalizedAssetSets = normalizeAssetSetValues(asset.sets);
+    if (assetSchemaVersion >= 2 && normalizedAssetSets.length > 0) {
+        const enabled = getEnabledSets();
+        return normalizedAssetSets.some(function(rawSet) {
+            const canonicalId = resolveSetId(rawSet);
+            // Unknown sets are visible by default so user-added expansions don't vanish.
+            return canonicalId ? enabled.has(canonicalId) : true;
+        });
+    }
+    // legacy / no sets field → treat as always visible
+    return true;
+}
+
+/** Rebuild the entire Add Block menu and File→New from Template list. */
+function rebuildBlockMenu() {
+    // Save which accordion sections are currently open so we can restore them
+    const openCategories = new Set();
+    const menuContainer = document.getElementById("blocksMenu");
+    if (menuContainer) {
+        menuContainer.querySelectorAll(".w3-bar-block.w3-show").forEach(function(el) {
+            openCategories.add(el.id);
+        });
+    }
+
+    // Clear existing menu items and template links
+    if (menuContainer) menuContainer.innerHTML = "";
+    const fromTemplate = document.getElementById("fromTemplate");
+    if (fromTemplate) fromTemplate.innerHTML = "";
+
+    // Re-build category accordion headers
+    buildBlockMenu();
+
+    // Re-add menu items respecting current visibility
+    for (let i = 0; i < blockList.length; i++) {
+        addBlockMenuItem(i);
+    }
+
+    // Restore previously open accordion sections
+    openCategories.forEach(function(catId) {
+        const catEl = document.getElementById(catId);
+        if (catEl) {
+            catEl.classList.remove("w3-hide");
+            catEl.classList.add("w3-show");
+            if (catId.startsWith("blocks/")) loadCategoryThumbnails(catId);
+        }
+    });
+
+    // Reload lazy thumbnails for visible items
+    if (typeof setupLazyThumbnails === "function") setupLazyThumbnails();
+}
 
 /**
  * Load assets from external JSON file
@@ -665,6 +938,14 @@ async function loadAssets() {
         // The || [] and || {} provide fallback empty values if properties don't exist
         blockList = data.blockList || [];
         blockDefaults = data.blockDefaults || {};
+
+        // Schema v2: capture top-level asset sets and schema version
+        assetSchemaVersion = data.schemaVersion || 1;
+        assetSets = deriveAssetSets(data.sets || [], blockList);
+
+        // Initialise enabled sets from localStorage (default: all locked sets + core enabled)
+        initEnabledAssetSets();
+
         buildBlockMenu();
 
         console.log(`Loaded ${blockList.length} assets from assets.json`);
@@ -1335,9 +1616,11 @@ function resolveBlockIndex(idOrSrc) {
 
 function addBlockMenuItem(num) {
 
-    if (blockList[num].hidden) {
-        // hidden images don't get menu items
-        hiddenImage[blockList[num].text] = num;
+    if (!isAssetVisible(blockList[num])) {
+        // hidden / filtered-out images don't get menu items
+        if (blockList[num].hidden) {
+            hiddenImage[blockList[num].text] = num;
+        }
     } else {
         let tmpText = blockList[num].text;
         if (!tmpText) {

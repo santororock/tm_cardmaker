@@ -196,6 +196,8 @@ Author Notes:
 import sys
 import json
 import os
+import shutil
+import subprocess
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple  # Type hints for clarity
 from dataclasses import dataclass, field              # Cleaner class definitions
@@ -333,6 +335,7 @@ class AssetDocument:
         self.sprite_folder: Optional[Path] = None
         self._image_cache: Dict[str, QPixmap] = {}
         self.unsaved_indices: set = set()  # Track indices of unsaved (new) sprites
+        self.last_thumbnail_error: str = ""
         
     def load(self, path: Path) -> None:
         """
@@ -363,6 +366,11 @@ class AssetDocument:
             self.data["blockList"] = []
         if "blockDefaults" not in self.data:
             self.data["blockDefaults"] = {}
+        # Schema v2: preserve schemaVersion and sets (no-op for v1 files)
+        if "schemaVersion" not in self.data:
+            self.data["schemaVersion"] = 1
+        if "sets" not in self.data:
+            self.data["sets"] = []
             
         self.file_path = path
         self.dirty = False
@@ -406,7 +414,13 @@ class AssetDocument:
         for sprite in self.data["blockList"]:
             if "putUnder" in sprite:
                 sprite["putUnder"] = sprite["putUnder"].replace("\\", "/")
-            
+
+        # Ensure top-level schema v2 keys are preserved on save
+        if "schemaVersion" not in self.data:
+            self.data["schemaVersion"] = 1
+        if "sets" not in self.data:
+            self.data["sets"] = []
+
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(self.data, f, indent=2, ensure_ascii=False)
         
@@ -522,6 +536,18 @@ class AssetDocument:
                 sprite["src"] = sprite["src"] + "_copy"
             if "text" in sprite:
                 sprite["text"] = sprite["text"] + " (Copy)"
+            # Schema v2: update id and filename for the duplicate
+            if "id" in sprite:
+                base_id = sprite["id"] + "_copy"
+                existing_ids = {s.get("id") for s in self.data["blockList"]}
+                candidate = base_id
+                counter = 2
+                while candidate in existing_ids:
+                    candidate = f"{base_id}_{counter}"
+                    counter += 1
+                sprite["id"] = candidate
+            if "filename" in sprite and "src" in sprite:
+                sprite["filename"] = sprite["src"] + ".png"
             new_index = index + 1
             self.data["blockList"].insert(new_index, sprite)
             # Shift existing unsaved indices
@@ -675,8 +701,10 @@ class AssetDocument:
         """Validate asset data and return list of issues"""
         issues = []
         src_counts = {}
+        id_counts = {}
         virtual_srcs = {"debug_sprite_sheet"}
-        
+        valid_set_ids = {s["id"] for s in self.data.get("sets", []) if "id" in s}
+
         for i, sprite in enumerate(self.data["blockList"]):
             # Check required fields
             if "src" not in sprite:
@@ -687,16 +715,39 @@ class AssetDocument:
                 # Track duplicates
                 src = sprite["src"]
                 src_counts[src] = src_counts.get(src, 0) + 1
-                
+
                 # Check image exists
                 if self.sprite_folder and src not in virtual_srcs:
                     path = self.get_sprite_image_path(sprite)
                     if path is None or not path.exists():
                         issues.append(ValidationIssue(
-                            "warning", 
+                            "warning",
                             f"Sprite '{src}': Image file not found",
                             i, sprite.get("putUnder"), src
                         ))
+
+            # Schema v2: track id uniqueness
+            if "id" in sprite:
+                sid = sprite["id"]
+                id_counts[sid] = id_counts.get(sid, 0) + 1
+
+            # Schema v2: check sets reference valid set IDs
+            if "sets" in sprite and valid_set_ids:
+                for set_ref in sprite.get("sets", []):
+                    if set_ref not in valid_set_ids:
+                        issues.append(ValidationIssue(
+                            "warning",
+                            f"Sprite '{sprite.get('src', '?')}': set '{set_ref}' not defined in top-level sets",
+                            i, sprite.get("putUnder"), sprite.get("src")
+                        ))
+
+            # Schema v2: usage should be a list
+            if "usage" in sprite and not isinstance(sprite["usage"], list):
+                issues.append(ValidationIssue(
+                    "warning",
+                    f"Sprite '{sprite.get('src', '?')}': 'usage' should be a list",
+                    i, sprite.get("putUnder"), sprite.get("src")
+                ))
                         
             if "putUnder" not in sprite:
                 issues.append(ValidationIssue(
@@ -743,7 +794,14 @@ class AssetDocument:
                 issues.append(ValidationIssue(
                     "error", f"Duplicate src '{src}' appears {count} times"
                 ))
-                
+
+        # Schema v2: report duplicate ids
+        for sid, count in id_counts.items():
+            if count > 1:
+                issues.append(ValidationIssue(
+                    "error", f"Duplicate id '{sid}' appears {count} times"
+                ))
+
         return issues
         
     # ==================== THUMBNAIL MANAGEMENT ====================
@@ -831,58 +889,88 @@ class AssetDocument:
             False if all generations failed
             
         Implementation:
-        1. Load source image with PIL
-        2. For each size, create subdirectory if needed
-        3. Resize with high quality (LANCZOS)
-        4. Save as PNG
+        1. Prefer ImageMagick CLI (magick/convert) if available
+        2. Fallback to Pillow when ImageMagick is unavailable or fails
+        3. Save PNG thumbnails per size
         """
-        try:
-            from PIL import Image
-        except ImportError:
-            print("ERROR: PIL/Pillow not installed. Install with: pip install Pillow")
-            return False
+        self.last_thumbnail_error = ""
         
         if sizes is None:
             sizes = [32, 64, 128, 256]
         
         source_path = self.get_sprite_image_path(sprite)
         if source_path is None or not source_path.exists():
-            return False
-        
-        try:
-            source_image = Image.open(source_path)
-            if source_image.mode == 'RGBA':
-                # Keep alpha channel for transparency
-                pass
-            else:
-                # Convert to RGBA for consistency
-                source_image = source_image.convert('RGBA')
-        except Exception as e:
-            print(f"ERROR: Failed to open image {source_path}: {e}")
+            self.last_thumbnail_error = f"Source image not found for sprite '{sprite.get('src', '')}'"
             return False
         
         success_count = 0
         thumb_folder = self.get_thumbnail_folder(sprite)
         
         if thumb_folder is None:
+            self.last_thumbnail_error = f"Invalid thumbnail folder for sprite '{sprite.get('src', '')}'"
             return False
         
         # Create thumbnail folder if needed
         thumb_folder.mkdir(parents=True, exist_ok=True)
-        
+
         src = sprite["src"]
-        for size in sizes:
-            try:
-                # Resize preserving aspect ratio
-                img_copy = source_image.copy()
-                img_copy.thumbnail((size, size), Image.Resampling.LANCZOS)
-                
-                # Save thumbnail
+
+        backend_errors: List[str] = []
+        pending_sizes = list(sizes)
+
+        # Backend 1: ImageMagick CLI
+        magick_cmd = shutil.which("magick") or shutil.which("convert")
+        if magick_cmd:
+            for size in list(pending_sizes):
                 thumb_path = thumb_folder / f"{src}_{size}.png"
-                img_copy.save(thumb_path, 'PNG')
-                success_count += 1
+                cmd = [magick_cmd, str(source_path), "-thumbnail", f"{size}x{size}", str(thumb_path)]
+                try:
+                    subprocess.run(cmd, check=True, capture_output=True, text=True)
+                    success_count += 1
+                    pending_sizes.remove(size)
+                except subprocess.CalledProcessError as e:
+                    stderr_text = (e.stderr or "").strip()
+                    backend_errors.append(f"ImageMagick {size}px failed: {stderr_text or e}")
+                except Exception as e:
+                    backend_errors.append(f"ImageMagick {size}px failed: {e}")
+
+        # Backend 2: Pillow fallback
+        if pending_sizes:
+            try:
+                from PIL import Image
+
+                # Pillow compatibility: Pillow>=10 uses Image.Resampling.LANCZOS,
+                # while older versions expose Image.LANCZOS or Image.ANTIALIAS.
+                if hasattr(Image, "Resampling"):
+                    resample_filter = Image.Resampling.LANCZOS
+                elif hasattr(Image, "LANCZOS"):
+                    resample_filter = Image.LANCZOS
+                else:
+                    resample_filter = Image.ANTIALIAS
+
+                source_image = Image.open(source_path)
+                if source_image.mode != 'RGBA':
+                    source_image = source_image.convert('RGBA')
+
+                for size in pending_sizes:
+                    try:
+                        img_copy = source_image.copy()
+                        img_copy.thumbnail((size, size), resample_filter)
+                        thumb_path = thumb_folder / f"{src}_{size}.png"
+                        img_copy.save(thumb_path, 'PNG')
+                        success_count += 1
+                    except Exception as e:
+                        backend_errors.append(f"Pillow {size}px failed: {e}")
+            except ImportError:
+                backend_errors.append("Pillow is not installed")
             except Exception as e:
-                print(f"ERROR: Failed to generate {size}px thumbnail for {src}: {e}")
+                backend_errors.append(f"Pillow failed to open/process image: {e}")
+
+        if success_count == 0:
+            if not magick_cmd:
+                backend_errors.insert(0, "ImageMagick not found on PATH")
+            self.last_thumbnail_error = "Thumbnail generation failed. " + "; ".join(backend_errors)
+            print(f"ERROR: {self.last_thumbnail_error}")
         
         return success_count > 0
     
@@ -1025,6 +1113,47 @@ class AssetDocument:
             if width and height:
                 new_sprite["width"] = width
                 new_sprite["height"] = height
+
+            # Schema v2 fields
+            cat_slug = category.replace("blocks/", "").lower()
+            prefix_double = cat_slug + "__"
+            prefix_single = cat_slug + "_"
+            stem_lower = stem.lower()
+            if stem_lower.startswith(prefix_double):
+                id_stem = stem[len(prefix_double):]
+            elif stem_lower.startswith(prefix_single):
+                id_stem = stem[len(prefix_single):]
+            else:
+                id_stem = stem
+            base_id = f"{cat_slug}.{id_stem.lower()}"
+            existing_ids = {s.get("id") for s in self.data["blockList"]}
+            candidate = base_id
+            counter = 2
+            while candidate in existing_ids:
+                candidate = f"{base_id}_{counter}"
+                counter += 1
+            new_sprite["id"] = candidate
+            new_sprite["filename"] = f"{stem}.png"
+            kind_map = {
+                "templates": "template", "globalparameters": "global-parameter",
+                "misc": "misc", "parties": "party", "productionboxes": "production-box",
+                "requisites": "requirement", "resources": "resource", "tags": "tag",
+                "tiles": "tile", "vps": "vp", "expansions": "expansion-icon",
+            }
+            new_sprite["kind"] = kind_map.get(cat_slug, "misc")
+            new_sprite["sets"] = ["core"]
+            new_sprite["usage"] = ["card-editor"]
+            new_sprite["group"] = ""
+            new_sprite["sortOrder"] = 0
+            new_sprite["locked"] = False
+            new_sprite["color"] = ""
+            new_sprite["tags"] = []
+            new_sprite["deprecated"] = False
+            new_sprite["replacedBy"] = ""
+            new_sprite["aliases"] = []
+            new_sprite["description"] = new_sprite["text"]
+            new_sprite["author"] = ""
+            new_sprite["notes"] = ""
                 
             new_sprites.append(new_sprite)
                 
@@ -2213,9 +2342,10 @@ class PropertyEditor(QWidget):
         multi_layout = QVBoxLayout(self.multi_editor)
         
         self.table = QTableWidget()
-        self.table.setColumnCount(8)
+        self.table.setColumnCount(14)
         self.table.setHorizontalHeaderLabels([
-            "Thumbnail", "putUnder", "text", "src", "width", "height", "hidden", "otherbg"
+            "Thumbnail", "putUnder", "text", "src", "width", "height", "hidden", "otherbg",
+            "id", "filename", "kind", "sets", "usage", "group"
         ])
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setColumnWidth(0, 80)  # Thumbnail column width
@@ -2404,7 +2534,8 @@ class PropertyEditor(QWidget):
             # Refresh the view to show new thumbnails
             self.show_single_editor(index)
         else:
-            QMessageBox.warning(self, "Error", "Failed to generate thumbnails. Check that PIL/Pillow is installed.")
+            details = self.document.last_thumbnail_error or "Unknown thumbnail generation error."
+            QMessageBox.warning(self, "Error", f"Failed to generate thumbnails.\n{details}")
     
     def show_multi_editor(self, indices: List[int]):
         """Show table editor for multiple sprites"""
@@ -2452,6 +2583,13 @@ class PropertyEditor(QWidget):
             self.table.setItem(row, 5, QTableWidgetItem(str(sprite.get("height", ""))))
             self.table.setItem(row, 6, QTableWidgetItem(str(sprite.get("hidden", ""))))
             self.table.setItem(row, 7, QTableWidgetItem(sprite.get("otherbg", "")))
+            # Schema v2 columns
+            self.table.setItem(row, 8, QTableWidgetItem(sprite.get("id", "")))
+            self.table.setItem(row, 9, QTableWidgetItem(sprite.get("filename", "")))
+            self.table.setItem(row, 10, QTableWidgetItem(sprite.get("kind", "")))
+            self.table.setItem(row, 11, QTableWidgetItem(", ".join(sprite.get("sets", [])) if isinstance(sprite.get("sets"), list) else str(sprite.get("sets", ""))))
+            self.table.setItem(row, 12, QTableWidgetItem(", ".join(sprite.get("usage", [])) if isinstance(sprite.get("usage"), list) else str(sprite.get("usage", ""))))
+            self.table.setItem(row, 13, QTableWidgetItem(sprite.get("group", "")))
             
         self.table.blockSignals(False)
         
@@ -2520,7 +2658,8 @@ class PropertyEditor(QWidget):
             # Refresh the table to show new thumbnails
             self.show_multi_editor(self.current_indices)
         else:
-            QMessageBox.warning(self, "Error", "Failed to generate any thumbnails. Check that PIL/Pillow is installed.")
+            details = self.document.last_thumbnail_error or "Unknown thumbnail generation error."
+            QMessageBox.warning(self, "Error", f"Failed to generate any thumbnails.\n{details}")
     
     def on_splitter_moved(self, pos: int, index: int):
         """Handle splitter movement to update thumbnail scaling"""
@@ -2552,17 +2691,23 @@ class PropertyEditor(QWidget):
         value = item.text()
         
         # Adjusted for thumbnail column at index 0
-        fields = ["putUnder", "text", "src", "width", "height", "hidden", "otherbg"]
+        fields = ["putUnder", "text", "src", "width", "height", "hidden", "otherbg",
+                  "id", "filename", "kind", "sets", "usage", "group", "sortOrder",
+                  "locked", "color", "tags", "deprecated", "replacedBy", "aliases",
+                  "description", "author", "notes"]
         field = fields[col - 1]
         
         # Type conversion
-        if field in ["width", "height"]:
+        if field in ["width", "height", "sortOrder"]:
             try:
                 value = int(value) if value else None
             except ValueError:
                 return
-        elif field == "hidden":
+        elif field in ["hidden", "deprecated", "locked"]:
             value = value.lower() in ["true", "1", "yes"]
+        elif field in ["sets", "usage", "tags", "aliases"]:
+            # Comma-separated string → list
+            value = [v.strip() for v in value.split(",") if v.strip()] if value else []
             
         if value:
             sprite[field] = value

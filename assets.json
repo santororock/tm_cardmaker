@@ -1,100 +1,447 @@
 {
+  "schemaVersion": 2,
+  "sets": [
+    {
+      "id": "core",
+      "name": "Core Game",
+      "description": "Base Terraforming Mars content. Always enabled.",
+      "locked": true,
+      "official": true,
+      "color": "#4a7c59"
+    },
+    {
+      "id": "corporate-era",
+      "name": "Corporate Era",
+      "description": "Corporate Era expansion",
+      "locked": false,
+      "official": true,
+      "color": "#6b8e23"
+    },
+    {
+      "id": "prelude",
+      "name": "Prelude",
+      "description": "Prelude expansion",
+      "locked": false,
+      "official": true,
+      "color": "#c4872f"
+    },
+    {
+      "id": "venus-next",
+      "name": "Venus Next",
+      "description": "Venus Next expansion",
+      "locked": false,
+      "official": true,
+      "color": "#9b4db8"
+    },
+    {
+      "id": "colonies",
+      "name": "Colonies",
+      "description": "Colonies expansion",
+      "locked": false,
+      "official": true,
+      "color": "#2e86ab"
+    },
+    {
+      "id": "turmoil",
+      "name": "Turmoil",
+      "description": "Turmoil expansion",
+      "locked": false,
+      "official": true,
+      "color": "#c44536"
+    },
+    {
+      "id": "promo",
+      "name": "Promo",
+      "description": "Promo cards",
+      "locked": false,
+      "official": true,
+      "color": "#f4a261"
+    },
+    {
+      "id": "cosmic-horror",
+      "name": "Cosmic Horror",
+      "description": "Fan-made expansion",
+      "locked": false,
+      "official": false,
+      "color": "#6b2d6b"
+    }
+  ],
   "blockList": [
     {
       "putUnder": "blocks/templates",
       "text": "Green Card",
       "src": "templates__green_normal",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.green_normal",
+      "filename": "templates__green_normal.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Green Card",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Green Small Bottom",
       "src": "templates__green_small_bottom",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.green_small_bottom",
+      "filename": "templates__green_small_bottom.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Green Small Bottom",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Green Big Bottom",
       "src": "templates__green_big_bottom",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.green_big_bottom",
+      "filename": "templates__green_big_bottom.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Green Big Bottom",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Blue Card",
       "src": "templates__blue_normal",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.blue_normal",
+      "filename": "templates__blue_normal.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Blue Card",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Blue Big Bottom",
       "src": "templates__blue_big_bottom",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.blue_big_bottom",
+      "filename": "templates__blue_big_bottom.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Blue Big Bottom",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Blue Big Top",
       "src": "templates__blue_big_top",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.blue_big_top",
+      "filename": "templates__blue_big_top.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Blue Big Top",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Red Card",
       "src": "templates__red_normal",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.red_normal",
+      "filename": "templates__red_normal.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Red Card",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Red Small Bottom",
       "src": "templates__red_small_bottom",
       "width": 1703,
-      "height": 2319
+      "height": 2319,
+      "id": "templates.red_small_bottom",
+      "filename": "templates__red_small_bottom.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Red Small Bottom",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Prelude",
       "src": "templates__prelude",
       "width": 1126,
-      "height": 826
+      "height": 826,
+      "id": "templates.prelude",
+      "filename": "templates__prelude.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Prelude",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Corporation",
       "src": "templates__corporation",
       "width": 1126,
-      "height": 826
+      "height": 826,
+      "id": "templates.corporation",
+      "filename": "templates__corporation.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Corporation",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/templates",
       "text": "Debug Sprite Sheet",
-      "src": "debug_sprite_sheet"
+      "src": "debug_sprite_sheet",
+      "id": "templates.debug_sprite_sheet",
+      "filename": "debug_sprite_sheet.png",
+      "kind": "template",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "debug"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Debug Sprite Sheet",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/globalparameters",
       "text": "Oxygen",
       "src": "globalparameters__oxygen",
       "width": 475,
-      "height": 476
+      "height": 476,
+      "id": "globalparameters.oxygen",
+      "filename": "globalparameters__oxygen.png",
+      "kind": "global-parameter",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Oxygen",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/globalparameters",
       "text": "Temperature",
       "src": "globalparameters__temperature",
       "width": 163,
-      "height": 547
+      "height": 547,
+      "id": "globalparameters.temperature",
+      "filename": "globalparameters__temperature.png",
+      "kind": "global-parameter",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Temperature",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/globalparameters",
       "text": "Venus",
       "src": "globalparameters__venus",
       "width": 775,
-      "height": 432
+      "height": 432,
+      "id": "globalparameters.venus",
+      "filename": "globalparameters__venus.png",
+      "kind": "global-parameter",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Venus",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
@@ -102,7 +449,27 @@
       "src": "misc__megacredit",
       "otherbg": "mc_otherbg",
       "width": 481,
-      "height": 481
+      "height": 481,
+      "id": "misc.megacredit",
+      "filename": "misc__megacredit.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Megacredit",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
@@ -110,189 +477,729 @@
       "src": "misc__other_player_background",
       "hidden": true,
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "misc.other_player_background",
+      "filename": "misc__other_player_background.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "mc_otherbg",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Arrow",
       "src": "misc__arrow",
       "width": 531,
-      "height": 248
+      "height": 248,
+      "id": "misc.arrow",
+      "filename": "misc__arrow.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Arrow",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Asterisk",
       "src": "misc__asterisc",
       "width": 193,
-      "height": 193
+      "height": 193,
+      "id": "misc.asterisc",
+      "filename": "misc__asterisc.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Asterisk",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Slash",
       "src": "misc__bar",
       "width": 123,
-      "height": 327
+      "height": 327,
+      "id": "misc.bar",
+      "filename": "misc__bar.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Slash",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Effect (bg)",
       "src": "misc__effect",
       "width": 730,
-      "height": 76
+      "height": 76,
+      "id": "misc.effect",
+      "filename": "misc__effect.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Effect (bg)",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Corp Tag Holder",
       "src": "misc__corp_tag_holder",
       "width": 243,
-      "height": 84
+      "height": 84,
+      "id": "misc.corp_tag_holder",
+      "filename": "misc__corp_tag_holder.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Corp Tag Holder",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Colon",
       "src": "misc__colon",
       "width": 28,
-      "height": 122
+      "height": 122,
+      "id": "misc.colon",
+      "filename": "misc__colon.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Colon",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 27,
       "putUnder": "blocks/misc",
       "src": "misc__card_number_box",
       "text": "Card Number Box",
-      "width": 54
+      "width": 54,
+      "id": "misc.card_number_box",
+      "filename": "misc__card_number_box.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Card Number Box",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Chairman",
       "src": "misc__chairman",
       "width": 548,
-      "height": 710
+      "height": 710,
+      "id": "misc.chairman",
+      "filename": "misc__chairman.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Chairman",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Delegate",
       "src": "misc__delegate",
       "width": 548,
-      "height": 710
+      "height": 710,
+      "id": "misc.delegate",
+      "filename": "misc__delegate.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Delegate",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Influence",
       "src": "misc__influence",
       "width": 1080,
-      "height": 1136
+      "height": 1136,
+      "id": "misc.influence",
+      "filename": "misc__influence.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Influence",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Party Leader",
       "src": "misc__party_leader",
       "width": 548,
-      "height": 710
+      "height": 710,
+      "id": "misc.party_leader",
+      "filename": "misc__party_leader.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Party Leader",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Asset",
       "src": "misc__asset",
       "width": 570,
-      "height": 493
+      "height": 493,
+      "id": "misc.asset",
+      "filename": "misc__asset.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Asset",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Colony Tile",
       "src": "misc__colonytile",
       "width": 713,
-      "height": 436
+      "height": 436,
+      "id": "misc.colonytile",
+      "filename": "misc__colonytile.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Colony Tile",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/misc",
       "text": "Population",
       "src": "misc__population",
       "width": 270,
-      "height": 266
+      "height": 266,
+      "id": "misc.population",
+      "filename": "misc__population.png",
+      "kind": "misc",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Population",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Bureaucrats",
       "src": "parties__bureacrats",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.bureacrats",
+      "filename": "parties__bureacrats.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Bureaucrats",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Centrists",
       "src": "parties__centrists",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.centrists",
+      "filename": "parties__centrists.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Centrists",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Empower",
       "src": "parties__empower",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.empower",
+      "filename": "parties__empower.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Empower",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Greens",
       "src": "parties__greens",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.greens",
+      "filename": "parties__greens.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Greens",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Kelvinists",
       "src": "parties__kelvinists",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.kelvinists",
+      "filename": "parties__kelvinists.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Kelvinists",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Mars First",
       "src": "parties__mars_first",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.mars_first",
+      "filename": "parties__mars_first.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Mars First",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Populists",
       "src": "parties__populists",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.populists",
+      "filename": "parties__populists.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Populists",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Reds",
       "src": "parties__reds",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.reds",
+      "filename": "parties__reds.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Reds",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Scientists",
       "src": "parties__scientists",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.scientists",
+      "filename": "parties__scientists.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Scientists",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Spome",
       "src": "parties__spome",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.spome",
+      "filename": "parties__spome.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Spome",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Transhumanists",
       "src": "parties__transhumanists",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.transhumanists",
+      "filename": "parties__transhumanists.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Transhumanists",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/parties",
       "text": "Unity",
       "src": "parties__unity",
       "width": 154,
-      "height": 111
+      "height": 111,
+      "id": "parties.unity",
+      "filename": "parties__unity.png",
+      "kind": "party",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Unity",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/productionboxes",
@@ -300,42 +1207,162 @@
       "src": "productionboxes__nxn",
       "hidden": true,
       "width": 177,
-      "height": 173
+      "height": 173,
+      "id": "productionboxes.nxn",
+      "filename": "productionboxes__nxn.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "prod_nxn",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/requisites",
       "text": "Max Requirement",
       "src": "requisites__max_big",
       "width": 881,
-      "height": 263
+      "height": 263,
+      "id": "requisites.max_big",
+      "filename": "requisites__max_big.png",
+      "kind": "requirement",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Max Requirement",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/requisites",
       "text": "Min Requirement (big)",
       "src": "requisites__min_big",
       "width": 776,
-      "height": 263
+      "height": 263,
+      "id": "requisites.min_big",
+      "filename": "requisites__min_big.png",
+      "kind": "requirement",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Min Requirement (big)",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/requisites",
       "text": "Min Requirement",
       "src": "requisites__min_medium",
       "width": 646,
-      "height": 263
+      "height": 263,
+      "id": "requisites.min_medium",
+      "filename": "requisites__min_medium.png",
+      "kind": "requirement",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Min Requirement",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/requisites",
       "text": "Min Requirement (small)",
       "src": "requisites__min_small",
       "width": 568,
-      "height": 262
+      "height": 262,
+      "id": "requisites.min_small",
+      "filename": "requisites__min_small.png",
+      "kind": "requirement",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Min Requirement (small)",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/requisites",
       "text": "No Requirement",
       "src": "requisites__normal",
       "width": 90,
-      "height": 260
+      "height": 260,
+      "id": "requisites.normal",
+      "filename": "requisites__normal.png",
+      "kind": "requirement",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "No Requirement",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -343,7 +1370,27 @@
       "src": "resources__animal",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.animal",
+      "filename": "resources__animal.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Animal",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -351,7 +1398,27 @@
       "src": "resources__asteroid",
       "otherbg": "res_otherbg",
       "width": 92,
-      "height": 90
+      "height": 90,
+      "id": "resources.asteroid",
+      "filename": "resources__asteroid.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Asteroid",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -359,7 +1426,27 @@
       "src": "resources__biohazard",
       "otherbg": "res_otherbg",
       "width": 580,
-      "height": 580
+      "height": 580,
+      "id": "resources.biohazard",
+      "filename": "resources__biohazard.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Biohazard",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -367,7 +1454,27 @@
       "src": "resources__card",
       "otherbg": "res_otherbg",
       "width": 334,
-      "height": 478
+      "height": 478,
+      "id": "resources.card",
+      "filename": "resources__card.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Card",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 334,
@@ -375,7 +1482,27 @@
       "src": "resources__card_corporation",
       "text": "Card - Corporation",
       "width": 463,
-      "otherbg": "res_otherbg"
+      "otherbg": "res_otherbg",
+      "id": "resources.card_corporation",
+      "filename": "resources__card_corporation.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Card - Corporation",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 463,
@@ -383,7 +1510,27 @@
       "src": "resources__card_player_aid",
       "text": "Card - Player Aid",
       "width": 334,
-      "otherbg": "res_otherbg"
+      "otherbg": "res_otherbg",
+      "id": "resources.card_player_aid",
+      "filename": "resources__card_player_aid.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Card - Player Aid",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 334,
@@ -391,7 +1538,27 @@
       "src": "resources__card_prelude",
       "text": "Card - Prelude",
       "width": 463,
-      "otherbg": "res_otherbg"
+      "otherbg": "res_otherbg",
+      "id": "resources.card_prelude",
+      "filename": "resources__card_prelude.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Card - Prelude",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -399,7 +1566,27 @@
       "src": "resources__data",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.data",
+      "filename": "resources__data.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Data",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -407,7 +1594,27 @@
       "src": "resources__dust",
       "otherbg": "res_otherbg",
       "width": 959,
-      "height": 942
+      "height": 942,
+      "id": "resources.dust",
+      "filename": "resources__dust.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Dust",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -415,7 +1622,27 @@
       "src": "resources__fighter",
       "otherbg": "res_otherbg",
       "width": 339,
-      "height": 362
+      "height": 362,
+      "id": "resources.fighter",
+      "filename": "resources__fighter.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Fighter",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -423,7 +1650,27 @@
       "src": "resources__floater",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.floater",
+      "filename": "resources__floater.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Floater",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -431,7 +1678,27 @@
       "src": "resources__heat",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.heat",
+      "filename": "resources__heat.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Heat",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -439,7 +1706,27 @@
       "src": "resources__microbe",
       "otherbg": "res_otherbg",
       "width": 329,
-      "height": 331
+      "height": 331,
+      "id": "resources.microbe",
+      "filename": "resources__microbe.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Microbe",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -447,7 +1734,27 @@
       "src": "resources__ore",
       "otherbg": "res_otherbg",
       "width": 81,
-      "height": 82
+      "height": 82,
+      "id": "resources.ore",
+      "filename": "resources__ore.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Ore",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -455,7 +1762,27 @@
       "src": "resources__plant",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.plant",
+      "filename": "resources__plant.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Plant",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -463,7 +1790,27 @@
       "src": "resources__power",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.power",
+      "filename": "resources__power.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Power",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -471,7 +1818,27 @@
       "src": "resources__radiation",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.radiation",
+      "filename": "resources__radiation.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Radiation",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -479,7 +1846,27 @@
       "src": "resources__other_player_background",
       "hidden": true,
       "width": 372,
-      "height": 368
+      "height": 368,
+      "id": "resources.other_player_background",
+      "filename": "resources__other_player_background.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "res_otherbg",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -487,7 +1874,27 @@
       "src": "resources__science",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.science",
+      "filename": "resources__science.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Science",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -495,7 +1902,27 @@
       "src": "resources__steel",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.steel",
+      "filename": "resources__steel.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Steel",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -503,7 +1930,27 @@
       "src": "resources__titanium",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.titanium",
+      "filename": "resources__titanium.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Titanium",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -511,7 +1958,27 @@
       "src": "resources__TR",
       "otherbg": "res_otherbg",
       "width": 535,
-      "height": 396
+      "height": 396,
+      "id": "resources.tr",
+      "filename": "resources__TR.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "TR",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/resources",
@@ -519,7 +1986,27 @@
       "src": "resources__wild",
       "otherbg": "res_otherbg",
       "width": 331,
-      "height": 331
+      "height": 331,
+      "id": "resources.wild",
+      "filename": "resources__wild.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Wild",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -527,7 +2014,27 @@
       "src": "tags__animal",
       "otherbg": "tags_otherbg",
       "width": 445,
-      "height": 445
+      "height": 445,
+      "id": "tags.animal",
+      "filename": "tags__animal.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Animal",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -535,7 +2042,27 @@
       "src": "tags__building",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.building",
+      "filename": "tags__building.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Building",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -543,7 +2070,27 @@
       "src": "tags__city",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.city",
+      "filename": "tags__city.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "City",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -551,7 +2098,27 @@
       "src": "tags__earth",
       "otherbg": "tags_otherbg",
       "width": 455,
-      "height": 454
+      "height": 454,
+      "id": "tags.earth",
+      "filename": "tags__earth.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Earth",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -559,7 +2126,27 @@
       "src": "tags__event",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.event",
+      "filename": "tags__event.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Event",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -567,7 +2154,27 @@
       "src": "tags__galactic",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.galactic",
+      "filename": "tags__galactic.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Galactic",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -575,7 +2182,27 @@
       "src": "tags__infrastructure",
       "otherbg": "tags_otherbg",
       "width": 447,
-      "height": 444
+      "height": 444,
+      "id": "tags.infrastructure",
+      "filename": "tags__infrastructure.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Infrastructure",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -583,7 +2210,27 @@
       "src": "tags__jovian",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.jovian",
+      "filename": "tags__jovian.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Jovian",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -591,7 +2238,27 @@
       "src": "tags__mars",
       "otherbg": "tags_otherbg",
       "width": 446,
-      "height": 446
+      "height": 446,
+      "id": "tags.mars",
+      "filename": "tags__mars.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Mars",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -599,7 +2266,27 @@
       "src": "tags__microbe",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.microbe",
+      "filename": "tags__microbe.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Microbe",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -607,7 +2294,27 @@
       "src": "tags__moon",
       "otherbg": "tags_otherbg",
       "width": 445,
-      "height": 445
+      "height": 445,
+      "id": "tags.moon",
+      "filename": "tags__moon.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Moon",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -615,7 +2322,27 @@
       "src": "tags__planetary",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.planetary",
+      "filename": "tags__planetary.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Planetary",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -623,7 +2350,27 @@
       "src": "tags__plant",
       "otherbg": "tags_otherbg",
       "width": 445,
-      "height": 445
+      "height": 445,
+      "id": "tags.plant",
+      "filename": "tags__plant.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Plant",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -631,7 +2378,27 @@
       "src": "tags__power",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.power",
+      "filename": "tags__power.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Power",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -639,7 +2406,27 @@
       "src": "tags__radioactive",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.radioactive",
+      "filename": "tags__radioactive.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Radioactive",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -647,7 +2434,27 @@
       "src": "tags__science",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.science",
+      "filename": "tags__science.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Science",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -655,7 +2462,27 @@
       "src": "tags__space",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.space",
+      "filename": "tags__space.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Space",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -663,7 +2490,27 @@
       "src": "tags__venus",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.venus",
+      "filename": "tags__venus.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Venus",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -671,7 +2518,27 @@
       "src": "tags__wild",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.wild",
+      "filename": "tags__wild.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Wild",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -679,7 +2546,27 @@
       "src": "tags__multitag",
       "otherbg": "tags_otherbg",
       "width": 444,
-      "height": 444
+      "height": 444,
+      "id": "tags.multitag",
+      "filename": "tags__multitag.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Multitag",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -687,7 +2574,27 @@
       "src": "tags__tourism",
       "otherbg": "tags_otherbg",
       "width": 107,
-      "height": 107
+      "height": 107,
+      "id": "tags.tourism",
+      "filename": "tags__tourism.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tourism",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tags",
@@ -695,7 +2602,27 @@
       "src": "tags__mercury",
       "otherbg": "tags_otherbg",
       "width": 405,
-      "height": 405
+      "height": 405,
+      "id": "tags.mercury",
+      "filename": "tags__mercury.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Mercury",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -703,7 +2630,27 @@
       "src": "tiles__empty",
       "otherbg": "otherbg",
       "width": 413,
-      "height": 477
+      "height": 477,
+      "id": "tiles.empty",
+      "filename": "tiles__empty.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Empty",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -711,14 +2658,54 @@
       "src": "tiles__city",
       "otherbg": "otherbg",
       "width": 413,
-      "height": 477
+      "height": 477,
+      "id": "tiles.city",
+      "filename": "tiles__city.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "City",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
       "text": "Colony",
       "src": "tiles__colony",
       "width": 373,
-      "height": 324
+      "height": 324,
+      "id": "tiles.colony",
+      "filename": "tiles__colony.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Colony",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -726,7 +2713,27 @@
       "src": "tiles__greenery_no_O2",
       "otherbg": "otherbg",
       "width": 414,
-      "height": 478
+      "height": 478,
+      "id": "tiles.greenery_no_o2",
+      "filename": "tiles__greenery_no_O2.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Greenery no O2",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -734,7 +2741,27 @@
       "src": "tiles__greenery",
       "otherbg": "otherbg",
       "width": 492,
-      "height": 478
+      "height": 478,
+      "id": "tiles.greenery",
+      "filename": "tiles__greenery.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Greenery",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -742,7 +2769,27 @@
       "src": "tiles__ocean",
       "otherbg": "otherbg",
       "width": 418,
-      "height": 483
+      "height": 483,
+      "id": "tiles.ocean",
+      "filename": "tiles__ocean.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Ocean",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -750,14 +2797,54 @@
       "src": "tiles__off-world_city",
       "otherbg": "otherbg",
       "width": 496,
-      "height": 477
+      "height": 477,
+      "id": "tiles.off-world_city",
+      "filename": "tiles__off-world_city.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Off-World City",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
       "text": "Trade",
       "src": "tiles__trade",
       "width": 374,
-      "height": 324
+      "height": 324,
+      "id": "tiles.trade",
+      "filename": "tiles__trade.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Trade",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -765,7 +2852,27 @@
       "src": "tiles__other_player_background",
       "hidden": true,
       "width": 441,
-      "height": 505
+      "height": 505,
+      "id": "tiles.other_player_background",
+      "filename": "tiles__other_player_background.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "otherbg",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/tiles",
@@ -773,161 +2880,621 @@
       "src": "tiles__special",
       "otherbg": "otherbg",
       "width": 409,
-      "height": 472
+      "height": 472,
+      "id": "tiles.special",
+      "filename": "tiles__special.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Special",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "0 VP",
       "src": "VPs__0",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.0",
+      "filename": "VPs__0.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "0 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "VP 1/",
       "src": "VPs__1_for",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.1_for",
+      "filename": "VPs__1_for.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "VP 1/",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "1 VP",
       "src": "VPs__1",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.1",
+      "filename": "VPs__1.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "1 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "VP 2/",
       "src": "VPs__2_for",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.2_for",
+      "filename": "VPs__2_for.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "VP 2/",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "2 VP",
       "src": "VPs__2",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.2",
+      "filename": "VPs__2.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "2 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "3 VP",
       "src": "VPs__3",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.3",
+      "filename": "VPs__3.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "3 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "4 VP",
       "src": "VPs__4",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.4",
+      "filename": "VPs__4.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "4 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "5 VP",
       "src": "VPs__5",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.5",
+      "filename": "VPs__5.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "5 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "6 VP",
       "src": "VPs__6",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.6",
+      "filename": "VPs__6.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "6 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "7 VP",
       "src": "VPs__7",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.7",
+      "filename": "VPs__7.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "7 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "8 VP",
       "src": "VPs__8",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.8",
+      "filename": "VPs__8.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "8 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "9 VP",
       "src": "VPs__9",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.9",
+      "filename": "VPs__9.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "9 VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "VP background",
       "src": "VPs__blank",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.blank",
+      "filename": "VPs__blank.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "VP background",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "-VP",
       "src": "VPs__negative",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.negative",
+      "filename": "VPs__negative.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "-VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "+VP",
       "src": "VPs__positive",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.positive",
+      "filename": "VPs__positive.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "+VP",
+      "author": "",
+      "notes": ""
     },
     {
       "putUnder": "blocks/VPs",
       "text": "/ VP",
       "src": "VPs__n_for",
       "width": 926,
-      "height": 926
+      "height": 926,
+      "id": "vps.n_for",
+      "filename": "VPs__n_for.png",
+      "kind": "vp",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "/ VP",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 776,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__1x1",
       "text": "Productionboxes  1X1",
-      "width": 799
+      "width": 799,
+      "id": "productionboxes.1x1",
+      "filename": "productionboxes__1x1.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Productionboxes  1X1",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 686,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__1x1_5",
       "text": "Productionboxes  1X1 5",
-      "width": 900
+      "width": 900,
+      "id": "productionboxes.1x1_5",
+      "filename": "productionboxes__1x1_5.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Productionboxes  1X1 5",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 686,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__1x2",
       "text": "Productionboxes  1X2",
-      "width": 1210
+      "width": 1210,
+      "id": "productionboxes.1x2",
+      "filename": "productionboxes__1x2.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Productionboxes  1X2",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 1354,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__2x2",
       "text": "Productionboxes  2X2",
-      "width": 1431
+      "width": 1431,
+      "id": "productionboxes.2x2",
+      "filename": "productionboxes__2x2.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Productionboxes  2X2",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 1354,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__2x3",
       "text": "Productionboxes  2X3",
-      "width": 2017
+      "width": 2017,
+      "id": "productionboxes.2x3",
+      "filename": "productionboxes__2x3.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Productionboxes  2X3",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 2017,
       "putUnder": "blocks/productionboxes",
       "src": "productionboxes__3x2",
       "text": "Productionboxes  3X2",
-      "width": 1354
+      "width": 1354,
+      "id": "productionboxes.3x2",
+      "filename": "productionboxes__3x2.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Productionboxes  3X2",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 798,
@@ -935,7 +3502,27 @@
       "src": "productionboxes__other_player_background",
       "text": "Productionboxes  Other Player Background",
       "width": 827,
-      "hidden": true
+      "hidden": true,
+      "id": "productionboxes.other_player_background",
+      "filename": "productionboxes__other_player_background.png",
+      "kind": "production-box",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Productionboxes  Other Player Background",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -943,7 +3530,27 @@
       "src": "tiles__capitol",
       "text": "Tiles  Capitol",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.capitol",
+      "filename": "tiles__capitol.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Capitol",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -951,7 +3558,27 @@
       "src": "tiles__commercial_district",
       "text": "Tiles  Commercial District",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.commercial_district",
+      "filename": "tiles__commercial_district.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Commercial District",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -959,7 +3586,27 @@
       "src": "tiles__ecological_zone",
       "text": "Tiles  Ecological Zone",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.ecological_zone",
+      "filename": "tiles__ecological_zone.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Ecological Zone",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -967,7 +3614,27 @@
       "src": "tiles__industrial_center",
       "text": "Tiles  Industrial Center",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.industrial_center",
+      "filename": "tiles__industrial_center.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Industrial Center",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -975,7 +3642,27 @@
       "src": "tiles__lava_flow",
       "text": "Tiles  Lava Flow",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.lava_flow",
+      "filename": "tiles__lava_flow.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Lava Flow",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -983,7 +3670,27 @@
       "src": "tiles__mining_area",
       "text": "Tiles  Mining Area",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.mining_area",
+      "filename": "tiles__mining_area.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Mining Area",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -991,7 +3698,27 @@
       "src": "tiles__mohole_area",
       "text": "Tiles  Mohole Area",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.mohole_area",
+      "filename": "tiles__mohole_area.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Mohole Area",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -999,7 +3726,27 @@
       "src": "tiles__nuclear_zone",
       "text": "Tiles  Nuclear Zone",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.nuclear_zone",
+      "filename": "tiles__nuclear_zone.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Nuclear Zone",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 472,
@@ -1007,14 +3754,54 @@
       "src": "tiles__restricted_area",
       "text": "Tiles  Restricted Area",
       "width": 409,
-      "otherbg": "otherbg"
+      "otherbg": "otherbg",
+      "id": "tiles.restricted_area",
+      "filename": "tiles__restricted_area.png",
+      "kind": "tile",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Tiles  Restricted Area",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 150,
       "putUnder": "blocks/expansions",
       "src": "expansions__prelude",
       "text": "Prelude",
-      "width": 150
+      "width": 150,
+      "id": "expansions.prelude",
+      "filename": "expansions__prelude.png",
+      "kind": "expansion-icon",
+      "sets": [
+        "Prelude"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Prelude",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 290,
@@ -1022,42 +3809,189 @@
       "src": "tags__otherbg",
       "text": "tags_otherbg",
       "width": 292,
-      "hidden": true
+      "hidden": true,
+      "id": "tags.otherbg",
+      "filename": "tags__otherbg.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "tags_otherbg",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 160,
       "putUnder": "blocks/expansions",
       "src": "expansions__colonies",
       "text": "Colonies",
-      "width": 160
+      "width": 160,
+      "id": "expansions.colonies",
+      "filename": "expansions__colonies.png",
+      "kind": "expansion-icon",
+      "sets": [
+        "Colonies"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Colonies",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 185,
       "putUnder": "blocks/expansions",
       "src": "expansions__venus_next",
       "text": "Venus Next",
-      "width": 185
+      "width": 185,
+      "id": "expansions.venus_next",
+      "filename": "expansions__venus_next.png",
+      "kind": "expansion-icon",
+      "sets": [
+        "Venus Next"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Venus Next",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 160,
       "putUnder": "blocks/expansions",
       "src": "expansions__corporate_era",
       "text": "Corporate Era",
-      "width": 160
+      "width": 160,
+      "id": "expansions.corporate_era",
+      "filename": "expansions__corporate_era.png",
+      "kind": "expansion-icon",
+      "sets": [
+        "Corporate Era"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Corporate Era",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 180,
       "putUnder": "blocks/expansions",
       "src": "expansions_turmoil",
       "text": "Turmoil",
-      "width": 180
+      "width": 180,
+      "id": "expansions.turmoil",
+      "filename": "expansions_turmoil.png",
+      "kind": "expansion-icon",
+      "sets": [
+        "Turmoil"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Turmoil",
+      "author": "",
+      "notes": ""
     },
     {
       "height": 155,
       "putUnder": "blocks/expansions",
       "src": "expansions_promo",
       "text": "Promo",
-      "width": 155
+      "width": 155,
+      "id": "expansions.promo",
+      "filename": "expansions_promo.png",
+      "kind": "expansion-icon",
+      "sets": [
+        "Promp"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Promo",
+      "author": "",
+      "notes": ""
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Cosmic Horror",
+      "filename": "expansions__cosmic_horror.png",
+      "group": "",
+      "height": 185,
+      "id": "expansions.cosmic_horror",
+      "kind": "expansion-icon",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/expansions",
+      "replacedBy": "",
+      "sets": [
+        "Cosmic Horror"
+      ],
+      "sortOrder": 0,
+      "src": "expansions__cosmic_horror",
+      "tags": [],
+      "text": "Cosmic Horror",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 183
     }
   ],
   "blockDefaults": {

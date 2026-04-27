@@ -303,6 +303,10 @@ def populate_dimensions(json_path='assets.json'):
     - Maintains professional code quality
     """
     print(f"\nWriting updated data to {json_path}...")
+    # The entire `data` dict is written back, preserving all keys including
+    # schema v2 top-level fields (schemaVersion, sets) and per-sprite metadata
+    # (id, filename, kind, sets, usage, etc.).  Only 'width'/'height' inside
+    # blockList entries are changed by this script.
     with open(json_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     
