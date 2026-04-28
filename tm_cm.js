@@ -640,6 +640,7 @@ var assetSchemaVersion = 1;   // schema v2: version number from assets.json
 // Asset set filtering helpers (schema v2)
 // ---------------------------------------------------------------------------
 const ASSET_SETS_STORAGE_KEY = "tm_cardmaker_enabled_asset_sets";
+const ASSET_SETS_KNOWN_STORAGE_KEY = "tm_cardmaker_known_asset_sets";
 
 function canonicalizeSetToken(value) {
     return String(value || "")
@@ -787,6 +788,10 @@ function resolveSetId(rawSet) {
 function initEnabledAssetSets() {
     let stored;
     try { stored = JSON.parse(localStorage.getItem(ASSET_SETS_STORAGE_KEY)); } catch(e) { stored = null; }
+
+    let knownStored;
+    try { knownStored = JSON.parse(localStorage.getItem(ASSET_SETS_KNOWN_STORAGE_KEY)); } catch(e) { knownStored = null; }
+
     const storedSet = new Set();
     if (Array.isArray(stored)) {
         stored.forEach(function(v) {
@@ -794,14 +799,30 @@ function initEnabledAssetSets() {
             if (canonical) storedSet.add(canonical);
         });
     }
+
+    const knownSet = new Set();
+    if (Array.isArray(knownStored)) {
+        knownStored.forEach(function(v) {
+            const canonical = resolveSetId(v);
+            if (canonical) knownSet.add(canonical);
+        });
+    }
+
+    const firstRun = knownSet.size === 0;
+
     for (const s of assetSets) {
-        // Always enable: locked sets AND any set not yet seen by this browser
-        // (so newly-added sets in assets.json default to enabled)
-        if (s.locked || !storedSet.has(s.id)) {
+        // Always enable locked sets.
+        // For non-locked sets:
+        // - first run: enable all by default
+        // - later runs: only auto-enable newly discovered sets
+        if (s.locked || firstRun || !knownSet.has(s.id)) {
             storedSet.add(s.id);
         }
+        knownSet.add(s.id);
     }
+
     localStorage.setItem(ASSET_SETS_STORAGE_KEY, JSON.stringify([...storedSet]));
+    localStorage.setItem(ASSET_SETS_KNOWN_STORAGE_KEY, JSON.stringify([...knownSet]));
 }
 
 /** Sync checkbox elements in the Asset Sets UI to match current localStorage state. */

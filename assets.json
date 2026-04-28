@@ -3948,9 +3948,7 @@
       "id": "expansions.promo",
       "filename": "expansions_promo.png",
       "kind": "expansion-icon",
-      "sets": [
-        "Promp"
-      ],
+      "sets": "['Promo']",
       "usage": [
         "card-editor"
       ],
