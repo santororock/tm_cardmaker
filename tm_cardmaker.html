@@ -12,7 +12,7 @@
   Architecture:
     - Responsive design using W3.CSS framework (mobile-first approach)
     - Template originally from: https://www.w3schools.com/css/css_rwd_templates.asp
-    - The actual application logic is in tm_cm.js (see reference below)
+    - The actual application logic is in lib/tm_cm.js (see reference below)
     - Styling is in tm_cm.css (responsive layout with sidebar)
     
   Key Layout Components:
@@ -34,12 +34,12 @@
     - HTML5 Canvas API: For rendering the card design
     - File API: For local file uploads (users importing images)
     - Drag & Drop API: For reordering layers
-    - localStorage: For auto-saving projects (in tm_cm.js)
+    - localStorage: For auto-saving projects (in lib/tm_cm.js)
     
   External Dependencies:
     - W3.CSS framework (lightweight, 20KB)
     - Google Fonts: Roboto, Montserrat (typography)
-    - tm_cm.js: Core application logic
+    - lib/tm_cm.js: Core application logic
     - tm_cm.css: Responsive styling
     - assets.json: External sprite/block definitions
 -->
@@ -59,7 +59,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="tm_cm.css">
 <!-- Markdown parser library for rendering README sections (local copy for offline support) -->
-<script src="marked.min.js"></script>
+<script src="lib/third_party/marked.min.js"></script>
 <!-- Load fonts from Google Fonts CDN (external resources, check network tab if fonts don't load) -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
@@ -170,7 +170,7 @@
        - Add Block menu: Categorized asset browser (dynamically populated from assets.json)
        - Templates: Pre-configured card layouts
        
-     See tm_cm.js > myAccFunc() for accordion toggle logic
+     See lib/tm_cm.js > myAccFunc() for accordion toggle logic
 -->
     <nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3" id="mySidebar">
         <div class="w3-large w3-text-grey" style="font-weight:bold">
@@ -217,7 +217,7 @@
         New from Template <i class="fa fa-caret-down"></i>
       </a>
                 <div id="fromTemplate" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-                    <!-- Dynamically populated by tm_cm.js at load time -->
+                    <!-- Dynamically populated by lib/tm_cm.js at load time -->
                 </div>
                 <!-- <a href="#" class="w3-bar-item w3-button">Load</a> -->
                 <a onclick="saveProjectCont(false)" href="#" class="w3-bar-item w3-button">Save</a>
@@ -471,7 +471,7 @@
             <!-- End page content -->
         </div>
 
-        <script src="imageFit.js"></script>
+        <script src="lib/imageFit.js"></script>
 
         <!-- Canvas Zoom & Scroll Script -->
         <script>
@@ -1103,9 +1103,9 @@
             })();
         </script>
 
-        <script src="tm_cm.js"></script>
-        <script src="tm_export.js"></script>
-        <script src="tm_debug_overlay.js"></script>
+        <script src="lib/tm_cm.js"></script>
+        <script src="lib/tm_export.js"></script>
+        <script src="lib/tm_debug_overlay.js"></script>
         <script>
             // ============================================================================
             // HELP MODAL FUNCTIONS
@@ -1254,7 +1254,7 @@
              * 
              * Why this matters:
              * - The blockList and blockDefaults are now in assets.json (external file)
-             * - The main JavaScript (tm_cm.js) needs this data to work
+             * - The main JavaScript (lib/tm_cm.js) needs this data to work
              * - We must load assets.json first, then proceed with normal initialization
              * - Using async/await ensures proper sequencing without callback hell
              * 

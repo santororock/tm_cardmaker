@@ -118,7 +118,7 @@ body {
     JavaScript Hook:
       - JavaScript listens for mousedown on this element
       - Triggers drag handler that updates sidebar width
-      - See tm_cm.js > document.addEventListener('mousedown', ...) for implementation
+      - See lib/tm_cm.js > document.addEventListener('mousedown', ...) for implementation
   */
     #sidebarResizeHandle {
         position: fixed;

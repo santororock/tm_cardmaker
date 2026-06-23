@@ -243,9 +243,9 @@ There are two related but distinct concepts:
   - Manage them in the **Sprites** tab like any other block.
 
 2. **Project templates (New from Template)**
-  - These are defined in `tm_cm.js` as `megaTemplates` (layer blueprints).
+  - These are defined in `lib/tm_cm.js` as `megaTemplates` (layer blueprints).
   - They drive **File → New from Template**.
-  - Adding/removing these requires editing `tm_cm.js` (not `assets.json`).
+  - Adding/removing these requires editing `lib/tm_cm.js` (not `assets.json`).
 
 #### Sprite Properties
 
