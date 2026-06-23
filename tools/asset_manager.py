@@ -97,15 +97,17 @@ Browser Compatibility:
     This tool is desktop-only (Qt GUI). No browser dependencies.
 
 Dependencies:
-    - PySide6 (Qt binding for Python): pip install PySide6
-    - Alternative: PyQt6 (same API, different license)
+    - Qt binding for Python: PySide6, PyQt6, PySide2, or PyQt5
     - Python 3.7+
     - Standard library: json, os, pathlib, sys, dataclasses
 
 Installation & Running:
 
-    1. Install PySide6:
+    1. Install a Qt binding:
        pip install PySide6
+       # or: pip install PyQt6
+       # or: pip install PySide2
+       # or: pip install PyQt5
     
     2. Run the tool:
        python tools/asset_manager.py
@@ -175,7 +177,7 @@ File Organization:
 
 Exit Codes:
     0 = Normal exit
-    1 = PySide6 not installed
+    1 = No supported Qt binding installed
     2 = Invalid arguments
     3 = File operation error
 
@@ -198,76 +200,201 @@ import json
 import os
 import shutil
 import subprocess
+import importlib
+from types import SimpleNamespace
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple  # Type hints for clarity
 from dataclasses import dataclass, field              # Cleaner class definitions
 
-# Qt Import Strategy: Try PySide6, fail gracefully if not installed
-# This is better UX than cryptic ImportError
-try:
-    # PySide6 is the official Qt binding for Python (maintained by Qt company)
-    # Imports organized by module for readability
-    from PySide6.QtWidgets import (
-        QApplication,           # Main application object
-        QMainWindow,            # Main window class
-        QWidget,                # Base widget class
-        QVBoxLayout, QHBoxLayout,  # Layout managers (vertical/horizontal)
-        QSplitter,              # Resizable pane divider
-        QTreeWidget, QTreeWidgetItem,  # Hierarchical item view
-        QLabel, QLineEdit,      # Text display/input
-        QPushButton,            # Buttons
-        QFileDialog,            # File open/save dialogs
-        QMessageBox,            # Alert/confirmation dialogs
-        QTableWidget, QTableWidgetItem,  # Table display
-        QFormLayout,            # Layout for form fields
-        QSpinBox,               # Integer input field
-        QCheckBox,              # Boolean checkbox
-        QComboBox,              # Dropdown selection
-        QDialog, QDialogButtonBox,  # Dialog windows
-        QTextEdit,              # Multi-line text input
-        QListWidget, QListWidgetItem,  # List display
-        QMenu,                  # Context menu
-        QToolBar,               # Tool button bar
-        QStatusBar,             # Status bar at bottom
-        QGroupBox,              # Labeled container
-        QScrollArea,            # Scrollable container
-        QHeaderView,            # Column/row headers
-        QAbstractItemView,      # Base view class
-        QSizePolicy,            # Widget sizing hints
-        QStyledItemDelegate,    # Custom item rendering
-        QStyle,                 # UI style information
-        QStyleOptionViewItem,   # Item rendering options
-        QTabWidget,             # Tab container
-        QProgressBar,           # Progress indicator
-        QInputDialog            # Simple input dialogs
-    )
-    from PySide6.QtCore import (
-        Qt,                     # Qt constants (colors, modes, etc.)
-        Signal,                 # Signal/slot mechanism
-        QSize,                  # Size values
-        QSettings,              # Persistent application settings
-        QTimer,                 # Timer for delayed operations
-        QModelIndex,            # Index in a model
-        QPoint, QRect,          # Geometric primitives
-        QMimeData,              # Drag-drop data container
-        QThread                 # Background thread support
-    )
-    from PySide6.QtGui import (
-        QPixmap,                # Image in memory
-        QAction,                # Toolbar/menu action
-        QIcon,                  # Icon for UI elements
-        QImage,                 # Image file operations
-        QPalette,               # Color scheme
-        QFont,                  # Font properties
-        QUndoStack, QUndoCommand,  # Undo/redo system
-        QPainter,               # 2D drawing context
-        QBrush, QColor, QPen,   # Drawing properties
-        QDrag                  # Drag-and-drop support
-    )
-except ImportError:
-    # Clean error message if PySide6 not installed
-    print("PySide6 not found. Please install: pip install PySide6")
+# Qt Import Strategy: Prefer Qt 6 bindings, then fall back to older Qt 5 bindings.
+QT_BINDING = None
+_qt_errors = []
+
+for _binding_name, _signal_name in (
+    ("PySide6", "Signal"),
+    ("PyQt6", "pyqtSignal"),
+    ("PySide2", "Signal"),
+    ("PyQt5", "pyqtSignal"),
+):
+    try:
+        QtWidgets = importlib.import_module(f"{_binding_name}.QtWidgets")
+        QtCore = importlib.import_module(f"{_binding_name}.QtCore")
+        QtGui = importlib.import_module(f"{_binding_name}.QtGui")
+        Signal = getattr(QtCore, _signal_name)
+        QT_BINDING = _binding_name
+        break
+    except ImportError as exc:
+        _qt_errors.append(f"{_binding_name}: {exc}")
+else:
+    print("No supported Qt binding found. Please install one of:")
+    print("  pip install PySide6")
+    print("  pip install PyQt6")
+    print("  pip install PySide2")
+    print("  pip install PyQt5")
     sys.exit(1)
+
+
+def _qt_class(name: str, *modules):
+    """Return a Qt class from the first module that exposes it."""
+    for module in modules:
+        if hasattr(module, name):
+            return getattr(module, name)
+    raise ImportError(f"{QT_BINDING} does not provide {name}")
+
+
+def _ensure_namespace(owner, namespace_name: str, **values) -> None:
+    if not hasattr(owner, namespace_name):
+        setattr(owner, namespace_name, SimpleNamespace(**values))
+
+
+def _qt_enum_value(owner, namespace_name: str, value_name: str, legacy_name: Optional[str] = None):
+    if hasattr(owner, namespace_name):
+        namespace = getattr(owner, namespace_name)
+        if hasattr(namespace, value_name):
+            return getattr(namespace, value_name)
+    legacy_name = legacy_name or value_name
+    return getattr(owner, legacy_name)
+
+
+def _alias_exec(cls) -> None:
+    if not hasattr(cls, "exec") and hasattr(cls, "exec_"):
+        setattr(cls, "exec", cls.exec_)
+
+
+def qt_value(value):
+    return getattr(value, "value", value)
+
+
+# QtWidgets
+QApplication = _qt_class("QApplication", QtWidgets)
+QMainWindow = _qt_class("QMainWindow", QtWidgets)
+QWidget = _qt_class("QWidget", QtWidgets)
+QVBoxLayout = _qt_class("QVBoxLayout", QtWidgets)
+QHBoxLayout = _qt_class("QHBoxLayout", QtWidgets)
+QSplitter = _qt_class("QSplitter", QtWidgets)
+QTreeWidget = _qt_class("QTreeWidget", QtWidgets)
+QTreeWidgetItem = _qt_class("QTreeWidgetItem", QtWidgets)
+QLabel = _qt_class("QLabel", QtWidgets)
+QLineEdit = _qt_class("QLineEdit", QtWidgets)
+QPushButton = _qt_class("QPushButton", QtWidgets)
+QFileDialog = _qt_class("QFileDialog", QtWidgets)
+QMessageBox = _qt_class("QMessageBox", QtWidgets)
+QTableWidget = _qt_class("QTableWidget", QtWidgets)
+QTableWidgetItem = _qt_class("QTableWidgetItem", QtWidgets)
+QFormLayout = _qt_class("QFormLayout", QtWidgets)
+QSpinBox = _qt_class("QSpinBox", QtWidgets)
+QCheckBox = _qt_class("QCheckBox", QtWidgets)
+QComboBox = _qt_class("QComboBox", QtWidgets)
+QDialog = _qt_class("QDialog", QtWidgets)
+QDialogButtonBox = _qt_class("QDialogButtonBox", QtWidgets)
+QTextEdit = _qt_class("QTextEdit", QtWidgets)
+QListWidget = _qt_class("QListWidget", QtWidgets)
+QListWidgetItem = _qt_class("QListWidgetItem", QtWidgets)
+QMenu = _qt_class("QMenu", QtWidgets)
+QToolBar = _qt_class("QToolBar", QtWidgets)
+QStatusBar = _qt_class("QStatusBar", QtWidgets)
+QGroupBox = _qt_class("QGroupBox", QtWidgets)
+QScrollArea = _qt_class("QScrollArea", QtWidgets)
+QHeaderView = _qt_class("QHeaderView", QtWidgets)
+QAbstractItemView = _qt_class("QAbstractItemView", QtWidgets)
+QSizePolicy = _qt_class("QSizePolicy", QtWidgets)
+QStyledItemDelegate = _qt_class("QStyledItemDelegate", QtWidgets)
+QStyle = _qt_class("QStyle", QtWidgets)
+QStyleOptionViewItem = _qt_class("QStyleOptionViewItem", QtWidgets)
+QTabWidget = _qt_class("QTabWidget", QtWidgets)
+QProgressBar = _qt_class("QProgressBar", QtWidgets)
+QInputDialog = _qt_class("QInputDialog", QtWidgets)
+
+# QtCore
+Qt = _qt_class("Qt", QtCore)
+QSize = _qt_class("QSize", QtCore)
+QSettings = _qt_class("QSettings", QtCore)
+QTimer = _qt_class("QTimer", QtCore)
+QModelIndex = _qt_class("QModelIndex", QtCore)
+QPoint = _qt_class("QPoint", QtCore)
+QRect = _qt_class("QRect", QtCore)
+QMimeData = _qt_class("QMimeData", QtCore)
+QThread = _qt_class("QThread", QtCore)
+
+# QtGui / QtWidgets moved a few classes between Qt 5 and Qt 6.
+QPixmap = _qt_class("QPixmap", QtGui)
+QAction = _qt_class("QAction", QtGui, QtWidgets)
+QIcon = _qt_class("QIcon", QtGui)
+QImage = _qt_class("QImage", QtGui)
+QPalette = _qt_class("QPalette", QtGui)
+QFont = _qt_class("QFont", QtGui)
+QUndoStack = _qt_class("QUndoStack", QtGui, QtWidgets)
+QUndoCommand = _qt_class("QUndoCommand", QtGui, QtWidgets)
+QPainter = _qt_class("QPainter", QtGui)
+QBrush = _qt_class("QBrush", QtGui)
+QColor = _qt_class("QColor", QtGui)
+QPen = _qt_class("QPen", QtGui)
+QDrag = _qt_class("QDrag", QtGui)
+
+# Qt 5 exposes most enum values directly on the class. Add Qt 6 style aliases so
+# the application code can use one spelling across PySide/PyQt generations.
+_ensure_namespace(Qt, "AspectRatioMode", KeepAspectRatio=_qt_enum_value(Qt, "AspectRatioMode", "KeepAspectRatio"))
+_ensure_namespace(Qt, "TransformationMode", SmoothTransformation=_qt_enum_value(Qt, "TransformationMode", "SmoothTransformation"))
+_ensure_namespace(
+    Qt,
+    "GlobalColor",
+    lightGray=_qt_enum_value(Qt, "GlobalColor", "lightGray"),
+    transparent=_qt_enum_value(Qt, "GlobalColor", "transparent"),
+)
+_ensure_namespace(Qt, "PenStyle", NoPen=_qt_enum_value(Qt, "PenStyle", "NoPen"))
+_ensure_namespace(Qt, "DropAction", MoveAction=_qt_enum_value(Qt, "DropAction", "MoveAction"))
+_ensure_namespace(Qt, "MouseButton", LeftButton=_qt_enum_value(Qt, "MouseButton", "LeftButton"))
+_ensure_namespace(Qt, "ItemDataRole", UserRole=_qt_enum_value(Qt, "ItemDataRole", "UserRole"))
+_ensure_namespace(Qt, "ItemFlag", ItemIsEditable=_qt_enum_value(Qt, "ItemFlag", "ItemIsEditable"))
+_ensure_namespace(Qt, "AlignmentFlag", AlignCenter=_qt_enum_value(Qt, "AlignmentFlag", "AlignCenter"))
+_ensure_namespace(
+    Qt,
+    "Orientation",
+    Horizontal=_qt_enum_value(Qt, "Orientation", "Horizontal"),
+    Vertical=_qt_enum_value(Qt, "Orientation", "Vertical"),
+)
+_ensure_namespace(Qt, "ContextMenuPolicy", CustomContextMenu=_qt_enum_value(Qt, "ContextMenuPolicy", "CustomContextMenu"))
+_ensure_namespace(Qt, "ScrollBarPolicy", ScrollBarAlwaysOff=_qt_enum_value(Qt, "ScrollBarPolicy", "ScrollBarAlwaysOff"))
+_ensure_namespace(Qt, "CheckState", Checked=_qt_enum_value(Qt, "CheckState", "Checked"))
+_ensure_namespace(
+    QAbstractItemView,
+    "DragDropMode",
+    InternalMove=_qt_enum_value(QAbstractItemView, "DragDropMode", "InternalMove"),
+)
+_ensure_namespace(
+    QAbstractItemView,
+    "SelectionBehavior",
+    SelectRows=_qt_enum_value(QAbstractItemView, "SelectionBehavior", "SelectRows"),
+)
+_ensure_namespace(
+    QAbstractItemView,
+    "SelectionMode",
+    SingleSelection=_qt_enum_value(QAbstractItemView, "SelectionMode", "SingleSelection"),
+    ExtendedSelection=_qt_enum_value(QAbstractItemView, "SelectionMode", "ExtendedSelection"),
+    MultiSelection=_qt_enum_value(QAbstractItemView, "SelectionMode", "MultiSelection"),
+)
+_ensure_namespace(QSizePolicy, "Policy", Expanding=_qt_enum_value(QSizePolicy, "Policy", "Expanding"))
+_ensure_namespace(QHeaderView, "ResizeMode", Stretch=_qt_enum_value(QHeaderView, "ResizeMode", "Stretch"))
+_ensure_namespace(
+    QMessageBox,
+    "StandardButton",
+    Yes=_qt_enum_value(QMessageBox, "StandardButton", "Yes"),
+    No=_qt_enum_value(QMessageBox, "StandardButton", "No"),
+    Save=_qt_enum_value(QMessageBox, "StandardButton", "Save"),
+    Discard=_qt_enum_value(QMessageBox, "StandardButton", "Discard"),
+    Cancel=_qt_enum_value(QMessageBox, "StandardButton", "Cancel"),
+    Ok=_qt_enum_value(QMessageBox, "StandardButton", "Ok"),
+)
+_ensure_namespace(
+    QDialogButtonBox,
+    "StandardButton",
+    Ok=_qt_enum_value(QDialogButtonBox, "StandardButton", "Ok"),
+    Cancel=_qt_enum_value(QDialogButtonBox, "StandardButton", "Cancel"),
+)
+_ensure_namespace(QDialog, "DialogCode", Accepted=_qt_enum_value(QDialog, "DialogCode", "Accepted"))
+
+for _exec_cls in (QApplication, QDialog, QMenu, QDrag):
+    _alias_exec(_exec_cls)
 
 
 # ============================================================================
@@ -2136,8 +2263,6 @@ class CategoryBrowser(QWidget):
     
     def _add_red_dot_indicator(self, pixmap: QPixmap) -> QPixmap:
         """Add a red dot indicator to a pixmap for unsaved sprites"""
-        from PySide6.QtGui import QPainter, QBrush, QColor
-        
         result = QPixmap(pixmap.size())
         result.fill(Qt.GlobalColor.transparent)
         
@@ -2395,7 +2520,6 @@ class PropertyEditor(QWidget):
         
         # Add red dot if unsaved
         if index in self.document.unsaved_indices:
-            from PySide6.QtGui import QPainter, QBrush, QColor
             overlay = QPixmap(pixmap.size())
             overlay.fill(Qt.GlobalColor.transparent)
             painter = QPainter(overlay)
@@ -2426,7 +2550,7 @@ class PropertyEditor(QWidget):
                 widget = QCheckBox()
                 widget.setChecked(value)
                 widget.stateChanged.connect(lambda state, k=key, i=index: 
-                    self.update_field(i, k, state == Qt.CheckState.Checked.value))
+                    self.update_field(i, k, state == qt_value(Qt.CheckState.Checked)))
             elif isinstance(value, int):
                 widget = QSpinBox()
                 widget.setMaximum(99999)
@@ -2555,7 +2679,6 @@ class PropertyEditor(QWidget):
             
             # Add red dot if unsaved
             if index in self.document.unsaved_indices:
-                from PySide6.QtGui import QPainter, QBrush, QColor
                 overlay = QPixmap(pixmap.size())
                 overlay.fill(Qt.GlobalColor.transparent)
                 painter = QPainter(overlay)
@@ -3111,7 +3234,6 @@ class MainWindow(QMainWindow):
             image_path = self.document.get_sprite_image_path(sprite)
             if image_path and image_path.exists():
                 try:
-                    from PySide6.QtGui import QImage
                     image = QImage(str(image_path))
                     if not image.isNull():
                         sprite["width"] = image.width()

@@ -191,12 +191,13 @@ The `asset_manager.py` tool is a standalone desktop application for managing the
 
 Requirements:
 - Python 3.7+
-- PySide6 or PyQt6
+- PySide6, PyQt6, PySide2, or PyQt5
 
 ```bash
 pip install PySide6
-# OR
-pip install PyQt6
+# or: pip install PyQt6
+# or: pip install PySide2
+# or: pip install PyQt5
 ```
 
 ### Running the Tool
@@ -355,9 +356,10 @@ All paths in `putUnder` are normalized to use forward slashes for web compatibil
 
 ### Troubleshooting
 
-**PySide6 not found**
+**No supported Qt binding found**
 ```bash
 pip install PySide6
+# or install PyQt6, PySide2, or PyQt5
 ```
 
 **Images not showing up**
