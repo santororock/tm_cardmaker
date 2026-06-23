@@ -94,6 +94,8 @@ A couple other things to highlight:
 <link href="https://fonts.googleapis.com/css2?family=Turret+Road:wght@400;700;800&display=swap" rel="stylesheet"> OR just the URL https://fonts.googleapis.com/css2?family=Turret+Road:wght@400;700;800&display=swap
 - You can save your project using **File -> Save as Project**. This saves your project as an image. This is especially important if you used any local (non-web) image files. This image can also be shared with others who might want to translate or modify your card.
 - You can later load one of these project images using **File -> Clear & Load Project**
+- You can export editable layer assets using **File -> Export Layer PNG ZIP**. This creates a ZIP containing a flattened preview PNG, one transparent PNG per layer, and a `manifest.json` file describing the layer order and metadata.
+- You can export a layered Photoshop file using **File -> Export PSD**. PSD export preserves rasterized layers, names, order, and transparency for editing in Photoshop-compatible tools.
 
 ### Image Cache (Browser Storage)
 
@@ -147,6 +149,24 @@ Projects can now be embedded directly into the exported PNG images:
 - **Data Integrity**: The project data uses the signature `tm_cmV01` to identify embedded projects
 - **Lossless Workflow**: All layer information, local images, and properties are preserved
 - **Cache Rehydration**: Loading a project PNG rehydrates user images into the browser image cache when possible
+
+### Layered Export
+
+The app supports additional export formats for workflows that need separate layers:
+
+- **Layer PNG ZIP**: Use **File -> Export Layer PNG ZIP** to download a ZIP archive with:
+  - `manifest.json`: Card size, layer order, layer names, layer types, opacity, and source metadata
+  - `preview.png`: A flattened preview of the finished card
+  - `layers/`: One full-card transparent PNG per layer
+- **PSD**: Use **File -> Export PSD** to download a layered Photoshop document.
+- **Layer Order**: Layers are exported in the same bottom-to-top order used by the Card Maker canvas, so later layers appear above earlier layers in Photoshop.
+- **Raster Layers**: PSD layers are currently rasterized. Text layers remain visually editable as pixels, but they are not editable Photoshop text objects yet.
+
+Notes:
+
+- **Save as Project** remains the best backup/share format because it embeds project data for roundtrip loading back into the Card Maker.
+- **Layer PNG ZIP** is the most transparent interchange/debug format because all layer images and metadata are directly inspectable.
+- **PSD** is intended for editing in Photoshop-compatible image editors, but exact behavior can vary between applications.
 
 ### Deterministic Image Cache IDs
 
