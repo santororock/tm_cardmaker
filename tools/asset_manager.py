@@ -453,6 +453,8 @@ class AssetDocument:
     - No partial state corruption possible
     - Implicit through single-step operations
     """
+
+    VIRTUAL_SPRITE_SRCS = {"debug_sprite_sheet"}
     
     def __init__(self):
         """Initialize empty document"""
@@ -463,6 +465,10 @@ class AssetDocument:
         self._image_cache: Dict[str, QPixmap] = {}
         self.unsaved_indices: set = set()  # Track indices of unsaved (new) sprites
         self.last_thumbnail_error: str = ""
+
+    def is_virtual_sprite(self, sprite: Dict[str, Any]) -> bool:
+        """Return True for sprites backed by dynamic/generated content, not image files."""
+        return sprite.get("src") in self.VIRTUAL_SPRITE_SRCS
         
     def load(self, path: Path) -> None:
         """
@@ -829,7 +835,6 @@ class AssetDocument:
         issues = []
         src_counts = {}
         id_counts = {}
-        virtual_srcs = {"debug_sprite_sheet"}
         valid_set_ids = {s["id"] for s in self.data.get("sets", []) if "id" in s}
 
         for i, sprite in enumerate(self.data["blockList"]):
@@ -844,7 +849,7 @@ class AssetDocument:
                 src_counts[src] = src_counts.get(src, 0) + 1
 
                 # Check image exists
-                if self.sprite_folder and src not in virtual_srcs:
+                if self.sprite_folder and not self.is_virtual_sprite(sprite):
                     path = self.get_sprite_image_path(sprite)
                     if path is None or not path.exists():
                         issues.append(ValidationIssue(
@@ -887,7 +892,7 @@ class AssetDocument:
                 ))
                 
             # Check optional but recommended fields
-            if ("width" not in sprite or "height" not in sprite) and sprite.get("src") not in virtual_srcs:
+            if ("width" not in sprite or "height" not in sprite) and not self.is_virtual_sprite(sprite):
                 issues.append(ValidationIssue(
                     "info",
                     f"Sprite '{sprite.get('src', '?')}': Missing width/height",
@@ -1024,6 +1029,10 @@ class AssetDocument:
         
         if sizes is None:
             sizes = [32, 64, 128, 256]
+
+        if self.is_virtual_sprite(sprite):
+            self.last_thumbnail_error = ""
+            return False
         
         source_path = self.get_sprite_image_path(sprite)
         if source_path is None or not source_path.exists():
@@ -1119,6 +1128,8 @@ class AssetDocument:
             src = sprite.get("src")
             if not src:
                 continue
+            if self.is_virtual_sprite(sprite):
+                continue
             
             # Check if source image exists
             source_path = self.get_sprite_image_path(sprite)
@@ -1155,11 +1166,15 @@ class AssetDocument:
             Report with counts: {'generated': N, 'failed': N, 'skipped': N}
         """
         sizes = [32, 64, 128, 256]
-        report = {'generated': 0, 'failed': 0, 'skipped': 0}
+        report = {'generated': 0, 'failed': 0, 'skipped': 0, 'failures': []}
         
         for i, sprite in enumerate(self.data["blockList"]):
             if callback:
                 callback(i, len(self.data["blockList"]))
+
+            if self.is_virtual_sprite(sprite):
+                report['skipped'] += 1
+                continue
             
             # Check if any thumbnail needs generating
             needs_gen = False
@@ -1177,6 +1192,12 @@ class AssetDocument:
                 report['generated'] += 1
             else:
                 report['failed'] += 1
+                report['failures'].append({
+                    'index': i,
+                    'src': sprite.get('src', '<missing src>'),
+                    'putUnder': sprite.get('putUnder', ''),
+                    'error': self.last_thumbnail_error or 'Unknown thumbnail generation error.'
+                })
         
         return report
         
@@ -1894,16 +1915,65 @@ class ThumbnailManager(QWidget):
         generated = report.get('generated', 0)
         failed = report.get('failed', 0)
         skipped = report.get('skipped', 0)
+        failures = report.get('failures', [])
         
         msg = f"Generation complete:\n"
         msg += f"  Generated: {generated}\n"
         msg += f"  Failed: {failed}\n"
         msg += f"  Skipped: {skipped}"
+
+        if failures:
+            failed_names = [self._format_thumbnail_failure(failure, include_error=False) for failure in failures]
+            preview = "\n".join(f"  - {name}" for name in failed_names[:10])
+            msg += "\n\nFailed sprites:\n" + preview
+            if len(failures) > 10:
+                msg += f"\n  ... and {len(failures) - 10} more. See details for the full list."
         
-        QMessageBox.information(self, "Generation Complete", msg)
+        box = QMessageBox(self)
+        box.setIcon(QMessageBox.Icon.Information)
+        box.setWindowTitle("Generation Complete")
+        box.setText(msg)
+        if failures:
+            details = "\n".join(self._format_thumbnail_failure(failure) for failure in failures)
+            box.setDetailedText(details)
+        box.exec()
         
-        # Re-validate to show updated status
-        self.validate_thumbnails()
+        # Re-validate and keep failed generation attempts visible in the table,
+        # even if older thumbnails still exist and validate as current.
+        validation_report = self.document.validate_thumbnails()
+        if failures:
+            failed_srcs = {failure.get('src') for failure in failures}
+            validation_report['ok'] = [
+                src for src in validation_report['ok'] if src not in failed_srcs
+            ]
+            validation_report['missing'] = [
+                (src, sizes) for src, sizes in validation_report['missing']
+                if src not in failed_srcs
+            ]
+            validation_report['outdated'] = [
+                (src, sizes) for src, sizes in validation_report['outdated']
+                if src not in failed_srcs
+            ]
+            existing_errors = {src for src, _ in validation_report['error']}
+            for failure in failures:
+                src = failure.get('src', '<missing src>')
+                if src not in existing_errors:
+                    validation_report['error'].append((
+                        src,
+                        failure.get('error') or 'Unknown thumbnail generation error.'
+                    ))
+        self.display_validation_results(validation_report)
+
+    def _format_thumbnail_failure(self, failure: dict, include_error: bool = True) -> str:
+        """Format a thumbnail failure for dialogs and detailed output."""
+        index = failure.get('index')
+        src = failure.get('src') or '<missing src>'
+        put_under = failure.get('putUnder') or '<no category>'
+        label = f"#{index} {put_under}/{src}" if index is not None else f"{put_under}/{src}"
+        if include_error:
+            error = failure.get('error') or 'Unknown thumbnail generation error.'
+            return f"{label}: {error}"
+        return label
 
 
 class DefaultsManager(QWidget):
@@ -2177,13 +2247,16 @@ class ThumbnailGenerationThread(QThread):
     def run(self):
         """Run generation in background"""
         sizes = [32, 64, 128, 256]
-        self.report = {'generated': 0, 'failed': 0, 'skipped': 0}
+        self.report = {'generated': 0, 'failed': 0, 'skipped': 0, 'failures': []}
         
         for i, sprite in enumerate(self.document.data["blockList"]):
             self.progress.emit(i, len(self.document.data["blockList"]))
             
             src = sprite.get("src")
             if not src:
+                self.report['skipped'] += 1
+                continue
+            if self.document.is_virtual_sprite(sprite):
                 self.report['skipped'] += 1
                 continue
             
@@ -2210,6 +2283,12 @@ class ThumbnailGenerationThread(QThread):
                 self.report['generated'] += 1
             else:
                 self.report['failed'] += 1
+                self.report['failures'].append({
+                    'index': i,
+                    'src': sprite.get('src', '<missing src>'),
+                    'putUnder': sprite.get('putUnder', ''),
+                    'error': self.document.last_thumbnail_error or 'Unknown thumbnail generation error.'
+                })
         
         self.progress.emit(len(self.document.data["blockList"]), len(self.document.data["blockList"]))
         # Emit completion with report
@@ -2651,6 +2730,13 @@ class PropertyEditor(QWidget):
         sprite = self.document.get_sprite(index)
         if not sprite:
             return
+        if self.document.is_virtual_sprite(sprite):
+            QMessageBox.information(
+                self,
+                "Thumbnail Generation",
+                "This sprite is generated dynamically and does not use thumbnail files."
+            )
+            return
         
         success = self.document.generate_thumbnail(sprite)
         if success:
@@ -2761,28 +2847,75 @@ class PropertyEditor(QWidget):
         
         success_count = 0
         fail_count = 0
+        skipped_count = 0
+        failures = []
         
         for row in sorted(selected_rows):
             if row < len(self.current_indices):
                 index = self.current_indices[row]
                 sprite = self.document.get_sprite(index)
                 if sprite:
+                    if self.document.is_virtual_sprite(sprite):
+                        skipped_count += 1
+                        continue
                     if self.document.generate_thumbnail(sprite):
                         success_count += 1
                     else:
                         fail_count += 1
+                        failures.append({
+                            'index': index,
+                            'src': sprite.get('src', '<missing src>'),
+                            'putUnder': sprite.get('putUnder', ''),
+                            'error': self.document.last_thumbnail_error or 'Unknown thumbnail generation error.'
+                        })
         
         # Show result message
         if success_count > 0:
             msg = f"Generated thumbnails for {success_count} sprite(s)."
+            if skipped_count > 0:
+                msg += f"\nSkipped: {skipped_count}"
             if fail_count > 0:
-                msg += f"\n{fail_count} sprite(s) failed."
-            QMessageBox.information(self, "Thumbnail Generation", msg)
+                failed_names = [
+                    f"#{failure['index']} {failure['putUnder'] or '<no category>'}/{failure['src']}"
+                    for failure in failures
+                ]
+                preview = "\n".join(f"  - {name}" for name in failed_names[:10])
+                msg += f"\n{fail_count} sprite(s) failed:\n{preview}"
+                if len(failures) > 10:
+                    msg += f"\n  ... and {len(failures) - 10} more. See details for the full list."
+            box = QMessageBox(self)
+            box.setIcon(QMessageBox.Icon.Information)
+            box.setWindowTitle("Thumbnail Generation")
+            box.setText(msg)
+            if failures:
+                details = "\n".join(
+                    f"#{failure['index']} {failure['putUnder'] or '<no category>'}/{failure['src']}: {failure['error']}"
+                    for failure in failures
+                )
+                box.setDetailedText(details)
+            box.exec()
             # Refresh the table to show new thumbnails
             self.show_multi_editor(self.current_indices)
+        elif skipped_count > 0 and fail_count == 0:
+            QMessageBox.information(
+                self,
+                "Thumbnail Generation",
+                f"Skipped {skipped_count} dynamic sprite(s); no thumbnail files are needed."
+            )
         else:
-            details = self.document.last_thumbnail_error or "Unknown thumbnail generation error."
-            QMessageBox.warning(self, "Error", f"Failed to generate any thumbnails.\n{details}")
+            if failures:
+                details = "\n".join(
+                    f"#{failure['index']} {failure['putUnder'] or '<no category>'}/{failure['src']}: {failure['error']}"
+                    for failure in failures
+                )
+            else:
+                details = self.document.last_thumbnail_error or "Unknown thumbnail generation error."
+            box = QMessageBox(self)
+            box.setIcon(QMessageBox.Icon.Warning)
+            box.setWindowTitle("Error")
+            box.setText(f"Failed to generate thumbnails for {fail_count} sprite(s).")
+            box.setDetailedText(details)
+            box.exec()
     
     def on_splitter_moved(self, pos: int, index: int):
         """Handle splitter movement to update thumbnail scaling"""

@@ -1589,6 +1589,33 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Diplomacy",
+      "filename": "resources__diplomacy.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.diplomacy",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__diplomacy",
+      "tags": [],
+      "text": "Diplomacy",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331
+    },
+    {
       "putUnder": "blocks/resources",
       "text": "Dust",
       "src": "resources__dust",
@@ -1699,6 +1726,33 @@
       "description": "Heat",
       "author": "",
       "notes": ""
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Media",
+      "filename": "resources__media.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.media",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__media",
+      "tags": [],
+      "text": "Media",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331
     },
     {
       "putUnder": "blocks/resources",
@@ -1867,6 +1921,33 @@
       "description": "res_otherbg",
       "author": "",
       "notes": ""
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Preservation",
+      "filename": "resources__preservation.png",
+      "group": "",
+      "height": 335,
+      "id": "resources.preservation",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__preservation",
+      "tags": [],
+      "text": "Preservation",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331
     },
     {
       "putUnder": "blocks/resources",
@@ -2117,7 +2198,7 @@
       "usage": [
         "card-editor"
       ],
-      "width": 444,
+      "width": 442,
       "otherbg": "tags_otherbg"
     },
     {
@@ -3894,7 +3975,7 @@
       "description": "Cosmic Horror",
       "filename": "expansions__cosmic_horror.png",
       "group": "",
-      "height": 185,
+      "height": 190,
       "id": "expansions.cosmic_horror",
       "kind": "expansion-icon",
       "locked": false,
@@ -3911,7 +3992,7 @@
       "usage": [
         "card-editor"
       ],
-      "width": 183
+      "width": 190
     },
     {
       "height": 150,
