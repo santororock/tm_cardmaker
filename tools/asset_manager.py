@@ -911,6 +911,23 @@ class AssetDocument:
                         f"Sprite '{sprite.get('src', '?')}': otherbg '{otherbg}' not found",
                         i, sprite.get("putUnder"), sprite.get("src")
                     ))
+
+            # Validate per-sprite other background padding
+            for pad_field in ("otherbgPadX", "otherbgPadY"):
+                if pad_field in sprite:
+                    pad_value = sprite.get(pad_field)
+                    if not isinstance(pad_value, int):
+                        issues.append(ValidationIssue(
+                            "warning",
+                            f"Sprite '{sprite.get('src', '?')}': '{pad_field}' should be an integer",
+                            i, sprite.get("putUnder"), sprite.get("src")
+                        ))
+                    elif pad_value < 0:
+                        issues.append(ValidationIssue(
+                            "warning",
+                            f"Sprite '{sprite.get('src', '?')}': '{pad_field}' should be >= 0",
+                            i, sprite.get("putUnder"), sprite.get("src")
+                        ))
                     
             # Validate types
             if "hidden" in sprite and not isinstance(sprite["hidden"], bool):
@@ -2546,10 +2563,10 @@ class PropertyEditor(QWidget):
         multi_layout = QVBoxLayout(self.multi_editor)
         
         self.table = QTableWidget()
-        self.table.setColumnCount(14)
+        self.table.setColumnCount(16)
         self.table.setHorizontalHeaderLabels([
             "Thumbnail", "putUnder", "text", "src", "width", "height", "hidden", "otherbg",
-            "id", "filename", "kind", "sets", "usage", "group"
+            "otherbgPadX", "otherbgPadY", "id", "filename", "kind", "sets", "usage", "group"
         ])
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setColumnWidth(0, 80)  # Thumbnail column width
@@ -2792,13 +2809,15 @@ class PropertyEditor(QWidget):
             self.table.setItem(row, 5, QTableWidgetItem(str(sprite.get("height", ""))))
             self.table.setItem(row, 6, QTableWidgetItem(str(sprite.get("hidden", ""))))
             self.table.setItem(row, 7, QTableWidgetItem(sprite.get("otherbg", "")))
+            self.table.setItem(row, 8, QTableWidgetItem(str(sprite.get("otherbgPadX", ""))))
+            self.table.setItem(row, 9, QTableWidgetItem(str(sprite.get("otherbgPadY", ""))))
             # Schema v2 columns
-            self.table.setItem(row, 8, QTableWidgetItem(sprite.get("id", "")))
-            self.table.setItem(row, 9, QTableWidgetItem(sprite.get("filename", "")))
-            self.table.setItem(row, 10, QTableWidgetItem(sprite.get("kind", "")))
-            self.table.setItem(row, 11, QTableWidgetItem(", ".join(sprite.get("sets", [])) if isinstance(sprite.get("sets"), list) else str(sprite.get("sets", ""))))
-            self.table.setItem(row, 12, QTableWidgetItem(", ".join(sprite.get("usage", [])) if isinstance(sprite.get("usage"), list) else str(sprite.get("usage", ""))))
-            self.table.setItem(row, 13, QTableWidgetItem(sprite.get("group", "")))
+            self.table.setItem(row, 10, QTableWidgetItem(sprite.get("id", "")))
+            self.table.setItem(row, 11, QTableWidgetItem(sprite.get("filename", "")))
+            self.table.setItem(row, 12, QTableWidgetItem(sprite.get("kind", "")))
+            self.table.setItem(row, 13, QTableWidgetItem(", ".join(sprite.get("sets", [])) if isinstance(sprite.get("sets"), list) else str(sprite.get("sets", ""))))
+            self.table.setItem(row, 14, QTableWidgetItem(", ".join(sprite.get("usage", [])) if isinstance(sprite.get("usage"), list) else str(sprite.get("usage", ""))))
+            self.table.setItem(row, 15, QTableWidgetItem(sprite.get("group", "")))
             
         self.table.blockSignals(False)
         
@@ -2947,14 +2966,14 @@ class PropertyEditor(QWidget):
         value = item.text()
         
         # Adjusted for thumbnail column at index 0
-        fields = ["putUnder", "text", "src", "width", "height", "hidden", "otherbg",
+        fields = ["putUnder", "text", "src", "width", "height", "hidden", "otherbg", "otherbgPadX", "otherbgPadY",
                   "id", "filename", "kind", "sets", "usage", "group", "sortOrder",
                   "locked", "color", "tags", "deprecated", "replacedBy", "aliases",
                   "description", "author", "notes"]
         field = fields[col - 1]
         
         # Type conversion
-        if field in ["width", "height", "sortOrder"]:
+        if field in ["width", "height", "otherbgPadX", "otherbgPadY", "sortOrder"]:
             try:
                 value = int(value) if value else None
             except ValueError:

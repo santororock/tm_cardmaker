@@ -277,6 +277,7 @@ When editing a sprite, you can configure:
 - **width/height**: Dimensions of the image (automatically detected if possible)
 - **hidden**: Boolean flag to hide the sprite from the UI
 - **otherbg**: Reference to another sprite to use as background
+- **otherbgPadX/otherbgPadY**: Default X/Y pixel padding applied when drawing the referenced `otherbg` behind this sprite
 - **Presets**: Collections of pre-configured property sets for different use cases
 
 #### Image Browsing
