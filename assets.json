@@ -394,6 +394,89 @@
       "hidden": true
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Templates  Prelude2 Small Bottom 01",
+      "filename": "templates__prelude2_small_bottom_01.png",
+      "group": "",
+      "height": 826,
+      "id": "templates.prelude2_small_bottom_01",
+      "kind": "template",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/templates",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "templates__prelude2_small_bottom_01",
+      "tags": [],
+      "text": "Prelude2 Small Bottom",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1126
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Templates  Prelude2 Small Bottom 02",
+      "filename": "templates__prelude2_small_bottom_02.png",
+      "group": "",
+      "height": 826,
+      "id": "templates.prelude2_small_bottom_02",
+      "kind": "template",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/templates",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "templates__prelude2_small_bottom_02",
+      "tags": [],
+      "text": "Prelude2 Small Bottom EffectBox Layer",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1126,
+      "hidden": true
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Templates  Prelude2 Small Bottom 03",
+      "filename": "templates__prelude2_small_bottom_03.png",
+      "group": "",
+      "height": 826,
+      "id": "templates.prelude2_small_bottom_03",
+      "kind": "template",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/templates",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "templates__prelude2_small_bottom_03",
+      "tags": [],
+      "text": "Prelude2 Small Bottom Top Layer",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1126,
+      "hidden": true
+    },
+    {
       "putUnder": "blocks/templates",
       "text": "Corporation",
       "src": "templates__corporation",
