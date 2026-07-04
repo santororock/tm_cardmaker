@@ -315,6 +315,33 @@
       "author": "",
       "color": "",
       "deprecated": false,
+      "description": "Templates  Prelude Big Bottom",
+      "filename": "templates__prelude_big_bottom.png",
+      "group": "",
+      "height": 826,
+      "id": "templates.prelude_big_bottom",
+      "kind": "template",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/templates",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "templates__prelude_big_bottom",
+      "tags": [],
+      "text": "Prelude Big Bottom",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1119
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
       "description": "Templates  Prelude2 01",
       "filename": "templates__prelude2_01.png",
       "group": "",
