@@ -284,6 +284,33 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Templates  Cosmic Horror",
+      "filename": "templates__cosmic_horror.png",
+      "group": "",
+      "height": 2319,
+      "id": "templates.cosmic_horror",
+      "kind": "template",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/templates",
+      "replacedBy": "",
+      "sets": [
+        "Cosmic Horror"
+      ],
+      "sortOrder": 0,
+      "src": "templates__cosmic_horror",
+      "tags": [],
+      "text": "Cosmic Horror",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1697
+    },
+    {
       "putUnder": "blocks/templates",
       "text": "Prelude",
       "src": "templates__prelude",
