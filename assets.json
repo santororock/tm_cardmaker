@@ -288,11 +288,11 @@
       "author": "",
       "color": "",
       "deprecated": false,
-      "description": "Templates  Cosmic Horror",
-      "filename": "templates__cosmic_horror.png",
+      "description": "Templates  Cosmic Horror Normal",
+      "filename": "templates__cosmic_horror_normal.png",
       "group": "",
       "height": 2319,
-      "id": "templates.cosmic_horror",
+      "id": "templates.cosmic_horror_normal",
       "kind": "template",
       "locked": false,
       "notes": "",
@@ -302,13 +302,13 @@
         "Cosmic Horror"
       ],
       "sortOrder": 0,
-      "src": "templates__cosmic_horror",
+      "src": "templates__cosmic_horror_normal",
       "tags": [],
       "text": "Cosmic Horror",
       "usage": [
         "card-editor"
       ],
-      "width": 1697
+      "width": 1703
     },
     {
       "putUnder": "blocks/templates",
@@ -1948,6 +1948,34 @@
       "description": "Heat",
       "author": "",
       "notes": ""
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Maddness",
+      "filename": "resources__maddness.png",
+      "group": "",
+      "height": 296,
+      "id": "resources.maddness",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "Cosmic Horror"
+      ],
+      "sortOrder": 0,
+      "src": "resources__maddness",
+      "tags": [],
+      "text": "Maddness",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 300,
+      "otherbg": "res_otherbg"
     },
     {
       "aliases": [],
