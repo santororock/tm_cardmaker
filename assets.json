@@ -1922,6 +1922,62 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Gold Cube",
+      "filename": "resources__gold_cube.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.gold_cube",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__gold_cube",
+      "tags": [],
+      "text": "Gold Cube",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331,
+      "otherbg": "res_otherbg"
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Graphene",
+      "filename": "resources__graphene.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.graphene",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__graphene",
+      "tags": [],
+      "text": "Graphene",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331,
+      "otherbg": "res_otherbg"
+    },
+    {
       "putUnder": "blocks/resources",
       "text": "Heat",
       "src": "resources__heat",
@@ -2089,6 +2145,34 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Player Marker",
+      "filename": "resources__player_marker.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.player_marker",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__player_marker",
+      "tags": [],
+      "text": "Player Marker",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331,
+      "otherbg": "res_otherbg"
+    },
+    {
       "putUnder": "blocks/resources",
       "text": "Power",
       "src": "resources__power",
@@ -2115,6 +2199,33 @@
       "description": "Power",
       "author": "",
       "notes": ""
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Preservation",
+      "filename": "resources__preservation.png",
+      "group": "",
+      "height": 335,
+      "id": "resources.preservation",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__preservation",
+      "tags": [],
+      "text": "Preservation",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331
     },
     {
       "putUnder": "blocks/resources",
@@ -2171,33 +2282,6 @@
       "description": "res_otherbg",
       "author": "",
       "notes": ""
-    },
-    {
-      "aliases": [],
-      "author": "",
-      "color": "",
-      "deprecated": false,
-      "description": "Resources  Preservation",
-      "filename": "resources__preservation.png",
-      "group": "",
-      "height": 335,
-      "id": "resources.preservation",
-      "kind": "resource",
-      "locked": false,
-      "notes": "",
-      "putUnder": "blocks/resources",
-      "replacedBy": "",
-      "sets": [
-        "core"
-      ],
-      "sortOrder": 0,
-      "src": "resources__preservation",
-      "tags": [],
-      "text": "Preservation",
-      "usage": [
-        "card-editor"
-      ],
-      "width": 331
     },
     {
       "putUnder": "blocks/resources",
@@ -2310,6 +2394,34 @@
       "description": "TR",
       "author": "",
       "notes": ""
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  White Cube",
+      "filename": "resources__white_cube.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.white_cube",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__white_cube",
+      "tags": [],
+      "text": "White Cube",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331,
+      "otherbg": "res_otherbg"
     },
     {
       "putUnder": "blocks/resources",
