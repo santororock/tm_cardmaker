@@ -664,6 +664,33 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Misc  Awards",
+      "filename": "misc__awards.png",
+      "group": "",
+      "height": 101,
+      "id": "misc.awards",
+      "kind": "misc",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/misc",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "misc__awards",
+      "tags": [],
+      "text": "Awards (bg)",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 649
+    },
+    {
       "putUnder": "blocks/misc",
       "text": "Megacredit",
       "src": "misc__megacredit",
@@ -2004,6 +2031,34 @@
       "description": "Heat",
       "author": "",
       "notes": ""
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Hydroelectric",
+      "filename": "resources__hydroelectric.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.hydroelectric",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "Promo"
+      ],
+      "sortOrder": 0,
+      "src": "resources__hydroelectric",
+      "tags": [],
+      "text": "Resources  Hydroelectric",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331,
+      "otherbg": "res_otherbg"
     },
     {
       "aliases": [],
@@ -3840,7 +3895,8 @@
       "aliases": [],
       "description": "VP background",
       "author": "",
-      "notes": ""
+      "notes": "",
+      "otherbg": "VPs__otherbg"
     },
     {
       "putUnder": "blocks/VPs",
@@ -4636,6 +4692,34 @@
         "card-editor"
       ],
       "width": 374,
+      "hidden": true
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Vps  Otherbg",
+      "filename": "VPs__otherbg.png",
+      "group": "",
+      "height": 926,
+      "id": "vps.otherbg",
+      "kind": "vp",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/VPs",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "VPs__otherbg",
+      "tags": [],
+      "text": "Vps_otherbg",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 926,
       "hidden": true
     }
   ],

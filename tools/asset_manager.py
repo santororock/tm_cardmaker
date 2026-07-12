@@ -373,7 +373,12 @@ _ensure_namespace(
     ExtendedSelection=_qt_enum_value(QAbstractItemView, "SelectionMode", "ExtendedSelection"),
     MultiSelection=_qt_enum_value(QAbstractItemView, "SelectionMode", "MultiSelection"),
 )
-_ensure_namespace(QSizePolicy, "Policy", Expanding=_qt_enum_value(QSizePolicy, "Policy", "Expanding"))
+_ensure_namespace(
+    QSizePolicy,
+    "Policy",
+    Expanding=_qt_enum_value(QSizePolicy, "Policy", "Expanding"),
+    Ignored=_qt_enum_value(QSizePolicy, "Policy", "Ignored"),
+)
 _ensure_namespace(QHeaderView, "ResizeMode", Stretch=_qt_enum_value(QHeaderView, "ResizeMode", "Stretch"))
 _ensure_namespace(
     QMessageBox,
@@ -395,6 +400,16 @@ _ensure_namespace(QDialog, "DialogCode", Accepted=_qt_enum_value(QDialog, "Dialo
 
 for _exec_cls in (QApplication, QDialog, QMenu, QDrag):
     _alias_exec(_exec_cls)
+
+
+class FixedSizeHintLabel(QLabel):
+    """QLabel variant whose pixmap does not control surrounding layout size."""
+
+    def sizeHint(self):
+        return QSize(320, 180)
+
+    def minimumSizeHint(self):
+        return QSize(0, 100)
 
 
 # ============================================================================
@@ -2535,11 +2550,11 @@ class PropertyEditor(QWidget):
         thumb_layout = QVBoxLayout(thumb_container)
         thumb_layout.setContentsMargins(0, 0, 0, 0)
         
-        self.thumb_label = QLabel()
+        self.thumb_label = FixedSizeHintLabel()
         self.thumb_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.thumb_label.setMinimumHeight(100)
         self.thumb_label.setStyleSheet("border: 1px solid gray; background-color: #2b2b2b;")
-        self.thumb_label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.thumb_label.setSizePolicy(QSizePolicy.Policy.Ignored, QSizePolicy.Policy.Expanding)
         self.thumb_label.setScaledContents(False)
         thumb_layout.addWidget(self.thumb_label)
         
