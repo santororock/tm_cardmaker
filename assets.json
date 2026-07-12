@@ -646,7 +646,7 @@
       "filename": "globalparameters__venus.png",
       "kind": "global-parameter",
       "sets": [
-        "core"
+        "Venus Next"
       ],
       "usage": [
         "card-editor"
@@ -918,7 +918,7 @@
       "filename": "misc__chairman.png",
       "kind": "misc",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -945,7 +945,7 @@
       "filename": "misc__delegate.png",
       "kind": "misc",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -972,7 +972,7 @@
       "filename": "misc__influence.png",
       "kind": "misc",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -999,7 +999,7 @@
       "filename": "misc__party_leader.png",
       "kind": "misc",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1080,7 +1080,7 @@
       "filename": "misc__population.png",
       "kind": "misc",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1107,7 +1107,7 @@
       "filename": "parties__bureacrats.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1134,7 +1134,7 @@
       "filename": "parties__centrists.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1161,7 +1161,7 @@
       "filename": "parties__empower.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1188,7 +1188,7 @@
       "filename": "parties__greens.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1215,7 +1215,7 @@
       "filename": "parties__kelvinists.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1242,7 +1242,7 @@
       "filename": "parties__mars_first.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1269,7 +1269,7 @@
       "filename": "parties__populists.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1296,7 +1296,7 @@
       "filename": "parties__reds.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1323,7 +1323,7 @@
       "filename": "parties__scientists.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1350,7 +1350,7 @@
       "filename": "parties__spome.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1377,7 +1377,7 @@
       "filename": "parties__transhumanists.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1404,7 +1404,7 @@
       "filename": "parties__unity.png",
       "kind": "party",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "usage": [
         "card-editor"
@@ -1826,7 +1826,7 @@
       "putUnder": "blocks/resources",
       "replacedBy": "",
       "sets": [
-        "core"
+        "Turmoil"
       ],
       "sortOrder": 0,
       "src": "resources__diplomacy",
@@ -1904,7 +1904,7 @@
       "filename": "resources__floater.png",
       "kind": "resource",
       "sets": [
-        "core"
+        "Venus Next"
       ],
       "usage": [
         "card-editor"
@@ -1965,7 +1965,7 @@
       "putUnder": "blocks/resources",
       "replacedBy": "",
       "sets": [
-        "core"
+        "Promo"
       ],
       "sortOrder": 0,
       "src": "resources__graphene",
@@ -3217,7 +3217,7 @@
       "filename": "tiles__colony.png",
       "kind": "tile",
       "sets": [
-        "core"
+        "Colonies"
       ],
       "usage": [
         "card-editor"
@@ -3233,7 +3233,65 @@
       "description": "Colony",
       "author": "",
       "notes": "",
-      "otherbg": "otherbg_trade"
+      "otherbg": "otherbg_trade",
+      "otherbgPadX": 5,
+      "otherbgPadY": 5
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Tiles  Deimos Down",
+      "filename": "tiles__deimos_down.png",
+      "group": "",
+      "height": 472,
+      "id": "tiles.deimos_down",
+      "kind": "tile",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/tiles",
+      "replacedBy": "",
+      "sets": [
+        "Promo"
+      ],
+      "sortOrder": 0,
+      "src": "tiles__deimos_down",
+      "tags": [],
+      "text": "Deimos Down",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Tiles  Great Dam",
+      "filename": "tiles__great_dam.png",
+      "group": "",
+      "height": 472,
+      "id": "tiles.great_dam",
+      "kind": "tile",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/tiles",
+      "replacedBy": "",
+      "sets": [
+        "Promo"
+      ],
+      "sortOrder": 0,
+      "src": "tiles__great_dam",
+      "tags": [],
+      "text": "Great Dam",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 409,
+      "otherbg": "otherbg"
     },
     {
       "putUnder": "blocks/tiles",
@@ -3359,7 +3417,7 @@
       "filename": "tiles__trade.png",
       "kind": "tile",
       "sets": [
-        "core"
+        "Colonies"
       ],
       "usage": [
         "card-editor"
@@ -4196,6 +4254,34 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Tiles  Mag Field Generators",
+      "filename": "tiles__mag_field_generators.png",
+      "group": "",
+      "height": 472,
+      "id": "tiles.mag_field_generators",
+      "kind": "tile",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/tiles",
+      "replacedBy": "",
+      "sets": [
+        "Promo"
+      ],
+      "sortOrder": 0,
+      "src": "tiles__mag_field_generators",
+      "tags": [],
+      "text": "Mag Field Generator",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 409,
+      "otherbg": "otherbg"
+    },
+    {
       "height": 472,
       "putUnder": "blocks/tiles",
       "src": "tiles__mining_area",
@@ -4452,7 +4538,9 @@
       "id": "expansions.promo",
       "filename": "expansions_promo.png",
       "kind": "expansion-icon",
-      "sets": "['Promo']",
+      "sets": [
+        "Promo"
+      ],
       "usage": [
         "card-editor"
       ],
