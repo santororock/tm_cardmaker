@@ -855,6 +855,60 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Misc  Sp",
+      "filename": "misc__SP.png",
+      "group": "",
+      "height": 132,
+      "id": "misc.sp",
+      "kind": "misc",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/misc",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "misc__SP",
+      "tags": [],
+      "text": "Standard Project",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 406
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Misc  Sp Blank",
+      "filename": "misc__SP_blank.png",
+      "group": "",
+      "height": 132,
+      "id": "misc.sp_blank",
+      "kind": "misc",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/misc",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "misc__SP_blank",
+      "tags": [],
+      "text": "Standard Project Blank",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 406
+    },
+    {
       "putUnder": "blocks/misc",
       "text": "Corp Tag Holder",
       "src": "misc__corp_tag_holder",
@@ -2053,7 +2107,7 @@
       "sortOrder": 0,
       "src": "resources__hydroelectric",
       "tags": [],
-      "text": "Resources  Hydroelectric",
+      "text": "Hydroelectric",
       "usage": [
         "card-editor"
       ],
@@ -4721,6 +4775,33 @@
       ],
       "width": 926,
       "hidden": true
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Globalparameters  Venus Red Border",
+      "filename": "globalparameters__venus_red_border.png",
+      "group": "",
+      "height": 1000,
+      "id": "globalparameters.venus_red_border",
+      "kind": "global-parameter",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/globalparameters",
+      "replacedBy": "",
+      "sets": [
+        "Venus Next"
+      ],
+      "sortOrder": 0,
+      "src": "globalparameters__venus_red_border",
+      "tags": [],
+      "text": "Venus Red Border",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1000
     }
   ],
   "blockDefaults": {
