@@ -1694,6 +1694,34 @@
       "notes": ""
     },
     {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Any",
+      "filename": "resources__any.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.any",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "resources__any",
+      "tags": [],
+      "text": "Any",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331,
+      "otherbg": "res_otherbg"
+    },
+    {
       "putUnder": "blocks/resources",
       "text": "Asteroid",
       "src": "resources__asteroid",
@@ -1917,6 +1945,34 @@
         "card-editor"
       ],
       "width": 331
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Resources  Director",
+      "filename": "resources__director.png",
+      "group": "",
+      "height": 331,
+      "id": "resources.director",
+      "kind": "resource",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/resources",
+      "replacedBy": "",
+      "sets": [
+        "Prelude 2"
+      ],
+      "sortOrder": 0,
+      "src": "resources__director",
+      "tags": [],
+      "text": "Director",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 331,
+      "otherbg": "res_otherbg"
     },
     {
       "putUnder": "blocks/resources",
@@ -4802,6 +4858,60 @@
         "card-editor"
       ],
       "width": 1000
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "X",
+      "filename": "X.png",
+      "group": "",
+      "height": 374,
+      "id": "misc.x",
+      "kind": "misc",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/misc",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "X",
+      "tags": [],
+      "text": "X",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 281
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "X Red",
+      "filename": "X_red.png",
+      "group": "",
+      "height": 374,
+      "id": "misc.x_red",
+      "kind": "misc",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/misc",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "X_red",
+      "tags": [],
+      "text": "X Red",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 281
     }
   ],
   "blockDefaults": {
