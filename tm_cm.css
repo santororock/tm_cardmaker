@@ -2344,7 +2344,9 @@ a {
     font-size: var(--ui-font-size-small);
 }
 
-.inside .layer-visibility-button {
+.inside .layer-visibility-button,
+.inside .layer-lock-button,
+.inside .layer-menu-button {
     width: 30px;
     min-width: 30px;
     height: 28px;
@@ -2356,12 +2358,17 @@ a {
 }
 
 .inside .layer-visibility-button:hover,
-.inside .layer-visibility-button:focus-visible {
+.inside .layer-visibility-button:focus-visible,
+.inside .layer-lock-button:hover,
+.inside .layer-lock-button:focus-visible,
+.inside .layer-menu-button:hover,
+.inside .layer-menu-button:focus-visible {
     border-color: #888;
     background: #ececec;
 }
 
-.inside .layer-visibility-button svg {
+.inside .layer-visibility-button svg,
+.inside .layer-lock-button svg {
     width: 20px;
     height: 20px;
     fill: none;
@@ -2372,12 +2379,54 @@ a {
     pointer-events: none;
 }
 
+.inside .layer-menu-button {
+    font-size: 20px;
+    line-height: 18px;
+}
+
 .layer-hidden > .inside {
     opacity: 0.55;
 }
 
-.layer-hidden > .inside .layer-visibility-button {
+.layer-hidden > .inside .layer-visibility-button,
+.layer-hidden > .inside .layer-lock-button {
     opacity: 1;
+}
+
+.layer-locked > .inside {
+    background: repeating-linear-gradient(-45deg, #f3f3f3, #f3f3f3 7px, #e8e8e8 7px, #e8e8e8 14px);
+}
+
+.layer-locked > .inside .layer-lock-button {
+    color: #8a5418;
+    background: #fff3d8;
+    border-color: #b9823d;
+}
+
+.layer-locked #params {
+    opacity: 0.65;
+}
+
+.inside .layer-type-label {
+    min-width: 48px;
+    padding: 2px 5px;
+    border-radius: 9px;
+    background: #e7e7e7;
+    color: #555;
+    font-size: 0.68em;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.inside .layer-name-input {
+    flex: 1 1 150px;
+    min-width: 110px;
+}
+
+.inside .layer-name-input:disabled {
+    color: #555;
+    background: rgba(255, 255, 255, 0.72);
 }
 
 .divRec {
@@ -2443,6 +2492,48 @@ a {
 
 div.selected {
     border: 3px solid black;
+}
+
+.layer-context-menu {
+    position: fixed;
+    z-index: 10000;
+    display: none;
+    width: 180px;
+    padding: 5px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.layer-context-menu.is-open {
+    display: block;
+}
+
+.layer-context-menu button {
+    display: block;
+    width: 100%;
+    padding: 7px 9px;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+}
+
+.layer-context-menu button:hover:not(:disabled),
+.layer-context-menu button:focus-visible:not(:disabled) {
+    background: #e8e8e8;
+}
+
+.layer-context-menu button:disabled {
+    color: #aaa;
+    cursor: default;
+}
+
+.layer-context-menu hr {
+    margin: 4px 2px;
+    border: 0;
+    border-top: 1px solid #ccc;
 }
 
 input[type=number] {
