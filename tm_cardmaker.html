@@ -419,6 +419,9 @@
                 <div id="allangle">
                     <span style="float: right;">Angle:<input id="inputangle" type="number" min="0" max="359" onchange="updateValue(this)"></span><br>
                 </div>
+                <div id="allopacity">
+                    <span style="float: right;">Opacity:<input id="inputalpha" type="range" min="0" max="100" value="100" style="width: 90px;" oninput="updateLiveValue(this)" onchange="commitLiveValue(this)"><input id="alphaNumber" type="number" min="0" max="100" value="100" style="width: 56px;" onchange="updateLinkedValue(this, 'inputalpha')">%</span><br>
+                </div>
                 <div id="blockcolor">
                     <span style="float: right;">Hue:<input id="inputhue" type="range" min="-180" max="180" value="0" style="width: 90px;" oninput="updateLiveValue(this)" onchange="commitLiveValue(this)"><input id="hueNumber" type="number" min="-180" max="180" value="0" style="width: 56px;" onchange="updateLinkedValue(this, 'inputhue')">&deg;</span><br>
                     <span style="float: right;">Saturation:<input id="inputsaturation" type="range" min="0" max="300" value="100" style="width: 90px;" oninput="updateLiveValue(this)" onchange="commitLiveValue(this)"><input id="saturationNumber" type="number" min="0" max="300" value="100" style="width: 56px;" onchange="updateLinkedValue(this, 'inputsaturation')">%</span><br>
@@ -429,7 +432,6 @@
                     <span style="float: right;">Length:<input id="inputlen" type="number" min="1" onchange="updateValue(this)"></span><br>
                 </div>
                 <div id="clipimages">
-                    <span style="float: right;">Opacity:<input id="inputalpha" type="number" min="0" max="100" onchange="updateValue(this)">%</span><br>
                     <span style="float: right;">sX:<input id="inputsx" type="number" min="0" onchange="updateValue(this)"></span><br>
                     <span style="float: right;">sY:<input id="inputsy" type="number" min="0" onchange="updateValue(this)"></span><br>
                     <span style="float: right;">swidth:<input id="inputswidth" type="number" min="1" onchange="updateValue(this)"></span><br>

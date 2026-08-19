@@ -2344,6 +2344,42 @@ a {
     font-size: var(--ui-font-size-small);
 }
 
+.inside .layer-visibility-button {
+    width: 30px;
+    min-width: 30px;
+    height: 28px;
+    padding: 3px;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.inside .layer-visibility-button:hover,
+.inside .layer-visibility-button:focus-visible {
+    border-color: #888;
+    background: #ececec;
+}
+
+.inside .layer-visibility-button svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.layer-hidden > .inside {
+    opacity: 0.55;
+}
+
+.layer-hidden > .inside .layer-visibility-button {
+    opacity: 1;
+}
+
 .divRec {
     cursor: default;
     padding: 2px;
