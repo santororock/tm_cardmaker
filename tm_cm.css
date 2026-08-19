@@ -2407,13 +2407,111 @@ a {
     opacity: 0.65;
 }
 
+#params .property-section {
+    clear: both;
+    margin: 2px 0;
+    padding: 2px 5px 4px;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background: #fafafa;
+}
+
+#params .property-section-toggle {
+    display: block;
+    width: 100%;
+    margin: 0 0 2px;
+    padding: 2px;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    line-height: 18px;
+}
+
+#params .property-section-toggle::before {
+    display: inline-block;
+    width: 16px;
+    content: "▾";
+}
+
+#params .property-section.is-collapsed .property-section-toggle {
+    margin-bottom: 0;
+    border-bottom-color: transparent;
+}
+
+#params .property-section.is-collapsed .property-section-toggle::before {
+    content: "▸";
+}
+
+#params .property-section.is-collapsed > :not(.property-section-toggle) {
+    display: none !important;
+}
+
+#params .property-section-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    column-gap: 10px;
+    row-gap: 1px;
+}
+
+#params .property-fields {
+    display: contents;
+}
+
+#params .property-fields > br {
+    display: none;
+}
+
+#params .property-fields > span {
+    float: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 4px;
+    width: 100%;
+    min-height: 24px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+#params .property-section input[type="number"],
+#params .property-section select,
+#params .property-section textarea {
+    max-width: 120px;
+    min-height: 22px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+#params .property-section input[type="number"] {
+    width: 78px;
+}
+
+#params .property-section input[type="range"] {
+    width: 74px !important;
+}
+
+#params .property-section textarea {
+    width: 120px;
+    min-height: 46px;
+}
+
+#params .property-reset-button {
+    justify-self: start;
+    margin: 1px 0;
+    padding: 2px 7px;
+    min-height: 22px;
+}
+
 .inside .layer-type-label {
     min-width: 48px;
     padding: 2px 5px;
     border-radius: 9px;
     background: #e7e7e7;
     color: #555;
-    font-size: 0.68em;
+    font-size: var(--ui-font-size-small);
     line-height: 1.2;
     text-align: center;
     text-transform: uppercase;
@@ -2432,8 +2530,25 @@ a {
 .divRec {
     cursor: default;
     padding: 2px;
-    font-size: clamp(13px, 0.55vw + 0.35vh, 20px);
+    font-size: var(--ui-font-size-small);
     border: 1px solid #000;
+}
+
+#layerlist input,
+#layerlist select,
+#layerlist textarea,
+#layerlist button,
+#params,
+#params input,
+#params select,
+#params textarea,
+#params button {
+    font-size: var(--ui-font-size-small) !important;
+    line-height: 1.25;
+}
+
+#params .property-section-toggle {
+    font-size: var(--ui-font-size-small) !important;
 }
 
 .inside .layer-drag-handle {
@@ -2574,6 +2689,14 @@ input[type=checkbox] {
     z-index: 10;
     /* visible only when enabled by JS */
     display: none;
+}
+
+.canvas-controls-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 4;
+    pointer-events: none;
 }
 
 
