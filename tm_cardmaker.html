@@ -12,7 +12,7 @@
   Architecture:
     - Responsive design using W3.CSS framework (mobile-first approach)
     - Template originally from: https://www.w3schools.com/css/css_rwd_templates.asp
-    - The actual application logic is in lib/tm_cm.js (see reference below)
+    - Application logic is grouped into six scripts under lib/ (see ARCHITECTURE.md)
     - Styling is in tm_cm.css (responsive layout with sidebar)
     
   Key Layout Components:
@@ -34,12 +34,12 @@
     - HTML5 Canvas API: For rendering the card design
     - File API: For local file uploads (users importing images)
     - Drag & Drop API: For reordering layers
-    - localStorage: For auto-saving projects (in lib/tm_cm.js)
+    - localStorage: For auto-saving projects
     
   External Dependencies:
     - W3.CSS framework (lightweight, 20KB)
     - Google Fonts: Roboto, Montserrat (typography)
-    - lib/tm_cm.js: Core application logic
+    - lib/tm_*.js: Project, rendering, layer, asset, template, and controller logic
     - tm_cm.css: Responsive styling
     - assets.json: External sprite/block definitions
 -->
@@ -212,7 +212,7 @@
                 <!-- Create new blank project, clearing undo stack and auto-save -->
                 <a onclick="clickNew()" href="#" class="w3-bar-item w3-button">New</a>
 
-                <!-- New from Template: Submenu populated by addBlockMenuItem() from megaTemplates -->
+                <!-- New from Template: Submenu populated from TMCardMakerTemplates -->
                 <a onclick="myAccFunc('fromTemplate')" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align">
         New from Template <i class="fa fa-caret-down"></i>
       </a>
@@ -1109,6 +1109,11 @@
             })();
         </script>
 
+        <script src="lib/tm_project.js"></script>
+        <script src="lib/tm_rendering.js"></script>
+        <script src="lib/tm_layers.js"></script>
+        <script src="lib/tm_assets.js"></script>
+        <script src="lib/tm_templates.js"></script>
         <script src="lib/tm_cm.js"></script>
         <script src="lib/tm_export.js"></script>
         <script src="lib/tm_debug_overlay.js"></script>
@@ -1260,7 +1265,7 @@
              * 
              * Why this matters:
              * - The blockList and blockDefaults are now in assets.json (external file)
-             * - The main JavaScript (lib/tm_cm.js) needs this data to work
+             * - The asset and controller scripts need this data to work
              * - We must load assets.json first, then proceed with normal initialization
              * - Using async/await ensures proper sequencing without callback hell
              * 

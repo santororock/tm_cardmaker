@@ -24,6 +24,13 @@ Cheers!"
 
 ## Setup & Running
 
+### JavaScript Architecture
+
+The application uses six approachable, no-build browser scripts for project
+state, rendering, layers, assets, templates, and top-level coordination. See
+[`lib/ARCHITECTURE.md`](lib/ARCHITECTURE.md) for the current boundaries and
+migration rules.
+
 ### Web Browser Access
 
 Serve the folder over HTTP to avoid CORS and tainted canvas issues when exporting:
@@ -263,9 +270,9 @@ There are two related but distinct concepts:
   - Manage them in the **Sprites** tab like any other block.
 
 2. **Project templates (New from Template)**
-  - These are defined in `lib/tm_cm.js` as `megaTemplates` (layer blueprints).
+  - These are defined in `lib/tm_templates.js` as layer blueprints.
   - They drive **File → New from Template**.
-  - Adding/removing these requires editing `lib/tm_cm.js` (not `assets.json`).
+  - Adding/removing these requires editing `lib/tm_templates.js` (not `assets.json`).
 
 #### Sprite Properties
 
