@@ -199,9 +199,11 @@ body {
         position: fixed !important;
         right: 0;
         top: 0;
+        box-sizing: border-box;
         width: var(--right-panel-width, 340px);
         height: 100vh;
         overflow-y: auto;
+        overflow-x: hidden;
         background: white;
         border-left: 1px solid #ddd;
         padding: clamp(10px, 1.4vw, 16px);
@@ -2832,4 +2834,132 @@ input[type=checkbox] {
 
 .inside .layer-thumbnail + .layer-drag-handle {
     margin-left: 0;
+}
+
+
+/* Compact desktop layer and property controls for smaller laptops.
+   Keep every layer action visible instead of relying on horizontal scrolling. */
+@media (min-width: 993px) and (max-width: 1205px) {
+    #rightPanel {
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+    #layerlist {
+        grid-gap: 3px;
+    }
+
+    .divRec {
+        padding: 1px;
+    }
+
+    .inside {
+        min-width: 0;
+        gap: 3px;
+    }
+
+    .inside button {
+        height: 24px;
+        padding: 2px;
+    }
+
+    .inside .layer-visibility-button,
+    .inside .layer-lock-button,
+    .inside .layer-menu-button {
+        width: 24px;
+        min-width: 24px;
+        height: 24px;
+        padding: 2px;
+    }
+
+    .inside .layer-visibility-button svg,
+    .inside .layer-lock-button svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .inside .layer-menu-button {
+        font-size: 17px;
+        line-height: 16px;
+    }
+
+    .inside .layer-type-label {
+        min-width: 40px;
+        padding: 2px 3px;
+        font-size: 10px;
+    }
+
+    .inside .layer-name-input {
+        flex: 1 1 70px;
+        width: 70px;
+        min-width: 0;
+        height: 24px;
+        padding: 2px 4px;
+    }
+
+    .inside .layer-delete-button {
+        flex: 0 0 26px;
+        width: 26px;
+        min-width: 26px;
+    }
+
+    .inside .layer-thumbnail {
+        flex: 0 0 24px;
+        width: 24px !important;
+        height: 24px !important;
+        margin-left: 0;
+        padding: 1px;
+    }
+
+    .inside .layer-drag-handle {
+        flex: 0 0 20px;
+        width: 20px;
+        min-width: 20px;
+        height: 24px;
+        margin-left: 0;
+        padding: 3px 2px;
+        gap: 2px;
+    }
+
+    .inside .layer-drag-handle span {
+        width: 2px;
+        height: 2px;
+    }
+
+    #params {
+        padding: 6px;
+    }
+
+    #params .property-section {
+        padding: 2px 4px 3px;
+    }
+
+    #params .property-section-body {
+        grid-template-columns: minmax(0, 1fr);
+        column-gap: 4px;
+    }
+
+    #params .property-fields > span {
+        min-width: 0;
+        min-height: 21px;
+        white-space: normal;
+    }
+
+    #params .property-section input[type="number"],
+    #params .property-section select,
+    #params .property-section textarea {
+        min-width: 0;
+        min-height: 20px;
+    }
+
+    #params .property-section input[type="range"] {
+        width: 62px !important;
+        min-width: 40px;
+    }
+
+    .debug-legend {
+        flex-wrap: wrap;
+        gap: 3px 8px;
+        font-size: var(--ui-font-size-small);
+    }
 }
