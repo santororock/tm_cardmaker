@@ -53,6 +53,209 @@ body {
     --ui-font-size: clamp(12px, 0.35vw + 0.25vh, 15px);
     --ui-font-size-small: clamp(11px, 0.24vw + 0.18vh, 13px);
     --overlay-edge-pad: clamp(12px, 5vh, 64px);
+    --ui-page: #ffffff;
+    --ui-surface: #ffffff;
+    --ui-surface-subtle: #f9f9f9;
+    --ui-surface-muted: #f0f0f0;
+    --ui-control: #ffffff;
+    --ui-control-hover: #e0e0e0;
+    --ui-control-active: #d0d0d0;
+    --ui-text: #111111;
+    --ui-text-muted: #555555;
+    --ui-border: #d0d0d0;
+    --ui-border-strong: #888888;
+    --ui-workspace: #d0d0d0;
+    --ui-workspace-check: #e0e0e0;
+    --ui-link: #0066cc;
+    --ui-shadow: rgba(0, 0, 0, 0.15);
+}
+
+/* Application chrome theme. Card artwork and its white mounting area stay neutral
+   so the editor theme cannot affect design or export color decisions. */
+html[data-theme="dark"] body,
+html[data-theme="dark"] .w3-main,
+html[data-theme="dark"] #canvasContainer {
+    background-color: var(--ui-page);
+    color: var(--ui-text);
+}
+
+html[data-theme="dark"] #mySidebar,
+html[data-theme="dark"] #mySidebar .w3-white,
+html[data-theme="dark"] #rightPanel,
+html[data-theme="dark"] .dialog-card,
+html[data-theme="dark"] .w3-modal-content,
+html[data-theme="dark"] .w3-light-grey {
+    background-color: var(--ui-surface) !important;
+    color: var(--ui-text) !important;
+}
+
+html[data-theme="dark"] #rightPanel,
+html[data-theme="dark"] #layerlist,
+html[data-theme="dark"] #zoomControls,
+html[data-theme="dark"] #params,
+html[data-theme="dark"] #params .property-section,
+html[data-theme="dark"] .hotkey,
+html[data-theme="dark"] .layer-context-menu {
+    border-color: var(--ui-border);
+}
+
+html[data-theme="dark"] #params,
+html[data-theme="dark"] #params .property-section {
+    background: var(--ui-surface-subtle);
+}
+
+html[data-theme="dark"] #zoomControls {
+    background: var(--ui-surface-muted);
+    border-bottom-color: var(--ui-border);
+}
+
+html[data-theme="dark"] #canvasScrollarea,
+html[data-theme="dark"] #canvasScrollinner {
+    background-color: var(--ui-workspace);
+}
+
+html[data-theme="dark"] #canvasScrollinner {
+    background-image: linear-gradient(45deg, var(--ui-workspace-check) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--ui-workspace-check) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--ui-workspace-check) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--ui-workspace-check) 75%);
+}
+
+html[data-theme="dark"] button,
+html[data-theme="dark"] input:not([type="color"]),
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] #zoomControls button {
+    background-color: var(--ui-control);
+    border-color: var(--ui-border-strong);
+    color: var(--ui-text);
+}
+
+html[data-theme="dark"] button:hover:not(:disabled),
+html[data-theme="dark"] .w3-button:hover,
+html[data-theme="dark"] #zoomControls button:hover,
+html[data-theme="dark"] .layer-context-menu button:hover:not(:disabled),
+html[data-theme="dark"] .layer-context-menu button:focus-visible:not(:disabled),
+html[data-theme="dark"] .inside .layer-visibility-button:hover,
+html[data-theme="dark"] .inside .layer-lock-button:hover,
+html[data-theme="dark"] .inside .layer-menu-button:hover {
+    background-color: var(--ui-control-hover) !important;
+    color: var(--ui-text) !important;
+}
+
+html[data-theme="dark"] button:active,
+html[data-theme="dark"] #zoomControls button:active {
+    background-color: var(--ui-control-active);
+}
+
+html[data-theme="dark"] .w3-text-grey,
+html[data-theme="dark"] #hotkeyHint,
+html[data-theme="dark"] #helpContent h3,
+html[data-theme="dark"] #helpContent h4,
+html[data-theme="dark"] .inside .layer-type-label,
+html[data-theme="dark"] .inside .layer-name-input:disabled {
+    color: var(--ui-text-muted) !important;
+}
+
+html[data-theme="dark"] #helpContent h2 {
+    color: var(--ui-text);
+}
+
+html[data-theme="dark"] #hotkeyHint {
+    background: color-mix(in srgb, var(--ui-surface) 88%, transparent);
+    border-color: var(--ui-border);
+}
+
+html[data-theme="dark"] .hotkey,
+html[data-theme="dark"] .inside .layer-type-label,
+html[data-theme="dark"] .inside .layer-drag-handle {
+    background: var(--ui-surface-muted);
+}
+
+html[data-theme="dark"] .inside .layer-visibility-button,
+html[data-theme="dark"] .inside .layer-lock-button,
+html[data-theme="dark"] .inside .layer-menu-button,
+html[data-theme="dark"] .layer-context-menu button,
+html[data-theme="dark"] #params .property-section-toggle {
+    background: transparent;
+}
+
+html[data-theme="dark"] .layer-context-menu {
+    background: var(--ui-surface);
+    box-shadow: 0 4px 14px var(--ui-shadow);
+}
+
+html[data-theme="dark"] .layer-locked > .inside {
+    background: repeating-linear-gradient(-45deg, #332e24, #332e24 7px, #29261f 7px, #29261f 14px);
+}
+
+html[data-theme="dark"] .layer-locked > .inside .layer-lock-button {
+    color: #ffd18a;
+    background: #493719;
+    border-color: #a77835;
+}
+
+html[data-theme="dark"] .ghost {
+    border-color: var(--ui-border-strong);
+    background-color: var(--ui-surface-subtle);
+}
+
+html[data-theme="dark"] a:not(.w3-button) {
+    color: var(--ui-link);
+}
+
+html[data-theme="dark"] ::placeholder {
+    color: #929ba6;
+}
+
+html[data-theme="dark"] input[type="color"] {
+    border-color: var(--ui-border-strong);
+    background: var(--ui-control);
+}
+
+html[data-theme="dark"] {
+    --ui-page: #15181c;
+    --ui-surface: #20242a;
+    --ui-surface-subtle: #292e35;
+    --ui-surface-muted: #30363e;
+    --ui-control: #292e35;
+    --ui-control-hover: #3a424c;
+    --ui-control-active: #48515c;
+    --ui-text: #edf0f3;
+    --ui-text-muted: #b6bec8;
+    --ui-border: #343a42;
+    --ui-border-strong: #48515d;
+    --ui-workspace: #181b20;
+    --ui-workspace-check: #242930;
+    --ui-link: #72b7ff;
+    --ui-shadow: rgba(0, 0, 0, 0.45);
+}
+
+html,
+body {
+    background: var(--ui-page);
+    color: var(--ui-text);
+}
+
+.theme-preference-control {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    min-height: 24px;
+    padding: 0;
+    color: var(--ui-text);
+    font-size: var(--ui-font-size-small);
+}
+
+.theme-preference-control select {
+    min-width: 82px;
+    padding: 3px 5px;
+}
+
+.reference-credit {
+    color: var(--ui-text-muted);
+    border-top: 1px solid var(--ui-border);
 }
 
 
@@ -2962,4 +3165,173 @@ input[type=checkbox] {
         gap: 3px 8px;
         font-size: var(--ui-font-size-small);
     }
+}
+
+/* Dark-mode overrides for components whose light colors are declared late in
+   this file or assigned inline while layer rows are built. Keep these at the
+   end of the cascade. */
+html[data-theme="dark"] #canvaswrap {
+    background: var(--ui-surface);
+    border-color: var(--ui-border-strong);
+    box-shadow: 0 2px 10px var(--ui-shadow);
+}
+
+html[data-theme="dark"] .divRec {
+    border-color: var(--ui-border);
+    background: var(--ui-surface);
+}
+
+html[data-theme="dark"] .divRec > .inside {
+    background-color: var(--ui-surface);
+    color: var(--ui-text);
+}
+
+html[data-theme="dark"] .divRec:hover > .inside {
+    background-color: var(--ui-surface-subtle);
+}
+
+html[data-theme="dark"] .divRec.selected {
+    border-color: #64b5f6;
+    box-shadow: inset 3px 0 0 #64b5f6;
+}
+
+html[data-theme="dark"] .divRec.selected > .inside {
+    background-color: #263746;
+}
+
+html[data-theme="dark"] .divRec.layer-locked > .inside {
+    background: repeating-linear-gradient(-45deg, #3a3122, #3a3122 7px, #302a20 7px, #302a20 14px);
+}
+
+html[data-theme="dark"] .divRec.layer-locked.selected > .inside {
+    background: repeating-linear-gradient(-45deg, #403725, #403725 7px, #352f23 7px, #352f23 14px);
+}
+
+html[data-theme="dark"] .inside .layer-name-input,
+html[data-theme="dark"] .inside .layer-name-input:disabled {
+    background: var(--ui-control);
+    border-color: var(--ui-border-strong);
+    color: var(--ui-text) !important;
+    -webkit-text-fill-color: var(--ui-text);
+    opacity: 1;
+}
+
+html[data-theme="dark"] .inside button:disabled {
+    color: #77818d;
+    opacity: 0.7;
+}
+
+html[data-theme="dark"] .inside .layer-visibility-button,
+html[data-theme="dark"] .inside .layer-lock-button,
+html[data-theme="dark"] .inside .layer-menu-button {
+    color: var(--ui-text-muted);
+}
+
+html[data-theme="dark"] .inside .layer-thumbnail,
+html[data-theme="dark"] .thumbnail-container {
+    background-color: var(--ui-surface-muted) !important;
+    border-color: var(--ui-border) !important;
+}
+
+html[data-theme="dark"] .thumbnail-menu-item:hover {
+    background-color: var(--ui-control-hover) !important;
+}
+
+.cached-image-card {
+    border: 1px solid var(--ui-border);
+}
+
+/* Flatten native inset/bevel effects in the properties panel. */
+html[data-theme="dark"] #rightPanel input:not([type="checkbox"]):not([type="range"]):not([type="color"]),
+html[data-theme="dark"] #rightPanel textarea,
+html[data-theme="dark"] #rightPanel select {
+    border: 1px solid var(--ui-border-strong);
+    border-radius: 2px;
+    box-shadow: none !important;
+    background-image: none;
+    outline: none;
+}
+
+html[data-theme="dark"] #rightPanel input:not([type="checkbox"]):not([type="range"]):not([type="color"]):focus,
+html[data-theme="dark"] #rightPanel textarea:focus,
+html[data-theme="dark"] #rightPanel select:focus {
+    border-color: #6b8298;
+}
+
+.layer-selection-toolbar {
+    display: none;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 8px 0;
+    padding: 7px;
+    border: 1px solid var(--ui-border);
+    border-radius: 4px;
+    background: var(--ui-surface-subtle);
+    font-size: var(--ui-font-size-small);
+}
+
+.layer-selection-toolbar.is-active {
+    display: flex;
+}
+
+.layer-selection-toolbar #selectionCount {
+    flex: 1 1 100%;
+    color: var(--ui-text-muted);
+}
+
+.layer-selection-toolbar button {
+    min-height: 24px;
+    padding: 3px 7px;
+}
+
+.divRec.selected:not(.primary-selected) {
+    border-color: #4087bd;
+    box-shadow: inset 2px 0 0 #4087bd;
+}
+
+.layer-group-row > .inside {
+    min-height: 32px;
+    background: var(--ui-surface-muted);
+    font-weight: 600;
+}
+
+.layer-group-row .group-disclosure-button,
+.layer-group-row .group-visibility-button,
+.layer-group-row .group-lock-button {
+    flex: 0 0 26px;
+    width: 26px;
+    min-width: 26px;
+    padding: 2px;
+}
+
+.layer-group-row .group-ungroup-button {
+    flex: 0 0 auto;
+    width: auto;
+    padding: 3px 6px;
+    font-size: var(--ui-font-size-small);
+}
+
+.divRec.group-child > .inside {
+    padding-left: 22px;
+}
+
+.divRec.group-child-collapsed {
+    display: none;
+}
+
+.divRec.group-parent-hidden > .inside {
+    opacity: 0.45;
+}
+
+.divRec.group-parent-locked > .inside {
+    background-image: repeating-linear-gradient(-45deg, transparent, transparent 7px, rgba(185, 130, 61, 0.11) 7px, rgba(185, 130, 61, 0.11) 14px);
+}
+
+html[data-theme="dark"] .layer-group-row > .inside {
+    background: #2b333d;
+}
+
+html[data-theme="dark"] .layer-group-row.selected > .inside {
+    background: #29435a;
 }

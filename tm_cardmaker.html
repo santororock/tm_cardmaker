@@ -57,6 +57,46 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <!-- Viewport meta tag ensures responsive design works on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<script>
+    // Apply the theme before styles are painted to avoid a light-mode flash.
+    (function () {
+        const storageKey = "tm-cardmaker-theme";
+        const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+        function getThemePreference() {
+            const savedTheme = localStorage.getItem(storageKey);
+            return savedTheme === "light" || savedTheme === "dark" ? savedTheme : "system";
+        }
+
+        function applyTheme(themePreference) {
+            const effectiveTheme = themePreference === "system"
+                ? (mediaQuery.matches ? "dark" : "light")
+                : themePreference;
+            document.documentElement.dataset.theme = effectiveTheme;
+            document.documentElement.style.colorScheme = effectiveTheme;
+        }
+
+        window.setThemePreference = function (themePreference) {
+            if (themePreference === "system") {
+                localStorage.removeItem(storageKey);
+            } else {
+                localStorage.setItem(storageKey, themePreference);
+            }
+            applyTheme(themePreference);
+        };
+
+        window.getThemePreference = getThemePreference;
+        mediaQuery.addEventListener("change", function () {
+            if (getThemePreference() === "system") applyTheme("system");
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const themeSelect = document.getElementById("themePreference");
+            if (themeSelect) themeSelect.value = getThemePreference();
+        });
+        applyTheme(getThemePreference());
+    }());
+</script>
 <link rel="stylesheet" href="tm_cm.css">
 <!-- Markdown parser library for rendering README sections (local copy for offline support) -->
 <script src="lib/third_party/marked.min.js"></script>
@@ -193,10 +233,10 @@
                     <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0.pdf" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Game Reference PDF</a>
                     <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-1.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (1)</a>
                     <a href="reference/Terraforming_Mars_Symbol_and_Play_Reference_V4.0-2.png" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">Symbol Reference (2)</a>
-                    <div style="padding: 10px; font-size: 9pt; color: #666; line-height: 1.4; border-top: 1px solid #ddd; margin-top: 8px;">
+                    <div class="reference-credit" style="padding: 10px; font-size: 9pt; line-height: 1.4; margin-top: 8px;">
                         <div style="font-style: italic; margin-bottom: 4px;">Terraforming Mars + Expansions</div>
                         <div style="margin-bottom: 4px;">Symbol and Play Reference</div>
-                        <div>by <a href="https://boardgamegeek.com/profile/Magesmiley" target="_blank" rel="noopener noreferrer" style="color: #0066cc; text-decoration: none;">Magesmiley</a></div>
+                        <div>by <a href="https://boardgamegeek.com/profile/Magesmiley" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">Magesmiley</a></div>
                     </div>
                 </div>
                 <a href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">GitHub Repository</a>
@@ -373,7 +413,14 @@
                 <!-- Layer List - params will be appended inside selected layer -->
                 <section id="layerlist"></section>
 
-                <span class="w3-padding-16"><input id="groupmode" type="checkbox" onchange="groupModeToggle()" class="w3-show-inline-block" >Group Mode</span>
+                <div id="multiSelectionToolbar" class="layer-selection-toolbar" aria-live="polite">
+                    <span id="selectionCount">0 layers selected</span>
+                    <button id="selectionGroupButton" type="button" onclick="createGroupFromSelection()">Group</button>
+                    <button id="selectionLockButton" type="button" onclick="toggleSelectedLayersLocked()">Lock</button>
+                    <button id="selectionVisibilityButton" type="button" onclick="toggleSelectedLayersVisible()">Hide</button>
+                    <button type="button" onclick="deleteSelectedLayers()">Delete</button>
+                    <button type="button" onclick="deselectAllLayers()">Clear</button>
+                </div>
                 <button onclick="copyToClipboard()" style="display: none;">Copy</button>
 
                 <hr>
@@ -381,6 +428,14 @@
                 <!-- Settings -->
                 <div id="settings">
                     <b>Settings</b><br>
+                    <label class="theme-preference-control" for="themePreference">
+                        <span>Theme:</span>
+                        <select id="themePreference" aria-label="Color theme" onchange="setThemePreference(this.value)">
+                            <option value="system">System</option>
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </label>
                     <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
                     <div style="clear: both; padding-top: 8px;">
                         <b>Asset Sets</b>

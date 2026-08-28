@@ -91,6 +91,17 @@ Blocks can also be moved around with the mouse and arrow keys, just like text la
 - Alt + left and right arrow keys resize the selected object, maintaining anchor at upper-left
 - Alt + up and down arrow keys resize the selected object, maintaining anchor at the center of the object
 
+### Selecting and Grouping Layers
+
+- Click a layer to select it normally.
+- Ctrl-click (Windows/Linux) or Cmd-click (macOS) toggles individual layers in a multiple selection.
+- Shift-click selects a continuous range in the Layers panel; Shift-click on the canvas adds an object to the current selection.
+- Dragging any selected canvas object, using the arrow keys, or changing X/Y moves all selected unlocked layers together.
+- When multiple layers are selected, the selection toolbar provides Group, Lock/Unlock, Hide/Show, Delete, and Clear actions.
+- **Group** creates a persistent folder row. Groups can be renamed, collapsed, hidden, locked, ungrouped, or deleted with their contents.
+- Clicking grouped artwork on the canvas selects and moves its group. Expand the group and select a child row when you need to edit one layer directly.
+- Group structure, visibility, locking, and collapsed state are retained in saved projects.
+
 A couple other things to highlight:
 
 - If you want to use an image from the Web (with permission of course), that's under **Add Block -> User Images -> Load Web Image**.
