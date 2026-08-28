@@ -2746,14 +2746,14 @@
       "sets": [
         "Cosmic Horror"
       ],
-      "sortOrder": 0,
+      "sortOrder": 6,
       "src": "tags__cosmic_horror",
       "tags": [],
       "text": "Cosmic Horror",
       "usage": [
         "card-editor"
       ],
-      "width": 442,
+      "width": 462,
       "otherbg": "tags_otherbg"
     },
     {
