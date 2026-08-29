@@ -193,6 +193,57 @@
         </div>
     </div>
 
+    <!-- Application Settings -->
+    <div id="settingsModal" class="w3-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle">
+        <div class="w3-modal-content settings-dialog">
+            <header class="settings-dialog-header">
+                <div>
+                    <h2 id="settingsModalTitle">Settings</h2>
+                    <p>Application preferences are saved as you change them.</p>
+                </div>
+                <button id="closeSettingsBtn" class="settings-close-button" type="button" title="Close settings" aria-label="Close settings">&times;</button>
+            </header>
+            <div class="settings-dialog-body">
+                <section class="settings-section" aria-labelledby="generalSettingsTitle">
+                    <h3 id="generalSettingsTitle">General</h3>
+                    <label class="settings-control" for="themePreference">
+                        <span><strong>Theme</strong><small>Match your system or choose a fixed appearance.</small></span>
+                        <select id="themePreference" aria-label="Color theme" onchange="setThemePreference(this.value)">
+                            <option value="system">System</option>
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </label>
+                    <label class="settings-control" for="inputmaxundosteps">
+                        <span><strong>Maximum undo steps</strong><small>Controls how much editing history is retained.</small></span>
+                        <input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)">
+                    </label>
+                </section>
+                <section class="settings-section" aria-labelledby="assetSetSettingsTitle">
+                    <h3 id="assetSetSettingsTitle">Asset Sets</h3>
+                    <p class="settings-section-description">Choose which expansions appear in the block browser.</p>
+                    <div id="assetSetsCheckboxes" class="settings-asset-sets"></div>
+                </section>
+                <section class="settings-section" aria-labelledby="cacheSettingsTitle">
+                    <h3 id="cacheSettingsTitle">Image Cache</h3>
+                    <div class="settings-cache-summary">
+                        <span id="cacheStatus">Checking cache...</span>
+                        <span id="cacheSize">Size: n/a</span>
+                    </div>
+                    <label class="settings-control" for="cacheWarningThresholdMb">
+                        <span><strong>Warning threshold</strong><small id="cacheWarningStatus">Warning threshold disabled</small></span>
+                        <span class="settings-number-with-unit"><input id="cacheWarningThresholdMb" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="250" onchange="setUserImageCacheWarningThreshold(this)" onblur="setUserImageCacheWarningThreshold(this)"><span>MB</span></span>
+                    </label>
+                    <div class="settings-actions">
+                        <button id="refreshImageCacheBtn" type="button" onclick="refreshUserImageCacheUsage()">Refresh</button>
+                        <button id="viewCachedImagesBtn" type="button" onclick="showCachedImageContactSheet()">View Cached Images</button>
+                        <button id="clearImageCacheBtn" class="settings-danger-button" type="button" onclick="clearCachedUserImages()">Clear Cached Images</button>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
     <!-- ================================================================================
      PRIMARY NAVIGATION - LEFT SIDEBAR
      ================================================================================
@@ -240,6 +291,7 @@
                     </div>
                 </div>
                 <a href="https://github.com/santororock/tm_cardmaker" target="_blank" rel="noopener noreferrer" class="w3-bar-item w3-button">GitHub Repository</a>
+                <a href="#" onclick="openSettingsModal(); return false;" class="w3-bar-item w3-button">⚙ Settings</a>
             </div>
 
             <!-- FILE MENU: Main operations (New, Save, Load, Export) -->
@@ -286,6 +338,12 @@
                 <a onclick="addProduction()" href="#" class="w3-bar-item w3-button">Production box (expandable)</a>
                 <a onclick="addEffectBox()" href="#" class="w3-bar-item w3-button">Effect box</a>
                 <a onclick="addLine()" href="#" class="w3-bar-item w3-button">Line</a>
+                <div class="block-search">
+                    <label for="blockSearchInput">Find a block</label>
+                    <input id="blockSearchInput" type="search" placeholder="Search blocks…" autocomplete="off"
+                        oninput="filterBlockMenu(this.value)" onkeydown="handleBlockSearchKeydown(event)">
+                    <span id="blockSearchSummary" class="block-search-summary" aria-live="polite"></span>
+                </div>
                 <div id="blocksMenu"></div>
             </div>
         </div>
@@ -332,6 +390,7 @@
                     <button onclick="zoomCanvasReset()">Reset</button>
                     <button onclick="zoomCanvasIn()">+</button>
                     <span id="zoomLevel">100%</span>
+                    <span id="autosaveStatus" class="autosave-status" data-state="ready" role="status" aria-live="polite">Autosave ready</span>
                     <button id="openShortcutsBtn" title="Show keyboard shortcuts">Hotkeys ⌨</button>
                 </div>
                 <div id="canvasScrollarea">
@@ -423,35 +482,6 @@
                 </div>
                 <button onclick="copyToClipboard()" style="display: none;">Copy</button>
 
-                <hr>
-
-                <!-- Settings -->
-                <div id="settings">
-                    <b>Settings</b><br>
-                    <label class="theme-preference-control" for="themePreference">
-                        <span>Theme:</span>
-                        <select id="themePreference" aria-label="Color theme" onchange="setThemePreference(this.value)">
-                            <option value="system">System</option>
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                        </select>
-                    </label>
-                    <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
-                    <div style="clear: both; padding-top: 8px;">
-                        <b>Asset Sets</b>
-                        <div id="assetSetsCheckboxes" style="margin-top:6px; margin-bottom:8px;"></div>
-                    </div>
-                    <div style="clear: both; padding-top: 4px;">
-                        <b>Image Cache</b><br>
-                        <span id="cacheStatus">Checking cache...</span><br>
-                        <span id="cacheSize">Size: n/a</span><br>
-                        <span>Warning Threshold (MB): <input id="cacheWarningThresholdMb" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="e.g. 250" onchange="setUserImageCacheWarningThreshold(this)" onblur="setUserImageCacheWarningThreshold(this)" style="width: 80px;"></span><br>
-                        <span id="cacheWarningStatus">Warning threshold disabled</span><br>
-                        <button id="refreshImageCacheBtn" onclick="refreshUserImageCacheUsage()" style="margin-top: 4px;">Refresh</button>
-                        <button id="clearImageCacheBtn" onclick="clearCachedUserImages()" style="margin-top: 4px;">Clear Cached Images</button>
-                        <button id="viewCachedImagesBtn" onclick="showCachedImageContactSheet()" style="margin-top: 4px;">View Cached Images</button>
-                    </div>
-                </div>
             </div>
 
             <!-- Properties sections - will be moved into selected layer by JavaScript -->
@@ -522,11 +552,6 @@
                     <!-- <span style="float: right;">Red</label><input type="range" id="inputred" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Green</label><input type="range" id="inputgreen" min="0" max="255" value="255" onchange="updateValue(this)"></span><br>
       <span style="float: right;">Blue</label><input type="range" id="inputblue" min="0" max="255" value="255" onchange="updateValue(this)"></span> -->
-                </div>
-                <hr>
-                <div id="settings">
-                    <b>Settings</b><br>
-                    <span style="float: right;">Max Undo Steps:<input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)"></span><br>
                 </div>
             </div>
 
@@ -730,6 +755,38 @@
             const shortcutsModal = document.getElementById('shortcutsModal');
             const openShortcutsBtn = document.getElementById('openShortcutsBtn');
             const closeShortcutsBtn = document.getElementById('closeShortcutsBtn');
+            const settingsModal = document.getElementById('settingsModal');
+            const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+            let settingsReturnFocus = null;
+
+            function openSettingsModal() {
+                if (!settingsModal) return;
+                settingsReturnFocus = document.activeElement;
+                const themeSelect = document.getElementById('themePreference');
+                if (themeSelect && typeof getThemePreference === 'function') themeSelect.value = getThemePreference();
+                const undoInput = document.getElementById('inputmaxundosteps');
+                if (undoInput && typeof maxUndoSteps !== 'undefined') undoInput.value = maxUndoSteps;
+                if (typeof refreshUserImageCacheUsage === 'function') refreshUserImageCacheUsage();
+                const appMenu = document.getElementById('tmCardmakerMenu');
+                if (appMenu) {
+                    appMenu.classList.add('w3-hide');
+                    appMenu.classList.remove('w3-show');
+                }
+                settingsModal.style.display = 'block';
+                settingsModal.setAttribute('aria-hidden', 'false');
+                if (closeSettingsBtn) closeSettingsBtn.focus();
+            }
+
+            function closeSettingsModal() {
+                if (!settingsModal) return;
+                settingsModal.style.display = 'none';
+                settingsModal.setAttribute('aria-hidden', 'true');
+                if (settingsReturnFocus && typeof settingsReturnFocus.focus === 'function') settingsReturnFocus.focus();
+                settingsReturnFocus = null;
+            }
+
+            window.openSettingsModal = openSettingsModal;
+            window.closeSettingsModal = closeSettingsModal;
 
             function openShortcuts() {
                 if (!shortcutsModal) return;
@@ -756,8 +813,19 @@
                     }
                 });
             }
+            if (closeSettingsBtn) closeSettingsBtn.addEventListener('click', closeSettingsModal);
+            if (settingsModal) {
+                settingsModal.addEventListener('click', (e) => {
+                    if (e.target === settingsModal) closeSettingsModal();
+                });
+            }
 
             document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && settingsModal && settingsModal.style.display === 'block') {
+                    e.preventDefault();
+                    closeSettingsModal();
+                    return;
+                }
                 if (isEditableTarget(e.target)) return;
                 if (e.key === '?' || (e.shiftKey && e.key === '/')) {
                     e.preventDefault();
@@ -1385,7 +1453,7 @@
             })();
 
             /**
-             * Build the Asset Sets toggle UI in the right panel settings section.
+             * Build the Asset Sets toggle UI in the application settings dialog.
              * Called once after loadAssets() resolves.
              */
             function buildAssetSetsUI() {
