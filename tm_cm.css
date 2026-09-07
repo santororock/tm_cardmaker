@@ -2880,8 +2880,16 @@ html[data-theme="dark"] .settings-danger-button {
 }
 
 #params .property-section textarea {
-    width: 120px;
-    min-height: 46px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-height: 120px;
+    resize: vertical;
+}
+
+#params .property-fields > .property-text-editor {
+    grid-column: 1 / -1;
+    min-width: 0;
 }
 
 #params .property-reset-button {
@@ -3359,8 +3367,7 @@ input[type=checkbox] {
     }
 
     #params .property-section input[type="number"],
-    #params .property-section select,
-    #params .property-section textarea {
+    #params .property-section select {
         min-width: 0;
         min-height: 20px;
     }
