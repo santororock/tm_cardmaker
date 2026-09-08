@@ -2004,6 +2004,34 @@
     },
     {
       "putUnder": "blocks/resources",
+      "text": "Energy",
+      "src": "resources__power",
+      "otherbg": "res_otherbg",
+      "width": 330,
+      "height": 331,
+      "id": "resources.power",
+      "filename": "resources__power.png",
+      "kind": "resource",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Energy",
+      "author": "",
+      "notes": ""
+    },
+    {
+      "putUnder": "blocks/resources",
       "text": "Fighter",
       "src": "resources__fighter",
       "otherbg": "res_otherbg",
@@ -2336,34 +2364,6 @@
       ],
       "width": 331,
       "otherbg": "res_otherbg"
-    },
-    {
-      "putUnder": "blocks/resources",
-      "text": "Power",
-      "src": "resources__power",
-      "otherbg": "res_otherbg",
-      "width": 331,
-      "height": 331,
-      "id": "resources.power",
-      "filename": "resources__power.png",
-      "kind": "resource",
-      "sets": [
-        "core"
-      ],
-      "usage": [
-        "card-editor"
-      ],
-      "group": "",
-      "sortOrder": 0,
-      "locked": false,
-      "color": "",
-      "tags": [],
-      "deprecated": false,
-      "replacedBy": "",
-      "aliases": [],
-      "description": "Power",
-      "author": "",
-      "notes": ""
     },
     {
       "aliases": [],
@@ -2786,6 +2786,34 @@
     },
     {
       "putUnder": "blocks/tags",
+      "text": "Energy",
+      "src": "tags__power",
+      "otherbg": "tags_otherbg",
+      "width": 444,
+      "height": 444,
+      "id": "tags.power",
+      "filename": "tags__power.png",
+      "kind": "tag",
+      "sets": [
+        "core"
+      ],
+      "usage": [
+        "card-editor"
+      ],
+      "group": "",
+      "sortOrder": 0,
+      "locked": false,
+      "color": "",
+      "tags": [],
+      "deprecated": false,
+      "replacedBy": "",
+      "aliases": [],
+      "description": "Energy",
+      "author": "",
+      "notes": ""
+    },
+    {
+      "putUnder": "blocks/tags",
       "text": "Event",
       "src": "tags__event",
       "otherbg": "tags_otherbg",
@@ -3089,34 +3117,6 @@
       "replacedBy": "",
       "aliases": [],
       "description": "Plant",
-      "author": "",
-      "notes": ""
-    },
-    {
-      "putUnder": "blocks/tags",
-      "text": "Power",
-      "src": "tags__power",
-      "otherbg": "tags_otherbg",
-      "width": 444,
-      "height": 444,
-      "id": "tags.power",
-      "filename": "tags__power.png",
-      "kind": "tag",
-      "sets": [
-        "core"
-      ],
-      "usage": [
-        "card-editor"
-      ],
-      "group": "",
-      "sortOrder": 0,
-      "locked": false,
-      "color": "",
-      "tags": [],
-      "deprecated": false,
-      "replacedBy": "",
-      "aliases": [],
-      "description": "Power",
       "author": "",
       "notes": ""
     },
