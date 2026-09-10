@@ -219,6 +219,14 @@
                         <input id="inputmaxundosteps" type="number" min="5" max="500" value="50" onchange="updateMaxUndoSteps(this)">
                     </label>
                 </section>
+                <section class="settings-section" aria-labelledby="symbolSettingsTitle">
+                    <h3 id="symbolSettingsTitle">Text Symbols</h3>
+                    <label for="textSymbolLibrary">Your symbols and snippets</label>
+                    <p id="textSymbolHelp" class="settings-section-description">Enter one symbol or short snippet per line. Click a symbol above a layer's text box to insert it at the cursor. Changes save automatically in this browser.</p>
+                    <textarea id="textSymbolLibrary" rows="4" aria-describedby="textSymbolHelp textSymbolStatus"></textarea>
+                    <div class="settings-actions"><button id="resetTextSymbols" type="button">Restore default symbols</button></div>
+                    <p id="textSymbolStatus" class="settings-section-description" role="status"></p>
+                </section>
                 <section class="settings-section" aria-labelledby="assetSetSettingsTitle">
                     <h3 id="assetSetSettingsTitle">Asset Sets</h3>
                     <p class="settings-section-description">Choose which expansions appear in the block browser.</p>
@@ -531,7 +539,7 @@
                     <span style="float: right;">Others bg Y pad:<input id="inputobgPadY" type="number" onchange="updateValue(this)"></span><br>
                 </div>
                 <div id="alltext">
-                    <span class="property-text-editor"><textarea id="inputdata" rows="6" aria-label="Layer text" oninput="updateValue(this)" onchange="updateValue(this)"></textarea></span><br>
+                    <span class="property-text-editor"><span id="textSymbolBar" class="text-symbol-bar" role="group" aria-label="Insert text symbol"></span><textarea id="inputdata" rows="6" aria-label="Layer text" oninput="updateValue(this)" onchange="updateValue(this)"></textarea></span><br>
                     <span style="float: right;">V space:<input id="inputlineSpace" type="number" oninput="updateValue(this)" onchange="updateValue(this)"></span><br>
                     <span style="float: right;">Font:<select id="inputfont" type="select" onchange="updateValue(this)"></select></span><br>
                     <span style="float: right;">Style:<select id="inputstyle" type="select" onchange="updateValue(this)">

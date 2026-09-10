@@ -49,6 +49,15 @@ Then open `http://localhost:8000/tm_cardmaker.html` in your browser.
 
 ## How to Use
 
+### Text symbols
+
+Click **€** or **°** above a layer's text box to insert it at the cursor or
+replace selected text. Symbol insertions use the editor's usual undo history.
+Choose **Edit symbols…** or open **Settings > Text Symbols** to customize the
+buttons, with one symbol or short snippet per line. Your list saves automatically
+in this browser, separately from card projects. An empty list hides the symbol
+buttons; **Restore default symbols** brings back € and °.
+
 TM_Cardmaker provides **templates**, **presets**, and graphic assets called **blocks** to help build attractive cards that match the look and feel of the original game.
 
 To begin, click on **File** > **New from Template**, and select an appropriate starting template for the card that you wish to design. The available templates include:

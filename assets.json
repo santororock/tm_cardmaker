@@ -546,7 +546,7 @@
         "card-editor"
       ],
       "group": "",
-      "sortOrder": 0,
+      "sortOrder": 2,
       "locked": false,
       "color": "",
       "tags": [],
@@ -4912,6 +4912,33 @@
         "card-editor"
       ],
       "width": 281
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Corporation Art Mask",
+      "filename": "misc__corporation_art_mask.png",
+      "group": "",
+      "height": 826,
+      "id": "misc.corporation_art_mask",
+      "kind": "misc",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/misc",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "misc__corporation_art_mask",
+      "tags": [],
+      "text": "Misc  Corporation Art Mask",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1126
     }
   ],
   "blockDefaults": {

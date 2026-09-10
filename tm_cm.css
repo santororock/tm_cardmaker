@@ -2892,6 +2892,30 @@ html[data-theme="dark"] .settings-danger-button {
     min-width: 0;
 }
 
+.text-symbol-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 5px;
+}
+
+.text-symbol-bar button {
+    min-width: 28px;
+    min-height: 28px;
+    padding: 2px 7px;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+#textSymbolLibrary {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    resize: vertical;
+}
+
 #params .property-reset-button {
     justify-self: start;
     margin: 1px 0;
