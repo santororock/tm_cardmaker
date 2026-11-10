@@ -558,31 +558,6 @@
       "notes": ""
     },
     {
-      "putUnder": "blocks/templates",
-      "text": "Debug Sprite Sheet",
-      "src": "debug_sprite_sheet",
-      "id": "templates.debug_sprite_sheet",
-      "filename": "debug_sprite_sheet.png",
-      "kind": "template",
-      "sets": [
-        "core"
-      ],
-      "usage": [
-        "debug"
-      ],
-      "group": "",
-      "sortOrder": 0,
-      "locked": false,
-      "color": "",
-      "tags": [],
-      "deprecated": false,
-      "replacedBy": "",
-      "aliases": [],
-      "description": "Debug Sprite Sheet",
-      "author": "",
-      "notes": ""
-    },
-    {
       "putUnder": "blocks/globalparameters",
       "text": "Oxygen",
       "src": "globalparameters__oxygen",
@@ -4939,6 +4914,33 @@
         "card-editor"
       ],
       "width": 1126
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Templates  Debug Sprite Sheet",
+      "filename": "templates__debug_sprite_sheet.png",
+      "group": "",
+      "height": 1066,
+      "id": "templates.debug_sprite_sheet",
+      "kind": "template",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/templates",
+      "replacedBy": "",
+      "sets": [
+        "core"
+      ],
+      "sortOrder": 0,
+      "src": "templates__debug_sprite_sheet",
+      "tags": [],
+      "text": "Debug Sprite Sheet",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 1072
     }
   ],
   "blockDefaults": {
