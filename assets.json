@@ -4941,6 +4941,60 @@
         "card-editor"
       ],
       "width": 1072
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Sanity",
+      "filename": "globalparameters__sanity.png",
+      "group": "",
+      "height": 509,
+      "id": "globalparameters.sanity",
+      "kind": "global-parameter",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/globalparameters",
+      "replacedBy": "",
+      "sets": [
+        "Cosmic Horror"
+      ],
+      "sortOrder": 0,
+      "src": "globalparameters__sanity",
+      "tags": [],
+      "text": "Sanity",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 840
+    },
+    {
+      "aliases": [],
+      "author": "",
+      "color": "",
+      "deprecated": false,
+      "description": "Sanity Red Border",
+      "filename": "globalparameters__sanity_other.png",
+      "group": "",
+      "height": 520,
+      "id": "globalparameters.sanity_other",
+      "kind": "global-parameter",
+      "locked": false,
+      "notes": "",
+      "putUnder": "blocks/globalparameters",
+      "replacedBy": "",
+      "sets": [
+        "Cosmic Horror"
+      ],
+      "sortOrder": 0,
+      "src": "globalparameters__sanity_other",
+      "tags": [],
+      "text": "Sanity Red Border",
+      "usage": [
+        "card-editor"
+      ],
+      "width": 840
     }
   ],
   "blockDefaults": {
@@ -5249,6 +5303,13 @@
         "y": 643,
         "width": 125,
         "height": 71
+      },
+      {
+        "label": "Sanity",
+        "x": 413,
+        "y": 643,
+        "width": 138,
+        "height": 85
       }
     ],
     "misc": [
